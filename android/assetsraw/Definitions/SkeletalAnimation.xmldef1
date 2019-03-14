@@ -1,0 +1,3 @@
+<Definitions xmlns:meta="Editor">
+	<Definition Name="Animation" meta:RefKey="SkeletalAnimation" />
+</Definitions>

@@ -1,0 +1,22 @@
+<AI meta:X="49" meta:Y="18" xmlns:meta="Editor">
+	<Root meta:X="252" meta:Y="17" meta:RefKey="Any">
+		<!--Do Sight Stuff-->
+		<Action Key="Enemies" SrcKey="Tiles" Type="Enemies" meta:RefKey="GetAllVisible" />
+		<!--Actual Logic-->
+		<Node meta:X="542.84143622931" meta:Y="122.2162719555478" GUID="1b5f6ee2-da2b-422e-820d-959658477319" meta:RefKey="DataScope">
+			<!--Attack Logic-->
+			<Node meta:X="776.31168494972758" meta:Y="64.66198114464639" meta:RefKey="Until">
+				<!--Pick closest enemy-->
+				<Action Input="Enemies" Output="Enemy" meta:RefKey="Pick" />
+				<Action Input="Enemy" Output="Pos" meta:RefKey="ConvertTo" />
+				<Action Key="Enemy" meta:RefKey="ClearValue" />
+				<Node meta:X="1054.9453519419151" meta:Y="121.48016313622354" meta:RefKey="Priority">
+					<!--Attempt to attack or move to the pos-->
+					<Action meta:RefKey="Attack" />
+					<Action Key="Pos" meta:RefKey="MoveTo" />
+				</Node>
+				<Action Key="Pos" meta:RefKey="ClearValue" />
+			</Node>
+		</Node>
+	</Root>
+</AI>

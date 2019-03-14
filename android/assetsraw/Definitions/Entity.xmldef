@@ -1,0 +1,63 @@
+<Definitions xmlns:meta="Editor">
+	<Definition Name="Entity" meta:RefKey="Struct">
+		<Data Name="Extends" BasePath="Entities" StripExtension="True" AllowedFileTypes="xml" meta:RefKey="File" />
+		<Data Name="IsPlayer" meta:RefKey="Boolean" />
+		<Data Name="Components" ChildrenAreUnique="True" meta:RefKey="Collection">
+			<Data Name="AdditionalRenderables" meta:RefKey="Struct">
+				<Data Name="Below" meta:RefKey="Collection">
+					<Data Name="Renderable" meta:RefKey="Struct">
+						<Data Name="Key" meta:RefKey="String" />
+						<Data Name="Renderable" Keys="Sprite,TilingSprite,ParticleEffect" meta:RefKey="Reference" />
+					</Data>
+				</Data>
+				<Data Name="Above" meta:RefKey="Collection">
+					<Data Name="Renderable" meta:RefKey="Struct">
+						<Data Name="Key" meta:RefKey="String" />
+						<Data Name="Renderable" Keys="Sprite,TilingSprite,ParticleEffect" meta:RefKey="Reference" />
+					</Data>
+				</Data>
+			</Data>
+			<Data Name="AI" meta:RefKey="Struct">
+				<Data Name="Speed" Type="Int" Min="1" Default="1" meta:RefKey="Number" />
+				<Data Name="AI" BasePath="AI" StripExtension="True" AllowedFileTypes="xml" meta:RefKey="File" />
+			</Data>
+			<Data Name="DirectionalSprite" Extends="DirectionalSprite" meta:RefKey="Struct" />
+			<Data Name="MetaRegion" meta:RefKey="Struct">
+				<Data Name="Key" meta:RefKey="String" />
+			</Data>
+			<Data Name="Name" meta:RefKey="Struct">
+				<Data Name="Name" meta:RefKey="String" />
+			</Data>
+			<Data Name="Occludes" meta:RefKey="Struct">
+				<Data Name="Occludes" Default="True" SkipIfDefault="False" meta:RefKey="Boolean" />
+			</Data>
+			<Data Name="Position" meta:RefKey="Struct">
+				<Data Name="SpaceSlot" EnumValues="Entity,BelowEntity,AboveEntity" meta:RefKey="Enum" />
+				<Data Name="Size" Type="Int" Min="1" Default="1" meta:RefKey="Number" />
+				<Data Name="Moveable" Default="True" meta:RefKey="Boolean" />
+				<Data Name="CanFall" Default="True" meta:RefKey="Boolean" />
+			</Data>
+			<Data Name="Renderable" meta:RefKey="Struct">
+				<Data Name="IsShared" meta:RefKey="Boolean" />
+				<Data Name="Renderable" Keys="Sprite,TilingSprite,ParticleEffect" meta:RefKey="Reference" />
+				<Data Name="Variants" meta:RefKey="Collection">
+					<Data Name="Variant" meta:RefKey="Struct">
+						<Data Name="Chance" meta:RefKey="String" />
+						<Data Name="Renderable" Keys="Sprite,TilingSprite,ParticleEffect" meta:RefKey="Reference" />
+					</Data>
+				</Data>
+			</Data>
+			<Data Name="Statistics" meta:RefKey="Struct">
+				<Data Name="HP" Type="Int" Min="-999999" Default="10" SkipIfDefault="False" meta:RefKey="Number" />
+				<Data Name="Death" Keys="ParticleEffect" meta:RefKey="Reference" />
+				<Data Name="Attack" Type="Int" Min="1" Default="1" meta:RefKey="Number" />
+			</Data>
+			<Data Name="Trailing" meta:RefKey="Struct">
+				<Data Name="Collapses" Default="True" meta:RefKey="Boolean" />
+				<Data Name="Renderables" meta:RefKey="Collection">
+					<Data Name="Renderable" Keys="Sprite,TilingSprite,ParticleEffect" meta:RefKey="Reference" />
+				</Data>
+			</Data>
+		</Data>
+	</Definition>
+</Definitions>

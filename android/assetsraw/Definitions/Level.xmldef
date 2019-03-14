@@ -1,0 +1,41 @@
+<Definitions Colour="125,156,127" Icon="Sprites/Icons/LevelIcon.png" xmlns:meta="Editor">
+	<Definition Name="Symbol" IsGlobal="True" meta:RefKey="StructDef">
+		<Data Name="Character" MaxLength="1" SkipIfDefault="False" meta:RefKey="String" />
+		<Data Name="Extends" MaxLength="1" SkipIfDefault="False" meta:RefKey="String" />
+		<Data Name="Type" EnumValues="Ground,Path,Wall" SkipIfDefault="False" meta:RefKey="Enum" />
+		<Data Name="UsageCondition" Default="1" meta:RefKey="String" />
+		<Data Name="FallbackCharacter" MaxLength="1" Default="." VisibleIf="UsageCondition != 1" meta:RefKey="String" />
+		<Data Name="NameKey" meta:RefKey="String" />
+		<Data Name="Sprite" Keys="SpriteWrapper" meta:RefKey="Reference" />
+	</Definition>
+	<Definition Name="Level" meta:RefKey="Struct">
+		<Data Name="Grid" ElementPerLine="True" IsAsciiGrid="True" meta:RefKey="MultilineString" />
+		<Data Name="Spawners" meta:RefKey="Collection">
+			<Data Name="Spawner" meta:RefKey="Struct">
+				<Data Name="Character" MaxLength="1" SkipIfDefault="False" meta:RefKey="String" />
+				<Data Name="Destination" MaxLength="1" SkipIfDefault="False" meta:RefKey="String" />
+			</Data>
+		</Data>
+		<Data Name="Symbols" meta:RefKey="Collection">
+			<Data Name="Symbol" Keys="Symbol" Nullable="False" meta:RefKey="Reference" />
+		</Data>
+		<Data Name="Waves" meta:RefKey="Collection">
+			<Data Name="Wave" meta:RefKey="Struct">
+				<Data Name="Spawners" meta:RefKey="Collection">
+					<Data Name="Spawner" meta:RefKey="Struct">
+						<Data Name="Character" MaxLength="1" SkipIfDefault="False" meta:RefKey="String" />
+						<Data Name="Enemies" meta:RefKey="Collection">
+							<Data Name="Enemy" meta:RefKey="Struct">
+								<Data Name="Count" Type="Int" Min="1" Default="1" SkipIfDefault="False" meta:RefKey="Number" />
+								<Data Name="Enemy" BasePath="Enemies" StripExtension="True" ResourceType="Enemy" meta:RefKey="File" />
+							</Data>
+						</Data>
+					</Data>
+				</Data>
+				<Data Name="Duration" Min="0" Default="1" SkipIfDefault="False" meta:RefKey="Number" />
+			</Data>
+		</Data>
+		<Data Name="Theme" BasePath="Themes" StripExtension="True" ResourceType="Theme" meta:RefKey="File" />
+		<Data Name="Ambient" HasAlpha="False" Default="204,204,204,255" SkipIfDefault="False" meta:RefKey="Colour" />
+	</Definition>
+</Definitions>

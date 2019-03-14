@@ -1,0 +1,48 @@
+<Tower meta:X="0" meta:Y="0" GUID="7887f250-972c-446b-9f1e-6871361d95d3" xmlns:meta="Editor">
+	<Root meta:RefKey="Tower">f4591b16-5748-4064-8553-49427b02ecb9</Root>
+	<TowerDefs>
+		<Tower meta:X="848" meta:Y="0" GUID="f4591b16-5748-4064-8553-49427b02ecb9">
+			<Name>Blast Arrow</Name>
+			<Icon meta:RefKey="Sprite">
+				<Name>EffectSprites/Explosion/Explosion_2</Name>
+			</Icon>
+			<Sprite meta:RefKey="Sprite">
+				<Name>Oryx/uf_split/uf_heroes/archer</Name>
+				<DrawActualSize>true</DrawActualSize>
+				<Colour>255,0,0,255</Colour>
+			</Sprite>
+			<AttacksPerSecond>0.8</AttacksPerSecond>
+			<Effects>
+				<Effect meta:RefKey="ShotEffect">
+					<Range>3</Range>
+					<Count>1</Count>
+					<FlightEffect meta:RefKey="ParticleEffect">
+						<Name>Arrow</Name>
+						<Colour>255,0,0,255</Colour>
+						<KillOnAnimComplete>true</KillOnAnimComplete>
+					</FlightEffect>
+					<Animation meta:RefKey="LeapAnimation">
+						<SpeedMultiplier>2</SpeedMultiplier>
+						<Height>3</Height>
+					</Animation>
+					<Effects>
+						<Effect meta:RefKey="AoeEffect">
+							<Range>1</Range>
+							<Effect meta:RefKey="ParticleEffect">
+								<Name>Explosion</Name>
+							</Effect>
+							<Effects>
+								<Effect meta:RefKey="DamageEffect">
+									<Damage>2</Damage>
+									<Effect meta:RefKey="ParticleEffect">
+										<Name>Hit</Name>
+									</Effect>
+								</Effect>
+							</Effects>
+						</Effect>
+					</Effects>
+				</Effect>
+			</Effects>
+		</Tower>
+	</TowerDefs>
+</Tower>

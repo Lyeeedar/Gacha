@@ -1,0 +1,94 @@
+<Theme xmlns:meta="Editor">
+	<BackgroundTile>Oryx/uf_split/uf_terrain/ground_grass_1</BackgroundTile>
+	<Symbols>
+		<Symbol meta:RefKey="Symbol">
+			<Character>.</Character>
+			<Extends></Extends>
+			<Type>Path</Type>
+			<Sprite meta:RefKey="SpriteWrapper">
+				<Sprite meta:RefKey="RenderedLayeredSprite">
+					<Layers>
+						<Layer>
+							<Name>Oryx/uf_split/uf_terrain/ground_grass_1</Name>
+						</Layer>
+					</Layers>
+				</Sprite>
+				<TilingSprite meta:RefKey="TilingSprite">
+					<Name>Path</Name>
+					<Mode>Masked</Mode>
+					<Mask>Masks/paththick</Mask>
+					<Sprite meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_terrain/ground_dirt_brown_1</Name>
+					</Sprite>
+				</TilingSprite>
+			</Sprite>
+		</Symbol>
+		<Symbol meta:RefKey="Symbol">
+			<Character>,</Character>
+			<Extends></Extends>
+			<Type>Ground</Type>
+			<Sprite meta:RefKey="SpriteWrapper">
+				<Sprite meta:RefKey="RenderedLayeredSprite">
+					<Layers>
+						<Layer>
+							<Name>Oryx/uf_split/uf_terrain/ground_grass_1</Name>
+						</Layer>
+					</Layers>
+				</Sprite>
+			</Sprite>
+		</Symbol>
+		<Symbol meta:RefKey="Symbol">
+			<Character>#</Character>
+			<Extends></Extends>
+			<Type>Ground</Type>
+			<Sprite meta:RefKey="SpriteWrapper">
+				<Sprite meta:RefKey="RenderedLayeredSprite">
+					<Layers>
+						<Layer>
+							<Name>Oryx/uf_split/uf_terrain/ground_grass_1</Name>
+						</Layer>
+					</Layers>
+				</Sprite>
+			</Sprite>
+		</Symbol>
+		<Symbol meta:RefKey="Symbol">
+			<Character>!</Character>
+			<Extends></Extends>
+			<Type>Wall</Type>
+			<Sprite meta:RefKey="SpriteWrapper">
+				<Sprite meta:RefKey="RenderedLayeredSprite">
+					<Layers>
+						<Layer>
+							<Name>Oryx/uf_split/uf_terrain/ground_grass_1</Name>
+						</Layer>
+						<Layer>
+							<Name>Oryx/Custom/terrain/tree1</Name>
+							<DrawActualSize>true</DrawActualSize>
+						</Layer>
+					</Layers>
+				</Sprite>
+				<SpriteVariants>
+					<Sprite>
+						<Sprite meta:RefKey="RenderedLayeredSprite">
+							<Layers>
+								<Layer>
+									<Name>Oryx/uf_split/uf_terrain/ground_grass_1</Name>
+								</Layer>
+								<Layer>
+									<Name>Oryx/Custom/terrain/treeglowing</Name>
+									<DrawActualSize>true</DrawActualSize>
+								</Layer>
+							</Layers>
+							<Light meta:RefKey="Light">
+								<Colour>228,240,161,255</Colour>
+								<Brightness>0.1</Brightness>
+								<Range>3</Range>
+							</Light>
+						</Sprite>
+						<Chance>0.1</Chance>
+					</Sprite>
+				</SpriteVariants>
+			</Sprite>
+		</Symbol>
+	</Symbols>
+</Theme>
