@@ -2,16 +2,11 @@ package com.lyeeedar.Components
 
 import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.utils.ObjectMap
-import com.badlogic.gdx.utils.XmlReader
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.Renderables.Renderable
-import com.lyeeedar.SpaceSlot
 import com.lyeeedar.Util.XmlData
 import com.lyeeedar.Util.getXml
-import ktx.collections.set
 
 fun Entity.pos() = Mappers.position.get(this)
 fun Entity.tile() = Mappers.position.get(this)?.position as? Tile
@@ -66,27 +61,6 @@ class EntityLoader()
 	companion object
 	{
 		val sharedRenderableMap = ObjectMap<Int, Renderable>()
-
-		val files: ObjectMap<String, FileHandle> by lazy { loadFiles() }
-
-		private fun loadFiles(): ObjectMap<String, FileHandle>
-		{
-			val rootPath = "Entities"
-			val root = Gdx.files.internal(rootPath)
-			//if (!root.exists()) root = Gdx.files.absolute(rootPath)
-
-			println("Loading files from " + root.path())
-
-			val out = ObjectMap<String, FileHandle>()
-
-			for (f in root.list())
-			{
-				println(f.path())
-				out[f.nameWithoutExtension().toUpperCase()] = f
-			}
-
-			return out
-		}
 
 		@JvmStatic fun load(path: String): Entity
 		{
@@ -144,47 +118,23 @@ class EntityLoader()
 
 			return entity
 		}
-
-		fun getSlot(xml: XmlReader.Element): SpaceSlot
-		{
-			var slot = SpaceSlot.ENTITY
-
-			val extends = xml.get("Extends", null)
-			if (extends != null)
-			{
-				val extendsxml = XmlReader().parse(files[extends.toUpperCase()])
-				slot = getSlot(extendsxml)
-			}
-
-			val componentsEl = xml.getChildByName("Components")
-			if (componentsEl != null)
-			{
-				val positionEl = componentsEl.getChildByName("Position")
-				if (positionEl != null)
-				{
-					slot = SpaceSlot.valueOf(positionEl.get("SpaceSlot", "Entity").toUpperCase())
-				}
-			}
-
-			return slot
-		}
 	}
 }
 
 fun Entity.isAllies(other: Entity): Boolean
 {
-	if (this.stats() == null || other.stats() == null) return false
+	val thisStats = this.stats()
+	val otherStats = other.stats()
+	if (thisStats == null || otherStats == null) return false
 
-	if (this.stats().factions.size == 0 || other.stats().factions.size == 0) return false
-
-	return this.stats().factions.any { other.stats().factions.contains(it) }
+	return thisStats.faction == otherStats.faction
 }
 
 fun Entity.isEnemies(other: Entity): Boolean
 {
-	if (this.stats() == null || other.stats() == null) return false
+	val thisStats = this.stats()
+	val otherStats = other.stats()
+	if (thisStats == null || otherStats == null) return false
 
-	if (this.stats().factions.size == 0 || other.stats().factions.size == 0) return false
-
-	return !this.stats().factions.any { other.stats().factions.contains(it) }
+	return thisStats.faction != otherStats.faction
 }

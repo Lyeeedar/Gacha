@@ -11,6 +11,8 @@ import com.lyeeedar.Util.XmlData
 
 class StatisticsComponent: AbstractComponent()
 {
+	var faction: String = ""
+
 	var unblockableDam: Boolean = false
 
 	var hp: Float = 0f

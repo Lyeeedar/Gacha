@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.NinePatch
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
@@ -14,11 +15,16 @@ import com.badlogic.gdx.utils.ObjectMap
 import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
+import com.lyeeedar.Game.Level
 import com.lyeeedar.Screens.AbstractScreen
 import com.lyeeedar.Systems.createEngine
+import com.lyeeedar.Systems.level
 import com.lyeeedar.UI.*
 import com.lyeeedar.UI.Tooltip
 import com.lyeeedar.Util.*
+import ktx.actors.alpha
+import ktx.actors.plus
+import ktx.actors.then
 import ktx.collections.set
 
 /**
@@ -58,9 +64,9 @@ class Global
 
 		fun setup()
 		{
-			engine = createEngine()
 			skin = loadSkin()
 			controls = Controls()
+			engine = createEngine()
 
 			Colors.put("IMPORTANT", Color(0.6f, 1f, 0.9f, 1f))
 		}
@@ -68,6 +74,37 @@ class Global
 		fun newGame()
 		{
 			settings = Settings()
+		}
+
+		fun changeLevel(level: Level, fadeColour: Colour)
+		{
+			Global.pause = true
+
+			val fadeTable = Table()
+			fadeTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("Sprites/white.png")).tint(fadeColour.color())
+			fadeTable.alpha = 0f
+
+			val sequence = Actions.alpha(0f) then Actions.fadeIn(1f) then lambda {
+				loadLevel(level)
+			} then Actions.fadeOut(1f) then lambda { Global.pause = false } then Actions.removeActor()
+
+			fadeTable + sequence
+
+			Global.stage.addActor(fadeTable)
+			fadeTable.setFillParent(true)
+		}
+
+		private fun loadLevel(level: Level)
+		{
+			//save()
+
+			Global.engine.level?.destroyingLevel = true
+
+			Global.engine.removeAllEntities()
+
+			level.updateMetaRegions()
+
+			Global.engine.level = level
 		}
 
 		private fun loadSkin(): Skin

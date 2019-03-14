@@ -24,25 +24,6 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 		}
 	}
 
-	override fun onTurn()
-	{
-		for (e in entities)
-		{
-			if (e.stats().regeneratingHP > 0f)
-			{
-				e.stats().regenerationTimer++
-
-				if (e.stats().regenerationTimer > 4)
-				{
-					val toregen = Math.min(1f, e.stats().regeneratingHP)
-					e.stats().hp += toregen
-				}
-			}
-		}
-
-		super.onTurn()
-	}
-
 	fun processEntity(entity: Entity)
 	{
 		val stats = entity.stats()!!
@@ -54,14 +35,11 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 
 		if (stats.tookDamage)
 		{
-			if (stats.showHp)
-			{
-				val sprite = entity.renderable()?.renderable as? Sprite
+			val sprite = entity.renderable()?.renderable as? Sprite
 
-				if (sprite != null)
-				{
-					sprite.colourAnimation = BlinkAnimation.obtain().set(Colour(1f, 0.5f, 0.5f, 1f), sprite.colour, 0.15f, true)
-				}
+			if (sprite != null)
+			{
+				sprite.colourAnimation = BlinkAnimation.obtain().set(Colour(1f, 0.5f, 0.5f, 1f), sprite.colour, 0.15f, true)
 			}
 
 			val tile = entity.tile()

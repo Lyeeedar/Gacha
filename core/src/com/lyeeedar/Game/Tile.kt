@@ -7,11 +7,14 @@ import com.lyeeedar.Components.pos
 import com.lyeeedar.Components.trailing
 import com.lyeeedar.Direction
 import com.lyeeedar.Pathfinding.IPathfindingTile
+import com.lyeeedar.Renderables.Sprite.SpriteWrapper
 import com.lyeeedar.SpaceSlot
+import com.lyeeedar.Util.AssetManager
+import com.lyeeedar.Util.Colour
 import com.lyeeedar.Util.FastEnumMap
 import com.lyeeedar.Util.Point
 
-class Tile : Point(), IPathfindingTile
+class Tile(x: Int = 0, y: Int = 0) : Point(x, y), IPathfindingTile
 {
 	lateinit var level: Level
 
@@ -19,9 +22,17 @@ class Tile : Point(), IPathfindingTile
 
 	val neighbours: FastEnumMap<Direction, Tile> = FastEnumMap(Direction::class.java)
 
+	var sprite: SpriteWrapper? = null
+
 	var isValidTarget = false
 	var isValidHitPoint = false
 	var isSelectedPoint = false
+
+	init
+	{
+		sprite = SpriteWrapper()
+		sprite!!.sprite = AssetManager.loadSprite("white", colour = Colour.LIGHT_GRAY)
+	}
 
 	override fun getInfluence(travelType: SpaceSlot, self: Any?) = 0
 

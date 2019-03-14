@@ -14,7 +14,6 @@ import com.lyeeedar.SpaceSlot
 import com.lyeeedar.UI.DebugConsole
 import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.Colour
-import com.lyeeedar.Util.floor
 
 class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).one(RenderableComponent::class.java).get())
 {
@@ -30,8 +29,12 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 	var tileSize = 40f
 		set(value)
 		{
-			field = value
-			renderer.tileSize = value
+			if (field != value)
+			{
+				field = value
+				renderer.tileSize = value
+				needsStaticRender = true
+			}
 		}
 
 	val hp_full_green = AssetManager.loadTextureRegion("Sprites/GUI/health_full_green.png")!!
@@ -87,12 +90,14 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 		})
 	}
 
+	var needsStaticRender = true
 	override fun onLevelChanged()
 	{
 		if (level != null)
 		{
 			renderer = SortedRenderer(tileSize, level!!.width.toFloat(), level!!.height.toFloat(), SpaceSlot.Values.size, true)
 		}
+		needsStaticRender = true
 	}
 
 	override fun doUpdate(deltaTime: Float)
@@ -100,11 +105,50 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 		val renderArea = renderArea ?: return
 		val level = level ?: return
 
+		val batch = Global.game.currentScreen!!.stage.batch
+
 		val w = renderArea.width / level.width.toFloat()
 		val h = (renderArea.height - 16f) / level.height.toFloat()
 
 		tileSize = Math.min(w, h)
 		renderer.tileSize = tileSize
+
+		if (needsStaticRender)
+		{
+			needsStaticRender = false
+
+			renderer.beginStatic()
+			for (x in 0 until level.grid.width)
+			{
+				for (y in 0 until level.grid.height)
+				{
+					val tile = level.grid[x, y]
+					val tileColour = Colour.WHITE
+
+					val xi = x.toFloat()
+					val yi = y.toFloat()
+
+					val spriteWrapper = tile.sprite ?: continue
+					if (!spriteWrapper.hasChosenSprites)
+					{
+						spriteWrapper.chooseSprites()
+					}
+
+					val sprite = tile.sprite?.chosenSprite
+					if (sprite != null)
+					{
+						renderer.queueSprite(sprite, xi, yi, 0, 0, tileColour)
+					}
+
+					val tilingSprite = tile.sprite?.chosenTilingSprite
+					if (tilingSprite != null)
+					{
+						renderer.queueSprite(tilingSprite, xi, yi, 0, 0, tileColour)
+					}
+				}
+			}
+			renderer.endStatic(batch)
+		}
 
 		renderer.begin(deltaTime, 0f, 0f, level.ambient)
 
@@ -185,7 +229,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 			}
 
 			val stats = entity.stats()
-			if (stats != null && stats.showHp)
+			if (stats != null)
 			{
 				val hp_full = hp_full_red
 
@@ -213,8 +257,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 				{
 					val pip: TextureRegion
 
-					if (i >= hp && i < hp+stats.regeneratingHP.floor()) pip = hp_full_red
-					else if(i < hp) pip = hp_full
+					if(i < hp) pip = hp_full
 					else pip = hp_empty
 
 					renderer.queueTexture(pip, ax+i*spacePerPip, ay+overhead, pos.slot.ordinal, 1, colour = tileCol, width = solid, height = 0.1f, sortX = ax, sortY = ay)
@@ -222,7 +265,6 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 			}
 		}
 
-		val batch = Global.game.currentScreen!!.stage.batch
 		renderer.end(batch)
 
 		screenSpaceRenderer.begin(deltaTime, 0f, 0f, level.ambient)

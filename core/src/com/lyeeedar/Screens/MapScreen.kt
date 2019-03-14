@@ -1,25 +1,31 @@
 package com.lyeeedar.Screens
 
-import com.lyeeedar.Game.Level.Map
-import com.lyeeedar.UI.MapWidget
+import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.lyeeedar.Game.Level
+import com.lyeeedar.Global
+import com.lyeeedar.Systems.render
+import com.lyeeedar.Util.Colour
 
 class MapScreen : AbstractScreen()
 {
-	lateinit var map: Map
+	var level: Level? = null
+
 	override fun create()
 	{
-		map = Map.load("Levels/Test")
+		level = Level.load("Levels/Test")
+		Global.changeLevel(level!!, Colour.GOLD)
 
 		//val collisionGrid = Array2D<Boolean>(map.width, map.height) { x,y -> map.grid[x,y].type == TileType.WALL }
 		//Global.collisionGrid = collisionGrid
 
-		val mapWidget = MapWidget(map)
+		val mapWidget = Table()
+		Global.engine.render().renderArea = mapWidget
 
 		mainTable.add(mapWidget).grow()
 	}
 
 	override fun doRender(delta: Float)
 	{
-		map.update(delta)
+
 	}
 }

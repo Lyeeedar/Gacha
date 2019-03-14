@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntityListener
 import com.badlogic.ashley.core.Family
 import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.utils.IntMap
 import com.badlogic.gdx.utils.ObjectMap
 import com.lyeeedar.Components.MetaRegionComponent
 import com.lyeeedar.Components.metaregion
@@ -11,16 +12,14 @@ import com.lyeeedar.Direction
 import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Particle.ParticleEffect
 import com.lyeeedar.SpaceSlot
-import com.lyeeedar.Util.Array2D
-import com.lyeeedar.Util.Colour
-import com.lyeeedar.Util.Future
-import com.lyeeedar.Util.Point
+import com.lyeeedar.Util.*
 import ktx.collections.set
 
-class Level(val seed: Long, val grammarName: String)
+// ----------------------------------------------------------------------
+class Level(grid: Array2D<Tile>)
 {
 	// ----------------------------------------------------------------------
-	var grid: Array2D<Tile> = Array2D()
+	var grid: Array2D<Tile> = grid
 		set(value)
 		{
 			field = value
@@ -86,6 +85,9 @@ class Level(val seed: Long, val grammarName: String)
 	val screenSpaceEffects = com.badlogic.gdx.utils.Array<ParticleEffect>()
 
 	// ----------------------------------------------------------------------
+	val metaregions = ObjectMap<String, com.badlogic.gdx.utils.Array<Tile>>()
+
+	// ----------------------------------------------------------------------
 	init
 	{
 		Global.engine.addEntityListener(Family.all(MetaRegionComponent::class.java).get(), object : EntityListener {
@@ -104,9 +106,6 @@ class Level(val seed: Long, val grammarName: String)
 			}
 		})
 	}
-
-	// ----------------------------------------------------------------------
-	val metaregions = ObjectMap<String, com.badlogic.gdx.utils.Array<Tile>>()
 
 	// ----------------------------------------------------------------------
 	fun updateMetaRegions()
@@ -165,4 +164,86 @@ class Level(val seed: Long, val grammarName: String)
 
 	// ----------------------------------------------------------------------
 	fun getTile(x: Int, y: Int): Tile? = grid[x, y, null]
+
+	// ----------------------------------------------------------------------
+	companion object
+	{
+		fun load(path: String): Level
+		{
+			val xml = getXml(path)
+
+			val charGrid: Array2D<Char>
+			val gridEl = xml.getChildByName("Grid")!!
+			val width = gridEl.getChild(0).text.length
+			val height = gridEl.childCount
+			charGrid = Array2D<Char>(width, height) { x, y -> gridEl.getChild(y).text[x] }
+
+			val symbolsMap = IntMap<Symbol>()
+			val symbolsEl = xml.getChildByName("Symbols")
+			if (symbolsEl != null)
+			{
+				for (symbolEl in symbolsEl.children)
+				{
+					val symbol = Symbol.parse(symbolEl)
+					symbolsMap[symbol.char.toInt()] = symbol
+				}
+			}
+
+			val theme = Theme.load(xml.get("Theme"))
+			for (symbol in theme.symbols)
+			{
+				if (!symbolsMap.containsKey(symbol.char.toInt())) // level overrides theme
+				{
+					symbolsMap[symbol.char.toInt()] = symbol
+				}
+			}
+
+			val pathSymbol = symbolsMap['.'.toInt()]
+			val groundSymbol = symbolsMap['#'.toInt()]
+
+			fun loadTile(tile: Tile, char: Char)
+			{
+				if (symbolsMap.containsKey(char.toInt()))
+				{
+					val symbol = symbolsMap[char.toInt()]
+					if (symbol.extends != ' ')
+					{
+						loadTile(tile, symbol.extends)
+					}
+					else if (char != '.')
+					{
+						loadTile(tile, '.')
+					}
+
+					if (symbol.sprite != null)
+					{
+						tile.sprite = symbol.sprite.copy()
+					}
+				}
+				else
+				{
+					tile.sprite = groundSymbol.sprite!!.copy()
+				}
+			}
+
+			val grid = Array2D(charGrid.xSize, charGrid.ySize) { x, y -> Tile(x, y) }
+
+			for (x in 0 until charGrid.xSize)
+			{
+				for (y in 0 until charGrid.ySize)
+				{
+					val tile = grid[x, y]
+					val char = charGrid[x, charGrid.ySize - 1 - y]
+
+					loadTile(tile, char)
+				}
+			}
+
+			val level = Level(grid)
+
+			level.ambient.set(AssetManager.loadColour(xml.getChildByName("Ambient")!!))
+
+			return level
+		}
+	}
 }

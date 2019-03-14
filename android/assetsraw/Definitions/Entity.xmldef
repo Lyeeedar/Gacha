@@ -1,7 +1,6 @@
-<Definitions xmlns:meta="Editor">
+<Definitions Colour="255,231,125" Icon="Sprites/Icons/BodyIcon.png" xmlns:meta="Editor">
 	<Definition Name="Entity" meta:RefKey="Struct">
 		<Data Name="Extends" BasePath="Entities" StripExtension="True" AllowedFileTypes="xml" meta:RefKey="File" />
-		<Data Name="IsPlayer" meta:RefKey="Boolean" />
 		<Data Name="Components" ChildrenAreUnique="True" meta:RefKey="Collection">
 			<Data Name="AdditionalRenderables" meta:RefKey="Struct">
 				<Data Name="Below" meta:RefKey="Collection">

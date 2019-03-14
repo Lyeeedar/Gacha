@@ -1,4 +1,4 @@
-<Definitions xmlns:meta="Editor">
+<Definitions Colour="121,252,218" Icon="Sprites/Icons/CardIcon.png" xmlns:meta="Editor">
 	<Definition Name="AI" AllowReferenceLinks="False" meta:RefKey="GraphStruct">
 		<Data Name="Root" DefKey="Nodes" meta:RefKey="GraphReference" />
 	</Definition>
