@@ -1,9 +1,10 @@
 package com.lyeeedar.Systems
 
 import com.badlogic.ashley.core.Family
+import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
-import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import com.badlogic.gdx.utils.Array
 import com.lyeeedar.Components.*
 import com.lyeeedar.Global
@@ -41,8 +42,6 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 	val hp_full_red = AssetManager.loadTextureRegion("Sprites/GUI/health_full.png")!!
 	val hp_full_blue = AssetManager.loadTextureRegion("Sprites/GUI/health_full_blue.png")!!
 	val hp_empty = AssetManager.loadTextureRegion("Sprites/GUI/health_empty.png")!!
-
-	var renderArea: Actor? = null
 
 	lateinit var renderer: SortedRenderer
 	val screenSpaceRenderer = SortedRenderer(Global.resolution[0].toFloat(), 1f, 1f, 1, true)
@@ -102,16 +101,23 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 
 	override fun doUpdate(deltaTime: Float)
 	{
-		val renderArea = renderArea ?: return
+
+	}
+
+	fun doRender(batch: Batch, deltaTime: Float, renderArea: Widget)
+	{
 		val level = level ?: return
 
-		val batch = Global.game.currentScreen!!.stage.batch
+		batch.end()
 
 		val w = renderArea.width / level.width.toFloat()
 		val h = (renderArea.height - 16f) / level.height.toFloat()
 
 		tileSize = Math.min(w, h)
 		renderer.tileSize = tileSize
+
+		val xp = renderArea.x + (renderArea.width / 2f) - ((level.width * tileSize) / 2f)
+		val yp = renderArea.y
 
 		if (needsStaticRender)
 		{
@@ -150,7 +156,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 			renderer.endStatic(batch)
 		}
 
-		renderer.begin(deltaTime, 0f, 0f, level.ambient)
+		renderer.begin(deltaTime, xp, yp, level.ambient)
 
 		for (entity in entities)
 		{
@@ -166,7 +172,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 				val effect = renderable
 				if (effect.completed && effect.complete() && entity.components.size() == 2)
 				{
- 					entity.add(MarkedForDeletionComponent())
+					entity.add(MarkedForDeletionComponent())
 				}
 			}
 
@@ -283,6 +289,8 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 		}
 
 		screenSpaceRenderer.end(batch)
+
+		batch.begin()
 
 		if (drawParticleDebug)
 		{

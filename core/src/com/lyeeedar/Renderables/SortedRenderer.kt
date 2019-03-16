@@ -301,7 +301,7 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 	// ----------------------------------------------------------------------
 	private fun waitOnRender()
 	{
-		if (currentBuffer == null) return
+		if (currentBuffer == null && staticBuffers.size == 0 && queuedBuffers.size == 0) return
 
 		var rebuildShader = false
 
@@ -477,7 +477,11 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 		shader.setUniformf("u_offset", offsetx, offsety)
 		shader.setUniformi("u_texture", 0)
 		shader.setUniformf("u_ambient", ambientLight.vec3())
-		shader.setUniformf("u_tileSize", tileSize)
+
+		if (shaderShadowLightNum > 0 || !smoothLighting)
+		{
+			shader.setUniformf("u_tileSize", tileSize)
+		}
 
 		shader.setUniform3fv("u_lightPosRange", lightPosRange, 0, lightPosRange.size)
 		shader.setUniform4fv("u_lightColourBrightness", lightColourBrightness, 0, lightColourBrightness.size)
@@ -499,8 +503,11 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 
 		executor.awaitAllJobs()
 
-		queuedBuffers.add(currentBuffer!!)
-		currentBuffer = null
+		if (currentBuffer != null)
+		{
+			queuedBuffers.add(currentBuffer!!)
+			currentBuffer = null
+		}
 
 		var lastBlendSrc = -1
 		var lastBlendDst = -1

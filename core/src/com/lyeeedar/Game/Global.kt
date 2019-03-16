@@ -90,8 +90,10 @@ class Global
 
 			fadeTable + sequence
 
-			Global.stage.addActor(fadeTable)
+			//Global.stage.addActor(fadeTable)
 			fadeTable.setFillParent(true)
+
+			loadLevel(level)
 		}
 
 		private fun loadLevel(level: Level)
