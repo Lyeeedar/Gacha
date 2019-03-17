@@ -2,15 +2,14 @@
 	<Grid>
 		<Line>...#####...</Line>
 		<Line>...#..#....</Line>
-		<Line>...........</Line>
-		<Line>...........</Line>
-		<Line>...........</Line>
-		<Line>...........</Line>
-		<Line>...........</Line>
-		<Line>...........</Line>
+		<Line>.1.......2.</Line>
+		<Line>..1.....2..</Line>
+		<Line>.1.......2.</Line>
+		<Line>..1.....2..</Line>
+		<Line>.1.......2.</Line>
 		<Line>.....#.....</Line>
 		<Line>...#####...</Line>
 	</Grid>
 	<Theme>GrassyKnoll</Theme>
-	<Ambient>36,36,36</Ambient>
+	<Ambient>227,227,227</Ambient>
 </Level>

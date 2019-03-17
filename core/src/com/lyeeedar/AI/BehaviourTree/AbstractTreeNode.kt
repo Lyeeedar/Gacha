@@ -7,6 +7,7 @@ import com.lyeeedar.AI.BehaviourTree.Actions.*
 import com.lyeeedar.AI.BehaviourTree.Conditionals.ConditionalCheckValue
 import com.lyeeedar.AI.BehaviourTree.Decorators.*
 import com.lyeeedar.AI.BehaviourTree.Selectors.*
+import com.lyeeedar.Components.stats
 import com.lyeeedar.Util.Point
 import com.lyeeedar.Util.XmlData
 import com.lyeeedar.Util.getXml
@@ -62,6 +63,12 @@ abstract class AbstractTreeNode()
 			else if (entry.value is Boolean)
 			{
 				variables.put(entry.key, if(entry.value as Boolean) 1f else 0f)
+			}
+			else if (entry.value is Entity)
+			{
+				variables.put(entry.key, 1f)
+				val stats = (entry.value as Entity).stats()
+				stats.write(variables, entry.key)
 			}
 			else
 			{

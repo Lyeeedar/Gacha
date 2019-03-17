@@ -1,7 +1,7 @@
 package com.lyeeedar.AI.BehaviourTree.Actions
 
 import com.badlogic.ashley.core.Entity
-import com.exp4j.Helpers.evaluate
+import com.exp4j.Helpers.CompiledExpression
 import com.exp4j.Helpers.unescapeCharacters
 import com.lyeeedar.AI.BehaviourTree.ExecutionState
 import com.lyeeedar.Components.tile
@@ -19,6 +19,7 @@ class ActionSetValue(): AbstractAction()
 {
 	lateinit var key: String
 	lateinit var value: String
+	var compiledValue: CompiledExpression? = null
 
 	override fun evaluate(entity: Entity): ExecutionState
 	{
@@ -56,7 +57,12 @@ class ActionSetValue(): AbstractAction()
 		{
 			try
 			{
-				val value = value.evaluate(getVariableMap())
+				if (compiledValue == null)
+				{
+					compiledValue = CompiledExpression(value, getVariableMap())
+				}
+
+				val value = compiledValue!!.evaluate(getVariableMap())
 				setData(key, value)
 			}
 			catch (ex: Exception)

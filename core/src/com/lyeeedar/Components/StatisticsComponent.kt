@@ -94,10 +94,12 @@ class StatisticsComponent: AbstractComponent()
 		}
 	}
 
-	fun write(variableMap: ObjectFloatMap<String>): ObjectFloatMap<String>
+	fun write(variableMap: ObjectFloatMap<String>, prefixName: String? = null): ObjectFloatMap<String>
 	{
-		variableMap.put("hp", hp)
-		variableMap.put("maxhp", maxHP)
+		val prefix = if (prefixName != null) "$prefixName." else ""
+
+		variableMap.put(prefix + "hp", hp)
+		variableMap.put(prefix + "maxhp", maxHP)
 
 		return variableMap
 	}

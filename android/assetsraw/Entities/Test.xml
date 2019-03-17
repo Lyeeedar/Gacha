@@ -3,7 +3,7 @@
 		<DirectionalSprite>
 			<Animations>
 				<Animation>
-					<Name>default</Name>
+					<Name>idle</Name>
 					<Up meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_heroes/knight</Name>
 						<DrawActualSize>true</DrawActualSize>

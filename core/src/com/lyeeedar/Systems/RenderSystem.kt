@@ -237,7 +237,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 			val stats = entity.stats()
 			if (stats != null)
 			{
-				val hp_full = hp_full_red
+				val hp_full = if (stats.faction == "1") hp_full_blue else hp_full_red
 
 				val totalWidth = pos.size.toFloat()
 

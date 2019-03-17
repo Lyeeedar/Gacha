@@ -1,6 +1,7 @@
 package com.lyeeedar
 
 import com.badlogic.ashley.core.Engine
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Colors
 import com.badlogic.gdx.graphics.Pixmap
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.ObjectMap
+import com.badlogic.gdx.utils.ObjectSet
 import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
@@ -90,10 +92,8 @@ class Global
 
 			fadeTable + sequence
 
-			//Global.stage.addActor(fadeTable)
+			Global.stage.addActor(fadeTable)
 			fadeTable.setFillParent(true)
-
-			loadLevel(level)
 		}
 
 		private fun loadLevel(level: Level)
@@ -107,6 +107,21 @@ class Global
 			level.updateMetaRegions()
 
 			Global.engine.level = level
+
+			val added = ObjectSet<Entity>()
+			for (tile in level.grid)
+			{
+				for (slot in SpaceSlot.Values)
+				{
+					val entity = tile.contents[slot] ?: continue
+					if (!added.contains(entity))
+					{
+						added.add(entity)
+
+						engine.addEntity(entity)
+					}
+				}
+			}
 		}
 
 		private fun loadSkin(): Skin

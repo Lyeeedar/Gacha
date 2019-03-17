@@ -6,8 +6,7 @@ import com.badlogic.ashley.core.Family
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.IntMap
 import com.badlogic.gdx.utils.ObjectMap
-import com.lyeeedar.Components.MetaRegionComponent
-import com.lyeeedar.Components.metaregion
+import com.lyeeedar.Components.*
 import com.lyeeedar.Direction
 import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Particle.ParticleEffect
@@ -220,6 +219,16 @@ class Level(grid: Array2D<Tile>)
 						tile.sprite = symbol.sprite.copy()
 					}
 				}
+				else if (char.isDigit())
+				{
+					tile.sprite = groundSymbol.sprite!!.copy()
+
+					val entity = EntityLoader.load("Test")
+					entity.stats()!!.faction = char.toString()
+
+					tile.contents[entity.pos().slot] = entity
+					entity.pos().tile = tile
+				}
 				else
 				{
 					tile.sprite = groundSymbol.sprite!!.copy()
@@ -240,6 +249,10 @@ class Level(grid: Array2D<Tile>)
 			}
 
 			val level = Level(grid)
+			for (tile in grid)
+			{
+				tile.level = level
+			}
 
 			level.ambient.set(AssetManager.loadColour(xml.getChildByName("Ambient")!!))
 

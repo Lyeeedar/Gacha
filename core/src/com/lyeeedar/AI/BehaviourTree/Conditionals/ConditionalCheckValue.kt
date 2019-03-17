@@ -1,7 +1,7 @@
 package com.lyeeedar.AI.BehaviourTree.Conditionals
 
 import com.badlogic.ashley.core.Entity
-import com.exp4j.Helpers.evaluate
+import com.exp4j.Helpers.CompiledExpression
 import com.exp4j.Helpers.unescapeCharacters
 import com.lyeeedar.AI.BehaviourTree.ExecutionState
 import com.lyeeedar.Components.stats
@@ -16,6 +16,7 @@ class ConditionalCheckValue(): AbstractConditional()
 {
 	//----------------------------------------------------------------------
 	lateinit var condition: String
+	var compiledCondExp: CompiledExpression? = null
 	var succeed: ExecutionState = ExecutionState.COMPLETED
 	var fail: ExecutionState = ExecutionState.FAILED
 
@@ -33,13 +34,17 @@ class ConditionalCheckValue(): AbstractConditional()
 
 			val dist = p1.dist(p2)
 
-			val conditionEqn = dist.toString() + split[3]
 
 			val variableMap = getVariableMap()
-
 			entity.stats()?.write(variableMap)
 
-			val conditionVal = conditionEqn.evaluate(variableMap)
+			if (compiledCondExp == null)
+			{
+				val conditionEqn = dist.toString() + split[3]
+				compiledCondExp = CompiledExpression(conditionEqn, variableMap)
+			}
+
+			val conditionVal = compiledCondExp!!.evaluate(variableMap)
 
 			state = if (conditionVal != 0f) succeed else fail
 			return state
@@ -47,10 +52,14 @@ class ConditionalCheckValue(): AbstractConditional()
 		else
 		{
 			val variableMap = getVariableMap()
-
 			entity.stats()?.write(variableMap)
 
-			val conditionVal = condition.evaluate(variableMap)
+			if (compiledCondExp == null)
+			{
+				compiledCondExp = CompiledExpression(condition, variableMap)
+			}
+
+			val conditionVal = compiledCondExp!!.evaluate(variableMap)
 
 			state = if (conditionVal != 0f) succeed else fail
 			return state
