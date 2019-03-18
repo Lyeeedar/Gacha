@@ -3,24 +3,17 @@
 		<!--Do Sight Stuff-->
 		<Action Key="Enemies" SrcKey="Tiles" Type="Enemies" meta:RefKey="GetAllVisible" />
 		<!--Actual Logic-->
-		<Node meta:X="517.8414306640625" meta:Y="18.216270446777344" meta:RefKey="DataScope">
+		<Node meta:X="573.57678075776425" meta:Y="15.000725891898714" GUID="f83d46dc-59a1-4f88-aca7-e169345bcdd9" meta:RefKey="Until">
 			<!--Attack Logic-->
-			<Node meta:X="721.31170654296875" meta:Y="33.661979675292969" meta:RefKey="Until">
-				<Node meta:X="1016.3117065429688" meta:Y="-69.338020324707031" meta:RefKey="Until">
-					<!--If enemy is still valid, do nothing-->
-					<Action Condition="Enemy == null || Enemy.HP &lt;= 0" Failed="Running" meta:RefKey="Conditional" />
-					<!--Pick closest enemy-->
-					<Action Key="Enemy" meta:RefKey="ClearValue" />
-					<Action Input="Enemies" Output="Enemy" meta:RefKey="Pick" />
-				</Node>
-				<Action Input="Enemy" Output="Pos" meta:RefKey="ConvertTo" />
-				<Node meta:X="1054.9453125" meta:Y="267.48016357421875" meta:RefKey="Priority">
-					<!--Attempt to attack or move to the pos-->
-					<Action Key="Pos" meta:RefKey="Attack" />
-					<Action Key="Pos" meta:RefKey="MoveTo" />
-				</Node>
-				<Action Key="Pos" meta:RefKey="ClearValue" />
+			<Action Key="Enemy" meta:RefKey="ClearValue" />
+			<Action Input="Enemies" Output="Enemy" meta:RefKey="Pick" />
+			<Action Input="Enemy" Output="Pos" meta:RefKey="ConvertTo" />
+			<Node meta:X="907.2103867147955" meta:Y="248.81890979082451" meta:RefKey="Priority">
+				<!--Attempt to attack or move to the pos-->
+				<Action Key="Pos" meta:RefKey="Attack" />
+				<Action Key="Pos" meta:RefKey="MoveTo" />
 			</Node>
+			<Action Key="Pos" meta:RefKey="ClearValue" />
 		</Node>
 	</Root>
 </AI>

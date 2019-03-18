@@ -1,9 +1,12 @@
 package com.lyeeedar.Systems
 
+import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import com.badlogic.gdx.utils.Array
 import com.lyeeedar.Components.*
@@ -15,6 +18,8 @@ import com.lyeeedar.SpaceSlot
 import com.lyeeedar.UI.DebugConsole
 import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.Colour
+import ktx.math.plus
+import ktx.math.times
 
 class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).one(RenderableComponent::class.java).get())
 {
@@ -291,6 +296,35 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 		screenSpaceRenderer.end(batch)
 
 		batch.begin()
+
+		shape.projectionMatrix = Global.stage.camera.combined
+		shape.setAutoShapeType(true)
+		shape.begin()
+
+		for (entity in entities)
+		{
+			val ai = entity.task() ?: continue
+			val target = ai.ai.root.getData<Entity>("enemy", null) ?: continue
+
+			var source = entity.pos().tile!!.toVec() + Vector2(0.5f, 0.5f)
+			var dest = target.pos().tile!!.toVec() + Vector2(0.5f, 0.5f)
+
+			if (entity.renderOffset() != null)
+			{
+				source += Vector2(entity.renderOffset()!![0], entity.renderOffset()!![1])
+			}
+
+			if (target.renderOffset() != null)
+			{
+				dest += Vector2(target.renderOffset()!![0], target.renderOffset()!![1])
+			}
+
+			val offset = if (entity.stats().faction == "1") Vector2(xp, yp) else Vector2(xp + 5, yp + 5)
+			shape.color = if (entity.stats().faction == "1") Color.CYAN else Color.RED
+			shape.line(source * tileSize + offset, dest * tileSize + offset)
+		}
+
+		shape.end()
 
 		if (drawParticleDebug)
 		{

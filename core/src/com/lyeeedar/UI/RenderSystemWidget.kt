@@ -13,6 +13,6 @@ class RenderSystemWidget : Widget()
 
 	override fun draw(batch: Batch, parentAlpha: Float)
 	{
-		Global.engine.render().doRender(batch, Gdx.app.graphics.deltaTime, this)
+		Global.engine.render().doRender(batch, Gdx.app.graphics.deltaTime * 0.1f, this)
 	}
 }

@@ -7,10 +7,12 @@
 					<Up meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_heroes/knight</Name>
 						<DrawActualSize>true</DrawActualSize>
+						<Colour>41,209,222,255</Colour>
 					</Up>
 					<Down meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_heroes/knight</Name>
 						<DrawActualSize>true</DrawActualSize>
+						<Colour>17,215,255,255</Colour>
 					</Down>
 				</Animation>
 			</Animations>

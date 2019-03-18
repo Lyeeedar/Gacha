@@ -1,0 +1,31 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/knight</Name>
+						<DrawActualSize>true</DrawActualSize>
+						<Colour>232,23,23,255</Colour>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/knight</Name>
+						<DrawActualSize>true</DrawActualSize>
+						<Colour>255,36,36,255</Colour>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Position />
+		<Statistics>
+			<HP>10</HP>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+		</Statistics>
+		<AI>
+			<AI>BasicMonster</AI>
+		</AI>
+	</Components>
+</Entity>

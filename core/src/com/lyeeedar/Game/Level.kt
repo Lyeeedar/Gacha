@@ -223,7 +223,7 @@ class Level(grid: Array2D<Tile>)
 				{
 					tile.sprite = groundSymbol.sprite!!.copy()
 
-					val entity = EntityLoader.load("Test")
+					val entity = EntityLoader.load("Test$char")
 					entity.stats()!!.faction = char.toString()
 
 					tile.contents[entity.pos().slot] = entity

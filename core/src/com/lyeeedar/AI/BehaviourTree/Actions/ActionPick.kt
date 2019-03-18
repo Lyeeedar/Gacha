@@ -40,27 +40,27 @@ class ActionPick(): AbstractAction()
 			}
 			else
 			{
-				if (criteria == "random" || criteria == "ran" || criteria == "rnd")
+				if (criteria == "random")
 				{
 					val index = ran.nextInt(obj.count())
 					setData(output, obj.elementAt(index))
 					state = ExecutionState.COMPLETED
 				}
-				else if (criteria == "distance" || criteria == "dist" || criteria == "dst")
+				else if (criteria == "distance")
 				{
-					obj.sortedBy { (it as? Point)?.taxiDist(tile) ?: (it as? Entity)?.tile()?.taxiDist(tile) }
+					val sorted = obj.sortedBy { (it as? Point)?.euclideanDist2(tile) ?: (it as? Entity)?.tile()?.euclideanDist2(tile) }
 
-					val item = if (lowest) obj.first() else obj.last()
+					val item = if (lowest) sorted.first() else sorted.last()
 					setData(output, item)
 					state = ExecutionState.COMPLETED
 				}
 				else
 				{
-					obj.sortedBy { (it as? Entity)?.stats()?.get(criteria, 0f) }
+					val sorted = obj.sortedBy { (it as? Entity)?.stats()?.get(criteria, 0f) }
 
-					val item = if (lowest) obj.first() else obj.last()
-					setData(output, item);
-					state = ExecutionState.COMPLETED;
+					val item = if (lowest) sorted.first() else sorted.last()
+					setData(output, item)
+					state = ExecutionState.COMPLETED
 				}
 			}
 		}
