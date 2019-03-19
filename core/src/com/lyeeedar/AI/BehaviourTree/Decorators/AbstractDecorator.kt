@@ -23,6 +23,27 @@ abstract class AbstractDecorator(): AbstractNodeContainer()
 		}
 
 	// ----------------------------------------------------------------------
+	override fun <T> findData(key: String): T?
+	{
+		val thisVar = super.findData<T>(key)
+		if (thisVar != null)
+		{
+			return thisVar
+		}
+
+		if (node != null)
+		{
+			val nodeVar = node!!.findData<T>(key)
+			if (nodeVar != null)
+			{
+				return nodeVar
+			}
+		}
+
+		return null
+	}
+
+	// ----------------------------------------------------------------------
 	override fun parse( xml: XmlData)
 	{
 		val child = xml.getChild( 0 )

@@ -90,6 +90,18 @@ abstract class AbstractTreeNode()
 	}
 
 	//----------------------------------------------------------------------
+	open fun <T> findData(key: String): T?
+	{
+		val thisVar = data?.get(key) as? T
+		if (thisVar != null)
+		{
+			return thisVar
+		}
+
+		return null
+	}
+
+	//----------------------------------------------------------------------
 	companion object
 	{
 		fun load(path: String, root: Boolean = false): AbstractTreeNode

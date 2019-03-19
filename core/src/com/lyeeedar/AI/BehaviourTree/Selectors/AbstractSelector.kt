@@ -13,6 +13,27 @@ abstract class AbstractSelector(): AbstractNodeContainer()
 	val nodes: com.badlogic.gdx.utils.Array<AbstractTreeNode> = com.badlogic.gdx.utils.Array<AbstractTreeNode>()
 
 	// ----------------------------------------------------------------------
+	override fun <T> findData(key: String): T?
+	{
+		val thisVar = super.findData<T>(key)
+		if (thisVar != null)
+		{
+			return thisVar
+		}
+
+		for (node in nodes)
+		{
+			val nodeVar = node.findData<T>(key)
+			if (nodeVar != null)
+			{
+				return nodeVar
+			}
+		}
+
+		return null
+	}
+
+	// ----------------------------------------------------------------------
 	fun addNode( node: AbstractTreeNode )
 	{
 		if ( node.data == null )

@@ -68,7 +68,7 @@ class Tile(x: Int = 0, y: Int = 0) : Point(x, y), IPathfindingTile
 			{
 				if (self is Entity)
 				{
-					if (self.isAllies(obj) && obj.pos().turnsOnTile < 3)
+					if (self.isAllies(obj) && obj.pos().turnsOnTile < 1)
 					{
 						return true
 					}

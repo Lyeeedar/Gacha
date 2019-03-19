@@ -1,8 +1,6 @@
 package com.lyeeedar.AI.BehaviourTree
 
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.utils.XmlReader
 import com.lyeeedar.AI.IAI
 
 /**

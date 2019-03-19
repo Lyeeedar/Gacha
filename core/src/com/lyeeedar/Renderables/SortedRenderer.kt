@@ -22,7 +22,6 @@ import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Particle.Emitter
 import com.lyeeedar.Renderables.Particle.Particle
 import com.lyeeedar.Renderables.Particle.ParticleEffect
-import com.lyeeedar.Renderables.RadixSort.Companion.MOST_SIGNIFICANT_BYTE_INDEX
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Renderables.Sprite.TilingSprite
 import com.lyeeedar.Util.*
@@ -47,7 +46,6 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 
 	private val startingArraySize = 128
 	private var spriteArray = Array<RenderSprite?>(startingArraySize) { null }
-	private var sortedArray = Array<RenderSprite?>(startingArraySize) { null }
 	private var queuedSprites = 0
 
 	private val tilingMap: IntMap<ObjectSet<Long>> = IntMap()
@@ -68,12 +66,15 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 	private var screenShakeAngle: Float = 0f
 	private var screenShakeLocked: Boolean = false
 
-	private val BLENDMODES = BlendMode.values().size
-	private val MAX_INDEX = 6 * BLENDMODES
-	private val X_BLOCK_SIZE = layers * MAX_INDEX
+	private val MAX_INDEX = 4
+	private val MAX_LAYER = layers
+	private val NUM_BLENDS = BlendMode.values().size
+
+	private val BLEND_BLOCK_SIZE = 1
+	private val INDEX_BLOCK_SIZE = BLEND_BLOCK_SIZE * NUM_BLENDS
+	private val LAYER_BLOCK_SIZE = INDEX_BLOCK_SIZE * MAX_INDEX
+	private val X_BLOCK_SIZE = LAYER_BLOCK_SIZE * MAX_LAYER
 	private val Y_BLOCK_SIZE = X_BLOCK_SIZE * width.toInt()
-	private val MAX_Y_BLOCK_SIZE = Y_BLOCK_SIZE * height.toInt()
-	private val MAX_X_BLOCK_SIZE = X_BLOCK_SIZE * width.toInt()
 
 	private var delta: Float = 0f
 
@@ -656,7 +657,6 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 		if (queuedSprites < spriteArray.size / 4)
 		{
 			spriteArray = spriteArray.copyOf(spriteArray.size / 4)
-			sortedArray = sortedArray.copyOf(sortedArray.size / 4)
 		}
 
 		queuedSprites = 0
@@ -668,7 +668,7 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 		// Begin prerender work
 		executor.addJob {
 			// sort
-			RadixSort.sort(spriteArray, sortedArray, 0, 0, queuedSprites, MOST_SIGNIFICANT_BYTE_INDEX)
+			spriteArray.sortWith(compareBy{ it?.comparisonVal ?: 0 }, 0, queuedSprites)
 
 			// do screen shake
 			if ( screenShakeRadius > 2 )
@@ -724,17 +724,18 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 	}
 
 	// ----------------------------------------------------------------------
-	private fun getComparisonVal(x: Int, y: Int, layer: Int, index: Int, blend: BlendMode) : Int
+	private fun getComparisonVal(x: Float, y: Float, layer: Int, index: Int, blend: BlendMode) : Float
 	{
 		if (index > MAX_INDEX-1) throw RuntimeException("Index too high! $index >= $MAX_INDEX!")
-		if (layer > layers-1) throw RuntimeException("Layer too high! $index >= $layers!")
+		if (layer > MAX_LAYER-1) throw RuntimeException("Layer too high! $index >= $MAX_LAYER!")
 
-		val yBlock = MAX_Y_BLOCK_SIZE - y * Y_BLOCK_SIZE
-		val xBlock = (MAX_X_BLOCK_SIZE - x * X_BLOCK_SIZE)
-		val lBlock = layer * MAX_INDEX
-		val iBlock = index * BLENDMODES
+		val yBlock = y * Y_BLOCK_SIZE * -1f
+		val xBlock = x * X_BLOCK_SIZE * -1f
+		val lBlock = layer * LAYER_BLOCK_SIZE
+		val iBlock = index * INDEX_BLOCK_SIZE
+		val bBlock = blend.ordinal * BLEND_BLOCK_SIZE
 
-		return yBlock + xBlock + lBlock + iBlock + blend.ordinal
+		return yBlock + xBlock + lBlock + iBlock + bBlock
 	}
 
 	// ----------------------------------------------------------------------
@@ -759,11 +760,9 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 		if (queuedSprites == spriteArray.size-1)
 		{
 			spriteArray = spriteArray.copyOf(spriteArray.size * 2)
-			sortedArray = sortedArray.copyOf(sortedArray.size * 2)
 		}
 
 		spriteArray[queuedSprites] = renderSprite
-		sortedArray[queuedSprites] = renderSprite
 
 		queuedSprites++
 	}
@@ -890,7 +889,7 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 
 					if (localx + localw < 0 || localx > Global.stage.width || localy + localh < 0 || localy > Global.stage.height) continue
 
-					val comparisonVal = getComparisonVal((drawx-sizex*0.5f).toInt(), (drawy-sizey*0.5f).toInt(), layer, index, particle.blend)
+					val comparisonVal = getComparisonVal(drawx-sizex*0.5f, drawy-sizey*0.5f, layer, index, particle.blend)
 
 					val rs = RenderSprite.obtain().set( null, null, tex1.second, drawx * tileSize, drawy * tileSize, tempVec.x, tempVec.y, col, sizex, sizey, rotation, 1f, 1f, effect.flipX, effect.flipY, particle.blend, lit, comparisonVal )
 
@@ -980,7 +979,7 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 		// check if onscreen
 		if (!alwaysOnscreen && !isSpriteOnscreen(tilingSprite, x, y, width, height)) return
 
-		val comparisonVal = getComparisonVal(lx.toInt(), ly.toInt(), layer, index, BlendMode.MULTIPLICATIVE)
+		val comparisonVal = getComparisonVal(lx, ly, layer, index, BlendMode.MULTIPLICATIVE)
 
 		val rs = RenderSprite.obtain().set(null, tilingSprite, null, x, y, ix, iy, colour, width, height, 0f, 1f, 1f, false, false, BlendMode.MULTIPLICATIVE, lit, comparisonVal)
 
@@ -1062,7 +1061,7 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 		// check if onscreen
 		if (!alwaysOnscreen && !isSpriteOnscreen(sprite, x, y, width, height, scaleX, scaleY)) return
 
-		val comparisonVal = getComparisonVal(lx.toInt(), ly.toInt(), layer, index, BlendMode.MULTIPLICATIVE)
+		val comparisonVal = getComparisonVal(lx, ly, layer, index, BlendMode.MULTIPLICATIVE)
 
 		val rs = RenderSprite.obtain().set(sprite, null, null, x, y, ix, iy, colour, width, height, rotation, scaleX, scaleY, false, false, BlendMode.MULTIPLICATIVE, lit, comparisonVal)
 
@@ -1089,7 +1088,7 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 
 		if (localx + localw < 0 || localx > Global.stage.width || localy + localh < 0 || localy > Global.stage.height) return
 
-		val comparisonVal = getComparisonVal((sortX ?: lx).toInt(), (sortY ?: ly).toInt(), layer, index, BlendMode.MULTIPLICATIVE)
+		val comparisonVal = getComparisonVal(sortX ?: lx, sortY ?: ly, layer, index, BlendMode.MULTIPLICATIVE)
 
 		val rs = RenderSprite.obtain().set(null, null, texture, x, y, ix, iy, colour, width, height, 0f, scaleX, scaleY, false, false, BlendMode.MULTIPLICATIVE, lit, comparisonVal)
 
@@ -1813,7 +1812,7 @@ class RenderSprite(val parentBlock: RenderSpriteBlock, val parentBlockIndex: Int
 	val blCol = Colour()
 	val brCol = Colour()
 
-	internal var comparisonVal: Int = 0
+	internal var comparisonVal: Float = 0f
 
 	// ----------------------------------------------------------------------
 	operator fun set(sprite: Sprite?, tilingSprite: TilingSprite?, texture: TextureRegion?,
@@ -1825,7 +1824,7 @@ class RenderSprite(val parentBlock: RenderSpriteBlock, val parentBlockIndex: Int
 					 scaleX: Float, scaleY: Float,
 					 flipX: Boolean, flipY: Boolean,
 					 blend: BlendMode, lit: Boolean,
-					 comparisonVal: Int): RenderSprite
+					 comparisonVal: Float): RenderSprite
 	{
 		this.px = ix.toInt()
 		this.py = iy.toInt()
@@ -1923,142 +1922,6 @@ class RenderSpriteBlock
 			{
 				return RenderSpriteBlock()
 			}
-		}
-	}
-}
-
-// ----------------------------------------------------------------------
-class RadixSort
-{
-	companion object
-	{
-		/**
-		 * The byte index of the most significant byte in each 32-bit integer.
-		 */
-		public const val MOST_SIGNIFICANT_BYTE_INDEX = 3
-
-		/**
-		 * The mask for manipulating the sign bit.
-		 */
-		private const val SIGN_BIT_MASK = -0x80000000
-
-		/**
-		 * The amount of bits per byte.
-		 */
-		private const val BITS_PER_BYTE = 8
-
-		/**
-		 * The mask for extracting the bucket index.
-		 */
-		private const val EXTRACT_BYTE_MASK = 0xff
-
-		/**
-		 * The amount of buckets considered for sorting.
-		 */
-		private const val BUCKET_AMOUNT = 256
-
-		private const val QUICKSORT_THRESHOLD = 128
-
-		private val bucketPool: Pool<IntArray> = object : Pool<IntArray>() {
-			override fun newObject(): IntArray
-			{
-				return IntArray(BUCKET_AMOUNT)
-			}
-		}
-
-		public fun sort(
-				source: Array<RenderSprite?>, target: Array<RenderSprite?>,
-				sourceOffset: Int, targetOffset: Int, rangeLength: Int,
-				byteIndex: Int)
-		{
-			if (rangeLength < QUICKSORT_THRESHOLD)
-			{
-				source.sort(sourceOffset, sourceOffset + rangeLength)
-
-				if (byteIndex and 1 == 0)
-				{
-					System.arraycopy(source, sourceOffset, target, targetOffset, rangeLength)
-				}
-
-				return
-			}
-
-			val bucketSizeMap = bucketPool.obtain()
-			for (i in 0 until BUCKET_AMOUNT)
-			{
-				bucketSizeMap[i] = 0
-			}
-
-			// Count the size of each bucket.
-			for (i in sourceOffset until sourceOffset + rangeLength)
-			{
-				bucketSizeMap[getBucketIndex(source[i]!!.comparisonVal, byteIndex)]++
-			}
-
-			// Compute the map mapping each bucket to its beginning index.
-			val startIndexMap = bucketPool.obtain()
-			startIndexMap[0] = 0
-
-			for (i in 1 until BUCKET_AMOUNT)
-			{
-				startIndexMap[i] = startIndexMap[i - 1] + bucketSizeMap[i - 1]
-			}
-
-			// The map mapping each bucket index to amount of elements already put
-			// in the bucket.
-			val processedMap = bucketPool.obtain()
-			for (i in 0 until BUCKET_AMOUNT)
-			{
-				processedMap[i] = 0
-			}
-
-			for (i in sourceOffset until sourceOffset + rangeLength)
-			{
-				val element = source[i]
-				val bucket = getBucketIndex(element!!.comparisonVal, byteIndex)
-				target[targetOffset + startIndexMap[bucket] +
-					   processedMap[bucket]++] = element
-			}
-
-			if (byteIndex > 0)
-			{
-				// Recursively sort the buckets.
-				for (i in 0 until BUCKET_AMOUNT)
-				{
-					if (bucketSizeMap[i] != 0)
-					{
-						sort(target,
-							 source,
-							 targetOffset + startIndexMap[i],
-							 sourceOffset + startIndexMap[i],
-							 bucketSizeMap[i],
-							 byteIndex - 1)
-					}
-				}
-			}
-
-			bucketPool.free(bucketSizeMap)
-			bucketPool.free(startIndexMap)
-			bucketPool.free(processedMap)
-		}
-
-		/**
-		 * Returns the bucket index for `element` when considering
-		 * `byteIndex`th byte within the element. The indexing starts from
-		 * the least significant bytes.
-		 *
-		 * @param element   the element for which to compute the bucket index.
-		 * @param byteIndex the index of the byte to be considered.
-		 * @return the bucket index.
-		 */
-		private fun getBucketIndex(element: Int, byteIndex: Int): Int
-		{
-			var result = element
-			if (byteIndex == MOST_SIGNIFICANT_BYTE_INDEX)
-			{
-				result = result xor SIGN_BIT_MASK
-			}
-			return result.ushr(byteIndex * BITS_PER_BYTE) and EXTRACT_BYTE_MASK
 		}
 	}
 }
