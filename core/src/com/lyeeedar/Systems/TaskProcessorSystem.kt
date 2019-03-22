@@ -4,12 +4,14 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family
 import com.badlogic.ashley.utils.ImmutableArray
+import com.badlogic.gdx.utils.Array
 import com.lyeeedar.AI.Tasks.TaskMove
 import com.lyeeedar.Components.*
 import com.lyeeedar.Global
 import com.lyeeedar.UI.DebugConsole
 import com.lyeeedar.Util.Event0Arg
 import com.lyeeedar.Util.Event1Arg
+import ktx.collections.addAll
 
 /**
  * Created by Philip on 20-Mar-16.
@@ -18,12 +20,15 @@ import com.lyeeedar.Util.Event1Arg
 class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java).get())
 {
 	lateinit var renderables: ImmutableArray<Entity>
+	lateinit var abilities: ImmutableArray<Entity>
 
 	val onTurnEvent = Event0Arg()
 	val signalEvent = Event1Arg<String>()
 
 	var lastState = "---"
 	var printTasks = false
+
+	val processArray = Array<Entity>(false, 16)
 
 	init
 	{
@@ -46,8 +51,11 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 
 	override fun addedToEngine(engine: Engine?)
 	{
-		entities = engine?.getEntitiesFor(Family.all(TaskComponent::class.java).get()) ?: throw RuntimeException("Engine is null!")
-		renderables = engine?.getEntitiesFor(Family.all(RenderableComponent::class.java).get()) ?: throw RuntimeException("Engine is null!")
+		if (engine == null) throw RuntimeException("Engine is null!")
+
+		entities = engine.getEntitiesFor(Family.all(TaskComponent::class.java).get())
+		renderables = engine.getEntitiesFor(Family.all(RenderableComponent::class.java).get())
+		abilities = engine.getEntitiesFor(Family.all(ActiveAbilityComponent::class.java).get())
 	}
 
 	override fun doUpdate(deltaTime: Float)
@@ -55,10 +63,15 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 		if (Global.pause) return
 
 		val hasEffects = renderables.any { it.renderable()!!.renderable.animation != null && it.renderable()!!.renderable.animation!!.isBlocking }
+		val hasAbilities = abilities.any { !Mappers.activeAbility.get(it).ability.blocked }
 
-		if (!hasEffects)
+		if (!hasEffects && !hasAbilities)
 		{
 			doTurn()
+		}
+		else if (hasAbilities)
+		{
+			lastState = "Waiting on abilities"
 		}
 		else if (hasEffects)
 		{
@@ -66,13 +79,32 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 		}
 	}
 
-	fun doTurn()
+	private fun doTurn()
 	{
 		for (entity in entities)
 		{
-			for (i in 1..entity.task().speed)
+			val task = entity.task()
+			task.actionAccumulator += 1f
+		}
+
+		processArray.clear()
+		processArray.addAll(entities)
+
+		while (processArray.size > 0)
+		{
+			val itr = processArray.iterator()
+			while (itr.hasNext())
 			{
+				val entity = itr.next()
+				val task = entity.task()
+
 				processEntity(entity)
+
+				task.actionAccumulator -= (1f / task.speed)
+				if (task.actionAccumulator <= 0f)
+				{
+					itr.remove()
+				}
 			}
 		}
 
@@ -84,7 +116,7 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 		}
 	}
 
-	fun processEntity(e: Entity): Boolean
+	private fun processEntity(e: Entity): Boolean
 	{
 		val task = e.task() ?: return false
 

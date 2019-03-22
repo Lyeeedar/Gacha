@@ -727,7 +727,7 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 	private fun getComparisonVal(x: Float, y: Float, layer: Int, index: Int, blend: BlendMode) : Float
 	{
 		if (index > MAX_INDEX-1) throw RuntimeException("Index too high! $index >= $MAX_INDEX!")
-		if (layer > MAX_LAYER-1) throw RuntimeException("Layer too high! $index >= $MAX_LAYER!")
+		if (layer > MAX_LAYER-1) throw RuntimeException("Layer too high! $layer >= $MAX_LAYER!")
 
 		val yBlock = y * Y_BLOCK_SIZE * -1f
 		val xBlock = x * X_BLOCK_SIZE * -1f

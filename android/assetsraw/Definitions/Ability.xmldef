@@ -1,0 +1,102 @@
+<Definitions Colour="228,78,255" Icon="Sprites/EffectSprites/Explosion/Explosion_2.png" xmlns:meta="Editor">
+	<Definition Name="Ability" meta:RefKey="Collection">
+		<Data Name="Timeline" Interpolate="False" SkipIfDefault="False" meta:RefKey="Timeline">
+			<!--Blocker-->
+			<Keyframe Name="BlockTurn" Background="255,255,255,148" meta:RefKey="Keyframe">
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
+			</Keyframe>
+			<Keyframe Name="UnlockEntity" Background="255,255,255,148" meta:RefKey="Keyframe">
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
+			</Keyframe>
+			<!--Renderable-->
+			<Keyframe Name="DestinationRenderable" Background="75,166,173,101" HasDuration="True" meta:RefKey="Keyframe">
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Data Name="Renderable" Keys="Sprite,ParticleEffect,TilingSprite" meta:RefKey="Reference" />
+				<Data Name="RenderablePerTile" meta:RefKey="Boolean" />
+				<Data Name="KillOnEnd" meta:RefKey="Boolean" />
+			</Keyframe>
+			<Keyframe Name="MovementRenderable" Background="49,181,114,94" HasDuration="True" meta:RefKey="Keyframe">
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Data Name="Renderable" Keys="Sprite,ParticleEffect,TilingSprite" meta:RefKey="Reference" />
+				<Data Name="UseLeap" meta:RefKey="Boolean" />
+			</Keyframe>
+			<Keyframe Name="SourceRenderable" Background="42,214,177,94" HasDuration="True" meta:RefKey="Keyframe">
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Data Name="Renderable" Keys="Sprite,ParticleEffect,TilingSprite" meta:RefKey="Reference" />
+				<Data Name="RestoreOriginal" Default="True" meta:RefKey="Boolean" />
+			</Keyframe>
+			<Keyframe Name="SourceAnimation" Background="27,181,140,146" HasDuration="True" meta:RefKey="Keyframe">
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Data Name="Animation" EnumValues="Expand,Spin,Fade" meta:RefKey="Enum" />
+				<Data Name="SizeStart" Min="0" Default="1" VisibleIf="Animation==Expand" meta:RefKey="Number" />
+				<Data Name="SizeEnd" Min="0" Default="1" VisibleIf="Animation==Expand" meta:RefKey="Number" />
+				<Data Name="FadeStart" Min="0" Default="1" VisibleIf="Animation==Fade" meta:RefKey="Number" />
+				<Data Name="FadeEnd" Min="0" Default="1" VisibleIf="Animation==Fade" meta:RefKey="Number" />
+				<Data Name="OneWay" VisibleIf="Animation==Expand" meta:RefKey="Boolean" />
+				<Data Name="Angle" VisibleIf="Animation==Spin" meta:RefKey="Number" />
+			</Keyframe>
+			<Keyframe Name="Screenshake" Background="85,94,232,81" HasDuration="True" meta:RefKey="Keyframe">
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Data Name="Strength" meta:RefKey="Number" />
+				<Data Name="Speed" Min="1" Default="10" meta:RefKey="Number" />
+			</Keyframe>
+			<!--Effect-->
+			<Keyframe Name="Damage" Background="255,0,0,66" meta:RefKey="Keyframe">
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Data Name="Amount" Type="Int" Min="1" Default="1" meta:RefKey="Number" />
+				<Data Name="Blockable" Default="True" meta:RefKey="Boolean" />
+			</Keyframe>
+			<Keyframe Name="Stun" Background="255,0,171,66" meta:RefKey="Keyframe">
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Data Name="Chance" Default="1" meta:RefKey="String" />
+			</Keyframe>
+			<Keyframe Name="Spawn" Background="237,245,87,60" HasDuration="True" meta:RefKey="Keyframe">
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Data Name="DeleteOnExit" meta:RefKey="Boolean" />
+				<Data Name="IgnoreWall" meta:RefKey="Boolean" />
+				<Data Name="Entity" Extends="Entity" meta:RefKey="Struct" />
+			</Keyframe>
+			<!--Movement-->
+			<Keyframe Name="MoveSource" Background="227,101,203,118" meta:RefKey="Keyframe">
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Data Name="MoveType" EnumValues="Move,Leap,Roll,Teleport" meta:RefKey="Enum" />
+			</Keyframe>
+			<Keyframe Name="Pull" Background="183,110,191,118" meta:RefKey="Keyframe">
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Data Name="MoveType" EnumValues="Move,Leap,Roll,Teleport" meta:RefKey="Enum" />
+			</Keyframe>
+			<Keyframe Name="Knockback" Background="143,72,156,118" meta:RefKey="Keyframe">
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Data Name="MoveType" EnumValues="Move,Leap,Roll,Teleport" meta:RefKey="Enum" />
+				<Data Name="Dist" Type="Int" Min="1" Default="1" meta:RefKey="Number" />
+			</Keyframe>
+			<!--Permute-->
+			<Keyframe Name="Permute" Background="247,176,78,47" meta:RefKey="Keyframe">
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Data Name="HitPoints" Default="#" ElementPerLine="True" IsAsciiGrid="True" meta:RefKey="MultilineString" />
+			</Keyframe>
+			<Keyframe Name="SelectAllies" Background="247,176,78,47" meta:RefKey="Keyframe">
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Data Name="Count" Type="Int" Min="1" Default="1" meta:RefKey="Number" />
+			</Keyframe>
+			<Keyframe Name="SelectEnemies" Background="247,176,78,47" meta:RefKey="Keyframe">
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Data Name="Count" Type="Int" Min="1" Default="1" meta:RefKey="Number" />
+			</Keyframe>
+			<Keyframe Name="SelectRandom" Background="247,176,78,47" meta:RefKey="Keyframe">
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Data Name="Count" Type="Int" Min="1" Default="1" meta:RefKey="Number" />
+			</Keyframe>
+			<Keyframe Name="ClearSelection" Background="247,176,78,47" meta:RefKey="Keyframe">
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Data Name="Count" Type="Int" Min="1" Default="1" meta:RefKey="Number" />
+			</Keyframe>
+		</Data>
+	</Definition>
+</Definitions>

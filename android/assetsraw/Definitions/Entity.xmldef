@@ -17,7 +17,7 @@
 				</Data>
 			</Data>
 			<Data Name="AI" meta:RefKey="Struct">
-				<Data Name="Speed" Type="Int" Min="1" Default="1" meta:RefKey="Number" />
+				<Data Name="Speed" Min="0" Default="1" SkipIfDefault="False" meta:RefKey="Number" />
 				<Data Name="AI" BasePath="AI" StripExtension="True" AllowedFileTypes="xml" meta:RefKey="File" />
 			</Data>
 			<Data Name="DirectionalSprite" Extends="DirectionalSprite" meta:RefKey="Struct" />

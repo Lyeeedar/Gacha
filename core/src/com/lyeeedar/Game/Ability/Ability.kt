@@ -1,0 +1,131 @@
+package com.lyeeedar.Game.Ability
+
+import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.utils.Array
+import com.lyeeedar.Components.pos
+import com.lyeeedar.Direction
+import com.lyeeedar.Game.Level
+import com.lyeeedar.Util.Point
+
+class Ability
+{
+	val actions: Array<AbstractAbilityAction> = Array()
+
+	val enteredActions: Array<AbstractAbilityAction> = Array(false, 4)
+	lateinit var source: Entity
+	val targets: Array<Point> = Array()
+	lateinit var level: Level
+	lateinit var facing: Direction
+
+	var blocked = false
+	var entityLocked = false
+	var currentTime: Float = 0f
+	var index = 0
+
+	fun begin(source: Entity, level: Level)
+	{
+		if (enteredActions.size > 0)
+		{
+			throw Exception("Tried to start a non-complete ability!")
+		}
+
+		this.level = level
+		this.source = source
+		targets.clear()
+		enteredActions.clear()
+		index = 0
+		currentTime = 0f
+		blocked = false
+		entityLocked = true
+		facing = Direction.NORTH
+
+		targets.add(source.pos()!!.position)
+	}
+
+	fun onTurn()
+	{
+		var anyBlocked = false
+		for (action in enteredActions)
+		{
+			val stillBlocked = action.onTurn()
+			if (stillBlocked)
+			{
+				anyBlocked = true
+			}
+		}
+		blocked = anyBlocked
+	}
+
+	fun update(delta: Float): Boolean
+	{
+		if (blocked)
+		{
+			return false
+		}
+
+		currentTime += delta
+
+		val itr = enteredActions.iterator()
+		while (itr.hasNext())
+		{
+			val action = itr.next()
+			if (action.end <= currentTime)
+			{
+				action.exit()
+				itr.remove()
+			}
+		}
+
+		if (index == actions.size-1 && enteredActions.size == 0)
+		{
+			entityLocked = false
+			blocked = false
+			return true
+		}
+
+		for (i in index until actions.size)
+		{
+			index = i
+
+			val action = actions[i]
+			if (action.start <= currentTime)
+			{
+				val blocked = action.enter()
+				if (blocked)
+				{
+					enteredActions.add(action)
+					break
+				}
+				else
+				{
+					if (action.end <= currentTime)
+					{
+						action.exit()
+					}
+					else
+					{
+						enteredActions.add(action)
+					}
+				}
+			}
+			else
+			{
+				break
+			}
+		}
+
+		return false
+	}
+
+	fun copy(): Ability
+	{
+		val ability = Ability()
+		for (action in actions)
+		{
+			val copy = action.copy(ability)
+			ability.actions.add(copy)
+		}
+
+		return ability
+	}
+}

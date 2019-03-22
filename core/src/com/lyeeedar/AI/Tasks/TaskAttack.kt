@@ -15,7 +15,7 @@ class TaskAttack(val tile: Tile) : AbstractTask()
 	override fun execute(e: Entity)
 	{
 		e.renderable().renderable.animation = BumpAnimation.obtain().set(0.2f, Direction.Companion.getDirection(e.tile()!!, tile))
-		for (slot in SpaceSlot.Values)
+		for (slot in SpaceSlot.EntityValues)
 		{
 			val entity = tile.contents[slot] ?: continue
 			val stats = entity.stats() ?: continue
