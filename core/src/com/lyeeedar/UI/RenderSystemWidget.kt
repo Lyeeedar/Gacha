@@ -1,6 +1,5 @@
 package com.lyeeedar.UI
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import com.lyeeedar.Global
@@ -13,6 +12,6 @@ class RenderSystemWidget : Widget()
 
 	override fun draw(batch: Batch, parentAlpha: Float)
 	{
-		Global.engine.render().doRender(batch, Gdx.app.graphics.deltaTime * 0.1f, this)
+		Global.engine.render().doRender(batch, this)
 	}
 }

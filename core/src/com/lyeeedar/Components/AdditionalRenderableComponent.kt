@@ -12,7 +12,7 @@ class AdditionalRenderableComponent : AbstractComponent()
 	val below = ObjectMap<String, Renderable>()
 	val above = ObjectMap<String, Renderable>()
 
-	override fun parse(xml: XmlData, entity: Entity)
+	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
 		val pos = entity.pos()
 

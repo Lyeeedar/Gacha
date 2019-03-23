@@ -31,7 +31,7 @@ class DialogueComponent : AbstractComponent()
 //		if (Global.release) throw Exception("Debug code needs to be removed!")
 //	}
 
-	override fun parse(xml: XmlData, entity: Entity)
+	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
 
 	}

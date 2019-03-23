@@ -30,9 +30,9 @@ abstract class AbstractAbilityAction(val ability: Ability)
 
 	companion object
 	{
-		fun parse(xmlData: XmlData, ability: Ability): AbstractAbilityAction
+		fun load(xmlData: XmlData, ability: Ability): AbstractAbilityAction
 		{
-			val node = when (xmlData.getAttribute("meta:RefKey").toUpperCase())
+			val node = when (xmlData.name.toUpperCase())
 			{
 				"BLOCKTURN" -> BlockTurnAction(ability)
 				"UNLOCKENTITY" -> UnlockEntityAction(ability)
@@ -51,6 +51,7 @@ abstract class AbstractAbilityAction(val ability: Ability)
 				"CLEARSELECTION" -> ClearSelectionAction(ability)
 
 				"SOURCERENDERABLE" -> SourceRenderableAction(ability)
+				"REPLACESOURCERENDERABLE" -> ReplaceSourceRenderableAction(ability)
 				"SOURCEANIMATION" -> SourceAnimationAction(ability)
 				"DESTINATIONRENDERABLE" -> DestinationRenderableAction(ability)
 				"MOVEMENTRENDERABLE" -> MovementRenderableAction(ability)
@@ -59,8 +60,10 @@ abstract class AbstractAbilityAction(val ability: Ability)
 				else -> throw Exception("Unhandled ability action type " + xmlData.getAttribute("meta:RefKey") + "!")
 			}
 
-			node.start = xmlData.getFloat("Start")
-			node.end = node.start + xmlData.getFloat("Duration")
+			node.parse(xmlData)
+
+			node.start = xmlData.getFloat("Time", 0f)
+			node.end = node.start + xmlData.getFloat("Duration", 0f)
 
 			return node
 		}

@@ -138,6 +138,7 @@ abstract class AbstractTreeNode()
 
 			// Actions
 				"ATTACK" -> ActionAttack()
+				"ABILITY" -> ActionAbility()
 				"CLEARVALUE" -> ActionClearValue()
 				"CONVERTTO" -> ActionConvertTo()
 				"GETALLVISIBLE" -> ActionGetAllVisible()

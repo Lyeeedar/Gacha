@@ -8,7 +8,7 @@ class ActiveAbilityComponent : AbstractComponent()
 {
 	lateinit var ability: Ability
 
-	override fun parse(xml: XmlData, entity: Entity)
+	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
 
 	}

@@ -9,7 +9,7 @@ class MetaRegionComponent :  AbstractComponent()
 {
 	val keys = Array<String>()
 
-	override fun parse(xml: XmlData, entity: Entity)
+	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
 		keys.addAll(xml.get("Key").toLowerCase().split(','))
 	}

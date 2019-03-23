@@ -4,7 +4,7 @@
 	</Definition>
 	<!--Reference Definitions-->
 	<Definition Name="Nodes" Keys="Selectors(Any,Priority,Random,Sequence,Until),Decorators(DataScope,Import,Invert,Repeat,SetState)" meta:RefKey="ReferenceDef" />
-	<Definition Name="Actions" Keys="Actions(Attack,Kill,MoveTo,Wait),Values(ClearValue,ConvertTo,GetAllVisible,Pick,ProcessInput,SetValue),Conditions(Conditional)" meta:RefKey="ReferenceDef" />
+	<Definition Name="Actions" Keys="Actions(Ability,Attack,Kill,MoveTo,Wait),Values(ClearValue,ConvertTo,GetAllVisible,Pick,ProcessInput,SetValue),Conditions(Conditional)" meta:RefKey="ReferenceDef" />
 	<!--Selectors-->
 	<Definition Name="Any" MinCount="1" Background="39,76,77,70" ToolTip="Runs all the children, then returns success if any completed." HasAttributes="True" meta:RefKey="GraphCollectionDef">
 		<Attributes meta:RefKey="Attributes">
@@ -100,6 +100,11 @@
 		</Attributes>
 	</Definition>
 	<Definition Name="Attack" TextColour="122,199,142" HasAttributes="True" meta:RefKey="StructDef">
+		<Attributes meta:RefKey="Attributes">
+			<Attribute Name="Key" meta:RefKey="String" />
+		</Attributes>
+	</Definition>
+	<Definition Name="Ability" TextColour="122,199,142" HasAttributes="True" meta:RefKey="StructDef">
 		<Attributes meta:RefKey="Attributes">
 			<Attribute Name="Key" meta:RefKey="String" />
 		</Attributes>

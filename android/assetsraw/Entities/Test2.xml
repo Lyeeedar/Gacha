@@ -19,12 +19,13 @@
 		</DirectionalSprite>
 		<Position />
 		<Statistics>
-			<HP>10</HP>
+			<HP>100</HP>
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
 		</Statistics>
 		<AI>
+			<Speed>1</Speed>
 			<AI>BasicMonster</AI>
 		</AI>
 	</Components>

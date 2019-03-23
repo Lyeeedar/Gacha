@@ -10,27 +10,33 @@
 			</Keyframe>
 			<!--Renderable-->
 			<Keyframe Name="DestinationRenderable" Background="75,166,173,101" HasDuration="True" meta:RefKey="Keyframe">
-				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Data Name="Renderable" Keys="Sprite,ParticleEffect,TilingSprite" meta:RefKey="Reference" />
 				<Data Name="RenderablePerTile" meta:RefKey="Boolean" />
 				<Data Name="KillOnEnd" meta:RefKey="Boolean" />
 			</Keyframe>
-			<Keyframe Name="MovementRenderable" Background="49,181,114,94" HasDuration="True" meta:RefKey="Keyframe">
-				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+			<Keyframe Name="SourceRenderable" Background="75,166,173,101" HasDuration="True" meta:RefKey="Keyframe">
 				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Data Name="Renderable" Keys="Sprite,ParticleEffect,TilingSprite" meta:RefKey="Reference" />
+				<Data Name="KillOnEnd" meta:RefKey="Boolean" />
+			</Keyframe>
+			<Keyframe Name="MovementRenderable" Background="49,181,114,94" HasDuration="True" meta:RefKey="Keyframe">
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Data Name="Renderable" Keys="Sprite,ParticleEffect,TilingSprite" meta:RefKey="Reference" />
 				<Data Name="UseLeap" meta:RefKey="Boolean" />
 			</Keyframe>
-			<Keyframe Name="SourceRenderable" Background="42,214,177,94" HasDuration="True" meta:RefKey="Keyframe">
-				<Time Name="Time" Min="0" meta:RefKey="Number" />
+			<Keyframe Name="ReplaceSourceRenderable" Background="42,214,177,94" HasDuration="True" meta:RefKey="Keyframe">
 				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Data Name="Renderable" Keys="Sprite,ParticleEffect,TilingSprite" meta:RefKey="Reference" />
 				<Data Name="RestoreOriginal" Default="True" meta:RefKey="Boolean" />
 			</Keyframe>
 			<Keyframe Name="SourceAnimation" Background="27,181,140,146" HasDuration="True" meta:RefKey="Keyframe">
-				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Data Name="Animation" EnumValues="Expand,Spin,Fade" meta:RefKey="Enum" />
 				<Data Name="SizeStart" Min="0" Default="1" VisibleIf="Animation==Expand" meta:RefKey="Number" />
 				<Data Name="SizeEnd" Min="0" Default="1" VisibleIf="Animation==Expand" meta:RefKey="Number" />
@@ -40,8 +46,8 @@
 				<Data Name="Angle" VisibleIf="Animation==Spin" meta:RefKey="Number" />
 			</Keyframe>
 			<Keyframe Name="Screenshake" Background="85,94,232,81" HasDuration="True" meta:RefKey="Keyframe">
-				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Data Name="Strength" meta:RefKey="Number" />
 				<Data Name="Speed" Min="1" Default="10" meta:RefKey="Number" />
 			</Keyframe>
@@ -56,8 +62,8 @@
 				<Data Name="Chance" Default="1" meta:RefKey="String" />
 			</Keyframe>
 			<Keyframe Name="Spawn" Background="237,245,87,60" HasDuration="True" meta:RefKey="Keyframe">
-				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Data Name="DeleteOnExit" meta:RefKey="Boolean" />
 				<Data Name="IgnoreWall" meta:RefKey="Boolean" />
 				<Data Name="Entity" Extends="Entity" meta:RefKey="Struct" />

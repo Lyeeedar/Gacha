@@ -11,7 +11,7 @@ abstract class AbstractComponent : Component
 {
 	var fromLoad = false
 
-	abstract fun parse(xml: XmlData, entity: Entity)
+	abstract fun parse(xml: XmlData, entity: Entity, parentPath: String)
 
 	open fun saveData(kryo: Kryo, output: Output)
 	{

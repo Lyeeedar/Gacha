@@ -13,7 +13,7 @@ class NameComponent() : AbstractComponent()
 		this.name = name
 	}
 
-	override fun parse(xml: XmlData, entity: Entity)
+	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
 		name = xml.get("Name")
 	}

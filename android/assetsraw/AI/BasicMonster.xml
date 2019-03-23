@@ -3,13 +3,14 @@
 		<!--Do Sight Stuff-->
 		<Action Key="Enemies" SrcKey="Tiles" Type="Enemies" meta:RefKey="GetAllVisible" />
 		<!--Actual Logic-->
-		<Node meta:X="573.57678075776425" meta:Y="15.000725891898714" GUID="f83d46dc-59a1-4f88-aca7-e169345bcdd9" meta:RefKey="Until">
+		<Node meta:X="573.5767822265625" meta:Y="15.000725746154785" meta:RefKey="Until">
 			<!--Attack Logic-->
 			<Action Key="Enemy" meta:RefKey="ClearValue" />
 			<Action Input="Enemies" Output="Enemy" meta:RefKey="Pick" />
 			<Action Input="Enemy" Output="Pos" meta:RefKey="ConvertTo" />
-			<Node meta:X="907.2103867147955" meta:Y="248.81890979082451" meta:RefKey="Priority">
+			<Node meta:X="907.21038818359375" meta:Y="248.81890869140625" meta:RefKey="Priority">
 				<!--Attempt to attack or move to the pos-->
+				<Action Key="Pos" meta:RefKey="Ability" />
 				<Action Key="Pos" meta:RefKey="Attack" />
 				<Action Key="Pos" meta:RefKey="MoveTo" />
 			</Node>

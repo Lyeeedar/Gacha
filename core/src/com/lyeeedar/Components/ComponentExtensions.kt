@@ -5,7 +5,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.ObjectMap
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.Renderables.Renderable
-import com.lyeeedar.Util.XmlData
+import com.lyeeedar.Util.directory
 import com.lyeeedar.Util.getXml
 
 fun Entity.pos() = Mappers.position.get(this)
@@ -33,6 +33,7 @@ fun Entity.dialogue() = Mappers.dialogue.get(this)
 fun Entity.occludes() = Mappers.occludes.get(this)
 fun Entity.metaregion() = Mappers.metaregion.get(this)
 fun Entity.loaddata() = Mappers.loaddata.get(this)
+fun Entity.ability() = Mappers.ability.get(this)
 
 fun <T: AbstractComponent> Entity.hasComponent(c: Class<T>) = this.getComponent(c) != null
 
@@ -54,6 +55,7 @@ class Mappers
 		val metaregion: ComponentMapper<MetaRegionComponent> = ComponentMapper.getFor(MetaRegionComponent::class.java)
 		val loaddata: ComponentMapper<LoadDataComponent> = ComponentMapper.getFor(LoadDataComponent::class.java)
 		val activeAbility: ComponentMapper<ActiveAbilityComponent> = ComponentMapper.getFor(ActiveAbilityComponent::class.java)
+		val ability: ComponentMapper<AbilityComponent> = ComponentMapper.getFor(AbilityComponent::class.java)
 	}
 }
 
@@ -65,21 +67,9 @@ class EntityLoader()
 
 		@JvmStatic fun load(path: String): Entity
 		{
-			val xml = getXml("Entities/$path.xml")
-			val entity = load(xml)
+			val entityPath = "Entities/$path"
+			val xml = getXml(entityPath)
 
-			if (entity.name() == null)
-			{
-				val name = NameComponent(path)
-				name.fromLoad = true
-				entity.add(name)
-			}
-
-			return entity
-		}
-
-		@JvmStatic fun load(xml: XmlData): Entity
-		{
 			val entity = if (xml.get("Extends", null) != null) load(xml.get("Extends")) else Entity()
 
 			entity.add(LoadDataComponent(xml))
@@ -99,13 +89,14 @@ class EntityLoader()
 					"RENDERABLE" -> RenderableComponent()
 					"STATISTICS" -> StatisticsComponent()
 					"AI" -> TaskComponent()
+					"ABILITY" -> AbilityComponent()
 					"TRAILING" -> TrailingEntityComponent()
 
 					else -> throw Exception("Unknown component type '" + componentEl.name + "'!")
 				}
 
 				component.fromLoad = true
-				component.parse(componentEl, entity)
+				component.parse(componentEl, entity, entityPath.directory())
 				entity.add(component)
 			}
 
@@ -113,6 +104,13 @@ class EntityLoader()
 			{
 				val name = entity.name() ?: NameComponent("player")
 				name.isPlayer = true
+				name.fromLoad = true
+				entity.add(name)
+			}
+
+			if (entity.name() == null)
+			{
+				val name = NameComponent(path)
 				name.fromLoad = true
 				entity.add(name)
 			}

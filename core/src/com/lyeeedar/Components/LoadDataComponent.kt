@@ -10,7 +10,7 @@ class LoadDataComponent(val xml: XmlData) : AbstractComponent()
 		fromLoad = true
 	}
 
-	override fun parse(xml: XmlData, entity: Entity)
+	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
 
 	}

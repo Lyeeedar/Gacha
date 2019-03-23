@@ -1,7 +1,7 @@
 package com.lyeeedar.Systems
 
 import com.badlogic.ashley.core.Family
-import com.lyeeedar.AI.Tasks.TaskWait
+import com.lyeeedar.AI.Tasks.TaskUseAbility
 import com.lyeeedar.Components.ActiveAbilityComponent
 import com.lyeeedar.Components.Mappers
 import com.lyeeedar.Components.task
@@ -32,7 +32,7 @@ class AbilitySystem : AbstractSystem(Family.one(ActiveAbilityComponent::class.ja
 			if (activeAbility.ability.entityLocked)
 			{
 				val task = entity.task() ?: continue
-				task.tasks.add(TaskWait())
+				task.tasks.add(TaskUseAbility())
 			}
 		}
 	}

@@ -13,7 +13,7 @@ class DirectionalSpriteComponent() : AbstractComponent()
 	var lastV: DirectionalSprite.VDir = DirectionalSprite.VDir.DOWN
 	var lastH: DirectionalSprite.HDir = DirectionalSprite.HDir.RIGHT
 
-	override fun parse(xml: XmlData, entity: Entity)
+	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
 		directionalSprite = AssetManager.loadDirectionalSprite(xml, entity.pos()?.size ?: 1)
 	}

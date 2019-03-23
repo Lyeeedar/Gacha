@@ -57,7 +57,7 @@ class PositionComponent(): AbstractComponent()
 	val tiles: Iterable<Tile>
 		get() = (min.x..max.x).zip(min.y..max.y).map { tile!!.level.getTile(it.first, it.second) }.filterNotNull()
 
-	override fun parse(xml: XmlData, entity: Entity)
+	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
 		val slotEl = xml.get("SpaceSlot", null)
 		if (slotEl != null) slot = SpaceSlot.valueOf(slotEl.toUpperCase())

@@ -2,6 +2,7 @@ package com.lyeeedar.Game.Ability
 
 import com.exp4j.Helpers.CompiledExpression
 import com.lyeeedar.AI.Tasks.TaskInterrupt
+import com.lyeeedar.Components.isEnemies
 import com.lyeeedar.Components.stats
 import com.lyeeedar.Components.task
 import com.lyeeedar.Util.XmlData
@@ -18,7 +19,10 @@ class DamageAction(ability: Ability) : AbstractAbilityAction(ability)
 			for (entity in tile.contents)
 			{
 				val stats = entity.stats() ?: continue
-				stats.dealDamage(damage, true)
+				if (entity.isEnemies(ability.source))
+				{
+					stats.dealDamage(damage, true)
+				}
 			}
 		}
 
@@ -40,7 +44,7 @@ class DamageAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	override fun parse(xmlData: XmlData)
 	{
-		damage = xmlData.getFloat("Damage")
+		damage = xmlData.getFloat("Damage", 1f)
 	}
 }
 
@@ -57,7 +61,7 @@ class StunAction(ability: Ability) : AbstractAbilityAction(ability)
 			{
 				val task = entity.task() ?: continue
 
-				if (chance.evaluate() != 0f)
+				if (entity.isEnemies(ability.source) && chance.evaluate() != 0f)
 				{
 					task.tasks.clear()
 					task.tasks.add(TaskInterrupt())

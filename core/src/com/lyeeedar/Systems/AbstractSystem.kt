@@ -5,9 +5,8 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.core.Family
 import com.badlogic.ashley.utils.ImmutableArray
-import com.lyeeedar.Components.*
 import com.lyeeedar.Game.Level
-import com.lyeeedar.Util.Colour
+import com.lyeeedar.UI.DebugConsole
 
 abstract class AbstractSystem() : EntitySystem()
 {
@@ -65,6 +64,16 @@ abstract class AbstractSystem() : EntitySystem()
 	abstract fun doUpdate(deltaTime: Float)
 
 	open fun onLevelChanged()
+	{
+
+	}
+
+	open fun registerDebugCommands(debugConsole: DebugConsole)
+	{
+
+	}
+
+	open fun unregisterDebugCommands(debugConsole: DebugConsole)
 	{
 
 	}

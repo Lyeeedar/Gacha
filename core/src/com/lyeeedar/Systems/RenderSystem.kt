@@ -27,6 +27,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 	var drawParticleDebug = false
 	var drawEmitters = false
 	var drawParticles = false
+	var drawTargetting = false
 	val particles = Array<ParticleEffect>()
 
 	val tileCol = Colour()
@@ -48,12 +49,16 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 	val hp_full_blue = AssetManager.loadTextureRegion("Sprites/GUI/health_full_blue.png")!!
 	val hp_empty = AssetManager.loadTextureRegion("Sprites/GUI/health_empty.png")!!
 
+	val border = AssetManager.loadTextureRegion("Sprites/GUI/border")!!
+	val team1Col = Colour.CYAN.copy().a(0.7f)
+	val team2Col = Colour.RED.copy().a(0.7f)
+
 	lateinit var renderer: SortedRenderer
 	val screenSpaceRenderer = SortedRenderer(Global.resolution[0].toFloat(), 1f, 1f, 1, true)
 
-	init
+	override fun registerDebugCommands(debugConsole: DebugConsole)
 	{
-		DebugConsole.current()?.register("ParticleDebug", "'ParticleDebug (Emitter|Particle) true' to enable, 'ParticleDebug (Emitter|Particle) false' to disable", fun (args, console): Boolean {
+		debugConsole.register("ParticleDebug", "'ParticleDebug (Emitter|Particle) true' to enable, 'ParticleDebug (Emitter|Particle) false' to disable", fun (args, console): Boolean {
 			if (args[0] == "false" && args.size == 1)
 			{
 				console.write("Particle debug draw disabled")
@@ -94,6 +99,11 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 		})
 	}
 
+	override fun unregisterDebugCommands(debugConsole: DebugConsole)
+	{
+		debugConsole.unregister("ParticleDebug")
+	}
+
 	var needsStaticRender = true
 	override fun onLevelChanged()
 	{
@@ -104,12 +114,13 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 		needsStaticRender = true
 	}
 
+	var deltaTime: Float = 0f
 	override fun doUpdate(deltaTime: Float)
 	{
-
+		this.deltaTime = deltaTime
 	}
 
-	fun doRender(batch: Batch, deltaTime: Float, renderArea: Widget)
+	fun doRender(batch: Batch, renderArea: Widget)
 	{
 		val level = level ?: return
 
@@ -242,6 +253,8 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 			val stats = entity.stats()
 			if (stats != null)
 			{
+				renderer.queueTexture(border, ax+0.5f, ay+0.4f, -1, 0, if (stats.faction == "1") team1Col else team2Col, width = 0.9f, height = 0.7f, sortX = ax, sortY = ay)
+
 				val hp_full = if (stats.faction == "1") hp_full_blue else hp_full_red
 
 				val totalWidth = pos.size.toFloat()
@@ -297,34 +310,37 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 
 		batch.begin()
 
-		shape.projectionMatrix = Global.stage.camera.combined
-		shape.setAutoShapeType(true)
-		shape.begin()
-
-		for (entity in entities)
+		if (drawTargetting)
 		{
-			val ai = entity.task() ?: continue
-			val target = ai.ai.root.findData<Entity>("enemy") ?: continue
+			shape.projectionMatrix = Global.stage.camera.combined
+			shape.setAutoShapeType(true)
+			shape.begin()
 
-			var source = entity.pos().tile!!.toVec() + Vector2(0.5f, 0.5f)
-			var dest = target.pos().tile!!.toVec() + Vector2(0.5f, 0.5f)
-
-			if (entity.renderOffset() != null)
+			for (entity in entities)
 			{
-				source += Vector2(entity.renderOffset()!![0], entity.renderOffset()!![1])
+				val ai = entity.task() ?: continue
+				val target = ai.ai.root.findData<Entity>("enemy") ?: continue
+
+				var source = entity.pos().tile!!.toVec() + Vector2(0.5f, 0.5f)
+				var dest = target.pos().tile!!.toVec() + Vector2(0.5f, 0.5f)
+
+				if (entity.renderOffset() != null)
+				{
+					source += Vector2(entity.renderOffset()!![0], entity.renderOffset()!![1])
+				}
+
+				if (target.renderOffset() != null)
+				{
+					dest += Vector2(target.renderOffset()!![0], target.renderOffset()!![1])
+				}
+
+				val offset = if (entity.stats().faction == "1") Vector2(xp, yp) else Vector2(xp + 5, yp + 5)
+				shape.color = if (entity.stats().faction == "1") Color.CYAN else Color.RED
+				shape.line(source * tileSize + offset, dest * tileSize + offset)
 			}
 
-			if (target.renderOffset() != null)
-			{
-				dest += Vector2(target.renderOffset()!![0], target.renderOffset()!![1])
-			}
-
-			val offset = if (entity.stats().faction == "1") Vector2(xp, yp) else Vector2(xp + 5, yp + 5)
-			shape.color = if (entity.stats().faction == "1") Color.CYAN else Color.RED
-			shape.line(source * tileSize + offset, dest * tileSize + offset)
+			shape.end()
 		}
-
-		shape.end()
 
 		if (drawParticleDebug)
 		{

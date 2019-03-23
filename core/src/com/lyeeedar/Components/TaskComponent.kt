@@ -15,21 +15,21 @@ class TaskComponent: AbstractComponent(), IDebugCommandProvider
 
 	var actionAccumulator = 0f
 
-	override fun parse(xml: XmlData, entity: Entity)
+	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
 		ai = BehaviourTree.load(xml.get("AI"))
 		speed = xml.getFloat("Speed", 1f)
 	}
 
-	override fun detachCommands()
+	override fun detachCommands(debugConsole: DebugConsole)
 	{
-		DebugConsole.current()?.unregister("Tasks")
-		DebugConsole.current()?.unregister("AIData")
+		debugConsole.unregister("Tasks")
+		debugConsole.unregister("AIData")
 	}
 
-	override fun attachCommands()
+	override fun attachCommands(debugConsole: DebugConsole)
 	{
-		DebugConsole.current()?.register("Tasks", "", fun (args, console): Boolean {
+		debugConsole.register("Tasks", "", fun (args, console): Boolean {
 
 			console.write("Task count: " + tasks.size)
 			for (task in tasks)
@@ -40,7 +40,7 @@ class TaskComponent: AbstractComponent(), IDebugCommandProvider
 			return true
 		})
 
-		DebugConsole.current()?.register("AIData", "", fun (args, console): Boolean {
+		debugConsole.register("AIData", "", fun (args, console): Boolean {
 
 			console.write("Data count: " + ai.root.data!!.size)
 			for (pair in ai.root.data!!.entries())

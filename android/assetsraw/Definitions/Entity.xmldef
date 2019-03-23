@@ -57,6 +57,14 @@
 					<Data Name="Renderable" Keys="Sprite,TilingSprite,ParticleEffect" meta:RefKey="Reference" />
 				</Data>
 			</Data>
+			<Data Name="Ability" meta:RefKey="Struct">
+				<Data Name="Abilities" meta:RefKey="Collection">
+					<Data Name="AbilityData" meta:RefKey="Struct">
+						<Data Name="Path" StripExtension="True" ResourceType="Ability" RelativeToThis="True" meta:RefKey="File" />
+						<Data Name="Cooldown" Name1="Min" Name2="Max" Min="1" Default="1,1" Type="Int" meta:RefKey="Vector" />
+					</Data>
+				</Data>
+			</Data>
 		</Data>
 	</Definition>
 </Definitions>

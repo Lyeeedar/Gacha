@@ -12,7 +12,7 @@ import com.lyeeedar.SpaceSlot
 import com.lyeeedar.Systems.render
 import com.lyeeedar.Util.*
 
-class SourceRenderableAction(ability: Ability) : AbstractAbilityAction(ability)
+class ReplaceSourceRenderableAction(ability: Ability) : AbstractAbilityAction(ability)
 {
 	lateinit var renderable: Renderable
 
@@ -55,7 +55,7 @@ class SourceRenderableAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	override fun doCopy(ability: Ability): AbstractAbilityAction
 	{
-		val action = SourceRenderableAction(ability)
+		val action = ReplaceSourceRenderableAction(ability)
 
 		action.renderable = renderable
 		action.restoreOriginal = restoreOriginal
@@ -259,7 +259,77 @@ class DestinationRenderableAction(ability: Ability) : AbstractAbilityAction(abil
 		slot = SpaceSlot.valueOf(xmlData.get("Slot", "Entity")!!.toUpperCase())
 		renderable = AssetManager.loadRenderable(xmlData.getChildByName("Renderable")!!)
 		entityPerTile = xmlData.getBoolean("RenderablePerTile", false)
-		killOnEnd = xmlData.getBoolean("KillOnEnd", true)
+		killOnEnd = xmlData.getBoolean("KillOnEnd", false)
+	}
+}
+
+class SourceRenderableAction(ability: Ability) : AbstractAbilityAction(ability)
+{
+	lateinit var renderable: Renderable
+	lateinit var slot: SpaceSlot
+	var killOnEnd = true
+
+	val entities = Array<Entity>()
+
+	override fun enter(): Boolean
+	{
+		val tile = ability.source.tile()!!
+		val entity = Entity()
+
+		val r = renderable.copy()
+		entity.add(RenderableComponent(r))
+		entity.add(PositionComponent())
+		val pos = entity.pos()!!
+
+		pos.position = tile
+		pos.slot = slot
+
+		Global.engine.addEntity(entity)
+
+		entities.add(entity)
+
+		return false
+	}
+
+	override fun exit()
+	{
+		for (entity in entities)
+		{
+			val renderable = entity.renderable()!!.renderable
+			if (renderable is ParticleEffect)
+			{
+				if (killOnEnd)
+				{
+					Global.engine.removeEntity(entity)
+				}
+				else
+				{
+					renderable.stop()
+				}
+			}
+			else
+			{
+				Global.engine.removeEntity(entity)
+			}
+		}
+		entities.clear()
+	}
+
+	override fun doCopy(ability: Ability): AbstractAbilityAction
+	{
+		val out = SourceRenderableAction(ability)
+		out.renderable = renderable.copy()
+		out.slot = slot
+		out.killOnEnd = killOnEnd
+
+		return out
+	}
+
+	override fun parse(xmlData: XmlData)
+	{
+		slot = SpaceSlot.valueOf(xmlData.get("Slot", "Entity")!!.toUpperCase())
+		renderable = AssetManager.loadRenderable(xmlData.getChildByName("Renderable")!!)
+		killOnEnd = xmlData.getBoolean("KillOnEnd", false)
 	}
 }
 

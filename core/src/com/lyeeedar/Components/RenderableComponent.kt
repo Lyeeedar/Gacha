@@ -22,7 +22,7 @@ class RenderableComponent() : AbstractComponent()
 		this.renderable = renderable
 	}
 
-	override fun parse(xml: XmlData, entity: Entity)
+	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
 		var renderableEl = xml.getChildByName("Renderable")!!
 

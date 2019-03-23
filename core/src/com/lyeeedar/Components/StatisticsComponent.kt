@@ -65,7 +65,7 @@ class StatisticsComponent: AbstractComponent()
 	var blockedDamage = false
 	var blockBroken = false
 
-	override fun parse(xml: XmlData, entity: Entity)
+	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
 		maxHP += xml.getInt("HP")
 

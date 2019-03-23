@@ -10,7 +10,6 @@ import com.lyeeedar.Components.*
 import com.lyeeedar.Global
 import com.lyeeedar.UI.DebugConsole
 import com.lyeeedar.Util.Event0Arg
-import com.lyeeedar.Util.Event1Arg
 import ktx.collections.addAll
 
 /**
@@ -23,7 +22,6 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 	lateinit var abilities: ImmutableArray<Entity>
 
 	val onTurnEvent = Event0Arg()
-	val signalEvent = Event1Arg<String>()
 
 	var lastState = "---"
 	var printTasks = false
@@ -32,21 +30,33 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 
 	init
 	{
-		DebugConsole.current()?.register("TaskSystemLastState", "", fun (args, console): Boolean {
+
+	}
+
+	override fun registerDebugCommands(debugConsole: DebugConsole)
+	{
+		debugConsole.register("TaskSystemLastState", "", fun (args, console): Boolean {
 			console.write(lastState)
 
 			return true
 		})
 
-		DebugConsole.current()?.register("PrintTasks", "", fun (args, console): Boolean {
+		debugConsole.register("PrintTasks", "", fun (args, console): Boolean {
 			if (args[0] == "true" || args[0] == "false") printTasks = args[0] == "true"
 			else
 			{
+				console.error("must be in form 'printtasks true/false'")
 				return false
 			}
 
 			return true
 		})
+	}
+
+	override fun unregisterDebugCommands(debugConsole: DebugConsole)
+	{
+		debugConsole.unregister("TaskSystemLastState")
+		debugConsole.unregister("PrintTasks")
 	}
 
 	override fun addedToEngine(engine: Engine?)

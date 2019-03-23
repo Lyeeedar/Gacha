@@ -253,11 +253,6 @@ class DebugConsole(val historyKey: String) : Table()
 
 		commands.remove(lname)
 	}
-
-	companion object
-	{
-		fun current() = Global.game.currentScreen?.debugConsole
-	}
 }
 
 class ConsoleCommand(val text: String, val help: String, val callback: (args: kotlin.Array<String>, console: DebugConsole) -> Boolean)
@@ -326,6 +321,6 @@ class ConsoleCommand(val text: String, val help: String, val callback: (args: ko
 
 interface IDebugCommandProvider
 {
-	fun attachCommands()
-	fun detachCommands()
+	fun attachCommands(debugConsole: DebugConsole)
+	fun detachCommands(debugConsole: DebugConsole)
 }

@@ -7,7 +7,7 @@ class OccludesComponent : AbstractComponent()
 {
 	var occludes = true
 
-	override fun parse(xml: XmlData, entity: Entity)
+	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
 		occludes = xml.getBoolean("Occludes", true)
 	}
