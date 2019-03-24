@@ -14,6 +14,7 @@ import com.lyeeedar.Renderables.Particle.ParticleEffect
 import com.lyeeedar.Renderables.SortedRenderer
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.SpaceSlot
+import com.lyeeedar.Statistic
 import com.lyeeedar.UI.DebugConsole
 import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.Colour
@@ -265,7 +266,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 				val totalWidth = pos.size.toFloat() * 0.95f
 
 				val hp = stats.hp
-				val maxhp = stats.maxHP
+				val maxhp = stats.getStat(Statistic.MAXHEALTH)
 
 				val solidSpaceRatio = 0.05f
 				val space = totalWidth

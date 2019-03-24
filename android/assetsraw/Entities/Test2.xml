@@ -19,12 +19,18 @@
 		</DirectionalSprite>
 		<Position />
 		<Statistics>
-			<HP>100</HP>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHealth>1200</MaxHealth>
+				<Power>70</Power>
+				<Defense>100</Defense>
+				<CritChance>0.05</CritChance>
+				<CritDamage>0.5</CritDamage>
+			</Statistics>
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
 			<Attack>
-				<Damage>5,15</Damage>
+				<Damage>1</Damage>
 				<Range>1</Range>
 				<HitEffect meta:RefKey="ParticleEffect">
 					<Name>Claws</Name>

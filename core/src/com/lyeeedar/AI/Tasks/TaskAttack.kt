@@ -8,6 +8,7 @@ import com.lyeeedar.Game.Tile
 import com.lyeeedar.Renderables.Animation.BumpAnimation
 import com.lyeeedar.Renderables.Animation.MoveAnimation
 import com.lyeeedar.SpaceSlot
+import com.lyeeedar.Statistic
 import com.lyeeedar.Util.Future
 import com.lyeeedar.Util.getRotation
 
@@ -23,7 +24,7 @@ class TaskAttack(val tile: Tile, val attackDefinition: AttackDefinition) : Abstr
 			val entity = tile.contents[slot] ?: continue
 			if (e.isAllies(entity)) continue
 
-			entitiesToHit.add(e)
+			entitiesToHit.add(entity)
 		}
 
 		val diff = tile.getPosDiff(e.tile()!!)
@@ -56,9 +57,10 @@ class TaskAttack(val tile: Tile, val attackDefinition: AttackDefinition) : Abstr
 			{
 				for (entity in entitiesToHit)
 				{
-					val stats = entity.stats()!!
-					val dam = attackDefinition.damage.getValue()
-					stats.dealDamage(dam, true)
+					val attackerStats = e.stats()!!
+					val defenderStats = entity.stats()!!
+					val dam = attackerStats.getAttackDam(attackerStats.attackDefinition.damage)
+					defenderStats.dealDamage(dam, attackerStats.getStat(Statistic.PIERCE))
 				}
 			}, delay)
 	}

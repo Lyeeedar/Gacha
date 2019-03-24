@@ -6,6 +6,7 @@ import com.lyeeedar.AI.Tasks.TaskInterrupt
 import com.lyeeedar.Components.*
 import com.lyeeedar.Renderables.Animation.BlinkAnimation
 import com.lyeeedar.Renderables.Sprite.Sprite
+import com.lyeeedar.Statistic
 import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.Colour
 
@@ -87,6 +88,15 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 			p.size[1] = entity.pos().size
 
 			p.addToEngine(entity.pos().position)
+		}
+	}
+
+	override fun onTurn()
+	{
+		for (entity in entities)
+		{
+			val stat = entity.stats()!!
+			stat.hp += stat.getStat(Statistic.MAXHEALTH) * stat.getStat(Statistic.REGENERATION)
 		}
 	}
 }

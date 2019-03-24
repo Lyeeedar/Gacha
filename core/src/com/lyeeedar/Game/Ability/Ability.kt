@@ -122,6 +122,20 @@ class Ability
 		return false
 	}
 
+	fun cancel()
+	{
+		for (action in enteredActions)
+		{
+			action.exit()
+		}
+		enteredActions.clear()
+		entityLocked = false
+		blocked = false
+		index = 0
+		currentTime = 0f
+		targets.clear()
+	}
+
 	fun copy(): Ability
 	{
 		val ability = Ability()

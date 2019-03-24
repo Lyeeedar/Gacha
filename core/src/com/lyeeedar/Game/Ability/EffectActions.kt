@@ -5,11 +5,12 @@ import com.lyeeedar.AI.Tasks.TaskInterrupt
 import com.lyeeedar.Components.isEnemies
 import com.lyeeedar.Components.stats
 import com.lyeeedar.Components.task
+import com.lyeeedar.Statistic
 import com.lyeeedar.Util.XmlData
 
 class DamageAction(ability: Ability) : AbstractAbilityAction(ability)
 {
-	var damage: Float = 0f
+	var damage: Float = 1f
 
 	override fun enter(): Boolean
 	{
@@ -21,7 +22,8 @@ class DamageAction(ability: Ability) : AbstractAbilityAction(ability)
 				val stats = entity.stats() ?: continue
 				if (entity.isEnemies(ability.source))
 				{
-					stats.dealDamage(damage, true)
+					val attackDam = stats.getAttackDam(damage)
+					stats.dealDamage(attackDam, stats.getStat(Statistic.PIERCE))
 				}
 			}
 		}

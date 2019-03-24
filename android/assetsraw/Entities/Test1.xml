@@ -19,12 +19,18 @@
 		</DirectionalSprite>
 		<Position />
 		<Statistics>
-			<HP>100</HP>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHealth>1000</MaxHealth>
+				<Power>70</Power>
+				<Defense>80</Defense>
+				<CritChance>0.05</CritChance>
+				<CritDamage>0.5</CritDamage>
+			</Statistics>
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
 			<Attack>
-				<Damage>5,10</Damage>
+				<Damage>1</Damage>
 				<Range>1</Range>
 				<HitEffect meta:RefKey="ParticleEffect">
 					<Name>slash</Name>
@@ -39,7 +45,7 @@
 			<Abilities>
 				<AbilityData>
 					<Path>TestAbility1</Path>
-					<Cooldown>3,15</Cooldown>
+					<Cooldown>5,15</Cooldown>
 				</AbilityData>
 			</Abilities>
 		</Ability>
