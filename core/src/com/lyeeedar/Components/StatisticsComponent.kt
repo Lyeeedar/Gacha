@@ -2,11 +2,13 @@ package com.lyeeedar.Components
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.MathUtils.clamp
+import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.ObjectFloatMap
 import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
 import com.lyeeedar.Renderables.Particle.ParticleEffect
+import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Statistic
 import com.lyeeedar.Util.*
 
@@ -66,6 +68,8 @@ class StatisticsComponent: AbstractComponent()
 
 	lateinit var attackDefinition: AttackDefinition
 
+	val buffs = Array<Buff>(false, 4)
+
 	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
 		Statistic.parse(xml.getChildByName("Statistics")!!, baseStats)
@@ -113,6 +117,21 @@ class StatisticsComponent: AbstractComponent()
 	fun getStat(statistic: Statistic): Float
 	{
 		var value = baseStats[statistic] ?: 0f
+
+		var modifier = 0f
+		for (buff in buffs)
+		{
+			modifier += buff.statistics[statistic] ?: 0f
+		}
+
+		if (statistic.modifiersAreAdded)
+		{
+			value += modifier
+		}
+		else
+		{
+			value += modifier * value
+		}
 
 		return clamp(value, statistic.min, statistic.max)
 	}
@@ -189,5 +208,17 @@ class AttackDefinition
 
 		val flightEffectEl = xml.getChildByName("FlightEffect")
 		if (flightEffectEl != null) flightEffect = AssetManager.loadParticleEffect(flightEffectEl)
+	}
+}
+
+class Buff
+{
+	lateinit var icon: Sprite
+	val statistics = FastEnumMap<Statistic, Float>(Statistic::class.java)
+
+	fun parse(xml: XmlData)
+	{
+		icon = AssetManager.loadSprite(xml.getChildByName("Icon")!!)
+		Statistic.parse(xml.getChildByName("Statistics")!!, statistics)
 	}
 }

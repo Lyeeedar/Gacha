@@ -39,6 +39,8 @@ abstract class AbstractAbilityAction(val ability: Ability)
 
 				"DAMAGE" -> DamageAction(ability)
 				"STUN" -> StunAction(ability)
+				"HEAL" -> HealAction(ability)
+				"BUFF", "DEBUFF" -> BuffAction(ability)
 
 				"MOVESOURCE" -> MoveSourceAction(ability)
 				"PULL" -> PullAction(ability)

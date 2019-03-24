@@ -295,6 +295,12 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 				{
 					renderer.queueTexture(hp_border, ax+i*spacePerPip, ay+overhead, pos.slot.ordinal, 4, colour = tileCol, width = solid, height = 0.1f, sortX = ax, sortY = ay)
 				}
+
+				for (i in 0 until stats.buffs.size)
+				{
+					val buff = stats.buffs[i]
+					renderer.queueTexture(buff.icon.currentTexture, ax+i*spacePerPip, ay+overhead+0.1f, pos.slot.ordinal, 4, width = solid, height = solid, sortX = ax, sortY = ay)
+				}
 			}
 		}
 
