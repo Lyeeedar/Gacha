@@ -7,6 +7,7 @@ import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
 import com.lyeeedar.Renderables.Particle.ParticleEffect
 import com.lyeeedar.Util.AssetManager
+import com.lyeeedar.Util.Range
 import com.lyeeedar.Util.XmlData
 import com.lyeeedar.Util.max
 
@@ -75,12 +76,18 @@ class StatisticsComponent: AbstractComponent()
 	var blockedDamage = false
 	var blockBroken = false
 
+	lateinit var attackDefinition: AttackDefinition
+
 	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
 		maxHP += xml.getInt("HP")
 
 		val deathEl = xml.getChildByName("Death")
 		if (deathEl != null) deathEffect = AssetManager.loadParticleEffect(deathEl)
+
+		val attackEl = xml.getChildByName("Attack")!!
+		attackDefinition = AttackDefinition()
+		attackDefinition.parse(attackEl)
 	}
 
 	fun dealDamage(amount: Float, blockable: Boolean)
@@ -124,5 +131,25 @@ class StatisticsComponent: AbstractComponent()
 		hp = input.readFloat()
 
 		tookDamage = false
+	}
+}
+
+class AttackDefinition
+{
+	lateinit var damage: Range
+	var range: Int = 1
+	var hitEffect: ParticleEffect? = null
+	var flightEffect: ParticleEffect? = null
+
+	fun parse(xml: XmlData)
+	{
+		damage = Range.parse(xml.get("Damage"))
+		range = xml.getInt("Range", 1)
+
+		val hitEffectEl = xml.getChildByName("HitEffect")
+		if (hitEffectEl != null) hitEffect = AssetManager.loadParticleEffect(hitEffectEl)
+
+		val flightEffectEl = xml.getChildByName("FlightEffect")
+		if (flightEffectEl != null) flightEffect = AssetManager.loadParticleEffect(flightEffectEl)
 	}
 }

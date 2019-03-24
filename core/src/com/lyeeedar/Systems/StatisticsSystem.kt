@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family
 import com.lyeeedar.AI.Tasks.TaskInterrupt
 import com.lyeeedar.Components.*
-import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Animation.BlinkAnimation
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Util.AssetManager
@@ -61,15 +60,7 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 				p.size[0] = entity.pos().size
 				p.size[1] = entity.pos().size
 
-				val pe = Entity()
-				pe.add(RenderableComponent(p))
-				val ppos = PositionComponent()
-
-				ppos.size = entity.pos().size
-				ppos.position = entity.pos().position
-
-				pe.add(ppos)
-				Global.engine.addEntity(pe)
+				p.addToEngine(entity.pos().position)
 			}
 
 			stats.tookDamage = false
@@ -83,15 +74,7 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 			p.size[0] = entity.pos().size
 			p.size[1] = entity.pos().size
 
-			val pe = Entity()
-			pe.add(RenderableComponent(p))
-			val ppos = PositionComponent()
-
-			ppos.size = entity.pos().size
-			ppos.position = entity.pos().position
-
-			pe.add(ppos)
-			Global.engine.addEntity(pe)
+			p.addToEngine(entity.pos().position)
 
 			entity.task().tasks.add(TaskInterrupt())
 		}
@@ -103,15 +86,7 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 			p.size[0] = entity.pos().size
 			p.size[1] = entity.pos().size
 
-			val pe = Entity()
-			pe.add(RenderableComponent(p))
-			val ppos = PositionComponent()
-
-			ppos.size = entity.pos().size
-			ppos.position = entity.pos().position
-
-			pe.add(ppos)
-			Global.engine.addEntity(pe)
+			p.addToEngine(entity.pos().position)
 		}
 	}
 }

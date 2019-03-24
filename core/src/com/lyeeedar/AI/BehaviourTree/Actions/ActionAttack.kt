@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity
 import com.lyeeedar.AI.BehaviourTree.ExecutionState
 import com.lyeeedar.AI.Tasks.TaskAttack
 import com.lyeeedar.Components.Mappers
+import com.lyeeedar.Components.stats
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.Util.Point
 import com.lyeeedar.Util.XmlData
@@ -18,9 +19,10 @@ class ActionAttack : AbstractAction()
 		val posData = Mappers.position.get(entity)
 		val taskData = Mappers.task.get(entity)
 		val tile = posData.position as? Tile
+		val stats = entity.stats()
 
 		// doesnt have all the needed data, fail
-		if ( target == null || posData == null || tile == null || taskData == null )
+		if ( target == null || posData == null || tile == null || taskData == null || stats == null )
 		{
 			state = ExecutionState.FAILED
 			return state
@@ -33,13 +35,13 @@ class ActionAttack : AbstractAction()
 			return state
 		}
 
-		if (target.taxiDist(tile) > 1)
+		if (target.taxiDist(tile) > stats.attackDefinition.range)
 		{
 			state = ExecutionState.FAILED
 			return state
 		}
 
-		taskData.tasks.add(TaskAttack(targetTile))
+		taskData.tasks.add(TaskAttack(targetTile, stats.attackDefinition))
 
 		state = ExecutionState.COMPLETED
 		return state

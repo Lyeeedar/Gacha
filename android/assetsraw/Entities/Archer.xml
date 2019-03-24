@@ -5,14 +5,12 @@
 				<Animation>
 					<Name>idle</Name>
 					<Up meta:RefKey="Sprite">
-						<Name>Oryx/uf_split/uf_heroes/knight</Name>
+						<Name>Oryx/uf_split/uf_heroes/archer</Name>
 						<DrawActualSize>true</DrawActualSize>
-						<Colour>232,23,23,255</Colour>
 					</Up>
 					<Down meta:RefKey="Sprite">
-						<Name>Oryx/uf_split/uf_heroes/knight</Name>
+						<Name>Oryx/uf_split/uf_heroes/archer</Name>
 						<DrawActualSize>true</DrawActualSize>
-						<Colour>255,36,36,255</Colour>
 					</Down>
 				</Animation>
 			</Animations>
@@ -24,16 +22,25 @@
 				<Name>Death</Name>
 			</Death>
 			<Attack>
-				<Damage>5,15</Damage>
-				<Range>1</Range>
-				<HitEffect meta:RefKey="ParticleEffect">
-					<Name>Claws</Name>
-				</HitEffect>
+				<Damage>5,10</Damage>
+				<Range>4</Range>
+				<FlightEffect meta:RefKey="ParticleEffect">
+					<Name>Arrow</Name>
+					<KillOnAnimComplete>true</KillOnAnimComplete>
+				</FlightEffect>
 			</Attack>
 		</Statistics>
 		<AI>
 			<Speed>1</Speed>
 			<AI>BasicMonster</AI>
 		</AI>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Path>ExplodingArrow</Path>
+					<Cooldown>5,20</Cooldown>
+				</AbilityData>
+			</Abilities>
+		</Ability>
 	</Components>
 </Entity>

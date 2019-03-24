@@ -3,14 +3,9 @@
 		<BlockTurn>
 			<Time>0.08822525</Time>
 		</BlockTurn>
-		<Permute>
-			<Time>0.175824791</Time>
-			<HitPoints>
-				<Line>###</Line>
-				<Line>#.#</Line>
-				<Line>###</Line>
-			</HitPoints>
-		</Permute>
+		<BlockTurn>
+			<Time>0.09716761</Time>
+		</BlockTurn>
 	</Timeline>
 	<Timeline>
 		<SourceRenderable>
@@ -23,7 +18,7 @@
 			<Duration LockDuration="False">0.199605152</Duration>
 			<Time>0.199601814</Time>
 			<Renderable meta:RefKey="ParticleEffect">
-				<Name>Explosion</Name>
+				<Name>GroundEruption</Name>
 			</Renderable>
 			<RenderablePerTile>true</RenderablePerTile>
 		</DestinationRenderable>
@@ -31,7 +26,7 @@
 	<Timeline>
 		<Damage>
 			<Time>0.246101111</Time>
-			<Amount>3</Amount>
+			<Amount>20</Amount>
 		</Damage>
 	</Timeline>
 </Ability>

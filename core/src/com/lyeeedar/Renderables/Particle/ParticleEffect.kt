@@ -91,9 +91,13 @@ class ParticleEffect : Renderable()
 		complete = animation?.update(delta) ?: false
 		if (complete)
 		{
-			if (killOnAnimComplete) stop()
 			animation?.free()
 			animation = null
+
+			if (killOnAnimComplete)
+			{
+				stop()
+			}
 		}
 
 		val posOffset = animation?.renderOffset(false)
@@ -154,6 +158,9 @@ class ParticleEffect : Renderable()
 
 	fun complete() = emitters.all{ it.complete() }
 	fun blocked() = emitters.any { it.isBlockingEmitter && !it.complete() }
+
+	override val isBlocking: Boolean
+		get() = blocked()
 
 	fun setPosition(x: Float, y: Float)
 	{

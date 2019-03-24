@@ -889,7 +889,7 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 
 					if (localx + localw < 0 || localx > Global.stage.width || localy + localh < 0 || localy > Global.stage.height) continue
 
-					val comparisonVal = getComparisonVal(drawx-sizex*0.5f, drawy-sizey*0.5f, layer, index, particle.blend)
+					val comparisonVal = getComparisonVal((drawx-sizex*0.5f-1f).floor().toFloat(), (drawy-sizey*0.5f-1f).floor().toFloat(), layer, index, particle.blend)
 
 					val rs = RenderSprite.obtain().set( null, null, tex1.second, drawx * tileSize, drawy * tileSize, tempVec.x, tempVec.y, col, sizex, sizey, rotation, 1f, 1f, effect.flipX, effect.flipY, particle.blend, lit, comparisonVal )
 

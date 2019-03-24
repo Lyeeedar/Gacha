@@ -1,0 +1,41 @@
+<Ability xmlns:meta="Editor">
+	<Timeline>
+		<BlockTurn>
+			<Time>0.01939704</Time>
+		</BlockTurn>
+		<BlockTurn>
+			<Time>0.0406712145</Time>
+		</BlockTurn>
+		<BlockTurn>
+			<Time>0.0613196827</Time>
+		</BlockTurn>
+		<Permute>
+			<Time>0.158304885</Time>
+			<HitPoints>
+				<Line>###</Line>
+				<Line>###</Line>
+				<Line>###</Line>
+			</HitPoints>
+		</Permute>
+		<Damage>
+			<Time>0.39482367</Time>
+			<Amount>20</Amount>
+		</Damage>
+	</Timeline>
+	<Timeline>
+		<SourceRenderable>
+			<Duration LockDuration="False">0.1076223</Duration>
+			<Renderable meta:RefKey="ParticleEffect">
+				<Name>Shout</Name>
+				<Colour>255,9,198,255</Colour>
+			</Renderable>
+		</SourceRenderable>
+		<DestinationRenderable>
+			<Duration LockDuration="False">0.297838449</Duration>
+			<Time>0.200853243</Time>
+			<Renderable meta:RefKey="ParticleEffect">
+				<Name>Explosion</Name>
+			</Renderable>
+		</DestinationRenderable>
+	</Timeline>
+</Ability>

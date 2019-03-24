@@ -76,6 +76,8 @@ abstract class Renderable
 			hasAnim = field != null
 		}
 
+	open val isBlocking = false
+
 	fun update(delta: Float): Boolean
 	{
 		if (renderDelay > 0)

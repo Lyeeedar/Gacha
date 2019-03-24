@@ -3,6 +3,7 @@
 	<Emitters>
 		<Emitter>
 			<Name>motes</Name>
+			<IsBlockingEmitter>false</IsBlockingEmitter>
 			<Width>0.6</Width>
 			<Height>0.8</Height>
 			<ParticleSpeed>5,6</ParticleSpeed>

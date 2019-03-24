@@ -23,6 +23,13 @@
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
+			<Attack>
+				<Damage>5,10</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+				</HitEffect>
+			</Attack>
 		</Statistics>
 		<AI>
 			<Speed>1</Speed>
@@ -32,7 +39,7 @@
 			<Abilities>
 				<AbilityData>
 					<Path>TestAbility1</Path>
-					<Cooldown>3,10</Cooldown>
+					<Cooldown>3,15</Cooldown>
 				</AbilityData>
 			</Abilities>
 		</Ability>

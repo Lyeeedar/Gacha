@@ -349,6 +349,7 @@ enum class SpaceSlot
 	BELOWENTITY,
 	ENTITY,
 	ABOVEENTITY,
+	EFFECT,
 	LIGHT;
 
 

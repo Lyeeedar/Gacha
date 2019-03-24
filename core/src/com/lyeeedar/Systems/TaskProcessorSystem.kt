@@ -72,7 +72,7 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 	{
 		if (Global.pause) return
 
-		val hasEffects = renderables.any { it.renderable()!!.renderable.animation != null && it.renderable()!!.renderable.animation!!.isBlocking }
+		val hasEffects = renderables.any { (Mappers.transient.get(it) != null && it.renderable().renderable.isBlocking) || it.renderable()!!.renderable.animation != null }
 		val hasAbilities = abilities.any { !Mappers.activeAbility.get(it).ability.blocked }
 
 		if (!hasEffects && !hasAbilities)

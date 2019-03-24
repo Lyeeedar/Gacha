@@ -191,7 +191,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 			if (renderable is ParticleEffect)
 			{
 				val effect = renderable
-				if (effect.completed && effect.complete() && entity.components.size() == 2)
+				if (effect.completed && Mappers.transient.get(entity) != null)
 				{
 					entity.add(MarkedForDeletionComponent())
 				}
@@ -262,7 +262,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 
 				val hpColour = if (stats.faction == "1") team1Col else team2Col
 
-				val totalWidth = pos.size.toFloat()
+				val totalWidth = pos.size.toFloat() * 0.95f
 
 				val hp = stats.hp
 				val maxhp = stats.maxHP

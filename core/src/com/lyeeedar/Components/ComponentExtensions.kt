@@ -4,9 +4,13 @@ import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.ObjectMap
 import com.lyeeedar.Game.Tile
+import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Renderable
+import com.lyeeedar.SpaceSlot
+import com.lyeeedar.Util.Point
 import com.lyeeedar.Util.directory
 import com.lyeeedar.Util.getXml
+import com.lyeeedar.Util.min
 
 fun Entity.pos() = Mappers.position.get(this)
 fun Entity.tile() = Mappers.position.get(this)?.position as? Tile
@@ -56,6 +60,7 @@ class Mappers
 		val loaddata: ComponentMapper<LoadDataComponent> = ComponentMapper.getFor(LoadDataComponent::class.java)
 		val activeAbility: ComponentMapper<ActiveAbilityComponent> = ComponentMapper.getFor(ActiveAbilityComponent::class.java)
 		val ability: ComponentMapper<AbilityComponent> = ComponentMapper.getFor(AbilityComponent::class.java)
+		val transient: ComponentMapper<TransientComponent> = ComponentMapper.getFor(TransientComponent::class.java)
 	}
 }
 
@@ -136,4 +141,19 @@ fun Entity.isEnemies(other: Entity): Boolean
 	if (thisStats == null || otherStats == null) return false
 
 	return thisStats.faction != otherStats.faction
+}
+
+fun Renderable.addToEngine(point: Point)
+{
+	val pe = Entity()
+	pe.add(TransientComponent())
+	pe.add(RenderableComponent(this))
+	val ppos = PositionComponent()
+	ppos.slot = SpaceSlot.EFFECT
+
+	ppos.size = min(this.size[0], this.size[1])
+	ppos.position = point
+
+	pe.add(ppos)
+	Global.engine.addEntity(pe)
 }

@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family
 import com.badlogic.gdx.utils.ObjectSet
 import com.lyeeedar.Components.*
-import com.lyeeedar.Global
 
 class DeletionSystem : AbstractSystem(Family.all(MarkedForDeletionComponent::class.java).get())
 {
@@ -50,16 +49,9 @@ class DeletionSystem : AbstractSystem(Family.all(MarkedForDeletionComponent::cla
 		if (entity.stats() != null && entity.stats().hp <= 0f && entity.stats().deathEffect != null)
 		{
 			val effect = entity.stats().deathEffect!!.copy()
-			val effectEntity = Entity()
-
-			effectEntity.add(RenderableComponent(effect))
-			effectEntity.add(PositionComponent())
-			val effectPos = effectEntity.pos()!!
-
-			effectPos.position = pos.position
-			effectPos.slot = pos.slot
-
-			Global.engine.addEntity(effectEntity)
+			effect.size[0] = pos.size
+			effect.size[1] = pos.size
+			effect.addToEngine(pos.position)
 		}
 
 		engine.removeEntity(entity)

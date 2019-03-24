@@ -5,6 +5,7 @@ import com.lyeeedar.AI.BehaviourTree.ExecutionState
 import com.lyeeedar.AI.Tasks.TaskAbility
 import com.lyeeedar.Components.Mappers
 import com.lyeeedar.Components.ability
+import com.lyeeedar.Components.stats
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.Util.Point
 import com.lyeeedar.Util.XmlData
@@ -22,9 +23,10 @@ class ActionAbility : AbstractAction()
 		val taskData = Mappers.task.get(entity)
 		val tile = posData.position as? Tile
 		val ability = entity.ability()
+		val stats = entity.stats()
 
 		// doesnt have all the needed data, fail
-		if ( target == null || posData == null || tile == null || taskData == null || ability == null )
+		if ( target == null || posData == null || tile == null || taskData == null || ability == null || stats == null )
 		{
 			state = ExecutionState.FAILED
 			return state
@@ -40,6 +42,12 @@ class ActionAbility : AbstractAction()
 		for (ab in ability.abilities)
 		{
 			ab.remainingCooldown--
+		}
+
+		if (target.taxiDist(tile) > stats.attackDefinition.range)
+		{
+			state = ExecutionState.FAILED
+			return state
 		}
 
 		val readyAbility = ability.abilities.filter { it.remainingCooldown <= 0 }.toGdxArray().randomOrNull()
