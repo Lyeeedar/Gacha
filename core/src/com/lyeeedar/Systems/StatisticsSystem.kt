@@ -12,6 +12,8 @@ import com.lyeeedar.Util.Colour
 
 class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.java).get())
 {
+	val lostHpClearSpeed = 5f
+
 	val blockEffect = AssetManager.loadParticleEffect("Block")
 	val blockBrokenEffect = AssetManager.loadParticleEffect("BlockBroken")
 	val hitEffect = AssetManager.loadParticleEffect("Hit")
@@ -20,17 +22,27 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 	{
 		for (entity in entities)
 		{
-			processEntity(entity)
+			processEntity(entity, deltaTime)
 		}
 	}
 
-	fun processEntity(entity: Entity)
+	fun processEntity(entity: Entity, deltaTime: Float)
 	{
 		val stats = entity.stats()!!
 
 		if (stats.hp <= 0)
 		{
 			if (entity.getComponent(MarkedForDeletionComponent::class.java) == null) entity.add(MarkedForDeletionComponent())
+		}
+
+		if (stats.lostHp > 0)
+		{
+			stats.lostHp -= deltaTime * lostHpClearSpeed * (stats.maxLostHp / 2f)
+			if (stats.lostHp < 0f)
+			{
+				stats.lostHp = 0f
+				stats.maxLostHp = 0f
+			}
 		}
 
 		if (stats.tookDamage)

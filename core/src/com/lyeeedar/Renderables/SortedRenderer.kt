@@ -66,7 +66,7 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 	private var screenShakeAngle: Float = 0f
 	private var screenShakeLocked: Boolean = false
 
-	private val MAX_INDEX = 4
+	private val MAX_INDEX = 5
 	private val MAX_LAYER = layers
 	private val NUM_BLENDS = BlendMode.values().size
 

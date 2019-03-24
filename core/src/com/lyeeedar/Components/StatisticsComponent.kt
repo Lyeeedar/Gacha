@@ -8,6 +8,7 @@ import com.esotericsoftware.kryo.io.Output
 import com.lyeeedar.Renderables.Particle.ParticleEffect
 import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.XmlData
+import com.lyeeedar.Util.max
 
 class StatisticsComponent: AbstractComponent()
 {
@@ -42,9 +43,18 @@ class StatisticsComponent: AbstractComponent()
 				tookDamage = true
 			}
 
+			lostHp -= diff
+			if (lostHp < 0)
+			{
+				lostHp = 0f
+			}
+			maxLostHp = max(maxLostHp, lostHp)
+
 			field = v
 			if (godMode && field < 1) field = 1f
 		}
+	var lostHp = 0f
+	var maxLostHp = 0f
 
 	var maxHP: Float = 0f
 		get() = field
