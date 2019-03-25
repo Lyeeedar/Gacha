@@ -7,7 +7,6 @@ import com.lyeeedar.Direction
 import com.lyeeedar.Game.Level
 import com.lyeeedar.Util.Point
 import com.lyeeedar.Util.XmlData
-import com.lyeeedar.Util.getXml
 import ktx.collections.addAll
 
 class Ability
@@ -79,24 +78,26 @@ class Ability
 			}
 		}
 
-		if (index == actions.size-1 && enteredActions.size == 0)
+		if (index >= actions.size-1)
 		{
-			entityLocked = false
-			blocked = false
-			return true
+			if (enteredActions.size == 0)
+			{
+				entityLocked = false
+				blocked = false
+				return true
+			}
 		}
 
 		for (i in index until actions.size)
 		{
-			index = i
-
 			val action = actions[i]
 			if (action.start <= currentTime)
 			{
+				index = i + 1
+
 				val blocked = action.enter()
 				if (blocked)
 				{
-					index++
 					this.blocked = blocked
 					enteredActions.add(action)
 					break
@@ -115,6 +116,7 @@ class Ability
 			}
 			else
 			{
+				index = i
 				break
 			}
 		}
@@ -150,12 +152,6 @@ class Ability
 
 	companion object
 	{
-		fun load(path: String): Ability
-		{
-			val xml = getXml(path)
-			return load(xml)
-		}
-
 		fun load(xmlData: XmlData): Ability
 		{
 			val actions = Array<AbstractAbilityAction>()

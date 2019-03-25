@@ -1,5 +1,5 @@
 <Definitions Colour="228,78,255" Icon="Sprites/EffectSprites/Explosion/Explosion_2.png" xmlns:meta="Editor">
-	<Definition Name="Ability" meta:RefKey="Collection">
+	<Definition Name="Ability" IsGlobal="True" meta:RefKey="CollectionDef">
 		<Data Name="Timeline" Interpolate="False" SkipIfDefault="False" meta:RefKey="Timeline">
 			<!--Blocker-->
 			<Keyframe Name="BlockTurn" Background="255,255,255,148" meta:RefKey="Keyframe">
@@ -114,5 +114,6 @@
 	<Definition Name="Buff" IsGlobal="True" meta:RefKey="StructDef">
 		<Data Name="Icon" Keys="Sprite" Nullable="False" meta:RefKey="Reference" />
 		<Data Name="Statistics" Keys="Statistics" Nullable="False" meta:RefKey="Reference" />
+		<Data Name="Duration" Type="Int" Min="0" meta:RefKey="Number" />
 	</Definition>
 </Definitions>

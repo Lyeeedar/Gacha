@@ -1,0 +1,112 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>1200</MaxHP>
+				<Power>100</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack>
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+					<Colour>187,247,199,100</Colour>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/goblin</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/goblin</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Warcry</Name>
+					<Ability meta:RefKey="Ability">
+						<Timeline>
+							<SelectAllies>
+								<Count>2</Count>
+							</SelectAllies>
+							<Buff>
+								<Time>0.103537172</Time>
+								<Duration LockDuration="False">0.03561151</Duration>
+								<Buff meta:RefKey="Buff">
+									<Icon meta:RefKey="Sprite">
+										<Name>GUI/Buff</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Power>0.2</Power>
+									</Statistics>
+									<Duration>7</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<SourceRenderable>
+								<Duration LockDuration="False">0.201139092</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Shout</Name>
+									<Colour>166,201,165,255</Colour>
+								</Renderable>
+							</SourceRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>8,12</Cooldown>
+				</AbilityData>
+				<AbilityData>
+					<Name>Big Strike</Name>
+					<Ability meta:RefKey="Ability">
+						<Timeline>
+							<BlockTurn>
+								<Time>0.205095917</Time>
+							</BlockTurn>
+							<Damage>
+								<Time>0.3169022</Time>
+							</Damage>
+							<Knockback>
+								<Time>0.326793939</Time>
+							</Knockback>
+						</Timeline>
+						<Timeline>
+							<SourceRenderable>
+								<Duration LockDuration="False">0.173441246</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Charge</Name>
+								</Renderable>
+							</SourceRenderable>
+							<DestinationRenderable>
+								<Time>0.244664252</Time>
+								<Duration LockDuration="False">0.155616254</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Thrust</Name>
+								</Renderable>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>3,8</Cooldown>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+	</Components>
+</Entity>

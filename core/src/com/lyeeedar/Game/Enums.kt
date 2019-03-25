@@ -290,13 +290,12 @@ enum class Direction private constructor(val x: Int, val y: Int, val identifier:
 // ----------------------------------------------------------------------
 enum class Statistic private constructor(val min: Float, val max: Float, val modifiersAreAdded: Boolean, val tooltip: String)
 {
-	MAXHEALTH(1f, Float.MAX_VALUE, false, "The number of attacks you can take before dieing"),
+	MAXHP(1f, Float.MAX_VALUE, false, "The amount of damage you can take before dieing"),
 	POWER(1f, Float.MAX_VALUE, false, "The damage of your attacks and the effectiveness of your abilities"),
-	DEFENSE(1f, Float.MAX_VALUE, false, "Your resistance to damage"),
-	PIERCE(0f, Float.MAX_VALUE, false, "The amount of damage resistance you ignore when dealing damage"),
+	DR(0f, 1f, true, "Your resistance to damage"),
 	CRITCHANCE(0f, 1f, true, "The chance to deal a critical hit anytime you deal damage"),
 	CRITDAMAGE(1f, Float.MAX_VALUE, true, "The multiplier to your damage when you deal a critical hit"),
-	REGENERATION(0f, 1f, true, "The percentage of your total health you gain each turn");
+	REGENERATION(0f, 1f, true, "The percentage of your max health you gain each turn");
 
 	companion object
 	{

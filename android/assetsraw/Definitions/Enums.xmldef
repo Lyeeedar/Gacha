@@ -2,11 +2,10 @@
 	<Definition Name="Elements" IsGlobal="True" meta:RefKey="EnumDef">None,Corrosion,Vorpal,Distortion,Entropic</Definition>
 	<Definition Name="Statistics" IsGlobal="True" meta:RefKey="StructDef">
 		<!--Base-->
-		<Data Name="MaxHealth" Type="Int" Min="0" meta:RefKey="Number" />
-		<Data Name="Power" Type="Int" Min="0" meta:RefKey="Number" />
-		<Data Name="Defense" Type="Int" Min="0" meta:RefKey="Number" />
+		<Data Name="MaxHP" Min="0" meta:RefKey="Number" />
+		<Data Name="Power" Min="0" meta:RefKey="Number" />
+		<Data Name="DR" Min="0" Max="1" meta:RefKey="Number" />
 		<!--Additional-->
-		<Data Name="Pierce" Type="Int" Min="0" meta:RefKey="Number" />
 		<Data Name="CritChance" Min="0" meta:RefKey="Number" />
 		<Data Name="CritDamage" Min="0" meta:RefKey="Number" />
 		<Data Name="Regeneration" Min="0" meta:RefKey="Number" />

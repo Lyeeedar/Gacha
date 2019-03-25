@@ -95,8 +95,23 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 	{
 		for (entity in entities)
 		{
-			val stat = entity.stats()!!
-			stat.hp += stat.getStat(Statistic.MAXHEALTH) * stat.getStat(Statistic.REGENERATION)
+			val stats = entity.stats()!!
+			stats.hp += stats.getStat(Statistic.MAXHP) * stats.getStat(Statistic.REGENERATION)
+
+			val itr = stats.buffs.iterator()
+			while (itr.hasNext())
+			{
+				val buff = itr.next()
+
+				if (buff.duration > 0)
+				{
+					buff.duration--
+					if (buff.duration == 0)
+					{
+						itr.remove()
+					}
+				}
+			}
 		}
 	}
 }

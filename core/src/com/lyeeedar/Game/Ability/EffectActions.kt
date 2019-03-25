@@ -30,7 +30,7 @@ class DamageAction(ability: Ability) : AbstractAbilityAction(ability)
 					val sourceStats = ability.source.stats()!!
 
 					val attackDam = sourceStats.getAttackDam(damage)
-					stats.dealDamage(attackDam, sourceStats.getStat(Statistic.PIERCE))
+					stats.dealDamage(attackDam)
 				}
 			}
 		}
@@ -175,6 +175,10 @@ class BuffAction(ability: Ability) : AbstractAbilityAction(ability)
 				val stats = entity.stats() ?: continue
 				if ((isDebuff && entity.isEnemies(ability.source)) || entity.isAllies(ability.source))
 				{
+					val buff = if (buff.duration > 0) buff.copy() else buff
+
+					buff.source = this
+
 					stats.buffs.add(buff)
 					appliedToEntities.add(stats)
 				}
@@ -186,10 +190,14 @@ class BuffAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	override fun exit()
 	{
-		for (stats in appliedToEntities)
+		if (buff.duration == 0)
 		{
-			stats.buffs.removeValue(buff, true)
+			for (stats in appliedToEntities)
+			{
+				stats.buffs.removeValue(buff, true)
+			}
 		}
+
 		appliedToEntities.clear()
 	}
 

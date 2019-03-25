@@ -266,7 +266,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 				val totalWidth = pos.size.toFloat() * 0.95f
 
 				val hp = stats.hp
-				val maxhp = stats.getStat(Statistic.MAXHEALTH)
+				val maxhp = stats.getStat(Statistic.MAXHP)
 
 				val solidSpaceRatio = 0.05f
 				val space = totalWidth
@@ -299,7 +299,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 				for (i in 0 until stats.buffs.size)
 				{
 					val buff = stats.buffs[i]
-					renderer.queueTexture(buff.icon.currentTexture, ax+i*spacePerPip, ay+overhead+0.1f, pos.slot.ordinal, 4, width = solid, height = solid, sortX = ax, sortY = ay)
+					renderer.queueTexture(buff.icon.currentTexture, ax+i*spacePerPip*2, ay+overhead+0.1f, pos.slot.ordinal, 4, width = spacePerPip*2, height = spacePerPip*2, sortX = ax, sortY = ay)
 				}
 			}
 		}

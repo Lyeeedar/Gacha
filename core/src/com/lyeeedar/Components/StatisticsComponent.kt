@@ -22,7 +22,7 @@ class StatisticsComponent: AbstractComponent()
 		{
 			if (value == field) return
 
-			var v = Math.min(value, getStat(Statistic.MAXHEALTH))
+			var v = Math.min(value, getStat(Statistic.MAXHP))
 
 			var diff = v - hp
 			if (diff < 0)
@@ -73,7 +73,7 @@ class StatisticsComponent: AbstractComponent()
 	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
 		Statistic.parse(xml.getChildByName("Statistics")!!, baseStats)
-		hp = getStat(Statistic.MAXHEALTH)
+		hp = getStat(Statistic.MAXHP)
 
 		val deathEl = xml.getChildByName("Death")
 		if (deathEl != null) deathEffect = AssetManager.loadParticleEffect(deathEl)
@@ -83,14 +83,12 @@ class StatisticsComponent: AbstractComponent()
 		attackDefinition.parse(attackEl)
 	}
 
-	fun dealDamage(amount: Float, pierce: Float)
+	fun dealDamage(amount: Float)
 	{
 		val baseDam = amount
-		val applicableDefense = max(0f, getStat(Statistic.DEFENSE) - pierce)
+		val dr = getStat(Statistic.DR)
 
-		val alpha = 1f / clamp(applicableDefense / baseDam, 0.5f, 2f)
-
-		val dam = baseDam * alpha
+		val dam = baseDam - dr * baseDam
 
 		hp -= dam
 	}
@@ -159,9 +157,9 @@ class StatisticsComponent: AbstractComponent()
 
 		val attack = baseAttack + baseAttack * modifier
 
-		val withCritChance = attack * getCritMultiplier()
+		val critAttack = attack * getCritMultiplier()
 
-		return withCritChance * multiplier
+		return critAttack * multiplier
 	}
 
 	fun write(variableMap: ObjectFloatMap<String>, prefixName: String? = null): ObjectFloatMap<String>
@@ -213,12 +211,26 @@ class AttackDefinition
 
 class Buff
 {
+	var duration = 0
 	lateinit var icon: Sprite
 	val statistics = FastEnumMap<Statistic, Float>(Statistic::class.java)
+
+	var source: Any? = null
+
+	fun copy(): Buff
+	{
+		val buff = Buff()
+		buff.duration = duration
+		buff.icon = icon
+		buff.statistics.addAll(statistics)
+
+		return buff
+	}
 
 	fun parse(xml: XmlData)
 	{
 		icon = AssetManager.loadSprite(xml.getChildByName("Icon")!!)
 		Statistic.parse(xml.getChildByName("Statistics")!!, statistics)
+		duration = xml.getInt("Duration", 0)
 	}
 }

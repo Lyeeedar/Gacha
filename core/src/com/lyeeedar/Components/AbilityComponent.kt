@@ -14,8 +14,8 @@ class AbilityComponent : AbstractComponent()
 		val abilitiesEl = xml.getChildByName("Abilities")!!
 		for (el in abilitiesEl.children)
 		{
-			val path = el.get("Path")
-			val ability = Ability.load("$parentPath/$path")
+			val abilityEl = el.getChildByName("Ability")!!
+			val ability = Ability.load(abilityEl)
 
 			val cooldown = com.lyeeedar.Util.IntRange(el.getPoint("Cooldown"))
 

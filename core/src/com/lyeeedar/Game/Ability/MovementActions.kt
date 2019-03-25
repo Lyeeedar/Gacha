@@ -166,29 +166,31 @@ private fun doMove(src: Tile, dst: Tile, type: MovementType)
 	entity.task()?.tasks?.clear()
 	entity.task()?.tasks?.add(TaskInterrupt())
 
+	val animSpeed = 0.1f + src.euclideanDist(dst) * 0.015f
+
 	if (type == MovementType.MOVE)
 	{
-		entity.renderable().renderable.animation = MoveAnimation.obtain().set(dst, src, 0.3f)
+		entity.renderable().renderable.animation = MoveAnimation.obtain().set(dst, src, animSpeed)
 	}
 	else if (type == MovementType.ROLL)
 	{
-		entity.renderable().renderable.animation = MoveAnimation.obtain().set(dst, src, 0.3f)
+		entity.renderable().renderable.animation = MoveAnimation.obtain().set(dst, src, animSpeed)
 
 		val direction = Direction.getDirection(src, dst)
 		if (direction == Direction.EAST)
 		{
-			entity.renderable().renderable.animation = SpinAnimation.obtain().set(0.3f, -360f)
+			entity.renderable().renderable.animation = SpinAnimation.obtain().set(animSpeed, -360f)
 		}
 		else
 		{
-			entity.renderable().renderable.animation = SpinAnimation.obtain().set(0.3f, 360f)
+			entity.renderable().renderable.animation = SpinAnimation.obtain().set(animSpeed, 360f)
 		}
 
-		entity.renderable().renderable.animation = ExpandAnimation.obtain().set(0.2f, 1f, 0.8f, false)
+		entity.renderable().renderable.animation = ExpandAnimation.obtain().set(animSpeed*0.9f, 1f, 0.8f, false)
 	}
 	else if (type == MovementType.LEAP)
 	{
-		entity.renderable().renderable.animation = LeapAnimation.obtain().setRelative(0.3f, src, dst, 2f)
+		entity.renderable().renderable.animation = LeapAnimation.obtain().setRelative(animSpeed, src, dst, 2f)
 
 		if (entity.renderable().renderable is Sprite)
 		{

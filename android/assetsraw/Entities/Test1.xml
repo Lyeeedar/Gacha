@@ -20,11 +20,11 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHealth>1000</MaxHealth>
+				<MaxHP>1100</MaxHP>
 				<Power>70</Power>
-				<Defense>80</Defense>
+				<DR>0.1</DR>
 				<CritChance>0.05</CritChance>
-				<CritDamage>0.5</CritDamage>
+				<CritDamage>2</CritDamage>
 			</Statistics>
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
@@ -41,13 +41,5 @@
 			<Speed>1</Speed>
 			<AI>BasicMonster</AI>
 		</AI>
-		<Ability>
-			<Abilities>
-				<AbilityData>
-					<Path>TestAbility1</Path>
-					<Cooldown>5,15</Cooldown>
-				</AbilityData>
-			</Abilities>
-		</Ability>
 	</Components>
 </Entity>
