@@ -17,8 +17,17 @@
 				<Line>###</Line>
 			</HitPoints>
 		</Permute>
+		<MovementRenderable>
+			<Duration LockDuration="False">0.218637735</Duration>
+			<Time>0.16515334</Time>
+			<Renderable meta:RefKey="ParticleEffect">
+				<Name>Arrow</Name>
+				<KillOnAnimComplete>true</KillOnAnimComplete>
+			</Renderable>
+			<UseLeap>true</UseLeap>
+		</MovementRenderable>
 		<Damage>
-			<Time>0.39482367</Time>
+			<Time>0.5019699</Time>
 		</Damage>
 	</Timeline>
 	<Timeline>
@@ -30,8 +39,8 @@
 			</Renderable>
 		</SourceRenderable>
 		<DestinationRenderable>
+			<Time>0.3837911</Time>
 			<Duration LockDuration="False">0.297838449</Duration>
-			<Time>0.200853243</Time>
 			<Renderable meta:RefKey="ParticleEffect">
 				<Name>Explosion</Name>
 			</Renderable>

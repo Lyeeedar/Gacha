@@ -362,6 +362,7 @@ class MovementRenderableAction(ability: Ability) : AbstractAbilityAction(ability
 		val duration = end - start
 		if (useLeap)
 		{
+			r.faceInMoveDirection = true
 			r.animation = LeapAnimation.obtain().set(duration, pos.position.getPosDiff(ability.source.tile()!!), 2f)
 			r.animation = ExpandAnimation.obtain().set(duration, 0.5f, 1.5f, false)
 		}

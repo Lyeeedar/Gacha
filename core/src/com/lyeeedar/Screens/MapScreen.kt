@@ -19,7 +19,7 @@ class MapScreen : AbstractScreen()
 
 	var level: Level? = null
 
-	var timeMultiplier = 0.5f
+	var timeMultiplier = 1f
 
 	data class SystemData(val name: String, var time: Float, var entities: String)
 	val systemTimes: Array<SystemData> by lazy { Array<SystemData>(systemList.size) { i -> SystemData(systemList[i].java.simpleName.replace("System", ""), 0f, "--") } }

@@ -10,7 +10,6 @@ import com.lyeeedar.Components.*
 import com.lyeeedar.Global
 import com.lyeeedar.UI.DebugConsole
 import com.lyeeedar.Util.Event0Arg
-import ktx.collections.addAll
 
 /**
  * Created by Philip on 20-Mar-16.
@@ -18,6 +17,8 @@ import ktx.collections.addAll
 
 class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java).get())
 {
+	val minTurnTime = 0.3f
+
 	lateinit var renderables: ImmutableArray<Entity>
 	lateinit var abilities: ImmutableArray<Entity>
 
@@ -27,6 +28,8 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 	var printTasks = false
 
 	val processArray = Array<Entity>(false, 16)
+
+	var turnTime = 0f
 
 	init
 	{
@@ -72,12 +75,21 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 	{
 		if (Global.pause) return
 
+		turnTime += deltaTime
+
 		val hasEffects = renderables.any { (Mappers.transient.get(it) != null && it.renderable().renderable.isBlocking) || it.renderable()!!.renderable.animation != null }
 		val hasAbilities = abilities.any { !Mappers.activeAbility.get(it).ability.blocked }
 
 		if (!hasEffects && !hasAbilities)
 		{
-			doTurn()
+			if (processArray.size == 0 && turnTime >= minTurnTime)
+			{
+				beginTurn()
+			}
+			else if (processArray.size > 0)
+			{
+				updateEntities()
+			}
 		}
 		else if (hasAbilities)
 		{
@@ -89,40 +101,45 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 		}
 	}
 
-	private fun doTurn()
+	private fun beginTurn()
 	{
+		processArray.clear()
 		for (entity in entities)
 		{
 			val task = entity.task()
 			task.actionAccumulator += 1f
-		}
 
-		processArray.clear()
-		processArray.addAll(entities)
-
-		while (processArray.size > 0)
-		{
-			val itr = processArray.iterator()
-			while (itr.hasNext())
+			if (task.actionAccumulator > 0f)
 			{
-				val entity = itr.next()
-				val task = entity.task()
-
-				processEntity(entity)
-
-				task.actionAccumulator -= (1f / task.speed)
-				if (task.actionAccumulator <= 0f)
-				{
-					itr.remove()
-				}
+				processArray.add(entity)
 			}
 		}
+
+		turnTime = 0f
 
 		onTurnEvent()
 
 		for (system in systemList)
 		{
 			(engine.getSystem(system.java) as AbstractSystem).onTurn()
+		}
+	}
+
+	private fun updateEntities()
+	{
+		val itr = processArray.iterator()
+		while (itr.hasNext())
+		{
+			val entity = itr.next()
+			val task = entity.task()
+
+			processEntity(entity)
+
+			task.actionAccumulator -= (1f / task.speed)
+			if (task.actionAccumulator <= 0f)
+			{
+				itr.remove()
+			}
 		}
 	}
 
