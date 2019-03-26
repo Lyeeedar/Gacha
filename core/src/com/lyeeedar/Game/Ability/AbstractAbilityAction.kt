@@ -50,7 +50,7 @@ abstract class AbstractAbilityAction(val ability: Ability)
 				"SELECTALLIES" -> SelectAlliesAction(ability)
 				"SELECTENEMIES" -> SelectEnemiesAction(ability)
 				"SELECTRANDOM" -> SelectRandomAction(ability)
-				"CLEARSELECTION" -> ClearSelectionAction(ability)
+				"SELECTSELF" -> SelectSelfAction(ability)
 
 				"SOURCERENDERABLE" -> SourceRenderableAction(ability)
 				"REPLACESOURCERENDERABLE" -> ReplaceSourceRenderableAction(ability)

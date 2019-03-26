@@ -2,6 +2,7 @@ package com.lyeeedar.Components
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.MathUtils.clamp
+import com.badlogic.gdx.math.MathUtils.lerp
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.ObjectFloatMap
 import com.esotericsoftware.kryo.Kryo
@@ -18,7 +19,7 @@ class StatisticsComponent: AbstractComponent()
 
 	var hp: Float = 0f
 		get() = field
-		set(value)
+		private set(value)
 		{
 			if (value == field) return
 
@@ -91,7 +92,30 @@ class StatisticsComponent: AbstractComponent()
 		val dam = baseDam - dr * baseDam
 
 		hp -= dam
+
+		val maxHP = getStat(Statistic.MAXHP)
+		val alpha = dam / maxHP
+		val size = lerp(0.25f, 1f, alpha)
+
+		messagesToShow.add(MessageData(dam.toInt().toString(), Colour.RED, size))
 	}
+
+	fun heal(amount: Float)
+	{
+		hp += amount
+
+		val maxHP = getStat(Statistic.MAXHP)
+		val alpha = amount / maxHP
+		val size = lerp(0.25f, 1f, alpha)
+		messagesToShow.add(MessageData(amount.toInt().toString(), Colour.GREEN, size))
+	}
+
+	fun regenerate(amount: Float)
+	{
+		hp += amount
+	}
+
+	val messagesToShow = Array<MessageData>()
 
 	fun get(key: String): Float
 	{
@@ -188,6 +212,8 @@ class StatisticsComponent: AbstractComponent()
 		tookDamage = false
 	}
 }
+
+class MessageData(val text: String, val colour: Colour, val size: Float)
 
 class AttackDefinition
 {

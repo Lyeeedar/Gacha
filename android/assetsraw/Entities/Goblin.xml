@@ -41,12 +41,20 @@
 					<Name>Warcry</Name>
 					<Ability meta:RefKey="Ability">
 						<Timeline>
-							<SelectAllies>
-								<Count>2</Count>
-							</SelectAllies>
+							<SelectSelf />
+							<Permute>
+								<Time>0.003941239</Time>
+								<HitPoints>
+									<Line>#####</Line>
+									<Line>#####</Line>
+									<Line>#####</Line>
+									<Line>#####</Line>
+									<Line>#####</Line>
+								</HitPoints>
+							</Permute>
 							<Buff>
-								<Time>0.103537172</Time>
 								<Duration LockDuration="False">0.03561151</Duration>
+								<Time>0.103537172</Time>
 								<Buff meta:RefKey="Buff">
 									<Icon meta:RefKey="Sprite">
 										<Name>GUI/Buff</Name>
@@ -54,18 +62,19 @@
 									<Statistics meta:RefKey="Statistics">
 										<Power>0.2</Power>
 									</Statistics>
-									<Duration>7</Duration>
+									<Duration>6</Duration>
 								</Buff>
 							</Buff>
 						</Timeline>
 						<Timeline>
-							<SourceRenderable>
-								<Duration LockDuration="False">0.201139092</Duration>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.191082135</Duration>
+								<Time>0.008562</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Shout</Name>
 									<Colour>166,201,165,255</Colour>
 								</Renderable>
-							</SourceRenderable>
+							</DestinationRenderable>
 						</Timeline>
 					</Ability>
 					<Cooldown>8,12</Cooldown>
@@ -92,8 +101,8 @@
 								</Renderable>
 							</SourceRenderable>
 							<DestinationRenderable>
-								<Time>0.244664252</Time>
 								<Duration LockDuration="False">0.155616254</Duration>
+								<Time>0.244664252</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Thrust</Name>
 								</Renderable>

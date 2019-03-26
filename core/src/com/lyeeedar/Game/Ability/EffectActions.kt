@@ -78,7 +78,7 @@ class HealAction(ability: Ability) : AbstractAbilityAction(ability)
 					val sourceStats = ability.source.stats()!!
 
 					val power = sourceStats.getStat(Statistic.POWER)
-					stats.hp += power * amount
+					stats.heal(power * amount)
 				}
 			}
 		}

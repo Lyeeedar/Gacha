@@ -2,13 +2,22 @@ package com.lyeeedar.Systems
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
+import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.utils.Array
 import com.lyeeedar.AI.Tasks.TaskInterrupt
 import com.lyeeedar.Components.*
+import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Animation.BlinkAnimation
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Statistic
+import com.lyeeedar.UI.RenderSystemWidget
+import com.lyeeedar.UI.lambda
 import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.Colour
+import com.lyeeedar.Util.Random
+import ktx.actors.plus
+import ktx.actors.then
 
 class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.java).get())
 {
@@ -17,6 +26,8 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 	val blockEffect = AssetManager.loadParticleEffect("Block")
 	val blockBrokenEffect = AssetManager.loadParticleEffect("BlockBroken")
 	val hitEffect = AssetManager.loadParticleEffect("Hit")
+
+	val messageList = Array<Label>()
 
 	override fun doUpdate(deltaTime: Float)
 	{
@@ -89,6 +100,40 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 
 			p.addToEngine(entity.pos().position)
 		}
+
+		for (message in stats.messagesToShow)
+		{
+			val render = Global.engine.render()!!
+			val pos = RenderSystemWidget.instance.pointToScreenspace(entity.pos()!!.position)
+			pos.add(render.tileSize / 2f +  Random.random(-2, 2).toFloat(), render.tileSize + Random.random(-2, 2).toFloat())
+
+			val label = Label(message.text, Global.skin, "popup")
+			label.color = message.colour.color()
+			label.setFontScale(message.size)
+			label.rotation = -60f
+			label.setPosition(pos.x, pos.y)
+
+			val sequence =
+				alpha(0f) then
+					fadeIn(0.1f) then
+					parallel(
+						moveBy(2f, 3f, 1f),
+						sequence(delay(0.5f), fadeOut(0.5f))) then
+					lambda { messageList.removeValue(label, true) } then
+					removeActor()
+
+			label + sequence
+
+			val width = label.prefWidth
+			if (pos.x + width > Global.stage.width)
+			{
+				label.setPosition(Global.stage.width - width - 20, pos.y)
+			}
+
+			messageList.add(label)
+			Global.stage.addActor(label)
+		}
+		stats.messagesToShow.clear()
 	}
 
 	override fun onTurn()
@@ -96,7 +141,7 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 		for (entity in entities)
 		{
 			val stats = entity.stats()!!
-			stats.hp += stats.getStat(Statistic.MAXHP) * stats.getStat(Statistic.REGENERATION)
+			stats.regenerate(stats.getStat(Statistic.MAXHP) * stats.getStat(Statistic.REGENERATION))
 
 			val itr = stats.buffs.iterator()
 			while (itr.hasNext())

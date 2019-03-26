@@ -234,7 +234,7 @@ class SelectRandomAction(ability: Ability) : AbstractAbilityAction(ability)
 	}
 }
 
-class ClearSelectionAction(ability: Ability) : AbstractAbilityAction(ability)
+class SelectSelfAction(ability: Ability) : AbstractAbilityAction(ability)
 {
 	override fun enter(): Boolean
 	{
@@ -251,7 +251,7 @@ class ClearSelectionAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	override fun doCopy(ability: Ability): AbstractAbilityAction
 	{
-		val action = ClearSelectionAction(ability)
+		val action = SelectSelfAction(ability)
 		return action
 	}
 
