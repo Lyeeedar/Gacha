@@ -10,33 +10,33 @@
 			</Keyframe>
 			<!--Renderable-->
 			<Keyframe Name="DestinationRenderable" Background="75,166,173,101" HasDuration="True" meta:RefKey="Keyframe">
-				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Data Name="Renderable" Keys="Sprite,ParticleEffect,TilingSprite" meta:RefKey="Reference" />
 				<Data Name="RenderablePerTile" meta:RefKey="Boolean" />
 				<Data Name="KillOnEnd" meta:RefKey="Boolean" />
 			</Keyframe>
 			<Keyframe Name="SourceRenderable" Background="75,166,173,101" HasDuration="True" meta:RefKey="Keyframe">
-				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Data Name="Renderable" Keys="Sprite,ParticleEffect,TilingSprite" meta:RefKey="Reference" />
 				<Data Name="KillOnEnd" meta:RefKey="Boolean" />
 			</Keyframe>
 			<Keyframe Name="MovementRenderable" Background="49,181,114,94" HasDuration="True" meta:RefKey="Keyframe">
-				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Data Name="Renderable" Keys="Sprite,ParticleEffect,TilingSprite" meta:RefKey="Reference" />
 				<Data Name="UseLeap" meta:RefKey="Boolean" />
 			</Keyframe>
 			<Keyframe Name="ReplaceSourceRenderable" Background="42,214,177,94" HasDuration="True" meta:RefKey="Keyframe">
-				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Data Name="Renderable" Keys="Sprite,ParticleEffect,TilingSprite" meta:RefKey="Reference" />
 				<Data Name="RestoreOriginal" Default="True" meta:RefKey="Boolean" />
 			</Keyframe>
 			<Keyframe Name="SourceAnimation" Background="27,181,140,146" HasDuration="True" meta:RefKey="Keyframe">
-				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Data Name="Animation" EnumValues="Expand,Spin,Fade" meta:RefKey="Enum" />
 				<Data Name="SizeStart" Min="0" Default="1" VisibleIf="Animation==Expand" meta:RefKey="Number" />
 				<Data Name="SizeEnd" Min="0" Default="1" VisibleIf="Animation==Expand" meta:RefKey="Number" />
@@ -46,32 +46,32 @@
 				<Data Name="Angle" VisibleIf="Animation==Spin" meta:RefKey="Number" />
 			</Keyframe>
 			<Keyframe Name="Screenshake" Background="85,94,232,81" HasDuration="True" meta:RefKey="Keyframe">
-				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Data Name="Strength" meta:RefKey="Number" />
 				<Data Name="Speed" Min="1" Default="10" meta:RefKey="Number" />
 			</Keyframe>
 			<!--Effect-->
 			<Keyframe Name="Damage" Background="255,0,0,66" meta:RefKey="Keyframe">
 				<Time Name="Time" Min="0" meta:RefKey="Number" />
-				<Data Name="Amount" Type="Int" Min="1" Default="1" meta:RefKey="Number" />
+				<Data Name="Amount" Default="1" ToolTip="Use self. or target. to refer to the 2 entities" meta:RefKey="String" />
 			</Keyframe>
 			<Keyframe Name="Heal" Background="100,252,87,92" meta:RefKey="Keyframe">
 				<Time Name="Time" Min="0" meta:RefKey="Number" />
-				<Data Name="Amount" Type="Int" Min="1" Default="1" meta:RefKey="Number" />
+				<Data Name="Amount" Default="1" ToolTip="Use self. or target. to refer to the 2 entities" meta:RefKey="String" />
 			</Keyframe>
 			<Keyframe Name="Stun" Background="255,0,171,66" meta:RefKey="Keyframe">
 				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Data Name="Chance" Default="1" meta:RefKey="String" />
 			</Keyframe>
 			<Keyframe Name="Buff" Background="39,237,118,81" HasDuration="True" meta:RefKey="Keyframe">
-				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Data Name="Buff" Keys="Buff" Nullable="False" meta:RefKey="Reference" />
 			</Keyframe>
 			<Keyframe Name="Debuff" Background="121,39,237,81" HasDuration="True" meta:RefKey="Keyframe">
-				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Data Name="Buff" Keys="Buff" Nullable="False" meta:RefKey="Reference" />
 			</Keyframe>
 			<!--Movement-->

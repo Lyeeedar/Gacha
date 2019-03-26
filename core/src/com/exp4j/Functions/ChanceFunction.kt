@@ -40,3 +40,38 @@ class ChanceFunction : SeededFunction("chance", 2)
 		}
 	}
 }
+
+class ProbabilityFunction : SeededFunction("probability", 1)
+{
+	override fun apply(vararg arg0: Double): Double
+	{
+		return (if (ran.nextFloat() <= arg0[0]) 1 else 0).toDouble()
+	}
+
+	override fun free()
+	{
+		synchronized(pool)
+		{
+			pool.free(this)
+		}
+	}
+
+	companion object
+	{
+		val pool = object : Pool<ProbabilityFunction>() {
+			override fun newObject(): ProbabilityFunction
+			{
+				return ProbabilityFunction()
+			}
+
+		}
+
+		fun obtain(): ProbabilityFunction
+		{
+			synchronized(pool)
+			{
+				return pool.obtain()
+			}
+		}
+	}
+}

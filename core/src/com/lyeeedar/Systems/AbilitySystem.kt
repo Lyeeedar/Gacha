@@ -18,6 +18,10 @@ class AbilitySystem : AbstractSystem(Family.one(ActiveAbilityComponent::class.ja
 			if (complete)
 			{
 				entity.remove(ActiveAbilityComponent::class.java)
+				if (Mappers.transient.get(entity) != null)
+				{
+					engine.removeEntity(entity)
+				}
 			}
 		}
 	}
@@ -29,11 +33,8 @@ class AbilitySystem : AbstractSystem(Family.one(ActiveAbilityComponent::class.ja
 			val activeAbility = Mappers.activeAbility.get(entity) ?: continue
 			activeAbility.ability.onTurn()
 
-			if (activeAbility.ability.entityLocked)
-			{
-				val task = entity.task() ?: continue
-				task.tasks.add(TaskUseAbility())
-			}
+			val task = entity.task() ?: continue
+			task.tasks.add(TaskUseAbility())
 		}
 	}
 }

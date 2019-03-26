@@ -50,10 +50,17 @@ class ActionAbility : AbstractAction()
 			return state
 		}
 
-		val readyAbility = ability.abilities.filter { it.remainingCooldown <= 0 }.toGdxArray().randomOrNull()
+		val readyAbility = ability.abilities.filter { it.remainingCooldown <= 0 && it.condition.evaluate(stats.variables()) != 0f }.toGdxArray().randomOrNull()
 		if (readyAbility != null)
 		{
-			readyAbility.remainingCooldown = readyAbility.cooldown.getValue()
+			if (readyAbility.singleUse)
+			{
+				readyAbility.remainingCooldown = Int.MAX_VALUE
+			}
+			else
+			{
+				readyAbility.remainingCooldown = readyAbility.cooldown.getValue()
+			}
 
 			val newAb = readyAbility.ability.copy()
 			newAb.source = entity

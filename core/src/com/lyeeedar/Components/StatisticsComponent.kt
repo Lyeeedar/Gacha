@@ -186,6 +186,13 @@ class StatisticsComponent: AbstractComponent()
 		return critAttack * multiplier
 	}
 
+	fun variables(): ObjectFloatMap<String>
+	{
+		val map = ObjectFloatMap<String>()
+		write(map)
+		return map
+	}
+
 	fun write(variableMap: ObjectFloatMap<String>, prefixName: String? = null): ObjectFloatMap<String>
 	{
 		val prefix = if (prefixName != null) "$prefixName." else ""
@@ -210,6 +217,31 @@ class StatisticsComponent: AbstractComponent()
 		hp = input.readFloat()
 
 		tookDamage = false
+	}
+
+	companion object
+	{
+		fun getDefaultVariables(): ObjectFloatMap<String>
+		{
+			val map = ObjectFloatMap<String>()
+			writeDefaultVariables(map)
+
+			return map
+		}
+
+		fun writeDefaultVariables(variableMap: ObjectFloatMap<String>, prefixName: String? = null): ObjectFloatMap<String>
+		{
+			val prefix = if (prefixName != null) "$prefixName." else ""
+
+			variableMap.put(prefix + "hp", 0f)
+
+			for (stat in Statistic.Values)
+			{
+				variableMap.put(prefix + stat.toString().toLowerCase(), 0f)
+			}
+
+			return variableMap
+		}
 	}
 }
 

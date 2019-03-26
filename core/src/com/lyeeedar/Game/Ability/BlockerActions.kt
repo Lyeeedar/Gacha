@@ -1,5 +1,10 @@
 package com.lyeeedar.Game.Ability
 
+import com.badlogic.ashley.core.Entity
+import com.lyeeedar.Components.ActiveAbilityComponent
+import com.lyeeedar.Components.Mappers
+import com.lyeeedar.Components.TransientComponent
+import com.lyeeedar.Global
 import com.lyeeedar.Util.XmlData
 
 class BlockTurnAction(ability: Ability) : AbstractAbilityAction(ability)
@@ -34,7 +39,21 @@ class UnlockEntityAction(ability: Ability) : AbstractAbilityAction(ability)
 {
 	override fun enter(): Boolean
 	{
-		ability.entityLocked = false
+		val entity = Entity()
+		var activeAbilityComponent = Mappers.activeAbility.get(ability.source)
+		if (activeAbilityComponent?.ability == ability)
+		{
+			ability.source.remove(ActiveAbilityComponent::class.java)
+		}
+		else
+		{
+			activeAbilityComponent = ActiveAbilityComponent()
+			activeAbilityComponent.ability = ability
+		}
+
+		entity.add(TransientComponent())
+		entity.add(activeAbilityComponent)
+		Global.engine.addEntity(entity)
 
 		return false
 	}

@@ -20,7 +20,6 @@ class Ability
 	lateinit var facing: Direction
 
 	var blocked = false
-	var entityLocked = false
 	var currentTime: Float = 0f
 	var index = 0
 
@@ -38,7 +37,6 @@ class Ability
 		index = 0
 		currentTime = 0f
 		blocked = false
-		entityLocked = true
 		facing = Direction.NORTH
 
 		targets.add(source.pos()!!.position)
@@ -82,7 +80,6 @@ class Ability
 		{
 			if (enteredActions.size == 0)
 			{
-				entityLocked = false
 				blocked = false
 				return true
 			}
@@ -131,7 +128,6 @@ class Ability
 			action.exit()
 		}
 		enteredActions.clear()
-		entityLocked = false
 		blocked = false
 		index = 0
 		currentTime = 0f

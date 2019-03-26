@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Entity
 import com.exp4j.Helpers.CompiledExpression
 import com.exp4j.Helpers.unescapeCharacters
 import com.lyeeedar.AI.BehaviourTree.ExecutionState
-import com.lyeeedar.Components.stats
 import com.lyeeedar.Components.tile
 import com.lyeeedar.Util.XmlData
 
@@ -34,9 +33,7 @@ class ConditionalCheckValue(): AbstractConditional()
 
 			val dist = p1.dist(p2)
 
-
-			val variableMap = getVariableMap()
-			entity.stats()?.write(variableMap)
+			val variableMap = getVariableMap(entity)
 
 			if (compiledCondExp == null)
 			{
@@ -51,8 +48,7 @@ class ConditionalCheckValue(): AbstractConditional()
 		}
 		else
 		{
-			val variableMap = getVariableMap()
-			entity.stats()?.write(variableMap)
+			val variableMap = getVariableMap(entity)
 
 			if (compiledCondExp == null)
 			{

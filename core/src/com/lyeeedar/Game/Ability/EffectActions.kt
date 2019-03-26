@@ -2,6 +2,7 @@ package com.lyeeedar.Game.Ability
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Array
+import com.badlogic.gdx.utils.ObjectFloatMap
 import com.badlogic.gdx.utils.ObjectSet
 import com.exp4j.Helpers.CompiledExpression
 import com.lyeeedar.AI.Tasks.TaskInterrupt
@@ -11,7 +12,7 @@ import com.lyeeedar.Util.XmlData
 
 class DamageAction(ability: Ability) : AbstractAbilityAction(ability)
 {
-	var damage: Float = 1f
+	lateinit var damage: CompiledExpression
 
 	override fun enter(): Boolean
 	{
@@ -24,13 +25,19 @@ class DamageAction(ability: Ability) : AbstractAbilityAction(ability)
 				if (hitEntities.contains(entity)) continue
 				hitEntities.add(entity)
 
-				val stats = entity.stats() ?: continue
+				val targetstats = entity.stats() ?: continue
 				if (entity.isEnemies(ability.source))
 				{
 					val sourceStats = ability.source.stats()!!
 
-					val attackDam = sourceStats.getAttackDam(damage)
-					stats.dealDamage(attackDam)
+					val map = ObjectFloatMap<String>()
+					sourceStats.write(map, "self")
+					targetstats.write(map, "target")
+
+					val damModifier = damage.evaluate(map)
+
+					val attackDam = sourceStats.getAttackDam(damModifier)
+					targetstats.dealDamage(attackDam)
 				}
 			}
 		}
@@ -53,13 +60,18 @@ class DamageAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	override fun parse(xmlData: XmlData)
 	{
-		damage = xmlData.getFloat("Amount", 1f)
+		val damageStr = xmlData.get("Amount", "1")!!
+		val map = ObjectFloatMap<String>()
+		StatisticsComponent.writeDefaultVariables(map, "self")
+		StatisticsComponent.writeDefaultVariables(map, "target")
+
+		damage = CompiledExpression(damageStr, map)
 	}
 }
 
 class HealAction(ability: Ability) : AbstractAbilityAction(ability)
 {
-	var amount: Float = 1f
+	lateinit var amount: CompiledExpression
 
 	override fun enter(): Boolean
 	{
@@ -72,13 +84,19 @@ class HealAction(ability: Ability) : AbstractAbilityAction(ability)
 				if (hitEntities.contains(entity)) continue
 				hitEntities.add(entity)
 
-				val stats = entity.stats() ?: continue
+				val targetstats = entity.stats() ?: continue
 				if (entity.isAllies(ability.source))
 				{
 					val sourceStats = ability.source.stats()!!
 
+					val map = ObjectFloatMap<String>()
+					sourceStats.write(map, "self")
+					targetstats.write(map, "target")
+
+					val healModifier = amount.evaluate(map)
+
 					val power = sourceStats.getStat(Statistic.POWER)
-					stats.heal(power * amount)
+					targetstats.heal(power * healModifier)
 				}
 			}
 		}
@@ -101,7 +119,13 @@ class HealAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	override fun parse(xmlData: XmlData)
 	{
-		amount = xmlData.getFloat("Amount", 1f)
+		val healStr = xmlData.get("Amount", "1")!!
+
+		val map = ObjectFloatMap<String>()
+		StatisticsComponent.writeDefaultVariables(map, "self")
+		StatisticsComponent.writeDefaultVariables(map, "target")
+
+		amount = CompiledExpression(healStr, map)
 	}
 }
 

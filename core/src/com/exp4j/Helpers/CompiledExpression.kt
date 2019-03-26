@@ -2,10 +2,7 @@ package com.exp4j.Helpers
 
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.ObjectFloatMap
-import com.exp4j.Functions.ChanceFunction
-import com.exp4j.Functions.MathUtilFunctions
-import com.exp4j.Functions.RandomFunction
-import com.exp4j.Functions.SeededFunction
+import com.exp4j.Functions.*
 import com.exp4j.Operators.BooleanOperators
 import com.exp4j.Operators.PercentageOperator
 import com.lyeeedar.Util.Random
@@ -39,8 +36,10 @@ class CompiledExpression(private val eqnStr: String, variableMap: ObjectFloatMap
 
 			val randomFun = RandomFunction.obtain()
 			val chanceFun = ChanceFunction.obtain()
+			val probFun = ProbabilityFunction.obtain()
 			seededFunctions.add(randomFun)
 			seededFunctions.add(chanceFun)
+			seededFunctions.add(probFun)
 
 			for (func in seededFunctions) expB.function(func)
 			MathUtilFunctions.applyFunctions(expB)

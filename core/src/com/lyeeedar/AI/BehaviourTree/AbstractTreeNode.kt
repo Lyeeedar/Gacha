@@ -37,11 +37,11 @@ abstract class AbstractTreeNode()
 
 	//----------------------------------------------------------------------
 	private val variables = ObjectFloatMap<String>()
-	fun getVariableMap(): ObjectFloatMap<String>
+	fun getVariableMap(entity: Entity): ObjectFloatMap<String>
 	{
 		variables.clear()
 
-		val parentmap = parent?.getVariableMap()
+		val parentmap = parent?.getVariableMap(entity)
 		if (parentmap != null)
 		{
 			for (pair in parentmap)
@@ -75,6 +75,8 @@ abstract class AbstractTreeNode()
 				variables.put(entry.key, 1f)
 			}
 		}
+
+		entity.stats()?.write(variables)
 
 		return variables
 	}

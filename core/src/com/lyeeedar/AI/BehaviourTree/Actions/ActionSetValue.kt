@@ -59,10 +59,10 @@ class ActionSetValue(): AbstractAction()
 			{
 				if (compiledValue == null)
 				{
-					compiledValue = CompiledExpression(value, getVariableMap())
+					compiledValue = CompiledExpression(value, getVariableMap(entity))
 				}
 
-				val value = compiledValue!!.evaluate(getVariableMap())
+				val value = compiledValue!!.evaluate(getVariableMap(entity))
 				setData(key, value)
 			}
 			catch (ex: Exception)

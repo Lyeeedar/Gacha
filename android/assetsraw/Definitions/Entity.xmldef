@@ -2,6 +2,18 @@
 	<Definition Name="Entity" meta:RefKey="Struct">
 		<Data Name="Extends" BasePath="Entities" StripExtension="True" AllowedFileTypes="xml" meta:RefKey="File" />
 		<Data Name="Components" ChildrenAreUnique="True" meta:RefKey="Collection">
+			<Data Name="Ability" meta:RefKey="Struct">
+				<Data Name="Abilities" meta:RefKey="Collection">
+					<Data Name="AbilityData" meta:RefKey="Struct">
+						<Data Name="Name" meta:RefKey="String" />
+						<Data Name="Ability" Keys="Ability" Nullable="False" meta:RefKey="Reference" />
+						<Data Name="Cooldown" Name1="Min" Name2="Max" Min="1" Default="1,1" Type="Int" meta:RefKey="Vector" />
+						<Data Name="SingleUse" meta:RefKey="Boolean" />
+						<Data Name="AvailableOnStart" meta:RefKey="Boolean" />
+						<Data Name="Condition" Default="1" meta:RefKey="String" />
+					</Data>
+				</Data>
+			</Data>
 			<Data Name="AdditionalRenderables" meta:RefKey="Struct">
 				<Data Name="Below" meta:RefKey="Collection">
 					<Data Name="Renderable" meta:RefKey="Struct">
@@ -58,15 +70,6 @@
 				<Data Name="Collapses" Default="True" meta:RefKey="Boolean" />
 				<Data Name="Renderables" meta:RefKey="Collection">
 					<Data Name="Renderable" Keys="Sprite,TilingSprite,ParticleEffect" meta:RefKey="Reference" />
-				</Data>
-			</Data>
-			<Data Name="Ability" meta:RefKey="Struct">
-				<Data Name="Abilities" meta:RefKey="Collection">
-					<Data Name="AbilityData" meta:RefKey="Struct">
-						<Data Name="Name" meta:RefKey="String" />
-						<Data Name="Ability" Keys="Ability" Nullable="False" meta:RefKey="Reference" />
-						<Data Name="Cooldown" Name1="Min" Name2="Max" Min="1" Default="1,1" Type="Int" meta:RefKey="Vector" />
-					</Data>
 				</Data>
 			</Data>
 		</Data>
