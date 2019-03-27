@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.ui.Widget
+import com.lyeeedar.Components.ability
 import com.lyeeedar.Components.renderable
 import com.lyeeedar.Components.stats
 import com.lyeeedar.Renderables.Sprite.Sprite
@@ -24,7 +25,7 @@ class EntityWidget(var entity: Entity) : Widget()
 	val healCol = Color.GREEN
 	val lostHpCol = Color.ORANGE
 	val emptyCol = Color.BLACK
-	val greyOut = Color(0f, 0f, 0f, 0.6f)
+	val greyOut = Color(0f, 0f, 0f, 0.8f)
 
 	override fun draw(batch: Batch, parentAlpha: Float)
 	{
@@ -53,15 +54,15 @@ class EntityWidget(var entity: Entity) : Widget()
 			val solid = spacePerPip - spacing
 
 			batch.color = emptyCol
-			batch.draw(white, x+5f, y+5f, width, 5f)
+			batch.draw(white, x+5f, y+5f, totalWidth, 5f)
 
 			val lostLen = (hp + stats.lostHp) / maxhp
 			batch.color = lostHpCol
-			batch.draw(white, x+5f, y+5f, width*lostLen, 5f)
+			batch.draw(white, x+5f, y+5f, totalWidth*lostLen, 5f)
 
 			val hpLen = hp / maxhp
 			batch.color = hpColour
-			batch.draw(white, x+5f, y+5f, width*hpLen, 5f)
+			batch.draw(white, x+5f, y+5f, totalWidth*hpLen, 5f)
 
 			batch.color = Color.WHITE
 			for (i in 0 until numHpPips)
@@ -73,6 +74,36 @@ class EntityWidget(var entity: Entity) : Widget()
 			{
 				val buff = stats.buffs[i]
 				batch.draw(buff.icon.currentTexture, x+5f+i*solid*4, y+10f, solid*4, solid*4)
+			}
+
+			val ability = entity.ability()
+			if (ability != null)
+			{
+				val abx = x+width-17f
+				val aby = y+height-17f
+
+				batch.color = Color.WHITE
+				for (i in 0 until ability.abilities.size)
+				{
+					val ab = ability.abilities[i]
+					batch.draw(background, abx, aby-i*12f, 10f, 10f)
+					batch.draw(ab.icon.currentTexture, abx, aby-i*12f, 10f, 10f)
+
+					if (ab.remainingCooldown > 0)
+					{
+						val alpha = ab.remainingCooldown.toFloat() / ab.selectedCooldown.toFloat()
+						batch.color = greyOut
+						batch.draw(white, abx, aby-i*12f, 10f, 10f * alpha)
+
+						batch.color = Color.LIGHT_GRAY
+					}
+					else
+					{
+						batch.color = Color.GOLD
+					}
+
+					batch.draw(border, abx, aby-i*12f, 10f, 10f)
+				}
 			}
 
 			if (hp == 0f)

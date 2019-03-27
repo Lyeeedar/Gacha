@@ -61,6 +61,8 @@ class ActionAbility : AbstractAction()
 			{
 				readyAbility.remainingCooldown = readyAbility.cooldown.getValue()
 			}
+			readyAbility.selectedCooldown = readyAbility.remainingCooldown
+			readyAbility.justUsed = true
 
 			val newAb = readyAbility.ability.copy()
 			newAb.source = entity

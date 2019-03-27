@@ -38,6 +38,9 @@
 			<Abilities>
 				<AbilityData>
 					<Name>Block</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>white</Name>
+					</Icon>
 					<Ability meta:RefKey="Ability">
 						<Timeline>
 							<BlockTurn>
@@ -59,8 +62,8 @@
 						<Timeline>
 							<SelectSelf />
 							<Buff>
-								<Time>0.194860935</Time>
 								<Duration LockDuration="False">0.319226146</Duration>
+								<Time>0.194860935</Time>
 								<Buff meta:RefKey="Buff">
 									<Icon meta:RefKey="Sprite">
 										<Name>Oryx/uf_split/uf_items/shield_iron_buckler</Name>
@@ -80,8 +83,8 @@
 								</Renderable>
 							</SourceRenderable>
 							<SourceRenderable>
-								<Duration LockDuration="False">0.115319133</Duration>
 								<Time>0.484579325</Time>
+								<Duration LockDuration="False">0.115319133</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>BlockBroken</Name>
 								</Renderable>
@@ -92,11 +95,14 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>ShieldBash</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>white</Name>
+					</Icon>
 					<Ability meta:RefKey="Ability">
 						<Timeline>
 							<DestinationRenderable>
-								<Time>0.0239419583</Time>
 								<Duration LockDuration="False">0.266021758</Duration>
+								<Time>0.0239419583</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>BlockBroken</Name>
 								</Renderable>

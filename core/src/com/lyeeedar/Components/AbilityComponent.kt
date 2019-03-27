@@ -4,6 +4,8 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Array
 import com.exp4j.Helpers.CompiledExpression
 import com.lyeeedar.Game.Ability.Ability
+import com.lyeeedar.Renderables.Sprite.Sprite
+import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.Point
 import com.lyeeedar.Util.XmlData
 
@@ -19,13 +21,17 @@ class AbilityComponent : AbstractComponent()
 			val abilityEl = el.getChildByName("Ability")!!
 			val ability = Ability.load(abilityEl)
 
-			val cooldown = com.lyeeedar.Util.IntRange(el.getPoint("Cooldown", Point()))
+			val name = el.get("Name")
+			val icon = AssetManager.loadSprite(el.getChildByName("Icon")!!)
+			val cooldown = com.lyeeedar.Util.IntRange(el.getPoint("Cooldown", Point(5, 10)))
 			val singleUse = el.getBoolean("SingleUse", false)
 			val availableOnStart = el.getBoolean("AvailableOnStart", false)
 			val conditionStr = el.get("Condition", "1")!!
 			val condition = CompiledExpression(conditionStr, StatisticsComponent.getDefaultVariables())
 
 			val data = AbilityData()
+			data.name = name
+			data.icon = icon
 			data.ability = ability
 			data.cooldown = cooldown
 			data.singleUse = singleUse
@@ -40,11 +46,16 @@ class AbilityComponent : AbstractComponent()
 
 class AbilityData
 {
+	lateinit var name: String
+	lateinit var icon: Sprite
+
 	lateinit var ability: Ability
 	lateinit var cooldown: com.lyeeedar.Util.IntRange
 	var singleUse = false
 	var availableOnStart = false
 	lateinit var condition: CompiledExpression
 
+	var selectedCooldown = 0
 	var remainingCooldown = 0
+	var justUsed = false
 }

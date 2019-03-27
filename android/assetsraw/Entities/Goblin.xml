@@ -39,6 +39,9 @@
 			<Abilities>
 				<AbilityData>
 					<Name>Warcry</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>white</Name>
+					</Icon>
 					<Ability meta:RefKey="Ability">
 						<Timeline>
 							<SelectSelf />
@@ -81,6 +84,9 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Big Strike</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>white</Name>
+					</Icon>
 					<Ability meta:RefKey="Ability">
 						<Timeline>
 							<BlockTurn>

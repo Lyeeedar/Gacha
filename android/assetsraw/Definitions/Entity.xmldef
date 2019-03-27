@@ -6,6 +6,7 @@
 				<Data Name="Abilities" meta:RefKey="Collection">
 					<Data Name="AbilityData" meta:RefKey="Struct">
 						<Data Name="Name" meta:RefKey="String" />
+						<Data Name="Icon" Keys="Sprite" Nullable="False" meta:RefKey="Reference" />
 						<Data Name="Ability" Keys="Ability" Nullable="False" meta:RefKey="Reference" />
 						<Data Name="Cooldown" Name1="Min" Name2="Max" Min="1" Default="5,10" Type="Int" meta:RefKey="Vector" />
 						<Data Name="SingleUse" meta:RefKey="Boolean" />

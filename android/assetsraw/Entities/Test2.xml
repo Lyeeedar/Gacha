@@ -20,9 +20,7 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHealth>1200</MaxHealth>
 				<Power>70</Power>
-				<Defense>100</Defense>
 				<CritChance>0.05</CritChance>
 				<CritDamage>0.5</CritDamage>
 			</Statistics>

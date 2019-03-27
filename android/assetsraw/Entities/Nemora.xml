@@ -43,6 +43,10 @@
 			<Abilities>
 				<AbilityData>
 					<Name>Heal</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/book_green</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Icon>
 					<Ability meta:RefKey="Ability">
 						<Timeline>
 							<SelectAllies>
@@ -108,6 +112,11 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Fascinate</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/heart_red_full</Name>
+						<DrawActualSize>true</DrawActualSize>
+						<Colour>255,103,234,255</Colour>
+					</Icon>
 					<Ability meta:RefKey="Ability">
 						<Timeline>
 							<Stun>
@@ -137,6 +146,10 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Guardian Angel</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/cloak_glow</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Icon>
 					<Ability meta:RefKey="Ability">
 						<Timeline>
 							<SelectAllies>

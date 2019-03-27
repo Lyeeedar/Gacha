@@ -43,6 +43,10 @@
 			<Abilities>
 				<AbilityData>
 					<Name>Charge</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/weapon_greatspear</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Icon>
 					<Ability meta:RefKey="Ability">
 						<Timeline>
 							<SelectEnemies />
@@ -83,6 +87,10 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Frenzy</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/weapon_axe_exotic1</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Icon>
 					<Ability meta:RefKey="Ability">
 						<Timeline>
 							<SelectSelf />
@@ -112,10 +120,12 @@
 							</SourceRenderable>
 						</Timeline>
 					</Ability>
-					<Cooldown>5,10</Cooldown>
 				</AbilityData>
 				<AbilityData>
 					<Name>Battle Focus</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/armor_blood_helm</Name>
+					</Icon>
 					<Ability meta:RefKey="Ability">
 						<Timeline>
 							<SelectAllies>
