@@ -51,6 +51,12 @@ class StatisticsComponent: AbstractComponent()
 
 			field = v
 			if (godMode && field < 1) field = 1f
+
+			if (hp <= 0)
+			{
+				lostHp = 0f
+				maxLostHp = 0f
+			}
 		}
 	var lostHp = 0f
 	var maxLostHp = 0f

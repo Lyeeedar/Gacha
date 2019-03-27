@@ -103,9 +103,9 @@ class PositionComponent(): AbstractComponent()
 	{
 		val tile = this.tile ?: return false
 
-		for (x in 0..size-1)
+		for (x in 0 until size)
 		{
-			for (y in 0..size - 1)
+			for (y in 0 until size)
 			{
 				val t = tile.level.getTile(tile, x, y) ?: continue
 				if (t == point) return true
@@ -158,7 +158,7 @@ class PositionComponent(): AbstractComponent()
 		}
 
 		val tiles = com.badlogic.gdx.utils.Array<Tile>()
-		for (i in 0..size-1)
+		for (i in 0 until size)
 		{
 			val t = tile.level.getTile(tile, sx + xstep * i, sy + ystep * i) ?: continue
 			tiles.add(t)
@@ -169,9 +169,9 @@ class PositionComponent(): AbstractComponent()
 
 	fun isValidTile(t: Tile, entity: Entity): Boolean
 	{
-		for (x in 0..size-1)
+		for (x in 0 until size)
 		{
-			for (y in 0..size-1)
+			for (y in 0 until size)
 			{
 				val tile = t.level.getTile(t, x, y)
 				if (tile == null || (tile.contents.get(slot) != null && tile.contents.get(slot) != entity) || tile.contents.get(SpaceSlot.WALL) != null)
@@ -186,9 +186,9 @@ class PositionComponent(): AbstractComponent()
 
 	fun doMove(t: Tile, entity: Entity)
 	{
-		for (x in 0..size-1)
+		for (x in 0 until size)
 		{
-			for (y in 0..size-1)
+			for (y in 0 until size)
 			{
 				val tile = t.level.getTile(position, x, y) ?: continue
 				if (tile.contents[slot] == entity) tile.contents.remove(slot)
@@ -197,9 +197,9 @@ class PositionComponent(): AbstractComponent()
 
 		position = t
 
-		for (x in 0..size-1)
+		for (x in 0 until size)
 		{
-			for (y in 0..size-1)
+			for (y in 0 until size)
 			{
 				val tile = t.level.getTile(t, x, y) ?: continue
 				tile.contents[slot] = entity

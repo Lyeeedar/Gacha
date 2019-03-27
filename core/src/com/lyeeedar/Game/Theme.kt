@@ -1,7 +1,9 @@
 package com.lyeeedar.Game
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.utils.Array
 import com.lyeeedar.Renderables.Sprite.SpriteWrapper
+import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.XmlData
 import com.lyeeedar.Util.getXml
 
@@ -9,7 +11,7 @@ class Theme(val filepath: String)
 {
 	val symbols = Array<Symbol>()
 
-	lateinit var backgroundTile: String
+	lateinit var backgroundTile: TextureRegion
 
 	companion object
 	{
@@ -18,7 +20,7 @@ class Theme(val filepath: String)
 			val xml = getXml("Themes/$path")
 			val theme = Theme(path)
 
-			theme.backgroundTile = xml.get("BackgroundTile")
+			theme.backgroundTile = AssetManager.loadTextureRegion(xml.get("BackgroundTile"))!!
 
 			val symbolsEl = xml.getChildByName("Symbols")!!
 			for (symbolEl in symbolsEl.children)

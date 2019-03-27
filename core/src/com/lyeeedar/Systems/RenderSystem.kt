@@ -23,8 +23,6 @@ import ktx.math.times
 
 class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).one(RenderableComponent::class.java).get())
 {
-	val numHpPips = 10
-
 	val shape: ShapeRenderer by lazy { ShapeRenderer() }
 	var drawParticleDebug = false
 	var drawEmitters = false
@@ -372,5 +370,10 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 
 			particles.clear()
 		}
+	}
+
+	companion object
+	{
+		const val numHpPips = 10
 	}
 }

@@ -86,9 +86,9 @@ class Global
 			fadeTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("Sprites/white.png")).tint(fadeColour.color())
 			fadeTable.alpha = 0f
 
-			val sequence = Actions.alpha(0f) then Actions.fadeIn(1f) then lambda {
+			val sequence = Actions.alpha(0f) then Actions.fadeIn(0.5f) then lambda {
 				loadLevel(level)
-			} then Actions.fadeOut(1f) then lambda { Global.pause = false } then Actions.removeActor()
+			} then Actions.fadeOut(0.5f) then lambda { Global.pause = false } then Actions.removeActor()
 
 			fadeTable + sequence
 

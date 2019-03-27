@@ -1,7 +1,9 @@
 package com.lyeeedar.Game.Ability
 
-import com.lyeeedar.AI.Tasks.TaskInterrupt
-import com.lyeeedar.Components.*
+import com.lyeeedar.Components.pos
+import com.lyeeedar.Components.renderable
+import com.lyeeedar.Components.stats
+import com.lyeeedar.Components.tile
 import com.lyeeedar.Direction
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.Pathfinding.BresenhamLine
@@ -149,22 +151,54 @@ private fun doMove(src: Tile, dst: Tile, type: MovementType)
 
 	val path = BresenhamLine.lineNoDiag(src.x, src.y, dst.x, dst.y, src.level.grid)
 
-	var dst = src
-	for (point in path)
+	var dst = dst
+
+	if (type == MovementType.ROLL || type == MovementType.MOVE)
 	{
-		val tile = src.level.getTile(point) ?: break
+		for (point in path)
+		{
+			val tile = src.level.getTile(point) ?: break
 
-		if (!pos.isValidTile(tile, entity)) break
+			if (!pos.isValidTile(tile, entity)) break
 
-		dst = tile
+			dst = tile
+		}
+	}
+	else
+	{
+		if (!pos.isValidTile(dst, entity))
+		{
+			val validTiles = com.badlogic.gdx.utils.Array<Tile>()
+			for (dir in Direction.Values)
+			{
+				val tile = src.level.getTile(dst + dir) ?: continue
+				if (pos.isValidTile(tile, entity))
+				{
+					validTiles.add(tile)
+				}
+			}
+
+			if (validTiles.size > 0)
+			{
+				dst = validTiles.random()
+			}
+			else
+			{
+				for (point in path)
+				{
+					val tile = src.level.getTile(point) ?: break
+
+					if (!pos.isValidTile(tile, entity)) break
+
+					dst = tile
+				}
+			}
+		}
 	}
 
 	if (dst == src) return
 
 	pos.doMove(dst, entity)
-
-	entity.task()?.tasks?.clear()
-	entity.task()?.tasks?.add(TaskInterrupt())
 
 	val animSpeed = 0.1f + src.euclideanDist(dst) * 0.015f
 

@@ -15,7 +15,7 @@ import com.lyeeedar.Util.*
 import ktx.collections.set
 
 // ----------------------------------------------------------------------
-class Level(grid: Array2D<Tile>)
+class Level(grid: Array2D<Tile>, val theme: Theme)
 {
 	// ----------------------------------------------------------------------
 	var grid: Array2D<Tile> = grid
@@ -85,6 +85,9 @@ class Level(grid: Array2D<Tile>)
 
 	// ----------------------------------------------------------------------
 	val metaregions = ObjectMap<String, com.badlogic.gdx.utils.Array<Tile>>()
+
+	// ----------------------------------------------------------------------
+	val playerEntities = com.badlogic.gdx.utils.Array<Entity>()
 
 	// ----------------------------------------------------------------------
 	init
@@ -200,6 +203,7 @@ class Level(grid: Array2D<Tile>)
 			val pathSymbol = symbolsMap['.'.toInt()]
 			val groundSymbol = symbolsMap['#'.toInt()]
 
+			val playerEntities = com.badlogic.gdx.utils.Array<Entity>()
 			var hasNemora = false
 			var hasKhasos = false
 			fun loadTile(tile: Tile, char: Char)
@@ -225,6 +229,7 @@ class Level(grid: Array2D<Tile>)
 				{
 					tile.sprite = groundSymbol.sprite!!.copy()
 
+					var isPlayer = false
 					val toSpawn: String
 					if (char == '2')
 					{
@@ -257,6 +262,8 @@ class Level(grid: Array2D<Tile>)
 						{
 							toSpawn = "Test1"
 						}
+
+						isPlayer = true
 					}
 
 					val entity = EntityLoader.load(toSpawn)
@@ -264,6 +271,11 @@ class Level(grid: Array2D<Tile>)
 
 					tile.contents[entity.pos().slot] = entity
 					entity.pos().tile = tile
+
+					if (isPlayer)
+					{
+						playerEntities.add(entity)
+					}
 				}
 				else
 				{
@@ -284,11 +296,12 @@ class Level(grid: Array2D<Tile>)
 				}
 			}
 
-			val level = Level(grid)
+			val level = Level(grid, theme)
 			for (tile in grid)
 			{
 				tile.level = level
 			}
+			level.playerEntities.addAll(playerEntities)
 
 			level.ambient.set(AssetManager.loadColour(xml.getChildByName("Ambient")!!))
 

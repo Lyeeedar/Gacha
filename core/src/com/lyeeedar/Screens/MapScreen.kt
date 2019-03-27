@@ -2,6 +2,9 @@ package com.lyeeedar.Screens
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
+import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable
 import com.lyeeedar.Components.name
 import com.lyeeedar.Game.Level
 import com.lyeeedar.Game.Tile
@@ -9,6 +12,7 @@ import com.lyeeedar.Global
 import com.lyeeedar.SpaceSlot
 import com.lyeeedar.Systems.AbstractSystem
 import com.lyeeedar.Systems.systemList
+import com.lyeeedar.UI.EntityWidget
 import com.lyeeedar.UI.IDebugCommandProvider
 import com.lyeeedar.UI.RenderSystemWidget
 import com.lyeeedar.Util.Colour
@@ -37,15 +41,28 @@ class MapScreen : AbstractScreen()
 		batch = SpriteBatch()
 
 		level = Level.load("Levels/Test")
-		Global.changeLevel(level!!, Colour.GOLD)
+		Global.changeLevel(level!!, Colour.BLACK)
 
 		//val collisionGrid = Array2D<Boolean>(map.width, map.height) { x,y -> map.grid[x,y].type == TileType.WALL }
 		//Global.collisionGrid = collisionGrid
 
 		val mapWidget = RenderSystemWidget()
 
-		mainTable.debug()
+		mainTable.background = TiledDrawable(TextureRegionDrawable(level!!.theme.backgroundTile)).tint(level!!.ambient.color())
 		mainTable.add(mapWidget).grow()
+
+		val entityTable = Table()
+		entityTable.height = 100f
+		entityTable.defaults().uniform().pad(1f)
+
+		for (ent in level!!.playerEntities)
+		{
+			val widget = EntityWidget(ent)
+			entityTable.add(widget).grow()
+		}
+
+		mainTable.row()
+		mainTable.add(entityTable).growX().height(75f)
 
 		debugConsole.register("TimeMultiplier", "'TimeMultiplier speed' to enable, 'TimeMultiplier false' to disable", fun(args, console): Boolean {
 			if (args[0] == "false")
