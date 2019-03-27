@@ -1,0 +1,157 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Position />
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>1200</MaxHP>
+				<Power>110</Power>
+				<DR>0.05</DR>
+				<CritChance>0.1</CritChance>
+				<CritDamage>3</CritDamage>
+			</Statistics>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack>
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/barbarian_m</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/barbarian_m</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Charge</Name>
+					<Ability meta:RefKey="Ability">
+						<Timeline>
+							<SelectEnemies />
+							<BlockTurn>
+								<Time>0.0411656424</Time>
+							</BlockTurn>
+							<Permute>
+								<Time>0.07625766</Time>
+								<HitPoints>
+									<Line>.#.</Line>
+									<Line>###</Line>
+									<Line>.#.</Line>
+								</HitPoints>
+							</Permute>
+							<Stun>
+								<Time>0.189631909</Time>
+								<Chance>0.5</Chance>
+							</Stun>
+							<Damage>
+								<Time>0.211227</Time>
+							</Damage>
+						</Timeline>
+						<Timeline>
+							<MoveSource>
+								<Time>0.0101736365</Time>
+								<MoveType>Leap</MoveType>
+							</MoveSource>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.2402454</Duration>
+								<Time>0.104601227</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Stomp</Name>
+								</Renderable>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>9,15</Cooldown>
+				</AbilityData>
+				<AbilityData>
+					<Name>Frenzy</Name>
+					<Ability meta:RefKey="Ability">
+						<Timeline>
+							<SelectSelf />
+							<Buff>
+								<Duration LockDuration="False">0.06883435</Duration>
+								<Time>0.0222699419</Time>
+								<Buff meta:RefKey="Buff">
+									<Icon meta:RefKey="Sprite">
+										<Name>Oryx/uf_split/uf_items/weapon_axe_exotic1</Name>
+										<DrawActualSize>true</DrawActualSize>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<DR>0.3</DR>
+										<Haste>0.2</Haste>
+									</Statistics>
+									<Duration>6</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<SourceRenderable>
+								<Time>0.00302017061</Time>
+								<Duration LockDuration="False">0.09984035</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Shout</Name>
+								</Renderable>
+							</SourceRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>5,10</Cooldown>
+				</AbilityData>
+				<AbilityData>
+					<Name>Battle Focus</Name>
+					<Ability meta:RefKey="Ability">
+						<Timeline>
+							<SelectAllies>
+								<Count>5</Count>
+							</SelectAllies>
+							<Buff>
+								<Duration LockDuration="False">0.242000014</Duration>
+								<Time>0.0240625013</Time>
+								<Buff meta:RefKey="Buff">
+									<Icon meta:RefKey="Sprite">
+										<Name>Oryx/uf_split/uf_items/armor_blood_helm</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<LifeSteal>0.1</LifeSteal>
+									</Statistics>
+									<Duration>99999</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.261250019</Duration>
+								<Time>0.0240625013</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Claws</Name>
+									<Colour>199,11,11,255</Colour>
+									<TimeMultiplier>1.5</TimeMultiplier>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<SingleUse>true</SingleUse>
+					<AvailableOnStart>true</AvailableOnStart>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

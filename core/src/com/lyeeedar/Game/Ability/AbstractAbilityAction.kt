@@ -47,9 +47,8 @@ abstract class AbstractAbilityAction(val ability: Ability)
 				"KNOCKBACK" -> KnockbackAction(ability)
 
 				"PERMUTE" -> PermuteAction(ability)
-				"SELECTALLIES" -> SelectAlliesAction(ability)
-				"SELECTENEMIES" -> SelectEnemiesAction(ability)
-				"SELECTRANDOM" -> SelectRandomAction(ability)
+				"SELECTALLIES", "SELECTENEMIES", "SELECTENTITIES" -> SelectEntitiesAction(ability)
+				"SELECTTILES" -> SelectTilesAction(ability)
 				"SELECTSELF" -> SelectSelfAction(ability)
 
 				"SOURCERENDERABLE" -> SourceRenderableAction(ability)

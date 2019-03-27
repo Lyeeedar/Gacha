@@ -29,7 +29,7 @@ class MoveSourceAction(ability: Ability) : AbstractAbilityAction(ability)
 	override fun enter(): Boolean
 	{
 		val srcTile = ability.source.tile()!!
-		val dst = ability.targets.random()!!
+		val dst = ability.targets.random() ?: return false
 		val dstTile = ability.level.getTile(dst) ?: return false
 
 		doMove(srcTile, dstTile, type)

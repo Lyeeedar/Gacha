@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Array
 import com.exp4j.Helpers.CompiledExpression
 import com.lyeeedar.Game.Ability.Ability
+import com.lyeeedar.Util.Point
 import com.lyeeedar.Util.XmlData
 
 class AbilityComponent : AbstractComponent()
@@ -18,7 +19,7 @@ class AbilityComponent : AbstractComponent()
 			val abilityEl = el.getChildByName("Ability")!!
 			val ability = Ability.load(abilityEl)
 
-			val cooldown = com.lyeeedar.Util.IntRange(el.getPoint("Cooldown"))
+			val cooldown = com.lyeeedar.Util.IntRange(el.getPoint("Cooldown", Point()))
 			val singleUse = el.getBoolean("SingleUse", false)
 			val availableOnStart = el.getBoolean("AvailableOnStart", false)
 			val conditionStr = el.get("Condition", "1")!!

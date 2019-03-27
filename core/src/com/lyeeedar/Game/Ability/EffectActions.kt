@@ -9,6 +9,7 @@ import com.lyeeedar.AI.Tasks.TaskInterrupt
 import com.lyeeedar.Components.*
 import com.lyeeedar.Statistic
 import com.lyeeedar.Util.XmlData
+import com.lyeeedar.Util.round
 
 class DamageAction(ability: Ability) : AbstractAbilityAction(ability)
 {
@@ -37,7 +38,14 @@ class DamageAction(ability: Ability) : AbstractAbilityAction(ability)
 					val damModifier = damage.evaluate(map)
 
 					val attackDam = sourceStats.getAttackDam(damModifier)
-					targetstats.dealDamage(attackDam)
+					val finalDam = targetstats.dealDamage(attackDam)
+
+					val lifeSteal = sourceStats.getStat(Statistic.LIFESTEAL)
+					val stolenLife = finalDam * lifeSteal
+					if (stolenLife > 0f)
+					{
+						sourceStats.heal(stolenLife)
+					}
 				}
 			}
 		}
@@ -132,6 +140,7 @@ class HealAction(ability: Ability) : AbstractAbilityAction(ability)
 class StunAction(ability: Ability) : AbstractAbilityAction(ability)
 {
 	lateinit var chance: CompiledExpression
+	lateinit var count: CompiledExpression
 
 	override fun enter(): Boolean
 	{
@@ -144,12 +153,36 @@ class StunAction(ability: Ability) : AbstractAbilityAction(ability)
 				if (hitEntities.contains(entity)) continue
 				hitEntities.add(entity)
 
+				val targetstats = entity.stats() ?: continue
 				val task = entity.task() ?: continue
 
 				if (entity.isEnemies(ability.source) && chance.evaluate() != 0f)
 				{
-					task.tasks.clear()
-					task.tasks.add(TaskInterrupt())
+					val sourceStats = ability.source.stats()!!
+
+					val map = ObjectFloatMap<String>()
+					sourceStats.write(map, "self")
+					targetstats.write(map, "target")
+
+					val count = count.evaluate(map).round()
+
+					var finalCount = 0
+					for (i in 0 until count)
+					{
+						if (chance.evaluate(map) != 0f)
+						{
+							finalCount++
+						}
+					}
+
+					if (finalCount > 0)
+					{
+						task.tasks.clear()
+						for (i in 0 until finalCount)
+						{
+							task.tasks.add(TaskInterrupt())
+						}
+					}
 				}
 			}
 		}
@@ -166,14 +199,22 @@ class StunAction(ability: Ability) : AbstractAbilityAction(ability)
 	{
 		val action = StunAction(ability)
 		action.chance = chance
+		action.count = count
 
 		return action
 	}
 
 	override fun parse(xmlData: XmlData)
 	{
-		val chanceStr = xmlData.get("Chance")
-		chance = CompiledExpression(chanceStr)
+		val map = ObjectFloatMap<String>()
+		StatisticsComponent.writeDefaultVariables(map, "self")
+		StatisticsComponent.writeDefaultVariables(map, "target")
+
+		val chanceStr = xmlData.get("Chance", "1")!!
+		chance = CompiledExpression(chanceStr, map)
+
+		val countStr = xmlData.get("Count", "1")!!
+		count = CompiledExpression(countStr, map)
 	}
 
 }

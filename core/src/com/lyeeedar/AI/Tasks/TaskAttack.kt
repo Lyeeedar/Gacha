@@ -8,6 +8,7 @@ import com.lyeeedar.Game.Tile
 import com.lyeeedar.Renderables.Animation.BumpAnimation
 import com.lyeeedar.Renderables.Animation.MoveAnimation
 import com.lyeeedar.SpaceSlot
+import com.lyeeedar.Statistic
 import com.lyeeedar.Util.Future
 import com.lyeeedar.Util.getRotation
 
@@ -62,7 +63,14 @@ class TaskAttack(val tile: Tile, val attackDefinition: AttackDefinition) : Abstr
 					val attackerStats = e.stats()!!
 					val defenderStats = entity.stats()!!
 					val dam = attackerStats.getAttackDam(attackerStats.attackDefinition.damage)
-					defenderStats.dealDamage(dam)
+					val finalDam = defenderStats.dealDamage(dam)
+
+					val lifeSteal = attackerStats.getStat(Statistic.LIFESTEAL)
+					val stolenLife = finalDam * lifeSteal
+					if (stolenLife > 0f)
+					{
+						attackerStats.heal(stolenLife)
+					}
 				}
 			}, delay)
 	}

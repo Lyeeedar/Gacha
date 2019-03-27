@@ -394,7 +394,7 @@ class MovementRenderableAction(ability: Ability) : AbstractAbilityAction(ability
 	override fun parse(xmlData: XmlData)
 	{
 		slot = SpaceSlot.valueOf(xmlData.get("Slot", "Entity")!!.toUpperCase())
-		useLeap = xmlData.getBoolean("UseLeap")
+		useLeap = xmlData.getBoolean("UseLeap", false)
 		renderable = AssetManager.loadRenderable(xmlData.getChildByName("Renderable")!!)
 	}
 }

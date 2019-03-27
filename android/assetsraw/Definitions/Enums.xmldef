@@ -9,5 +9,7 @@
 		<Data Name="CritChance" Min="0" meta:RefKey="Number" />
 		<Data Name="CritDamage" Min="0" meta:RefKey="Number" />
 		<Data Name="Regeneration" Min="0" meta:RefKey="Number" />
+		<Data Name="Haste" Min="0" meta:RefKey="Number" />
+		<Data Name="LifeSteal" Min="0" meta:RefKey="Number" />
 	</Definition>
 </Definitions>

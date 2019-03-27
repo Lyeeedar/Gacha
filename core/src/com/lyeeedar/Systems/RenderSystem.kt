@@ -299,7 +299,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 				for (i in 0 until stats.buffs.size)
 				{
 					val buff = stats.buffs[i]
-					renderer.queueTexture(buff.icon.currentTexture, ax+i*spacePerPip*2, ay+overhead+0.1f, pos.slot.ordinal, 4, width = spacePerPip*2, height = spacePerPip*2, sortX = ax, sortY = ay)
+					renderer.queueTexture(buff.icon.currentTexture, ax+i*spacePerPip*4, ay+overhead+0.1f, pos.slot.ordinal, 4, width = spacePerPip*4, height = spacePerPip*4, sortX = ax, sortY = ay)
 				}
 			}
 		}

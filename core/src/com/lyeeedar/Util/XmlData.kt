@@ -130,6 +130,16 @@ class XmlData
 		return Point(x, y)
 	}
 
+	fun getPoint(name: String, fallback: Point): Point
+	{
+		val str = get(name, null) ?: return fallback
+		val split = str.split(",")
+		val x = split[0].toInt()
+		val y = split[1].toInt()
+
+		return Point(x, y)
+	}
+
 	fun getAttribute(name: String): String
 	{
 		return attributeMap[name.toUpperCase().hashCode()]?.text() ?: throw GdxRuntimeException("Element ${this.name} has no attribute called $name!")

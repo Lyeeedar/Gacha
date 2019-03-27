@@ -200,6 +200,8 @@ class Level(grid: Array2D<Tile>)
 			val pathSymbol = symbolsMap['.'.toInt()]
 			val groundSymbol = symbolsMap['#'.toInt()]
 
+			var hasNemora = false
+			var hasKhasos = false
 			fun loadTile(tile: Tile, char: Char)
 			{
 				if (symbolsMap.containsKey(char.toInt()))
@@ -223,33 +225,45 @@ class Level(grid: Array2D<Tile>)
 				{
 					tile.sprite = groundSymbol.sprite!!.copy()
 
+					val toSpawn: String
 					if (char == '2')
 					{
-						val entity = EntityLoader.load("Goblin")
-						entity.stats()!!.faction = char.toString()
-
-						tile.contents[entity.pos().slot] = entity
-						entity.pos().tile = tile
-					}
-					else
-					{
-						if (Random.random(4) == 0)
+						if (Random.random(3) == 0)
 						{
-							val entity = EntityLoader.load("Archer")
-							entity.stats()!!.faction = char.toString()
-
-							tile.contents[entity.pos().slot] = entity
-							entity.pos().tile = tile
+							toSpawn = "ShieldGoblin"
 						}
 						else
 						{
-							val entity = EntityLoader.load("Test$char")
-							entity.stats()!!.faction = char.toString()
-
-							tile.contents[entity.pos().slot] = entity
-							entity.pos().tile = tile
+							toSpawn = "Goblin"
 						}
 					}
+					else
+					{
+						if (!hasNemora)
+						{
+							hasNemora = true
+							toSpawn = "Nemora"
+						}
+						else if (!hasKhasos)
+						{
+							hasKhasos = true
+							toSpawn = "Khasos"
+						}
+						else if (Random.random(4) == 0)
+						{
+							toSpawn = "Archer"
+						}
+						else
+						{
+							toSpawn = "Test1"
+						}
+					}
+
+					val entity = EntityLoader.load(toSpawn)
+					entity.stats()!!.faction = char.toString()
+
+					tile.contents[entity.pos().slot] = entity
+					entity.pos().tile = tile
 				}
 				else
 				{

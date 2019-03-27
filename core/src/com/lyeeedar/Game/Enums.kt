@@ -295,7 +295,9 @@ enum class Statistic private constructor(val min: Float, val max: Float, val mod
 	DR(0f, 1f, true, "Your resistance to damage"),
 	CRITCHANCE(0f, 1f, true, "The chance to deal a critical hit anytime you deal damage"),
 	CRITDAMAGE(1f, Float.MAX_VALUE, true, "The multiplier to your damage when you deal a critical hit"),
-	REGENERATION(0f, 1f, true, "The percentage of your max health you gain each turn");
+	REGENERATION(0f, 1f, true, "The percentage of your max health you gain each turn"),
+	HASTE(0f, 1f, true, "How fast you act"),
+	LIFESTEAL(0f, 1f, true, "The portion of your damage dealt you absorb as life");
 
 	companion object
 	{

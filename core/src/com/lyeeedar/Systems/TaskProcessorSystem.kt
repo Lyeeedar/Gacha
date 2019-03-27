@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Array
 import com.lyeeedar.AI.Tasks.TaskMove
 import com.lyeeedar.Components.*
 import com.lyeeedar.Global
+import com.lyeeedar.Statistic
 import com.lyeeedar.UI.DebugConsole
 import com.lyeeedar.Util.Event0Arg
 
@@ -135,7 +136,9 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 
 			processEntity(entity)
 
-			task.actionAccumulator -= (1f / task.speed)
+			val haste = entity.stats()?.getStat(Statistic.HASTE) ?: 0f
+
+			task.actionAccumulator -= (1f / (task.speed + haste))
 			if (task.actionAccumulator <= 0f)
 			{
 				itr.remove()

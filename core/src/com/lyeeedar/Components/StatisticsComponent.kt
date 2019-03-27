@@ -84,7 +84,7 @@ class StatisticsComponent: AbstractComponent()
 		attackDefinition.parse(attackEl)
 	}
 
-	fun dealDamage(amount: Float)
+	fun dealDamage(amount: Float): Float
 	{
 		val baseDam = amount
 		val dr = getStat(Statistic.DR)
@@ -98,6 +98,8 @@ class StatisticsComponent: AbstractComponent()
 		val size = lerp(0.25f, 1f, alpha)
 
 		messagesToShow.add(MessageData(dam.toInt().toString(), Colour.RED, size))
+
+		return dam
 	}
 
 	fun heal(amount: Float)
