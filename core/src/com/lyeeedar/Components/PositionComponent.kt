@@ -184,19 +184,23 @@ class PositionComponent(): AbstractComponent()
 		return true
 	}
 
-	fun doMove(t: Tile, entity: Entity)
+	fun removeFromTile(entity: Entity)
 	{
+		if (tile == null) return
+
 		for (x in 0 until size)
 		{
 			for (y in 0 until size)
 			{
-				val tile = t.level.getTile(position, x, y) ?: continue
+				val tile = tile!!.level.getTile(tile!!, x, y) ?: continue
 				if (tile.contents[slot] == entity) tile.contents.remove(slot)
 			}
 		}
+	}
 
-		position = t
-
+	fun addToTile(entity: Entity)
+	{
+		val t = tile!!
 		for (x in 0 until size)
 		{
 			for (y in 0 until size)
@@ -205,5 +209,14 @@ class PositionComponent(): AbstractComponent()
 				tile.contents[slot] = entity
 			}
 		}
+	}
+
+	fun doMove(t: Tile, entity: Entity)
+	{
+		removeFromTile(entity)
+
+		position = t
+
+		addToTile(entity)
 	}
 }

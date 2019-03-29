@@ -28,6 +28,7 @@ class AbilityComponent : AbstractComponent()
 			val availableOnStart = el.getBoolean("AvailableOnStart", false)
 			val conditionStr = el.get("Condition", "1")!!
 			val condition = CompiledExpression(conditionStr, StatisticsComponent.getDefaultVariables())
+			val range = el.getInt("Range", 1)
 
 			val data = AbilityData()
 			data.name = name
@@ -37,6 +38,7 @@ class AbilityComponent : AbstractComponent()
 			data.singleUse = singleUse
 			data.availableOnStart = availableOnStart
 			data.condition = condition
+			data.range = range
 			data.remainingCooldown = if (availableOnStart) 0 else data.cooldown.getValue()
 
 			abilities.add(data)
@@ -54,6 +56,7 @@ class AbilityData
 	var singleUse = false
 	var availableOnStart = false
 	lateinit var condition: CompiledExpression
+	var range: Int = 1
 
 	var selectedCooldown = 0
 	var remainingCooldown = 0

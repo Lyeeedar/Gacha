@@ -2,19 +2,22 @@ package com.lyeeedar.Screens
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane
 import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton
+import com.badlogic.gdx.scenes.scene2d.ui.Value
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable
+import com.lyeeedar.Components.loaddata
 import com.lyeeedar.Components.name
+import com.lyeeedar.Components.pos
 import com.lyeeedar.Game.Level
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.Global
 import com.lyeeedar.SpaceSlot
 import com.lyeeedar.Systems.AbstractSystem
 import com.lyeeedar.Systems.systemList
-import com.lyeeedar.UI.EntityWidget
-import com.lyeeedar.UI.IDebugCommandProvider
-import com.lyeeedar.UI.RenderSystemWidget
+import com.lyeeedar.UI.*
 import com.lyeeedar.Util.Colour
 
 class MapScreen : AbstractScreen()
@@ -36,6 +39,10 @@ class MapScreen : AbstractScreen()
 
 	var systemUpdateAccumulator = 0f
 
+	val bottomArea = Table()
+	val heroesTable = Table()
+	val heroWidgets = com.badlogic.gdx.utils.Array<HeroSelectionWidget>()
+
 	override fun create()
 	{
 		batch = SpriteBatch()
@@ -49,20 +56,9 @@ class MapScreen : AbstractScreen()
 		val mapWidget = RenderSystemWidget()
 
 		mainTable.background = TiledDrawable(TextureRegionDrawable(level!!.theme.backgroundTile)).tint(level!!.ambient.color())
-		mainTable.add(mapWidget).grow()
-
-		val entityTable = Table()
-		entityTable.height = 100f
-		entityTable.defaults().uniform().pad(1f)
-
-		for (ent in level!!.playerEntities)
-		{
-			val widget = EntityWidget(ent)
-			entityTable.add(widget).grow()
-		}
-
+		mainTable.add(mapWidget).grow().height(Value.percentHeight(0.7f, mainTable))
 		mainTable.row()
-		mainTable.add(entityTable).growX().height(75f)
+		mainTable.add(bottomArea).grow().height(Value.percentHeight(0.3f, mainTable))
 
 		debugConsole.register("TimeMultiplier", "'TimeMultiplier speed' to enable, 'TimeMultiplier false' to disable", fun(args, console): Boolean {
 			if (args[0] == "false")
@@ -166,11 +162,114 @@ class MapScreen : AbstractScreen()
 
 			return false
 		})
+
+		selectEntities()
+	}
+
+	fun beginLevel()
+	{
+		bottomArea.clear()
+
+		val entityTable = Table()
+		entityTable.defaults().uniform().pad(1f)
+
+		for (ent in level!!.playerTiles)
+		{
+			val widget = EntityWidget(ent.entity!!)
+			entityTable.add(widget).grow()
+		}
+
+		bottomArea.add(entityTable).growX().height(75f).expandY().bottom()
+
+		level!!.selectingEntities = false
+	}
+
+	fun selectEntities()
+	{
+		level!!.selectingEntities = true
+
+		bottomArea.clear()
+
+		val beginButton = TextButton("Begin", Global.skin)
+		beginButton.addClickListener { beginLevel() }
+		bottomArea.add(beginButton).expandX().center()
+		bottomArea.row()
+
+
+		heroesTable.defaults().uniform().pad(1f)
+		val scroll = ScrollPane(heroesTable)
+		scroll.setFadeScrollBars(false)
+		scroll.setScrollingDisabled(true, false)
+		scroll.setForceScroll(false, true)
+
+		bottomArea.add(scroll).grow()
+
+		heroWidgets.clear()
+		heroesTable.clear()
+
+		var x = 0
+		for (hero in Global.data.heroPool)
+		{
+			val heroWidget = HeroSelectionWidget(hero)
+			for (existing in level!!.playerTiles)
+			{
+				val ent = existing.entity ?: continue
+				if (ent.loaddata()!!.path == hero.loaddata()!!.path)
+				{
+					heroWidget.alreadyUsed = true
+					break
+				}
+			}
+			heroWidget.addClickListener {
+				if (!heroWidget.alreadyUsed)
+				{
+					for (existing in level!!.playerTiles)
+					{
+						if (existing.entity == null)
+						{
+							existing.entity = hero
+							hero!!.pos().tile = existing.tile
+							hero!!.pos().addToTile(hero)
+							Global.engine.addEntity(hero)
+							break
+						}
+					}
+					updateHeroWidgets()
+				}
+			}
+
+			heroWidgets.add(heroWidget)
+			heroesTable.add(heroWidget).size(75f)
+			x++
+			if (x == 5)
+			{
+				x = 0
+				heroesTable.row()
+			}
+		}
+	}
+
+	fun updateHeroWidgets()
+	{
+		for (widget in heroWidgets)
+		{
+			widget.alreadyUsed = false
+			for (existing in level!!.playerTiles)
+			{
+				val ent = existing.entity ?: continue
+				if (ent.loaddata()!!.path == widget.entity.loaddata()!!.path)
+				{
+					widget.alreadyUsed = true
+					break
+				}
+			}
+		}
 	}
 
 	override fun doRender(delta: Float)
 	{
-		Global.engine.update(delta * timeMultiplier)
+		val extraMult = if (level!!.selectingEntities) 0f else 1f
+		Global.engine.update(delta * timeMultiplier * extraMult)
 
 		if (!Global.release)
 		{

@@ -269,7 +269,7 @@ abstract class AbstractScreen() : Screen, InputProcessor, GestureDetector.Gestur
 	{
 		font = Global.skin.getFont("default")
 
-        stage = Stage(ScalingViewport(Scaling.fit, Global.resolution.x.toFloat(), Global.resolution.y.toFloat()), SpriteBatch())
+        stage = Stage(ScalingViewport(Scaling.fit, Global.resolution.x.toFloat(), Global.resolution.y.toFloat()), SpriteBatch(2000))
 
         mainTable = Table()
         mainTable.setFillParent(true)

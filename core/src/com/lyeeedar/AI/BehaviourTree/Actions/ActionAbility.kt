@@ -44,13 +44,9 @@ class ActionAbility : AbstractAction()
 			ab.remainingCooldown--
 		}
 
-		if (target.taxiDist(tile) > stats.attackDefinition.range)
-		{
-			state = ExecutionState.FAILED
-			return state
-		}
+		val dist = target.taxiDist(tile)
 
-		val readyAbility = ability.abilities.filter { it.remainingCooldown <= 0 && it.condition.evaluate(stats.variables()) != 0f }.toGdxArray().randomOrNull()
+		val readyAbility = ability.abilities.filter { it.remainingCooldown <= 0 && it.range <= dist && it.condition.evaluate(stats.variables()) != 0f }.toGdxArray().randomOrNull()
 		if (readyAbility != null)
 		{
 			if (readyAbility.singleUse)

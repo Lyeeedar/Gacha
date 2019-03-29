@@ -41,3 +41,4 @@ var Engine.level: Level?
 
 fun Engine.render() = this.getSystem(RenderSystem::class.java)
 fun Engine.task() = this.getSystem(TaskProcessorSystem::class.java)
+fun Engine.directionSprite() = this.getSystem(DirectionalSpriteSystem::class.java)

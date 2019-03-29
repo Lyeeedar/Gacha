@@ -84,6 +84,7 @@
 						</Timeline>
 					</Ability>
 					<Cooldown>9,15</Cooldown>
+					<Range>9</Range>
 				</AbilityData>
 				<AbilityData>
 					<Name>Frenzy</Name>
@@ -160,6 +161,7 @@
 					</Ability>
 					<SingleUse>true</SingleUse>
 					<AvailableOnStart>true</AvailableOnStart>
+					<Range>9</Range>
 				</AbilityData>
 			</Abilities>
 		</Ability>

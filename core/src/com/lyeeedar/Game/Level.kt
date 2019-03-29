@@ -10,6 +10,7 @@ import com.lyeeedar.Components.*
 import com.lyeeedar.Direction
 import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Particle.ParticleEffect
+import com.lyeeedar.Screens.MapScreen
 import com.lyeeedar.SpaceSlot
 import com.lyeeedar.Util.*
 import ktx.collections.set
@@ -87,7 +88,12 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 	val metaregions = ObjectMap<String, com.badlogic.gdx.utils.Array<Tile>>()
 
 	// ----------------------------------------------------------------------
-	val playerEntities = com.badlogic.gdx.utils.Array<Entity>()
+	class PlayerTile(var tile: Tile, var entity: Entity?)
+	val playerTiles = Array<PlayerTile>(5) { i -> PlayerTile(Tile(-1, -1), null) }
+	var selectingEntities = true
+	var dragStart = Point.MINUS_ONE
+	var tileCurrent: PlayerTile? = null
+	var dragged = false
 
 	// ----------------------------------------------------------------------
 	init
@@ -95,18 +101,90 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 		Global.engine.addEntityListener(Family.all(MetaRegionComponent::class.java).get(), object : EntityListener {
 			override fun entityRemoved(entity: Entity?)
 			{
-				if (destroyingLevel) return
+				if (destroyingLevel || entity?.metaregion() == null) return
 
 				Future.call( {updateMetaRegions()}, 0.5f, metaregions)
 			}
 
 			override fun entityAdded(entity: Entity?)
 			{
-				if (destroyingLevel) return
+				if (destroyingLevel || entity?.metaregion() == null) return
 
 				Future.call( {updateMetaRegions()}, 0.5f, metaregions)
 			}
 		})
+	}
+
+	// ----------------------------------------------------------------------
+	fun touchUp(point: Point)
+	{
+		if (!selectingEntities) return
+
+		if (point == dragStart && !dragged)
+		{
+			val playerTile = playerTiles.firstOrNull { it.tile == point }
+			if (playerTile != null)
+			{
+				if (playerTile.entity != null)
+				{
+					playerTile.entity!!.pos().removeFromTile(playerTile.entity!!)
+					Global.engine.removeEntity(playerTile.entity)
+					playerTile.entity = null
+
+					Global.game.getTypedScreen<MapScreen>()!!.updateHeroWidgets()
+				}
+			}
+		}
+
+		tileCurrent = null
+		dragStart = Point.MINUS_ONE
+	}
+
+	// ----------------------------------------------------------------------
+	fun touchDown(point: Point)
+	{
+		if (!selectingEntities) return
+
+		val playerTile = playerTiles.firstOrNull { it.tile == point }
+		if (playerTile != null)
+		{
+			tileCurrent = playerTile
+		}
+
+		dragged = false
+		dragStart = point
+	}
+
+	// ----------------------------------------------------------------------
+	fun touchDragged(point: Point)
+	{
+		if (!selectingEntities) return
+
+		val playerTile = playerTiles.firstOrNull { it.tile == point }
+		if (tileCurrent != null && tileCurrent != playerTile && tileCurrent!!.entity != null && playerTile != null)
+		{
+			// swap entities
+			val swapEnt = playerTile.entity
+
+			tileCurrent!!.entity!!.pos().removeFromTile(tileCurrent!!.entity!!)
+
+			if (swapEnt != null)
+			{
+				swapEnt.pos().removeFromTile(swapEnt)
+				swapEnt.pos().tile = tileCurrent!!.tile
+				swapEnt.pos().addToTile(swapEnt)
+			}
+
+			tileCurrent!!.entity!!.pos().tile = playerTile.tile
+			tileCurrent!!.entity!!.pos().addToTile(tileCurrent!!.entity!!)
+
+			playerTile.entity = tileCurrent!!.entity!!
+			tileCurrent!!.entity = swapEnt
+
+			tileCurrent = playerTile
+
+			dragged = true
+		}
 	}
 
 	// ----------------------------------------------------------------------
@@ -204,6 +282,7 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 			val groundSymbol = symbolsMap['#'.toInt()]
 
 			val playerEntities = com.badlogic.gdx.utils.Array<Entity>()
+			val playerTiles = com.badlogic.gdx.utils.Array<Tile>()
 			var hasNemora = false
 			var hasKhasos = false
 			fun loadTile(tile: Tile, char: Char)
@@ -241,40 +320,21 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 						{
 							toSpawn = "Goblin"
 						}
+
+						val entity = EntityLoader.load(toSpawn)
+						entity.stats()!!.faction = char.toString()
+
+						tile.contents[entity.pos().slot] = entity
+						entity.pos().tile = tile
 					}
 					else
 					{
-						if (!hasNemora)
-						{
-							hasNemora = true
-							toSpawn = "Nemora"
-						}
-						else if (!hasKhasos)
-						{
-							hasKhasos = true
-							toSpawn = "Khasos"
-						}
-						else if (Random.random(4) == 0)
-						{
-							toSpawn = "Archer"
-						}
-						else
-						{
-							toSpawn = "Test1"
-						}
-
 						isPlayer = true
 					}
 
-					val entity = EntityLoader.load(toSpawn)
-					entity.stats()!!.faction = char.toString()
-
-					tile.contents[entity.pos().slot] = entity
-					entity.pos().tile = tile
-
 					if (isPlayer)
 					{
-						playerEntities.add(entity)
+						playerTiles.add(tile)
 					}
 				}
 				else
@@ -301,7 +361,11 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 			{
 				tile.level = level
 			}
-			level.playerEntities.addAll(playerEntities)
+
+			for (i in 0 until 5)
+			{
+				level.playerTiles[i].tile = playerTiles[i]
+			}
 
 			level.ambient.set(AssetManager.loadColour(xml.getChildByName("Ambient")!!))
 

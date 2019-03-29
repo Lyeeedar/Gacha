@@ -3,7 +3,7 @@ package com.lyeeedar.Components
 import com.badlogic.ashley.core.Entity
 import com.lyeeedar.Util.XmlData
 
-class LoadDataComponent(val xml: XmlData) : AbstractComponent()
+class LoadDataComponent(val path: String, val xml: XmlData) : AbstractComponent()
 {
 	init
 	{

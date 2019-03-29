@@ -12,6 +12,7 @@
 						<Data Name="SingleUse" meta:RefKey="Boolean" />
 						<Data Name="AvailableOnStart" meta:RefKey="Boolean" />
 						<Data Name="Condition" Default="1" meta:RefKey="String" />
+						<Data Name="Range" Type="Int" Min="1" Default="1" meta:RefKey="Number" />
 					</Data>
 				</Data>
 			</Data>

@@ -77,7 +77,7 @@ class EntityLoader()
 
 			val entity = if (xml.get("Extends", null) != null) load(xml.get("Extends")) else Entity()
 
-			entity.add(LoadDataComponent(xml))
+			entity.add(LoadDataComponent(path, xml))
 
 			val componentsEl = xml.getChildByName("Components") ?: return entity
 

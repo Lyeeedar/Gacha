@@ -17,9 +17,13 @@ import com.badlogic.gdx.utils.ObjectSet
 import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
+import com.lyeeedar.Components.EntityLoader
+import com.lyeeedar.Components.stats
+import com.lyeeedar.Game.GameData
 import com.lyeeedar.Game.Level
 import com.lyeeedar.Screens.AbstractScreen
 import com.lyeeedar.Systems.createEngine
+import com.lyeeedar.Systems.directionSprite
 import com.lyeeedar.Systems.level
 import com.lyeeedar.UI.*
 import com.lyeeedar.UI.Tooltip
@@ -28,6 +32,7 @@ import ktx.actors.alpha
 import ktx.actors.plus
 import ktx.actors.then
 import ktx.collections.set
+import ktx.collections.toGdxArray
 
 /**
  * Created by Philip on 04-Jul-16.
@@ -49,14 +54,14 @@ class Global
 
 		lateinit var engine: Engine
 
-		var pause: Boolean = false
-
 		var resolution = Point(360, 640)
 		var screenSize = Point(resolution.x, resolution.y)
 
 		var collisionGrid: Array2D<Boolean>? = null
 
 		lateinit var controls: Controls
+
+		var data = GameData()
 
 		val stage: Stage
 			get() = (game.screen as AbstractScreen).stage
@@ -71,24 +76,36 @@ class Global
 			engine = createEngine()
 
 			Colors.put("IMPORTANT", Color(0.6f, 1f, 0.9f, 1f))
+
+			val options = arrayOf("Nemora", "Khasos", "Archer", "Test1", "Test2").toGdxArray()
+			for (i in 0 until 20)
+			{
+				val toSpawn = options.random()
+				val entity = EntityLoader.load(toSpawn)
+				entity.stats()!!.faction = "1"
+
+				data.heroPool.add(entity)
+
+				engine.directionSprite().processEntity(entity, 0f)
+			}
 		}
 
 		fun newGame()
 		{
 			settings = Settings()
+
+
 		}
 
 		fun changeLevel(level: Level, fadeColour: Colour)
 		{
-			Global.pause = true
-
 			val fadeTable = Table()
 			fadeTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("Sprites/white.png")).tint(fadeColour.color())
 			fadeTable.alpha = 0f
 
-			val sequence = Actions.alpha(0f) then Actions.fadeIn(0.5f) then lambda {
+			val sequence = Actions.alpha(0f) then Actions.fadeIn(0.2f) then lambda {
 				loadLevel(level)
-			} then Actions.fadeOut(0.5f) then lambda { Global.pause = false } then Actions.removeActor()
+			} then Actions.fadeOut(0.2f) then Actions.removeActor()
 
 			fadeTable + sequence
 

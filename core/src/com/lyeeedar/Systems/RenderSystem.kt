@@ -48,12 +48,11 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 	val hp_border = AssetManager.loadTextureRegion("Sprites/GUI/health_border.png")!!
 
 	val border = AssetManager.loadTextureRegion("Sprites/GUI/border")!!
-	val team1Col = Colour.CYAN.copy().a(0.7f)
-	val team2Col = Colour.RED.copy().a(0.7f)
+	val team1Col = Colour.GREEN.copy().a(0.5f)
+	val team2Col = Colour.RED.copy().a(0.5f)
 
-	val team1HpCol = Colour.CYAN.copy()
+	val team1HpCol = Colour.GREEN.copy()
 	val team2HpCol = Colour.RED.copy()
-	val healCol = Colour.GREEN.copy()
 	val lostHpCol = Colour.ORANGE.copy()
 	val emptyCol = Colour.BLACK.copy()
 

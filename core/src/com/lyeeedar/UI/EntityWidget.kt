@@ -1,7 +1,6 @@
 package com.lyeeedar.UI
 
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import com.lyeeedar.Components.ability
@@ -12,6 +11,7 @@ import com.lyeeedar.Statistic
 import com.lyeeedar.Systems.RenderSystem
 import com.lyeeedar.Systems.RenderSystem.Companion.numHpPips
 import com.lyeeedar.Util.AssetManager
+import com.lyeeedar.Util.Colour
 import com.lyeeedar.Util.max
 
 class EntityWidget(var entity: Entity) : Widget()
@@ -21,15 +21,19 @@ class EntityWidget(var entity: Entity) : Widget()
 	val white = AssetManager.loadTextureRegion("white")!!
 	val hp_border = AssetManager.loadTextureRegion("Sprites/GUI/health_border.png")!!
 
-	val hpColour = Color.CYAN
-	val healCol = Color.GREEN
-	val lostHpCol = Color.ORANGE
-	val emptyCol = Color.BLACK
-	val greyOut = Color(0f, 0f, 0f, 0.8f)
+	val whiteColour = Colour.WHITE
+	val hpColour = Colour.GREEN
+	val healCol = Colour.GREEN
+	val lostHpCol = Colour.ORANGE
+	val emptyCol = Colour.BLACK
+	val greyOut = Colour(0f, 0f, 0f, 0.8f)
+	val lightGray = Colour.LIGHT_GRAY
+	val darkGray = Colour.DARK_GRAY
+	val gold = Colour.GOLD
 
 	override fun draw(batch: Batch, parentAlpha: Float)
 	{
-		batch.color = Color.WHITE
+		batch.setColor(whiteColour)
 		batch.draw(background, x, y, width, height)
 
 		val renderable = entity.renderable()?.renderable as? Sprite
@@ -53,18 +57,18 @@ class EntityWidget(var entity: Entity) : Widget()
 			val spacing = spacePerPip * solidSpaceRatio
 			val solid = spacePerPip - spacing
 
-			batch.color = emptyCol
+			batch.setColor(emptyCol)
 			batch.draw(white, x+5f, y+5f, totalWidth, 5f)
 
 			val lostLen = (hp + stats.lostHp) / maxhp
-			batch.color = lostHpCol
+			batch.setColor(lostHpCol)
 			batch.draw(white, x+5f, y+5f, totalWidth*lostLen, 5f)
 
 			val hpLen = hp / maxhp
-			batch.color = hpColour
+			batch.setColor(hpColour)
 			batch.draw(white, x+5f, y+5f, totalWidth*hpLen, 5f)
 
-			batch.color = Color.WHITE
+			batch.setColor(whiteColour)
 			for (i in 0 until numHpPips)
 			{
 				batch.draw(hp_border, x+5f+i*spacePerPip, y+5f, solid, 5f)
@@ -82,7 +86,7 @@ class EntityWidget(var entity: Entity) : Widget()
 				val abx = x+width-17f
 				val aby = y+height-17f
 
-				batch.color = Color.WHITE
+				batch.setColor(whiteColour)
 				for (i in 0 until ability.abilities.size)
 				{
 					val ab = ability.abilities[i]
@@ -92,14 +96,14 @@ class EntityWidget(var entity: Entity) : Widget()
 					if (ab.remainingCooldown > 0)
 					{
 						val alpha = ab.remainingCooldown.toFloat() / ab.selectedCooldown.toFloat()
-						batch.color = greyOut
+						batch.setColor(greyOut)
 						batch.draw(white, abx, aby-i*12f, 10f, 10f * alpha)
 
-						batch.color = Color.LIGHT_GRAY
+						batch.setColor(lightGray)
 					}
 					else
 					{
-						batch.color = Color.GOLD
+						batch.setColor(gold)
 					}
 
 					batch.draw(border, abx, aby-i*12f, 10f, 10f)
@@ -108,15 +112,15 @@ class EntityWidget(var entity: Entity) : Widget()
 
 			if (hp == 0f)
 			{
-				batch.color = greyOut
+				batch.setColor(greyOut)
 				batch.draw(white, x, y, width, height)
 
-				batch.color = Color.DARK_GRAY
+				batch.setColor(darkGray)
 				batch.draw(border, x, y, width, height)
 			}
 			else
 			{
-				batch.color = Color.LIGHT_GRAY
+				batch.setColor(lightGray)
 				batch.draw(border, x, y, width, height)
 			}
 		}

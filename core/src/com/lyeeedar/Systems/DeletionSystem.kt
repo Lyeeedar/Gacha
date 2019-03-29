@@ -25,17 +25,7 @@ class DeletionSystem : AbstractSystem(Family.all(MarkedForDeletionComponent::cla
 		deletedEntities.add(entity)
 
 		val pos = entity.pos()
-		if (pos?.tile != null)
-		{
-			for (x in 0 until pos.size)
-			{
-				for (y in 0 until pos.size)
-				{
-					val tile = pos.tile!!.level.getTile(pos.tile!!, x, y) ?: continue
-					if (tile.contents[pos.slot] == entity) tile.contents[pos.slot] = null
-				}
-			}
-		}
+		pos?.removeFromTile(entity)
 
 		val trail = entity.trailing()
 		if (trail != null)
