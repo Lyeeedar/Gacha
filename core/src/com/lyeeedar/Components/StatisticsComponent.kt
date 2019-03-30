@@ -101,7 +101,7 @@ class StatisticsComponent: AbstractComponent()
 
 		val maxHP = getStat(Statistic.MAXHP)
 		val alpha = dam / maxHP
-		val size = lerp(0.25f, 1f, alpha)
+		val size = lerp(0.25f, 1f, clamp(alpha, 0f, 1f))
 
 		messagesToShow.add(MessageData(dam.toInt().toString(), Colour.RED, size))
 

@@ -1,6 +1,7 @@
 package com.lyeeedar.Components
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.math.Vector2
 import com.lyeeedar.Direction
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.SpaceSlot
@@ -32,6 +33,8 @@ class PositionComponent(): AbstractComponent()
 	var min: Point
 		set(value) { position = value }
 		get() { return position }
+
+	var offset: Vector2 = Vector2()
 
 	var max: Point = Point(-1, -1)
 

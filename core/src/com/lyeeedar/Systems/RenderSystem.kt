@@ -183,8 +183,8 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 			val pos = entity.pos() ?: continue
 			val tile = entity.tile()
 
-			val px = pos.position.x.toFloat()
-			val py = pos.position.y.toFloat()
+			val px = pos.position.x.toFloat() + pos.offset.x
+			val py = pos.position.y.toFloat() + pos.offset.y
 
 			if (renderable is ParticleEffect)
 			{

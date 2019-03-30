@@ -368,6 +368,7 @@ class MovementRenderableAction(ability: Ability) : AbstractAbilityAction(ability
 		}
 		else
 		{
+			r.faceInMoveDirection = true
 			r.animation = MoveAnimation.obtain().set(duration, UnsmoothedPath(midPoint.getPosDiff(ability.source.tile()!!)), Interpolation.linear)
 		}
 

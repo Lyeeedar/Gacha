@@ -120,6 +120,11 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 	{
 		if (!selectingEntities) return
 
+		if (tileCurrent != null && tileCurrent!!.entity != null)
+		{
+			tileCurrent!!.entity!!.additionalRenderable()?.below?.remove("glow")
+		}
+
 		if (point == dragStart && !dragged)
 		{
 			val playerTile = playerTiles.firstOrNull { it.tile == point }
@@ -184,6 +189,18 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 			tileCurrent = playerTile
 
 			dragged = true
+		}
+
+		if (tileCurrent != null && point != tileCurrent!!.tile && tileCurrent!!.entity != null)
+		{
+			var addRenderable = tileCurrent!!.entity!!.additionalRenderable()
+			if (addRenderable == null)
+			{
+				addRenderable = AdditionalRenderableComponent()
+				tileCurrent!!.entity!!.add(addRenderable)
+			}
+
+			addRenderable.below["glow"] = AssetManager.loadSprite("GUI/frame")
 		}
 	}
 
