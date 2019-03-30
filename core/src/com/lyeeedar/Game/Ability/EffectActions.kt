@@ -8,6 +8,7 @@ import com.exp4j.Helpers.CompiledExpression
 import com.lyeeedar.AI.Tasks.TaskInterrupt
 import com.lyeeedar.Components.*
 import com.lyeeedar.Statistic
+import com.lyeeedar.Util.BloodSplatter
 import com.lyeeedar.Util.XmlData
 import com.lyeeedar.Util.round
 
@@ -39,6 +40,8 @@ class DamageAction(ability: Ability) : AbstractAbilityAction(ability)
 
 					val attackDam = sourceStats.getAttackDam(damModifier)
 					val finalDam = targetstats.dealDamage(attackDam)
+
+					BloodSplatter.splatter(ability.source, entity)
 
 					val lifeSteal = sourceStats.getStat(Statistic.LIFESTEAL)
 					val stolenLife = finalDam * lifeSteal

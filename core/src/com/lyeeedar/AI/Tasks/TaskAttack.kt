@@ -1,25 +1,21 @@
 package com.lyeeedar.AI.Tasks
 
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.ObjectSet
 import com.lyeeedar.Components.*
 import com.lyeeedar.Direction
 import com.lyeeedar.Game.Tile
-import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Animation.BumpAnimation
-import com.lyeeedar.Renderables.Animation.LeapAnimation
 import com.lyeeedar.Renderables.Animation.MoveAnimation
-import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.SpaceSlot
 import com.lyeeedar.Statistic
-import com.lyeeedar.Util.*
-import ktx.math.times
+import com.lyeeedar.Util.BloodSplatter
+import com.lyeeedar.Util.Future
+import com.lyeeedar.Util.Random
+import com.lyeeedar.Util.getRotation
 
 class TaskAttack(val tile: Tile, val attackDefinition: AttackDefinition) : AbstractTask()
 {
-	val splatters = AssetManager.loadSprite("Oryx/Custom/terrain/bloodsplatter")
-
 	override fun execute(e: Entity)
 	{
 		e.pos().facing = Direction.getCardinalDirection(e.pos().position.x - tile.x, tile.y - e.pos().position.y)
@@ -73,31 +69,7 @@ class TaskAttack(val tile: Tile, val attackDefinition: AttackDefinition) : Abstr
 
 					if (Random.random() < 0.5f)
 					{
-						val sourceTile = e.tile()!!
-						val entityTile = entity.tile()!!
-
-						var vector = (entityTile.copy()-sourceTile).toVec().nor()
-						vector = vector.rotate(Random.random(-45f, 45f))
-						vector = vector.scl(Random.random())
-
-						val chosen = splatters.textures.random()
-
-						val sprite = Sprite(chosen)
-						sprite.baseScale[0] = 0.5f
-						sprite.baseScale[1] = 0.5f
-						sprite.colour = Colour(1f, 1f, 1f, 0.6f)
-
-						val renderable = RenderableComponent(sprite)
-						val pos = PositionComponent()
-						pos.position = entityTile
-						pos.offset.set(vector)
-
-						sprite.animation = LeapAnimation.obtain().set(0.05f, arrayOf(vector * -1f, Vector2()), 0.2f)
-
-						val newEntity = Entity()
-						newEntity.add(renderable)
-						newEntity.add(pos)
-						Global.engine.addEntity(newEntity)
+						BloodSplatter.splatter(e, entity)
 					}
 
 					val lifeSteal = attackerStats.getStat(Statistic.LIFESTEAL)
