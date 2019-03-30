@@ -8,6 +8,8 @@ import com.badlogic.gdx.utils.ObjectFloatMap
 import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
+import com.lyeeedar.Ascension
+import com.lyeeedar.Game.Faction
 import com.lyeeedar.Renderables.Particle.ParticleEffect
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Statistic
@@ -16,6 +18,7 @@ import com.lyeeedar.Util.*
 class StatisticsComponent: AbstractComponent()
 {
 	var faction: String = ""
+	var factionData: Faction? = null
 
 	var hp: Float = 0f
 		get() = field
@@ -73,9 +76,13 @@ class StatisticsComponent: AbstractComponent()
 	var blockedDamage = false
 	var blockBroken = false
 
+	var ascension: Ascension = Ascension.MUNDANE
+	var level: Int = 1
+
 	lateinit var attackDefinition: AttackDefinition
 
 	val buffs = Array<Buff>(false, 4)
+	val factionBuffs = Array<Buff>(false, 4)
 
 	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
@@ -88,6 +95,14 @@ class StatisticsComponent: AbstractComponent()
 		val attackEl = xml.getChildByName("Attack")!!
 		attackDefinition = AttackDefinition()
 		attackDefinition.parse(attackEl)
+	}
+
+	fun resetHP()
+	{
+		hp = getStat(Statistic.MAXHP)
+		lostHp = 0f
+		maxLostHp = 0f
+		tookDamage = false
 	}
 
 	fun dealDamage(amount: Float): Float
@@ -114,7 +129,7 @@ class StatisticsComponent: AbstractComponent()
 
 		val maxHP = getStat(Statistic.MAXHP)
 		val alpha = amount / maxHP
-		val size = lerp(0.25f, 1f, alpha)
+		val size = lerp(0.25f, 1f, clamp(alpha, 0f, 1f))
 		messagesToShow.add(MessageData(amount.toInt().toString(), Colour.GREEN, size))
 	}
 
@@ -148,8 +163,18 @@ class StatisticsComponent: AbstractComponent()
 	{
 		var value = baseStats[statistic] ?: 0f
 
+		// apply level / rarity
+		value *= 1f + 0.1f * level
+		value *= ascension.multiplier
+
+		// apply buffs and equipment
 		var modifier = 0f
 		for (buff in buffs)
+		{
+			modifier += buff.statistics[statistic] ?: 0f
+		}
+
+		for (buff in factionBuffs)
 		{
 			modifier += buff.statistics[statistic] ?: 0f
 		}
@@ -277,8 +302,10 @@ class AttackDefinition
 
 class Buff
 {
+	lateinit var description: String
+
 	var duration = 0
-	lateinit var icon: Sprite
+	var icon: Sprite? = null
 	val statistics = FastEnumMap<Statistic, Float>(Statistic::class.java)
 
 	var source: Any? = null
@@ -295,8 +322,49 @@ class Buff
 
 	fun parse(xml: XmlData)
 	{
-		icon = AssetManager.loadSprite(xml.getChildByName("Icon")!!)
+		val iconEl = xml.getChildByName("Icon")
+		if (iconEl != null)
+		{
+			icon = AssetManager.loadSprite(iconEl)
+		}
+
 		Statistic.parse(xml.getChildByName("Statistics")!!, statistics)
 		duration = xml.getInt("Duration", 0)
+
+		description = xml.get("Description", "")!!
+
+		description += "\n[GOLD]"
+		var first = true
+		for (stat in Statistic.Values)
+		{
+			val value = statistics[stat] ?: continue
+			if (value != 0f)
+			{
+				if (!first)
+				{
+					description += ", "
+				}
+				first = false
+
+				if (value > 0)
+				{
+					description += "+"
+				}
+
+				description += (value * 100).toInt().toString() + "% " + stat.niceName
+			}
+		}
+
+		description += "[]."
+	}
+
+	companion object
+	{
+		fun load(xml: XmlData): Buff
+		{
+			val buff = Buff()
+			buff.parse(xml)
+			return buff
+		}
 	}
 }

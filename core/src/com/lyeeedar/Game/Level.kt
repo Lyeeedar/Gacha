@@ -96,6 +96,9 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 	var dragged = false
 
 	// ----------------------------------------------------------------------
+	val enemies = com.badlogic.gdx.utils.Array<Entity>()
+
+	// ----------------------------------------------------------------------
 	init
 	{
 		Global.engine.addEntityListener(Family.all(MetaRegionComponent::class.java).get(), object : EntityListener {
@@ -300,8 +303,9 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 
 			val playerEntities = com.badlogic.gdx.utils.Array<Entity>()
 			val playerTiles = com.badlogic.gdx.utils.Array<Tile>()
-			var hasNemora = false
-			var hasKhasos = false
+			val enemies = com.badlogic.gdx.utils.Array<Entity>()
+			val enemyFaction = Faction.load("Goblin")
+
 			fun loadTile(tile: Tile, char: Char)
 			{
 				if (symbolsMap.containsKey(char.toInt()))
@@ -326,23 +330,18 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 					tile.sprite = groundSymbol.sprite!!.copy()
 
 					var isPlayer = false
-					val toSpawn: String
 					if (char == '2')
 					{
-						if (Random.random(3) == 0)
-						{
-							toSpawn = "ShieldGoblin"
-						}
-						else
-						{
-							toSpawn = "Goblin"
-						}
+						val data = enemyFaction.heroes.random()
 
-						val entity = EntityLoader.load(toSpawn)
+						val entity = EntityLoader.load(data.entityPath)
 						entity.stats()!!.faction = char.toString()
+						entity.stats()!!.factionData = enemyFaction
 
 						tile.contents[entity.pos().slot] = entity
 						entity.pos().tile = tile
+
+						enemies.add(entity)
 					}
 					else
 					{
@@ -383,6 +382,7 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 			{
 				level.playerTiles[i].tile = playerTiles[i]
 			}
+			level.enemies.addAll(enemies)
 
 			level.ambient.set(AssetManager.loadColour(xml.getChildByName("Ambient")!!))
 

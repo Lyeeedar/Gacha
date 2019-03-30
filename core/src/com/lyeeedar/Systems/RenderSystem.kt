@@ -256,7 +256,17 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 			val stats = entity.stats()
 			if (stats != null)
 			{
-				renderer.queueTexture(border, ax+0.5f, ay+0.4f, -1, 0, if (stats.faction == "1") team1Col else team2Col, width = 0.9f, height = 0.7f, sortX = ax, sortY = ay)
+				val borderCol: Colour
+				if (level.selectingEntities)
+				{
+					borderCol = stats.ascension.colour
+				}
+				else
+				{
+					borderCol = if (stats.faction == "1") team1Col else team2Col
+				}
+
+				renderer.queueTexture(border, ax+0.5f, ay+0.4f, -1, 0, borderCol, width = 0.9f, height = 0.7f, sortX = ax, sortY = ay)
 
 				val hpColour = if (stats.faction == "1") team1Col else team2Col
 
@@ -296,7 +306,9 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 				for (i in 0 until stats.buffs.size)
 				{
 					val buff = stats.buffs[i]
-					renderer.queueTexture(buff.icon.currentTexture, ax+i*spacePerPip*3, ay+overhead+0.1f+spacePerPip, pos.slot.ordinal, 4, width = spacePerPip*3, height = spacePerPip*3, sortX = ax, sortY = ay)
+
+					val icon = buff.icon ?: continue
+					renderer.queueTexture(icon.currentTexture, ax+i*spacePerPip*3, ay+overhead+0.1f+spacePerPip, pos.slot.ordinal, 4, width = spacePerPip*3, height = spacePerPip*3, sortX = ax, sortY = ay)
 				}
 			}
 		}

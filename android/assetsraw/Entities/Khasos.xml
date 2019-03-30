@@ -151,7 +151,7 @@
 								<Duration LockDuration="False">0.261250019</Duration>
 								<Time>0.0240625013</Time>
 								<Renderable meta:RefKey="ParticleEffect">
-									<Name>Claws</Name>
+									<Name>LifestealBuff</Name>
 									<Colour>199,11,11,255</Colour>
 									<TimeMultiplier>1.5</TimeMultiplier>
 								</Renderable>

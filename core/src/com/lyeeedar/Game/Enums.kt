@@ -4,10 +4,7 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Array
-import com.lyeeedar.Util.FastEnumMap
-import com.lyeeedar.Util.Point
-import com.lyeeedar.Util.XmlData
-import com.lyeeedar.Util.vectorToAngle
+import com.lyeeedar.Util.*
 
 // ----------------------------------------------------------------------
 enum class BlendMode constructor(val src: Int, val dst: Int)
@@ -17,14 +14,28 @@ enum class BlendMode constructor(val src: Int, val dst: Int)
 }
 
 // ----------------------------------------------------------------------
+enum class Ascension(val multiplier: Float, val colour: Colour)
+{
+	MUNDANE(1f, Colour(152, 127, 95, 255, true)),
+	EXCEPTIONAL(1.2f, Colour(107, 193, 101, 255, true)),
+	EXTRAORDINARY(1.4f, Colour(79, 185, 243, 255, true)),
+	FABLED(1.6f, Colour(137, 20, 223, 255, true)),
+	LEGENDARY(2.0f, Colour(255, 219, 0, 255, true)),
+	MYTHICAL(2.5f, Colour(186, 0, 39, 255, true)),
+	DIVINE(3.0f, Colour(255, 221, 249, 255, true));
+
+	companion object
+	{
+		val Values = Ascension.values()
+	}
+}
+
+// ----------------------------------------------------------------------
 enum class Rarity
 {
 	COMMON,
 	UNCOMMON,
-	RARE,
-	MYSTICAL,
-	LEGENDARY;
-
+	RARE;
 
 	companion object
 	{
@@ -288,16 +299,16 @@ enum class Direction private constructor(val x: Int, val y: Int, val identifier:
 }
 
 // ----------------------------------------------------------------------
-enum class Statistic private constructor(val min: Float, val max: Float, val modifiersAreAdded: Boolean, val tooltip: String)
+enum class Statistic private constructor(val min: Float, val max: Float, val modifiersAreAdded: Boolean, val niceName: String, val tooltip: String)
 {
-	MAXHP(1f, Float.MAX_VALUE, false, "The amount of damage you can take before dieing"),
-	POWER(1f, Float.MAX_VALUE, false, "The damage of your attacks and the effectiveness of your abilities"),
-	DR(0f, 1f, true, "Your resistance to damage"),
-	CRITCHANCE(0f, 1f, true, "The chance to deal a critical hit anytime you deal damage"),
-	CRITDAMAGE(1f, Float.MAX_VALUE, true, "The multiplier to your damage when you deal a critical hit"),
-	REGENERATION(0f, 1f, true, "The percentage of your max health you gain each turn"),
-	HASTE(0f, 1f, true, "How fast you act"),
-	LIFESTEAL(0f, 1f, true, "The portion of your damage dealt you absorb as life");
+	MAXHP(1f, Float.MAX_VALUE, false, "Health", "The amount of damage you can take before dieing"),
+	POWER(1f, Float.MAX_VALUE, false, "Power", "The damage of your attacks and the effectiveness of your abilities"),
+	DR(0f, 1f, true, "Damage Resistance", "Your resistance to damage"),
+	CRITCHANCE(0f, 1f, true, "Critical Chance", "The chance to deal a critical hit anytime you deal damage"),
+	CRITDAMAGE(1f, Float.MAX_VALUE, true, "Critical Damage", "The multiplier to your damage when you deal a critical hit"),
+	REGENERATION(0f, 1f, true, "Regeneration", "The percentage of your max health you gain each turn"),
+	HASTE(0f, 1f, true, "Haste", "How fast you act"),
+	LIFESTEAL(0f, 1f, true, "Life Steal", "The portion of your damage dealt you absorb as life");
 
 	companion object
 	{

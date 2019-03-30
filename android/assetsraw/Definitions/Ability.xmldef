@@ -10,33 +10,33 @@
 			</Keyframe>
 			<!--Renderable-->
 			<Keyframe Name="DestinationRenderable" Background="75,166,173,101" HasDuration="True" meta:RefKey="Keyframe">
-				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Data Name="Renderable" Keys="Sprite,ParticleEffect,TilingSprite" meta:RefKey="Reference" />
 				<Data Name="RenderablePerTile" meta:RefKey="Boolean" />
 				<Data Name="KillOnEnd" meta:RefKey="Boolean" />
 			</Keyframe>
 			<Keyframe Name="SourceRenderable" Background="75,166,173,101" HasDuration="True" meta:RefKey="Keyframe">
-				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Data Name="Renderable" Keys="Sprite,ParticleEffect,TilingSprite" meta:RefKey="Reference" />
 				<Data Name="KillOnEnd" meta:RefKey="Boolean" />
 			</Keyframe>
 			<Keyframe Name="MovementRenderable" Background="49,181,114,94" HasDuration="True" meta:RefKey="Keyframe">
-				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Data Name="Renderable" Keys="Sprite,ParticleEffect,TilingSprite" meta:RefKey="Reference" />
 				<Data Name="UseLeap" meta:RefKey="Boolean" />
 			</Keyframe>
 			<Keyframe Name="ReplaceSourceRenderable" Background="42,214,177,94" HasDuration="True" meta:RefKey="Keyframe">
-				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Data Name="Renderable" Keys="Sprite,ParticleEffect,TilingSprite" meta:RefKey="Reference" />
 				<Data Name="RestoreOriginal" Default="True" meta:RefKey="Boolean" />
 			</Keyframe>
 			<Keyframe Name="SourceAnimation" Background="27,181,140,146" HasDuration="True" meta:RefKey="Keyframe">
-				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Data Name="Animation" EnumValues="Expand,Spin,Fade" meta:RefKey="Enum" />
 				<Data Name="SizeStart" Min="0" Default="1" VisibleIf="Animation==Expand" meta:RefKey="Number" />
 				<Data Name="SizeEnd" Min="0" Default="1" VisibleIf="Animation==Expand" meta:RefKey="Number" />
@@ -46,8 +46,8 @@
 				<Data Name="Angle" VisibleIf="Animation==Spin" meta:RefKey="Number" />
 			</Keyframe>
 			<Keyframe Name="Screenshake" Background="85,94,232,81" HasDuration="True" meta:RefKey="Keyframe">
-				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Data Name="Strength" meta:RefKey="Number" />
 				<Data Name="Speed" Min="1" Default="10" meta:RefKey="Number" />
 			</Keyframe>
@@ -66,13 +66,13 @@
 				<Data Name="Count" Default="1" meta:RefKey="String" />
 			</Keyframe>
 			<Keyframe Name="Buff" Background="39,237,118,81" HasDuration="True" meta:RefKey="Keyframe">
-				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Data Name="Buff" Keys="Buff" Nullable="False" meta:RefKey="Reference" />
 			</Keyframe>
 			<Keyframe Name="Debuff" Background="121,39,237,81" HasDuration="True" meta:RefKey="Keyframe">
-				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Data Name="Buff" Keys="Buff" Nullable="False" meta:RefKey="Reference" />
 			</Keyframe>
 			<!--Movement-->
@@ -124,7 +124,8 @@
 		</Data>
 	</Definition>
 	<Definition Name="Buff" IsGlobal="True" meta:RefKey="StructDef">
-		<Data Name="Icon" Keys="Sprite" Nullable="False" meta:RefKey="Reference" />
+		<Data Name="Description" meta:RefKey="String" />
+		<Data Name="Icon" Keys="Sprite" meta:RefKey="Reference" />
 		<Data Name="Statistics" Keys="Statistics" Nullable="False" meta:RefKey="Reference" />
 		<Data Name="Duration" Type="Int" Min="0" meta:RefKey="Number" />
 	</Definition>

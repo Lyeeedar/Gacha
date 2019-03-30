@@ -14,7 +14,7 @@ import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.Colour
 import com.lyeeedar.Util.max
 
-class EntityWidget(var entity: Entity) : Widget()
+class EntityWidget(var entity: Entity?) : Widget()
 {
 	val background = AssetManager.loadTextureRegion("Icons/Empty")!!
 	val border = AssetManager.loadTextureRegion("GUI/border")!!
@@ -36,14 +36,13 @@ class EntityWidget(var entity: Entity) : Widget()
 		batch.setColor(whiteColour)
 		batch.draw(background, x, y, width, height)
 
-		val renderable = entity.renderable()?.renderable as? Sprite
-
+		val renderable = entity?.renderable()?.renderable as? Sprite
 		if (renderable != null)
 		{
 			batch.draw(renderable.textures[0], x, y, width, height)
 		}
 
-		val stats = entity.stats()
+		val stats = entity?.stats()
 		if (stats != null)
 		{
 			val totalWidth = width-10f
@@ -77,10 +76,12 @@ class EntityWidget(var entity: Entity) : Widget()
 			for (i in 0 until stats.buffs.size)
 			{
 				val buff = stats.buffs[i]
-				batch.draw(buff.icon.currentTexture, x+5f+i*solid*4, y+10f, solid*4, solid*4)
+
+				val icon = buff.icon ?: continue
+				batch.draw(icon.currentTexture, x+5f+i*solid*4, y+10f, solid*4, solid*4)
 			}
 
-			val ability = entity.ability()
+			val ability = entity!!.ability()
 			if (ability != null)
 			{
 				val abx = x+width-17f
@@ -110,18 +111,13 @@ class EntityWidget(var entity: Entity) : Widget()
 				}
 			}
 
+			batch.setColor(stats.ascension.colour)
+			batch.draw(border, x, y, width, height)
+
 			if (hp == 0f)
 			{
 				batch.setColor(greyOut)
 				batch.draw(white, x, y, width, height)
-
-				batch.setColor(darkGray)
-				batch.draw(border, x, y, width, height)
-			}
-			else
-			{
-				batch.setColor(lightGray)
-				batch.draw(border, x, y, width, height)
 			}
 		}
 	}

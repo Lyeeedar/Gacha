@@ -1,0 +1,19 @@
+<Definitions Colour="245,70,70" Icon="Sprites/Icons/FireTree.png" xmlns:meta="Editor">
+	<Definition Name="Faction" meta:RefKey="Struct">
+		<Data Name="Name" meta:RefKey="String" />
+		<Data Name="Description" meta:RefKey="String" />
+		<Data Name="Icon" Keys="Sprite" Nullable="False" meta:RefKey="Reference" />
+		<Data Name="Buffs" Nullable="False" meta:RefKey="Struct">
+			<Data Name="Buff2" Keys="Buff" Nullable="False" meta:RefKey="Reference" />
+			<Data Name="Buff3" Keys="Buff" Nullable="False" meta:RefKey="Reference" />
+			<Data Name="Buff4" Keys="Buff" Nullable="False" meta:RefKey="Reference" />
+			<Data Name="Buff5" Keys="Buff" Nullable="False" meta:RefKey="Reference" />
+		</Data>
+		<Data Name="Heroes" meta:RefKey="Collection">
+			<Data Name="Hero" Nullable="False" meta:RefKey="Struct">
+				<Data Name="Entity" BasePath="Entities" StripExtension="True" ResourceType="Entity" meta:RefKey="File" />
+				<Data Name="Rarity" Key="Rarities" SkipIfDefault="False" meta:RefKey="Enum" />
+			</Data>
+		</Data>
+	</Definition>
+</Definitions>

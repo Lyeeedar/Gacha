@@ -79,9 +79,9 @@ class RenderSystemWidget : Widget()
 		val level = Global.engine.level!!
 		val tileSize = Global.engine.render()!!.tileSize
 
-		val xp = x + (width / 2f) - ((level.width * tileSize) / 2f)
+		val xp = (width / 2f) - ((level.width * tileSize) / 2f)
 
-		return Vector2(xp + point.x * tileSize, y + point.y * tileSize)
+		return this.localToStageCoordinates(Vector2(xp + point.x * tileSize, point.y * tileSize))
 	}
 
 	companion object

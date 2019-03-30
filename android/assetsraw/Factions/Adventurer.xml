@@ -1,0 +1,49 @@
+<Faction xmlns:meta="Editor">
+	<Name>Adventurer</Name>
+	<Description>Members of the guild of adventurers</Description>
+	<Icon meta:RefKey="Sprite">
+		<Name>Oryx/uf_split/uf_items/armor_plate_chest</Name>
+		<DrawActualSize>true</DrawActualSize>
+	</Icon>
+	<Buffs>
+		<Buff2 meta:RefKey="Buff">
+			<Description>The first concern of any adventurer is surviving the next encounter.</Description>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>0.1</MaxHP>
+			</Statistics>
+		</Buff2>
+		<Buff3 meta:RefKey="Buff">
+			<Description>The best defense is a strong offense. Well maintained weapons helps keep an adventurer alive.</Description>
+			<Statistics meta:RefKey="Statistics">
+				<Power>0.15</Power>
+			</Statistics>
+		</Buff3>
+		<Buff4 meta:RefKey="Buff">
+			<Description>The longest surviving adventurers are those who can take the largest beatings.</Description>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>0.2</MaxHP>
+			</Statistics>
+		</Buff4>
+		<Buff5 meta:RefKey="Buff">
+			<Description>Studying your enemies is an core component of adventurer life.</Description>
+			<Statistics meta:RefKey="Statistics">
+				<CritChance>0.1</CritChance>
+				<CritDamage>0.5</CritDamage>
+			</Statistics>
+		</Buff5>
+	</Buffs>
+	<Heroes>
+		<Hero>
+			<Entity>Archer</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>Nemora</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>Khasos</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+	</Heroes>
+</Faction>

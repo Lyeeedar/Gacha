@@ -12,4 +12,5 @@
 		<Data Name="Haste" Min="0" meta:RefKey="Number" />
 		<Data Name="LifeSteal" Min="0" meta:RefKey="Number" />
 	</Definition>
+	<Definition Name="Rarities" IsGlobal="True" meta:RefKey="EnumDef">Common,Uncommon,Rare</Definition>
 </Definitions>
