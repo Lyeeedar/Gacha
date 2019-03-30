@@ -2,10 +2,7 @@ package com.lyeeedar.Screens
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane
-import com.badlogic.gdx.scenes.scene2d.ui.Table
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton
-import com.badlogic.gdx.scenes.scene2d.ui.Value
+import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable
 import com.lyeeedar.Components.loaddata
@@ -26,7 +23,10 @@ class MapScreen : AbstractScreen()
 
 	var level: Level? = null
 
-	var timeMultiplier = 1f
+	class TimeMultiplier(val name: String, val multiplier: Float)
+	val multipliers = arrayOf(TimeMultiplier("x0.5", 0.5f), TimeMultiplier("x1", 1f), TimeMultiplier("x2", 2f))
+	var multiplierIndex = 1
+	var paused = false
 
 	data class SystemData(val name: String, var time: Float, var entities: String)
 	val systemTimes: Array<SystemData> by lazy { Array<SystemData>(systemList.size) { i -> SystemData(systemList[i].java.simpleName.replace("System", ""), 0f, "--") } }
@@ -59,29 +59,6 @@ class MapScreen : AbstractScreen()
 		mainTable.add(mapWidget).grow().height(Value.percentHeight(0.7f, mainTable))
 		mainTable.row()
 		mainTable.add(bottomArea).grow().height(Value.percentHeight(0.3f, mainTable))
-
-		debugConsole.register("TimeMultiplier", "'TimeMultiplier speed' to enable, 'TimeMultiplier false' to disable", fun(args, console): Boolean {
-			if (args[0] == "false")
-			{
-				timeMultiplier = 1f
-				return true
-			}
-			else
-			{
-				try
-				{
-					val speed = args[0].toFloat()
-					timeMultiplier = speed
-
-					return true
-				}
-				catch (ex: Exception)
-				{
-					console.error(ex.message!!)
-					return false
-				}
-			}
-		})
 
 		debugConsole.register("SystemDebug", "'SystemDebug true' to enable, 'SystemDebug false' to disable", fun (args, console): Boolean {
 			if (args[0] == "false")
@@ -179,7 +156,39 @@ class MapScreen : AbstractScreen()
 			entityTable.add(widget).grow()
 		}
 
-		bottomArea.add(entityTable).growX().height(75f).expandY().bottom()
+		val pauseButton = Button(Global.skin, "play")
+		pauseButton.addClickListener {
+			paused = !paused
+
+			if (paused)
+			{
+				pauseButton.style = Global.skin.get("pause", Button.ButtonStyle::class.java)
+			}
+			else
+			{
+				pauseButton.style = Global.skin.get("play", Button.ButtonStyle::class.java)
+			}
+		}
+
+		val speedButton = TextButton(multipliers[multiplierIndex].name, Global.skin)
+		speedButton.addClickListener {
+			multiplierIndex++
+			if (multiplierIndex == multipliers.size)
+			{
+				multiplierIndex = 0
+			}
+
+			speedButton.setText(multipliers[multiplierIndex].name)
+		}
+
+		val buttonTable = Table()
+		buttonTable.add(pauseButton).pad(5f).size(30f)
+		buttonTable.add(speedButton).pad(5f).height(30f)
+		buttonTable.add(Table()).growX()
+
+		bottomArea.add(buttonTable).growX().expandY().bottom()
+		bottomArea.row()
+		bottomArea.add(entityTable).growX().height(75f)
 
 		level!!.selectingEntities = false
 	}
@@ -268,8 +277,8 @@ class MapScreen : AbstractScreen()
 
 	override fun doRender(delta: Float)
 	{
-		val extraMult = if (level!!.selectingEntities) 0f else 1f
-		Global.engine.update(delta * timeMultiplier * extraMult)
+		val extraMult = if (level!!.selectingEntities || paused) 0f else 1f
+		Global.engine.update(delta * multipliers[multiplierIndex].multiplier * extraMult)
 
 		if (!Global.release)
 		{

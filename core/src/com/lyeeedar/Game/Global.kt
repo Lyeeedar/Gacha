@@ -238,6 +238,20 @@ class Global
 			checkButton.overFontColor = Color.WHITE
 			skin.add("default", checkButton)
 
+			val pauseButton = Button.ButtonStyle()
+			pauseButton.up =
+				LayeredDrawable(
+					buttonBackground,
+					TextureRegionDrawable(AssetManager.loadTextureRegion("Sprites/Oryx/uf_split/uf_interface/uf_interface_643.png")))
+			skin.add("pause", pauseButton)
+
+			val playButton = Button.ButtonStyle()
+			playButton.up =
+				LayeredDrawable(
+					buttonBackground,
+					TextureRegionDrawable(AssetManager.loadTextureRegion("Sprites/Oryx/uf_split/uf_interface/uf_interface_682.png")))
+			skin.add("play", playButton)
+
 			val textButton = TextButton.TextButtonStyle()
 			textButton.up = buttonBackground
 			textButton.font = skin.getFont("default")
