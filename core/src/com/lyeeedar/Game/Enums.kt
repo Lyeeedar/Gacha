@@ -303,18 +303,18 @@ enum class Statistic private constructor(val min: Float, val max: Float, val mod
 {
 	MAXHP(1f, Float.MAX_VALUE, false, "Health", "The amount of damage you can take before dieing"),
 	POWER(1f, Float.MAX_VALUE, false, "Power", "The damage of your attacks and the effectiveness of your abilities"),
-	DR(0f, 1f, true, "Damage Resistance", "Your resistance to damage"),
+	DR(-1f, 1f, true, "Damage Resistance", "Your resistance to damage"),
 	CRITCHANCE(0f, 1f, true, "Critical Chance", "The chance to deal a critical hit anytime you deal damage"),
 	CRITDAMAGE(1f, Float.MAX_VALUE, true, "Critical Damage", "The multiplier to your damage when you deal a critical hit"),
-	REGENERATION(0f, 1f, true, "Regeneration", "The percentage of your max health you gain each turn"),
-	HASTE(0f, 1f, true, "Haste", "How fast you act"),
+	REGENERATION(-1f, 1f, true, "Regeneration", "The percentage of your max health you gain each turn"),
+	HASTE(-1f, 1f, true, "Haste", "How fast you act"),
 	LIFESTEAL(0f, 1f, true, "Life Steal", "The portion of your damage dealt you absorb as life"),
 	BUFFDURATION(0f, Float.MAX_VALUE, true, "Buff Duration", "The bonus to the duration of buffs you create."),
 	BUFFPOWER(0f, Float.MAX_VALUE, true, "Buff Power", "The bonus to the power of buffs you create."),
 	DEBUFFDURATION(0f, Float.MAX_VALUE, true, "Debuff Duration", "The bonus to the duration of debuffs you create."),
 	DEBUFFPOWER(0f, Float.MAX_VALUE, true, "Debuff Power", "The bonus to the power of debuffs you create."),
 	AEGIS(0f, 1f, true, "Aegis", "The chance to avoid completely block damage when hit."),
-	ABILITYCOOLDOWN(0f, Float.MAX_VALUE, true, "Ability Cooldown", "The rate at which your abilities come off cooldown.");
+	ABILITYCOOLDOWN(-Float.MAX_VALUE, Float.MAX_VALUE, true, "Ability Cooldown", "The rate at which your abilities come off cooldown.");
 
 	companion object
 	{

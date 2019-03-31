@@ -3,15 +3,15 @@
 	<Definition Name="Statistics" IsGlobal="True" meta:RefKey="StructDef">
 		<!--Base-->
 		<Data Name="MaxHP" Min="0" meta:RefKey="Number" />
-		<Data Name="Power" Min="0" meta:RefKey="Number" />
+		<Data Name="Power" meta:RefKey="Number" />
 		<!--Offense-->
 		<Data Name="CritChance" Min="0" meta:RefKey="Number" />
 		<Data Name="CritDamage" Min="0" meta:RefKey="Number" />
-		<Data Name="Haste" Min="0" meta:RefKey="Number" />
-		<Data Name="AbilityCooldown" Min="0" meta:RefKey="Number" />
+		<Data Name="Haste" meta:RefKey="Number" />
+		<Data Name="AbilityCooldown" meta:RefKey="Number" />
 		<!--Defense-->
-		<Data Name="DR" Min="0" Max="1" meta:RefKey="Number" />
-		<Data Name="Regeneration" Min="0" meta:RefKey="Number" />
+		<Data Name="DR" Min="-1" Max="1" meta:RefKey="Number" />
+		<Data Name="Regeneration" Min="-1" Max="1" meta:RefKey="Number" />
 		<Data Name="LifeSteal" Min="0" meta:RefKey="Number" />
 		<Data Name="Aegis" Min="0" meta:RefKey="Number" />
 		<!--Buff-->

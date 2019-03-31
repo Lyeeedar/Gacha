@@ -36,15 +36,6 @@ class StatisticsComponent: AbstractComponent()
 					blockedDamage = true
 					return
 				}
-				else
-				{
-					val aegisChance = getStat(Statistic.AEGIS)
-					if (aegisChance > 0f && Random.random() < aegisChance)
-					{
-						diff = 0f
-						blockedDamage = true
-					}
-				}
 			}
 
 			v = hp + diff
@@ -119,7 +110,14 @@ class StatisticsComponent: AbstractComponent()
 		val baseDam = amount
 		val dr = getStat(Statistic.DR)
 
-		val dam = baseDam - dr * baseDam
+		var dam = baseDam - dr * baseDam
+
+		val aegisChance = getStat(Statistic.AEGIS)
+		if (aegisChance > 0f && Random.random() < aegisChance)
+		{
+			dam = 0f
+			blockedDamage = true
+		}
 
 		hp -= dam
 
@@ -173,7 +171,7 @@ class StatisticsComponent: AbstractComponent()
 		var value = baseStats[statistic] ?: 0f
 
 		// apply level / rarity
-		value *= 1f + 0.1f * level
+		value *= Math.pow(1.1, level.toDouble()).toFloat() // 10% per level
 		value *= ascension.multiplier
 
 		// apply buffs and equipment

@@ -141,7 +141,15 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 		for (entity in entities)
 		{
 			val stats = entity.stats()!!
-			stats.regenerate(stats.getStat(Statistic.MAXHP) * stats.getStat(Statistic.REGENERATION))
+			val regenAmount = stats.getStat(Statistic.MAXHP) * stats.getStat(Statistic.REGENERATION)
+			if (regenAmount > 0f)
+			{
+				stats.regenerate(regenAmount)
+			}
+			else if (regenAmount < 0f)
+			{
+				stats.dealDamage(regenAmount)
+			}
 
 			val itr = stats.buffs.iterator()
 			while (itr.hasNext())
