@@ -10,6 +10,7 @@ import com.lyeeedar.Components.*
 import com.lyeeedar.Statistic
 import com.lyeeedar.Util.BloodSplatter
 import com.lyeeedar.Util.XmlData
+import com.lyeeedar.Util.ciel
 import com.lyeeedar.Util.round
 
 class DamageAction(ability: Ability) : AbstractAbilityAction(ability)
@@ -227,10 +228,13 @@ class BuffAction(ability: Ability) : AbstractAbilityAction(ability)
 	var isDebuff = false
 	lateinit var buff: Buff
 
-	val appliedToEntities = Array<StatisticsComponent>(false, 4)
+	class BuffRecord(val stats: StatisticsComponent, val buff: Buff)
+	val appliedToEntities = Array<BuffRecord>(false, 4)
 
 	override fun enter(): Boolean
 	{
+		val sourcestats = ability.source.stats()!!
+
 		val hitEntities = ObjectSet<Entity>()
 		for (point in ability.targets)
 		{
@@ -243,12 +247,33 @@ class BuffAction(ability: Ability) : AbstractAbilityAction(ability)
 				val stats = entity.stats() ?: continue
 				if ((isDebuff && entity.isEnemies(ability.source)) || entity.isAllies(ability.source))
 				{
-					val buff = if (buff.duration > 0) buff.copy() else buff
+					val buff = buff.copy()
+
+					if (isDebuff)
+					{
+						buff.duration = buff.duration + (buff.duration * sourcestats.getStat(Statistic.DEBUFFDURATION)).ciel()
+
+						for (stat in Statistic.Values)
+						{
+							val value = buff.statistics[stat] ?: continue
+							buff.statistics[stat] = value + value * sourcestats.getStat(Statistic.DEBUFFPOWER)
+						}
+					}
+					else
+					{
+						buff.duration = buff.duration + (buff.duration * sourcestats.getStat(Statistic.BUFFDURATION)).ciel()
+
+						for (stat in Statistic.Values)
+						{
+							val value = buff.statistics[stat] ?: continue
+							buff.statistics[stat] = value + value * sourcestats.getStat(Statistic.BUFFPOWER)
+						}
+					}
 
 					buff.source = this
 
 					stats.buffs.add(buff)
-					appliedToEntities.add(stats)
+					appliedToEntities.add(BuffRecord(stats, buff))
 				}
 			}
 		}
@@ -260,9 +285,9 @@ class BuffAction(ability: Ability) : AbstractAbilityAction(ability)
 	{
 		if (buff.duration == 0)
 		{
-			for (stats in appliedToEntities)
+			for (record in appliedToEntities)
 			{
-				stats.buffs.removeValue(buff, true)
+				record.stats.buffs.removeValue(record.buff, true)
 			}
 		}
 

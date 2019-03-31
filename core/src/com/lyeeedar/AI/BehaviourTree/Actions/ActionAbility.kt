@@ -7,6 +7,7 @@ import com.lyeeedar.Components.Mappers
 import com.lyeeedar.Components.ability
 import com.lyeeedar.Components.stats
 import com.lyeeedar.Game.Tile
+import com.lyeeedar.Statistic
 import com.lyeeedar.Util.Point
 import com.lyeeedar.Util.XmlData
 import com.lyeeedar.Util.randomOrNull
@@ -41,7 +42,7 @@ class ActionAbility : AbstractAction()
 
 		for (ab in ability.abilities)
 		{
-			ab.remainingCooldown--
+			ab.remainingCooldown -= (1f + stats.getStat(Statistic.ABILITYCOOLDOWN))
 		}
 
 		val dist = target.taxiDist(tile)
@@ -51,11 +52,11 @@ class ActionAbility : AbstractAction()
 		{
 			if (readyAbility.singleUse)
 			{
-				readyAbility.remainingCooldown = Int.MAX_VALUE
+				readyAbility.remainingCooldown = Float.MAX_VALUE
 			}
 			else
 			{
-				readyAbility.remainingCooldown = readyAbility.cooldown.getValue()
+				readyAbility.remainingCooldown = readyAbility.cooldown.getValue().toFloat()
 			}
 			readyAbility.selectedCooldown = readyAbility.remainingCooldown
 			readyAbility.justUsed = true

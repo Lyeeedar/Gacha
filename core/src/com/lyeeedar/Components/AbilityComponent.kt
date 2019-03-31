@@ -39,7 +39,7 @@ class AbilityComponent : AbstractComponent()
 			data.availableOnStart = availableOnStart
 			data.condition = condition
 			data.range = range
-			data.remainingCooldown = if (availableOnStart) 0 else data.cooldown.getValue()
+			data.remainingCooldown = if (availableOnStart) 0f else data.cooldown.getValue().toFloat()
 
 			abilities.add(data)
 		}
@@ -58,7 +58,7 @@ class AbilityData
 	lateinit var condition: CompiledExpression
 	var range: Int = 1
 
-	var selectedCooldown = 0
-	var remainingCooldown = 0
+	var selectedCooldown = 0f
+	var remainingCooldown = 0f
 	var justUsed = false
 }

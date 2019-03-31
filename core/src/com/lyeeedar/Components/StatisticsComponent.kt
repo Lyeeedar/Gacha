@@ -36,9 +36,18 @@ class StatisticsComponent: AbstractComponent()
 					blockedDamage = true
 					return
 				}
+				else
+				{
+					val aegisChance = getStat(Statistic.AEGIS)
+					if (aegisChance > 0f && Random.random() < aegisChance)
+					{
+						diff = 0f
+						blockedDamage = true
+					}
+				}
 			}
 
-			diff = v - hp
+			v = hp + diff
 
 			if (v < field)
 			{
