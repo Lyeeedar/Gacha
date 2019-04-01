@@ -264,7 +264,7 @@ class MapScreen : AbstractScreen()
 				if (faction.value.count >= 2+i)
 				{
 					val widget = SpriteWidget(faction.value.faction.icon.copy(), 24f, 24f)
-					widget.addTapToolTip(faction.value.faction.buffs[i].description)
+					widget.addTapToolTip(faction.value.faction.name + " ${i+2}:\n" + faction.value.faction.buffs[i].description)
 					enemyBonusTable.add(widget).pad(5f)
 
 					for (entity in level!!.enemies)
@@ -400,7 +400,7 @@ class MapScreen : AbstractScreen()
 				if (faction.value.count >= 2+i)
 				{
 					val widget = SpriteWidget(faction.value.faction.icon.copy(), 24f, 24f)
-					widget.addTapToolTip(faction.value.faction.buffs[i].description)
+					widget.addTapToolTip(faction.value.faction.name + " ${i+2}:\n" + faction.value.faction.buffs[i].description)
 					factionBonusTable.add(widget).pad(5f)
 
 					for (tile in level!!.playerTiles)

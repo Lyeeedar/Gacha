@@ -304,7 +304,7 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 			val playerEntities = com.badlogic.gdx.utils.Array<Entity>()
 			val playerTiles = com.badlogic.gdx.utils.Array<Tile>()
 			val enemies = com.badlogic.gdx.utils.Array<Entity>()
-			val enemyFaction = Faction.load("Goblin")
+			val enemyFaction = Faction.load("Greenskin/GreenskinAlliance")
 
 			fun loadTile(tile: Tile, char: Char)
 			{

@@ -3,8 +3,8 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>1200</MaxHP>
-				<Power>100</Power>
+				<MaxHP>900</MaxHP>
+				<Power>90</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
 			</Statistics>
@@ -38,51 +38,6 @@
 		<Ability>
 			<Abilities>
 				<AbilityData>
-					<Name>Warcry</Name>
-					<Icon meta:RefKey="Sprite">
-						<Name>white</Name>
-					</Icon>
-					<Ability meta:RefKey="Ability">
-						<Timeline>
-							<SelectSelf />
-							<Permute>
-								<Time>0.003941239</Time>
-								<HitPoints>
-									<Line>#####</Line>
-									<Line>#####</Line>
-									<Line>#####</Line>
-									<Line>#####</Line>
-									<Line>#####</Line>
-								</HitPoints>
-							</Permute>
-							<Buff>
-								<Duration LockDuration="False">0.03561151</Duration>
-								<Time>0.103537172</Time>
-								<Buff meta:RefKey="Buff">
-									<Icon meta:RefKey="Sprite">
-										<Name>GUI/Buff</Name>
-									</Icon>
-									<Statistics meta:RefKey="Statistics">
-										<Power>0.2</Power>
-									</Statistics>
-									<Duration>6</Duration>
-								</Buff>
-							</Buff>
-						</Timeline>
-						<Timeline>
-							<DestinationRenderable>
-								<Duration LockDuration="False">0.191082135</Duration>
-								<Time>0.008562</Time>
-								<Renderable meta:RefKey="ParticleEffect">
-									<Name>Shout</Name>
-									<Colour>166,201,165,255</Colour>
-								</Renderable>
-							</DestinationRenderable>
-						</Timeline>
-					</Ability>
-					<Cooldown>8,12</Cooldown>
-				</AbilityData>
-				<AbilityData>
 					<Name>Big Strike</Name>
 					<Icon meta:RefKey="Sprite">
 						<Name>white</Name>
@@ -90,25 +45,19 @@
 					<Ability meta:RefKey="Ability">
 						<Timeline>
 							<BlockTurn>
-								<Time>0.205095917</Time>
+								<Time>0.008265478</Time>
 							</BlockTurn>
 							<Damage>
-								<Time>0.3169022</Time>
+								<Time>0.109832019</Time>
 							</Damage>
 							<Knockback>
-								<Time>0.326793939</Time>
+								<Time>0.119154893</Time>
 							</Knockback>
 						</Timeline>
 						<Timeline>
-							<SourceRenderable>
-								<Duration LockDuration="False">0.173441246</Duration>
-								<Renderable meta:RefKey="ParticleEffect">
-									<Name>Charge</Name>
-								</Renderable>
-							</SourceRenderable>
 							<DestinationRenderable>
+								<Time>0.0387318246</Time>
 								<Duration LockDuration="False">0.155616254</Duration>
-								<Time>0.244664252</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Thrust</Name>
 								</Renderable>
@@ -116,6 +65,51 @@
 						</Timeline>
 					</Ability>
 					<Cooldown>3,8</Cooldown>
+				</AbilityData>
+				<AbilityData>
+					<Name>Cower</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>Particle/blurrylines</Name>
+					</Icon>
+					<Ability meta:RefKey="Ability">
+						<Timeline>
+							<SelectSelf />
+							<Buff>
+								<Time>0.022028422</Time>
+								<Duration LockDuration="False">0.177648589</Duration>
+								<Buff meta:RefKey="Buff">
+									<Description>Cower down to avoid damage.</Description>
+									<Icon meta:RefKey="Sprite">
+										<Name>Particle/blurrylines</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<DR>0.6</DR>
+									</Statistics>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<BlockTurn>
+								<Time>0.05897933</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.07887597</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.0987726152</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.118669249</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.1385659</Time>
+							</BlockTurn>
+						</Timeline>
+					</Ability>
+					<SingleUse>true</SingleUse>
+					<AvailableOnStart>true</AvailableOnStart>
+					<Condition>hp&lt;maxhp*0.5</Condition>
+					<Range>99999</Range>
 				</AbilityData>
 			</Abilities>
 		</Ability>

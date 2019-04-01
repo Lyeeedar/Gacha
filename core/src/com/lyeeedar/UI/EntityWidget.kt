@@ -99,7 +99,10 @@ class EntityWidget(var entity: Entity?) : Widget()
 						val alpha = ab.remainingCooldown.toFloat() / ab.selectedCooldown.toFloat()
 						batch.setColor(greyOut)
 						batch.draw(white, abx, aby-i*12f, 10f, 10f * alpha)
+					}
 
+					if (ab.remainingCooldown > 0 || ab.condition.evaluate(entity!!.stats().variables()) == 0f)
+					{
 						batch.setColor(lightGray)
 					}
 					else

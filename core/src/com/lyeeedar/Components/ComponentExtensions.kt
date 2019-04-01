@@ -72,8 +72,7 @@ class EntityLoader()
 
 		@JvmStatic fun load(path: String): Entity
 		{
-			val entityPath = "Entities/$path"
-			val xml = getXml(entityPath)
+			val xml = getXml(path)
 
 			val entity = if (xml.get("Extends", null) != null) load(xml.get("Extends")) else Entity()
 
@@ -101,7 +100,7 @@ class EntityLoader()
 				}
 
 				component.fromLoad = true
-				component.parse(componentEl, entity, entityPath.directory())
+				component.parse(componentEl, entity, path.directory())
 				entity.add(component)
 			}
 

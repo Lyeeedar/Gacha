@@ -1,0 +1,43 @@
+<Faction xmlns:meta="Editor">
+	<Name>Greenskin Alliance</Name>
+	<Description>An alliance of multiple races, united by the colour of their skin and a complex bond of agreements and pacts.</Description>
+	<Icon meta:RefKey="Sprite">
+		<Name>Oryx/uf_split/uf_portraits/head_orc_female</Name>
+	</Icon>
+	<Buffs>
+		<Buff2 meta:RefKey="Buff">
+			<Description>Greenskins are tougher in groups.</Description>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>0.1</MaxHP>
+			</Statistics>
+		</Buff2>
+		<Buff3 meta:RefKey="Buff">
+			<Description>Greenskins are tougher in groups.</Description>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>0.1</MaxHP>
+			</Statistics>
+		</Buff3>
+		<Buff4 meta:RefKey="Buff">
+			<Description>Greenskins are tougher in groups.</Description>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>0.1</MaxHP>
+			</Statistics>
+		</Buff4>
+		<Buff5 meta:RefKey="Buff">
+			<Description>Greenskins are tougher in groups.</Description>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>0.1</MaxHP>
+			</Statistics>
+		</Buff5>
+	</Buffs>
+	<Heroes>
+		<Hero>
+			<Entity>Gibu</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>Linbah</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+	</Heroes>
+</Faction>

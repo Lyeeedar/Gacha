@@ -5,9 +5,10 @@ import com.lyeeedar.Rarity
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.XmlData
+import com.lyeeedar.Util.directory
 import com.lyeeedar.Util.getXml
 
-class Faction
+class Faction(val path: String)
 {
 	lateinit var name: String
 	lateinit var description: String
@@ -16,8 +17,6 @@ class Faction
 	val buffs = Array<Buff>(4) { Buff() }
 
 	val heroes = com.badlogic.gdx.utils.Array<FactionEntity>()
-
-	var factionXP = 0
 
 	fun parse(xmlData: XmlData)
 	{
@@ -39,9 +38,8 @@ class Faction
 		val heroesEl = xmlData.getChildByName("Heroes")!!
 		for (el in heroesEl.children)
 		{
-			val hero = FactionEntity()
+			val hero = FactionEntity(this)
 			hero.parse(el)
-			hero.faction = this
 
 			heroes.add(hero)
 		}
@@ -51,8 +49,9 @@ class Faction
 	{
 		fun load(path: String): Faction
 		{
-			val xml = getXml("Factions/$path")
-			val faction = Faction()
+			val path = "Factions/$path"
+			val xml = getXml(path)
+			val faction = Faction(path)
 			faction.parse(xml)
 
 			return faction
@@ -60,15 +59,17 @@ class Faction
 	}
 }
 
-class FactionEntity
+class FactionEntity(val faction: Faction)
 {
-	lateinit var entityPath: String
+	private lateinit var rawEntityPath: String
 	lateinit var rarity: Rarity
-	lateinit var faction: Faction
+
+	val entityPath: String
+		get() = faction.path.directory() + "/" + rawEntityPath
 
 	fun parse(xmlData: XmlData)
 	{
-		entityPath = xmlData.get("Entity")
+		rawEntityPath = xmlData.get("Entity")
 		rarity = Rarity.valueOf(xmlData.get("Rarity").toUpperCase())
 	}
 }

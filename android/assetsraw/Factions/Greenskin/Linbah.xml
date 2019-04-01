@@ -1,0 +1,115 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>900</MaxHP>
+				<Power>90</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack>
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+					<Colour>187,247,199,100</Colour>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/goblin_warrior</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/goblin_warrior</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Shield Bash</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/shield_iron_buckler</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Icon>
+					<Ability meta:RefKey="Ability">
+						<Timeline>
+							<Stun>
+								<Time>0.0381045751</Time>
+								<Count>1+rnd(3)</Count>
+							</Stun>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.163921565</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>BlockBroken</Name>
+								</Renderable>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+				</AbilityData>
+				<AbilityData>
+					<Name>Block</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/shield_iron_heater</Name>
+					</Icon>
+					<Ability meta:RefKey="Ability">
+						<Timeline>
+							<Buff>
+								<Time>0.031633988</Time>
+								<Duration LockDuration="False">0.204183</Duration>
+								<Buff meta:RefKey="Buff">
+									<Description>Block attacks</Description>
+									<Icon meta:RefKey="Sprite">
+										<Name>Oryx/uf_split/uf_items/shield_iron_heater</Name>
+										<DrawActualSize>true</DrawActualSize>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Aegis>0.8</Aegis>
+									</Statistics>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<BlockTurn>
+								<Time>0.07261438</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.0970588252</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.121503264</Time>
+							</BlockTurn>
+							<SelectSelf />
+						</Timeline>
+						<Timeline>
+							<SourceRenderable>
+								<Duration LockDuration="False">0.1804575</Duration>
+								<Time>0.031633988</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Block</Name>
+								</Renderable>
+							</SourceRenderable>
+						</Timeline>
+					</Ability>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+	</Components>
+</Entity>

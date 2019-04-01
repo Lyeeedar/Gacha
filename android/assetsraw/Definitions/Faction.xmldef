@@ -11,7 +11,7 @@
 		</Data>
 		<Data Name="Heroes" meta:RefKey="Collection">
 			<Data Name="Hero" Nullable="False" meta:RefKey="Struct">
-				<Data Name="Entity" BasePath="Entities" StripExtension="True" ResourceType="Entity" meta:RefKey="File" />
+				<Data Name="Entity" StripExtension="True" ResourceType="Entity" RelativeToThis="True" meta:RefKey="File" />
 				<Data Name="Rarity" Key="Rarities" SkipIfDefault="False" meta:RefKey="Enum" />
 			</Data>
 		</Data>
