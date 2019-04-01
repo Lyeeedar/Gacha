@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.ObjectSet
 import com.lyeeedar.Components.*
 import com.lyeeedar.Direction
 import com.lyeeedar.Game.Tile
+import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Animation.BumpAnimation
 import com.lyeeedar.Renderables.Animation.MoveAnimation
 import com.lyeeedar.SpaceSlot
@@ -20,7 +21,10 @@ class TaskAttack(val tile: Tile, val attackDefinition: AttackDefinition) : Abstr
 	{
 		e.pos().facing = Direction.getCardinalDirection(e.pos().position.x - tile.x, tile.y - e.pos().position.y)
 
-		e.renderable().renderable.animation = BumpAnimation.obtain().set(0.2f, Direction.Companion.getDirection(e.tile()!!, tile))
+		if (!Global.resolveInstant)
+		{
+			e.renderable().renderable.animation = BumpAnimation.obtain().set(0.2f, Direction.Companion.getDirection(e.tile()!!, tile))
+		}
 
 		val entitiesToHit = ObjectSet<Entity>()
 		for (slot in SpaceSlot.EntityValues)
@@ -34,28 +38,32 @@ class TaskAttack(val tile: Tile, val attackDefinition: AttackDefinition) : Abstr
 		val diff = tile.getPosDiff(e.tile()!!)
 
 		var delay = 0f
-		if (attackDefinition.range > 1)
+
+		if (!Global.resolveInstant)
 		{
-			val animDuration = 0.15f + tile.euclideanDist(e.tile()!!) * 0.015f
+			if (attackDefinition.range > 1)
+			{
+				val animDuration = 0.15f + tile.euclideanDist(e.tile()!!) * 0.015f
 
-			val effect = attackDefinition.flightEffect!!.copy()
-			effect.rotation = getRotation(e.tile()!!, tile)
-			effect.killOnAnimComplete = true
-			effect.animation = MoveAnimation.obtain().set(animDuration, diff)
+				val effect = attackDefinition.flightEffect!!.copy()
+				effect.rotation = getRotation(e.tile()!!, tile)
+				effect.killOnAnimComplete = true
+				effect.animation = MoveAnimation.obtain().set(animDuration, diff)
 
-			effect.addToEngine(tile)
+				effect.addToEngine(tile)
 
-			delay += animDuration
-		}
+				delay += animDuration
+			}
 
-		if (attackDefinition.hitEffect != null)
-		{
-			val effect = attackDefinition.hitEffect!!.copy()
-			effect.renderDelay = delay
-			effect.rotation = getRotation(e.tile()!!, tile)
-			effect.addToEngine(tile)
+			if (attackDefinition.hitEffect != null)
+			{
+				val effect = attackDefinition.hitEffect!!.copy()
+				effect.renderDelay = delay
+				effect.rotation = getRotation(e.tile()!!, tile)
+				effect.addToEngine(tile)
 
-			delay += effect.lifetime * 0.3f
+				delay += effect.lifetime * 0.3f
+			}
 		}
 
 		Future.call(

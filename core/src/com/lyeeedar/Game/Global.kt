@@ -51,6 +51,8 @@ class Global
 		lateinit var applicationChanger: AbstractApplicationChanger
 		var settings = Settings()
 
+		var resolveInstant = false
+
 		lateinit var engine: Engine
 
 		var resolution = Point(360, 640)

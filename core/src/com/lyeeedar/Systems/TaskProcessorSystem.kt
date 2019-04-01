@@ -7,6 +7,7 @@ import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.utils.Array
 import com.lyeeedar.AI.Tasks.TaskMove
 import com.lyeeedar.Components.*
+import com.lyeeedar.Global
 import com.lyeeedar.Statistic
 import com.lyeeedar.UI.DebugConsole
 import com.lyeeedar.Util.Event0Arg
@@ -82,7 +83,7 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 
 		if (!hasEffects && !hasAbilities)
 		{
-			if (processArray.size == 0 && turnTime >= minTurnTime)
+			if (processArray.size == 0 && (Global.resolveInstant || turnTime >= minTurnTime))
 			{
 				beginTurn()
 			}

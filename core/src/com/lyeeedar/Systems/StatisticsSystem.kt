@@ -58,21 +58,24 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 
 		if (stats.tookDamage)
 		{
-			val sprite = entity.renderable()?.renderable as? Sprite
-
-			if (sprite != null)
+			if (!Global.resolveInstant)
 			{
-				sprite.colourAnimation = BlinkAnimation.obtain().set(Colour(1f, 0.5f, 0.5f, 1f), sprite.colour, 0.15f, true)
-			}
+				val sprite = entity.renderable()?.renderable as? Sprite
 
-			val tile = entity.tile()
-			if (tile != null)
-			{
-				val p = hitEffect.copy()
-				p.size[0] = entity.pos().size
-				p.size[1] = entity.pos().size
+				if (sprite != null)
+				{
+					sprite.colourAnimation = BlinkAnimation.obtain().set(Colour(1f, 0.5f, 0.5f, 1f), sprite.colour, 0.15f, true)
+				}
 
-				p.addToEngine(entity.pos().position)
+				val tile = entity.tile()
+				if (tile != null)
+				{
+					val p = hitEffect.copy()
+					p.size[0] = entity.pos().size
+					p.size[1] = entity.pos().size
+
+					p.addToEngine(entity.pos().position)
+				}
 			}
 
 			stats.tookDamage = false
@@ -82,11 +85,14 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 		{
 			stats.blockBroken = false
 
-			val p = blockBrokenEffect.copy()
-			p.size[0] = entity.pos().size
-			p.size[1] = entity.pos().size
+			if (!Global.resolveInstant)
+			{
+				val p = blockBrokenEffect.copy()
+				p.size[0] = entity.pos().size
+				p.size[1] = entity.pos().size
 
-			p.addToEngine(entity.pos().position)
+				p.addToEngine(entity.pos().position)
+			}
 
 			entity.task().tasks.add(TaskInterrupt())
 		}
@@ -94,44 +100,50 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 		{
 			stats.blockedDamage = false
 
-			val p = blockEffect.copy()
-			p.size[0] = entity.pos().size
-			p.size[1] = entity.pos().size
+			if (!Global.resolveInstant)
+			{
+				val p = blockEffect.copy()
+				p.size[0] = entity.pos().size
+				p.size[1] = entity.pos().size
 
-			p.addToEngine(entity.pos().position)
+				p.addToEngine(entity.pos().position)
+			}
 		}
 
-		for (message in stats.messagesToShow)
+		if (!Global.resolveInstant)
 		{
-			val render = Global.engine.render()!!
-			val pos = RenderSystemWidget.instance.pointToScreenspace(entity.pos()!!.position)
-			pos.add(render.tileSize / 2f +  Random.random(-2, 2).toFloat(), render.tileSize + Random.random(-2, 2).toFloat())
-
-			val label = Label(message.text, Global.skin, "popup")
-			label.color = message.colour.color()
-			label.setFontScale(message.size)
-			label.rotation = -60f
-			label.setPosition(pos.x, pos.y)
-
-			val sequence =
-				alpha(0f) then
-					fadeIn(0.1f) then
-					parallel(
-						moveBy(2f, 3f, 1f),
-						sequence(delay(0.5f), fadeOut(0.5f))) then
-					lambda { messageList.removeValue(label, true) } then
-					removeActor()
-
-			label + sequence
-
-			val width = label.prefWidth
-			if (pos.x + width > Global.stage.width)
+			for (message in stats.messagesToShow)
 			{
-				label.setPosition(Global.stage.width - width - 20, pos.y)
-			}
+				val render = Global.engine.render()!!
+				val pos = RenderSystemWidget.instance.pointToScreenspace(entity.pos()!!.position)
+				pos.add(render.tileSize / 2f + Random.random(-2, 2).toFloat(), render.tileSize + Random.random(-2, 2).toFloat())
 
-			messageList.add(label)
-			Global.stage.addActor(label)
+				val label = Label(message.text, Global.skin, "popup")
+				label.color = message.colour.color()
+				label.setFontScale(message.size)
+				label.rotation = -60f
+				label.setPosition(pos.x, pos.y)
+
+				val sequence =
+					alpha(0f) then
+						fadeIn(0.1f) then
+						parallel(
+							moveBy(2f, 3f, 1f),
+							sequence(delay(0.5f), fadeOut(0.5f))) then
+						lambda { messageList.removeValue(label, true) } then
+						removeActor()
+
+				label + sequence
+
+				val width = label.prefWidth
+				if (pos.x + width > Global.stage.width)
+				{
+					label.setPosition(Global.stage.width - width - 20, pos.y)
+				}
+
+				messageList.add(label)
+				Global.stage.addActor(label)
+			}
 		}
 		stats.messagesToShow.clear()
 	}

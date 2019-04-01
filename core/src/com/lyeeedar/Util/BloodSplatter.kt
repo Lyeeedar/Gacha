@@ -17,6 +17,8 @@ class BloodSplatter
 
 		fun splatter(source: Point, target: Point, emitDist: Float, angle: Float = 45f)
 		{
+			if (Global.resolveInstant) return
+
 			var vector = (target-source).toVec().nor()
 			vector = vector.rotate(Random.random(-angle, angle))
 

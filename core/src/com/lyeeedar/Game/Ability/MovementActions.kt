@@ -6,6 +6,7 @@ import com.lyeeedar.Components.stats
 import com.lyeeedar.Components.tile
 import com.lyeeedar.Direction
 import com.lyeeedar.Game.Tile
+import com.lyeeedar.Global
 import com.lyeeedar.Pathfinding.BresenhamLine
 import com.lyeeedar.Renderables.Animation.ExpandAnimation
 import com.lyeeedar.Renderables.Animation.LeapAnimation
@@ -200,35 +201,38 @@ private fun doMove(src: Tile, dst: Tile, type: MovementType)
 
 	pos.doMove(dst, entity)
 
-	val animSpeed = 0.1f + src.euclideanDist(dst) * 0.015f
-
-	if (type == MovementType.MOVE)
+	if (!Global.resolveInstant)
 	{
-		entity.renderable().renderable.animation = MoveAnimation.obtain().set(dst, src, animSpeed)
-	}
-	else if (type == MovementType.ROLL)
-	{
-		entity.renderable().renderable.animation = MoveAnimation.obtain().set(dst, src, animSpeed)
+		val animSpeed = 0.1f + src.euclideanDist(dst) * 0.015f
 
-		val direction = Direction.getDirection(src, dst)
-		if (direction == Direction.EAST)
+		if (type == MovementType.MOVE)
 		{
-			entity.renderable().renderable.animation = SpinAnimation.obtain().set(animSpeed, -360f)
+			entity.renderable().renderable.animation = MoveAnimation.obtain().set(dst, src, animSpeed)
 		}
-		else
+		else if (type == MovementType.ROLL)
 		{
-			entity.renderable().renderable.animation = SpinAnimation.obtain().set(animSpeed, 360f)
+			entity.renderable().renderable.animation = MoveAnimation.obtain().set(dst, src, animSpeed)
+
+			val direction = Direction.getDirection(src, dst)
+			if (direction == Direction.EAST)
+			{
+				entity.renderable().renderable.animation = SpinAnimation.obtain().set(animSpeed, -360f)
+			}
+			else
+			{
+				entity.renderable().renderable.animation = SpinAnimation.obtain().set(animSpeed, 360f)
+			}
+
+			entity.renderable().renderable.animation = ExpandAnimation.obtain().set(animSpeed * 0.9f, 1f, 0.8f, false)
 		}
-
-		entity.renderable().renderable.animation = ExpandAnimation.obtain().set(animSpeed*0.9f, 1f, 0.8f, false)
-	}
-	else if (type == MovementType.LEAP)
-	{
-		entity.renderable().renderable.animation = LeapAnimation.obtain().setRelative(animSpeed, src, dst, 2f)
-
-		if (entity.renderable().renderable is Sprite)
+		else if (type == MovementType.LEAP)
 		{
-			(entity.renderable().renderable as Sprite).removeAmount = 0f
+			entity.renderable().renderable.animation = LeapAnimation.obtain().setRelative(animSpeed, src, dst, 2f)
+
+			if (entity.renderable().renderable is Sprite)
+			{
+				(entity.renderable().renderable as Sprite).removeAmount = 0f
+			}
 		}
 	}
 }

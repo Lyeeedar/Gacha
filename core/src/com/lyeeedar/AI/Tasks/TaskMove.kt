@@ -6,6 +6,7 @@ import com.lyeeedar.Components.pos
 import com.lyeeedar.Components.renderable
 import com.lyeeedar.Direction
 import com.lyeeedar.Game.Tile
+import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Animation.MoveAnimation
 
 class TaskMove(var direction: Direction): AbstractTask()
@@ -26,7 +27,10 @@ class TaskMove(var direction: Direction): AbstractTask()
 			{
 				e.pos().doMove(next, e)
 
-				e.renderable().renderable.animation = MoveAnimation.obtain().set(next, prev, 0.15f)
+				if (!Global.resolveInstant)
+				{
+					e.renderable().renderable.animation = MoveAnimation.obtain().set(next, prev, 0.15f)
+				}
 			}
 		}
 		else

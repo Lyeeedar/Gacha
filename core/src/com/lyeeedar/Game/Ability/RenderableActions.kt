@@ -21,6 +21,8 @@ class ReplaceSourceRenderableAction(ability: Ability) : AbstractAbilityAction(ab
 
 	override fun enter(): Boolean
 	{
+		if (Global.resolveInstant) return false
+
 		val source = ability.source
 
 		if (source.renderable() == null)
@@ -39,6 +41,8 @@ class ReplaceSourceRenderableAction(ability: Ability) : AbstractAbilityAction(ab
 
 	override fun exit()
 	{
+		if (Global.resolveInstant) return
+
 		val source = ability.source
 
 		if (originalRenderable != null)
@@ -92,6 +96,8 @@ class SourceAnimationAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	override fun enter(): Boolean
 	{
+		if (Global.resolveInstant) return false
+
 		val source = ability.source
 		val sourceRenderable = source.renderable()?.renderable ?: return false
 
@@ -160,6 +166,8 @@ class DestinationRenderableAction(ability: Ability) : AbstractAbilityAction(abil
 
 	override fun enter(): Boolean
 	{
+		if (Global.resolveInstant) return false
+
 		if (entityPerTile)
 		{
 			for (tile in ability.targets)
@@ -221,6 +229,8 @@ class DestinationRenderableAction(ability: Ability) : AbstractAbilityAction(abil
 
 	override fun exit()
 	{
+		if (Global.resolveInstant) return
+
 		for (entity in entities)
 		{
 			val renderable = entity.renderable()!!.renderable
@@ -273,6 +283,8 @@ class SourceRenderableAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	override fun enter(): Boolean
 	{
+		if (Global.resolveInstant) return false
+
 		val tile = ability.source.tile()!!
 		val entity = Entity()
 
@@ -293,6 +305,8 @@ class SourceRenderableAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	override fun exit()
 	{
+		if (Global.resolveInstant) return
+
 		for (entity in entities)
 		{
 			val renderable = entity.renderable()!!.renderable
@@ -343,6 +357,8 @@ class MovementRenderableAction(ability: Ability) : AbstractAbilityAction(ability
 
 	override fun enter(): Boolean
 	{
+		if (Global.resolveInstant) return false
+
 		entity = Entity()
 
 		val r = renderable.copy()
@@ -379,6 +395,8 @@ class MovementRenderableAction(ability: Ability) : AbstractAbilityAction(ability
 
 	override fun exit()
 	{
+		if (Global.resolveInstant) return
+
 		Global.engine.removeEntity(entity)
 	}
 

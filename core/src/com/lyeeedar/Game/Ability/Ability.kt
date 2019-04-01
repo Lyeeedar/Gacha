@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Array
 import com.lyeeedar.Components.pos
 import com.lyeeedar.Direction
 import com.lyeeedar.Game.Level
+import com.lyeeedar.Global
 import com.lyeeedar.Util.Point
 import com.lyeeedar.Util.XmlData
 import ktx.collections.addAll
@@ -61,6 +62,11 @@ class Ability
 		if (blocked)
 		{
 			return false
+		}
+
+		if (Global.resolveInstant)
+		{
+			currentTime = actions.last().end * 2f
 		}
 
 		currentTime += delta
