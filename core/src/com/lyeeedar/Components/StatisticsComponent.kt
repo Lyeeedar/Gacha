@@ -84,6 +84,8 @@ class StatisticsComponent: AbstractComponent()
 	val buffs = Array<Buff>(false, 4)
 	val factionBuffs = Array<Buff>(false, 4)
 
+	var lastHitSource = Point()
+
 	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
 		Statistic.parse(xml.getChildByName("Statistics")!!, baseStats)

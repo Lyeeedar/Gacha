@@ -42,7 +42,8 @@ class DamageAction(ability: Ability) : AbstractAbilityAction(ability)
 					val attackDam = sourceStats.getAttackDam(damModifier)
 					val finalDam = targetstats.dealDamage(attackDam)
 
-					BloodSplatter.splatter(ability.source, entity)
+					BloodSplatter.splatter(ability.source.tile()!!, entity.tile()!!, 1f)
+					targetstats.lastHitSource = ability.source.tile()!!
 
 					val lifeSteal = sourceStats.getStat(Statistic.LIFESTEAL)
 					val stolenLife = finalDam * lifeSteal

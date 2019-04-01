@@ -69,8 +69,9 @@ class TaskAttack(val tile: Tile, val attackDefinition: AttackDefinition) : Abstr
 
 					if (Random.random() < 0.5f)
 					{
-						BloodSplatter.splatter(e, entity)
+						BloodSplatter.splatter(e.tile()!!, entity.tile()!!, 1f)
 					}
+					defenderStats.lastHitSource = e.tile()!!
 
 					val lifeSteal = attackerStats.getStat(Statistic.LIFESTEAL)
 					val stolenLife = finalDam * lifeSteal

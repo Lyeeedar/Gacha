@@ -4,6 +4,8 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family
 import com.badlogic.gdx.utils.ObjectSet
 import com.lyeeedar.Components.*
+import com.lyeeedar.Util.BloodSplatter
+import com.lyeeedar.Util.Random
 
 class DeletionSystem : AbstractSystem(Family.all(MarkedForDeletionComponent::class.java).get())
 {
@@ -42,6 +44,13 @@ class DeletionSystem : AbstractSystem(Family.all(MarkedForDeletionComponent::cla
 			effect.size[0] = pos.size
 			effect.size[1] = pos.size
 			effect.addToEngine(pos.position)
+
+			// all the blood
+			val numBlood = Random.random(15, 20)
+			for (i in 0 until numBlood)
+			{
+				BloodSplatter.splatter(entity.stats().lastHitSource, pos.position, 3f, 90f)
+			}
 		}
 
 		val activeAbility = Mappers.activeAbility.get(entity)

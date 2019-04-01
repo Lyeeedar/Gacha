@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
 import com.lyeeedar.Components.PositionComponent
 import com.lyeeedar.Components.RenderableComponent
-import com.lyeeedar.Components.tile
 import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Animation.LeapAnimation
 import com.lyeeedar.Renderables.Sprite.Sprite
@@ -16,14 +15,13 @@ class BloodSplatter
 	{
 		val splatters = AssetManager.loadSprite("Oryx/Custom/terrain/bloodsplatter")
 
-		fun splatter(source: Entity, target: Entity)
+		fun splatter(source: Point, target: Point, emitDist: Float, angle: Float = 45f)
 		{
-			val sourceTile = source.tile()!!
-			val targetTile = target.tile()!!
+			var vector = (target-source).toVec().nor()
+			vector = vector.rotate(Random.random(-angle, angle))
 
-			var vector = (targetTile.copy()-sourceTile).toVec().nor()
-			vector = vector.rotate(Random.random(-45f, 45f))
-			vector = vector.scl(Random.random())
+			val dist = Random.randomWeighted() * emitDist
+			vector = vector.scl(dist)
 
 			val chosen = splatters.textures.random()
 
@@ -35,10 +33,11 @@ class BloodSplatter
 
 			val renderable = RenderableComponent(sprite)
 			val pos = PositionComponent()
-			pos.position = targetTile
+			pos.position = target.copy()
 			pos.offset.set(vector)
 
-			sprite.animation = LeapAnimation.obtain().set(0.1f, arrayOf(vector * -1f, Vector2()), 0.1f)
+			val animDur = 0.1f + 0.15f * dist
+			sprite.animation = LeapAnimation.obtain().set(animDur, arrayOf(vector * -1f, Vector2()), 0.1f + 0.1f * dist)
 
 			val newEntity = Entity()
 			newEntity.add(renderable)
