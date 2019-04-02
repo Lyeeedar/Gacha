@@ -39,5 +39,9 @@
 			<Entity>Linbah</Entity>
 			<Rarity>Common</Rarity>
 		</Hero>
+		<Hero>
+			<Entity>Gobuta</Entity>
+			<Rarity>Rare</Rarity>
+		</Hero>
 	</Heroes>
 </Faction>

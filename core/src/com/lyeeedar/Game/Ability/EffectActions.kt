@@ -7,11 +7,12 @@ import com.badlogic.gdx.utils.ObjectSet
 import com.exp4j.Helpers.CompiledExpression
 import com.lyeeedar.AI.Tasks.TaskInterrupt
 import com.lyeeedar.Components.*
+import com.lyeeedar.Direction
+import com.lyeeedar.Game.Tile
+import com.lyeeedar.Global
+import com.lyeeedar.Renderables.Particle.ParticleEffect
 import com.lyeeedar.Statistic
-import com.lyeeedar.Util.BloodSplatter
-import com.lyeeedar.Util.XmlData
-import com.lyeeedar.Util.ciel
-import com.lyeeedar.Util.round
+import com.lyeeedar.Util.*
 
 class DamageAction(ability: Ability) : AbstractAbilityAction(ability)
 {
@@ -310,4 +311,96 @@ class BuffAction(ability: Ability) : AbstractAbilityAction(ability)
 		buff = Buff()
 		buff.parse(xmlData.getChildByName("Buff")!!)
 	}
+}
+
+class SummonAction(ability: Ability) : AbstractAbilityAction(ability)
+{
+	lateinit var entityPath: String
+	lateinit var summonEffect: ParticleEffect
+	var killOnExit = false
+
+	val summonedEntities = Array<Entity>()
+
+	override fun enter(): Boolean
+	{
+		for (point in ability.targets)
+		{
+			var tile = ability.level.getTile(point) ?: continue
+
+			// find empty file
+			val summonEntity = EntityLoader.load(entityPath)
+			if (summonEntity.pos()!!.isValidTile(tile, summonEntity))
+			{
+
+			}
+			else
+			{
+				val validTiles = Array<Tile>()
+				for (dir in Direction.Values)
+				{
+					val dirtile = ability.level.getTile(tile, dir) ?: continue
+					if (summonEntity.pos()!!.isValidTile(dirtile, summonEntity))
+					{
+						validTiles.add(dirtile)
+					}
+				}
+
+				if (validTiles.size == 0)
+				{
+					continue
+				}
+
+				tile = validTiles.random()
+			}
+
+			var delay = 0f
+			if (!Global.resolveInstant)
+			{
+				val effect = summonEffect.copy()
+				effect.addToEngine(tile)
+
+				delay = effect.lifetime * 0.3f
+			}
+
+			Future.call({
+				summonEntity.pos().tile = tile
+				summonEntity.pos().addToTile(summonEntity)
+				Global.engine.addEntity(summonEntity)
+						}, delay)
+
+			summonedEntities.add(summonEntity)
+		}
+
+		return false
+	}
+
+	override fun exit()
+	{
+		if (killOnExit)
+		{
+			for (entity in summonedEntities)
+			{
+				entity.add(MarkedForDeletionComponent())
+			}
+		}
+		summonedEntities.clear()
+	}
+
+	override fun doCopy(ability: Ability): AbstractAbilityAction
+	{
+		val action = SummonAction(ability)
+		action.entityPath = entityPath
+		action.summonEffect = summonEffect
+		action.killOnExit = killOnExit
+
+		return action
+	}
+
+	override fun parse(xmlData: XmlData)
+	{
+		entityPath = xmlData.get("Entity")
+		summonEffect = AssetManager.loadParticleEffect(xmlData.getChildByName("Effect")!!)
+		killOnExit = xmlData.getBoolean("KillOnExit", false)
+	}
+
 }

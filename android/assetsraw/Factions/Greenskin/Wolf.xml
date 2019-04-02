@@ -1,0 +1,74 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>700</MaxHP>
+				<Power>50</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack>
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>Claws</Name>
+					<Colour>187,247,199,100</Colour>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/wolf_black</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/wolf_black</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Bite</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>white</Name>
+					</Icon>
+					<Ability meta:RefKey="Ability">
+						<Timeline>
+							<BlockTurn>
+								<Time>0.008265478</Time>
+							</BlockTurn>
+							<Damage>
+								<Time>0.109832019</Time>
+								<Amount>2</Amount>
+							</Damage>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.155616254</Duration>
+								<Time>0.0387318246</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Bite</Name>
+								</Renderable>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>5,8</Cooldown>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+	</Components>
+</Entity>

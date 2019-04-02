@@ -1,0 +1,113 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>1200</MaxHP>
+				<Power>120</Power>
+				<CritChance>0.1</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack>
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+					<Colour>187,247,199,100</Colour>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/goblin</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/goblin</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Teleport</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_terrain/rune_4</Name>
+					</Icon>
+					<Ability meta:RefKey="Ability">
+						<Timeline>
+							<BlockTurn />
+							<BlockTurn>
+								<Time>0.0215540547</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.04236486</Time>
+							</BlockTurn>
+							<SelectEnemies>
+								<Time>0.128581077</Time>
+								<Condition>hp</Condition>
+							</SelectEnemies>
+							<MoveSource>
+								<Time>0.152364865</Time>
+								<MoveType>Teleport</MoveType>
+							</MoveSource>
+						</Timeline>
+						<Timeline>
+							<SourceRenderable>
+								<Time>0.0798505545</Time>
+								<Duration LockDuration="False">0.0327027</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Shadowstep</Name>
+								</Renderable>
+							</SourceRenderable>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.0349184871</Duration>
+								<Time>0.143508285</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Shadowstep</Name>
+								</Renderable>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<SingleUse>true</SingleUse>
+					<AvailableOnStart>true</AvailableOnStart>
+					<Range>999</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Summon</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/wolf_black_1</Name>
+					</Icon>
+					<Ability meta:RefKey="Ability">
+						<Timeline>
+							<SelectSelf />
+							<Summon>
+								<Time>0.02452702</Time>
+								<Duration LockDuration="False">0.07878379</Duration>
+								<Entity>Factions/Greenskin/Wolf</Entity>
+								<Effect meta:RefKey="ParticleEffect">
+									<Name>Shadowstep</Name>
+								</Effect>
+							</Summon>
+						</Timeline>
+					</Ability>
+					<Cooldown>8,10</Cooldown>
+					<SingleUse>true</SingleUse>
+					<Range>999</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+	</Components>
+</Entity>
