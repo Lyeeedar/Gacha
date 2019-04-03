@@ -16,6 +16,7 @@ class RenderableComponent() : AbstractComponent()
 {
 	lateinit var renderable: Renderable
 	var overrideSprite = false
+	var lockRenderable = false
 
 	constructor(renderable: Renderable) : this()
 	{

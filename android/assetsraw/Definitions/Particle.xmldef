@@ -96,6 +96,24 @@
 						</Data>
 					</Data>
 				</Data>
+				<Data Name="Effectors" meta:RefKey="Collection">
+					<Data Name="Effector" meta:RefKey="Struct">
+						<Data Name="Type" EnumValues="Point" meta:RefKey="Enum" />
+						<Data Name="Strength" MinCount="1" meta:RefKey="Timeline">
+							<Keyframe Name="Keyframe" Collapse="True" Seperator="|" meta:RefKey="Keyframe">
+								<Time Name="Time" Min="0" Max="1" SkipIfDefault="False" meta:RefKey="Number" />
+								<Data Name="Min" SkipIfDefault="False" meta:RefKey="Number" />
+								<Data Name="Max" SkipIfDefault="False" meta:RefKey="Number" />
+							</Keyframe>
+						</Data>
+						<Data Name="Offset" MinCount="1" meta:RefKey="Timeline">
+							<Keyframe Name="Keyframe" Collapse="True" Seperator="|" meta:RefKey="Keyframe">
+								<Time Name="Time" Min="0" SkipIfDefault="False" meta:RefKey="Number" />
+								<Data Name="Position" SkipIfDefault="False" meta:RefKey="Vector" />
+							</Keyframe>
+						</Data>
+					</Data>
+				</Data>
 			</Data>
 		</Data>
 		<Data Name="Light" meta:RefKey="Struct">

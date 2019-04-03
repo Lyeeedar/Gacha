@@ -172,7 +172,7 @@ class ParticleEffect : Renderable()
 
 	}
 
-	fun debug(shape: ShapeRenderer, offsetx: Float, offsety: Float, tileSize: Float, drawEmitter: Boolean, drawParticles: Boolean)
+	fun debug(shape: ShapeRenderer, offsetx: Float, offsety: Float, tileSize: Float, drawEmitter: Boolean, drawParticles: Boolean, drawEffectors: Boolean)
 	{
 		val posOffset = animation?.renderOffset(false)
 		val x = position.x + (posOffset?.get(0) ?: 0f)
@@ -190,13 +190,14 @@ class ParticleEffect : Renderable()
 		val temp3 = Pools.obtain(Vector2::class.java)
 
 		// draw emitter volumes
-		shape.color = Color.GOLDENROD
 		for (emitter in emitters)
 		{
+			shape.color = Color.GOLDENROD
+
 			val emitterx = emitter.position.x * tileSize + offsetx
 			val emittery = emitter.position.y * tileSize + offsety
 
-			temp.set(emitter.keyframe1.offset.lerp(emitter.keyframe2.offset, emitter.keyframeAlpha))
+			temp.set(emitter.keyframe1.offset).lerp(emitter.keyframe2.offset, emitter.keyframeAlpha)
 			temp.scl(emitter.size)
 			temp.rotate(emitter.rotation)
 
@@ -255,6 +256,8 @@ class ParticleEffect : Renderable()
 
 			if (drawParticles)
 			{
+				shape.color = Color.PINK
+
 				val emitterOffset = emitter.keyframe1.offset.lerp(emitter.keyframe2.offset, emitter.keyframeAlpha)
 
 				for (particle in emitter.particles)
@@ -302,6 +305,24 @@ class ParticleEffect : Renderable()
 
 						shape.rect(drawx - sizex / 2f, drawy - sizey / 2f, sizex / 2f, sizey / 2f, sizex, sizey, 1f, 1f, rotation)
 					}
+				}
+			}
+
+			if (drawEffectors)
+			{
+				shape.color = Color.GREEN
+
+				for (i in 0 until emitter.effectors.size)
+				{
+					val effector = emitter.effectors[i]
+
+					temp.set(effector.keyframe1.offset).lerp(effector.keyframe2.offset, effector.keyframeAlpha)
+					temp.scl(emitter.size)
+					temp.rotate(emitter.rotation)
+
+					val ex = emitterx + temp.x * tileSize
+					val ey = emittery + temp.y * tileSize
+					shape.ellipse(ex - w2, ey - h2, tileSize, tileSize, emitter.emitterRotation + rotation)
 				}
 			}
 		}

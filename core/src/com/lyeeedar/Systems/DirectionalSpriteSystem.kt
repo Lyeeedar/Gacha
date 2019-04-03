@@ -2,7 +2,6 @@ package com.lyeeedar.Systems
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family
-import com.badlogic.ashley.systems.IteratingSystem
 import com.lyeeedar.Components.DirectionalSpriteComponent
 import com.lyeeedar.Components.Mappers
 import com.lyeeedar.Components.PositionComponent
@@ -40,6 +39,8 @@ class DirectionalSpriteSystem(): AbstractSystem(Family.all(DirectionalSpriteComp
 			renderable = RenderableComponent(chosen)
 			entity.add(renderable)
 		}
+
+		if (renderable.lockRenderable) return
 
 		if (pos.facing == Direction.SOUTH)
 		{

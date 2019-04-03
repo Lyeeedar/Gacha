@@ -65,11 +65,22 @@
 							</Stun>
 						</Timeline>
 						<Timeline>
+							<ReplaceSourceRenderable>
+								<Time>0.011734901</Time>
+								<Duration LockDuration="False">0.03713903</Duration>
+								<Renderable meta:RefKey="Sprite">
+									<Name>Oryx/Custom/heroes/gobuta</Name>
+									<DrawActualSize>true</DrawActualSize>
+									<Colour>41,41,41,225</Colour>
+								</Renderable>
+							</ReplaceSourceRenderable>
 							<SourceRenderable>
 								<Duration LockDuration="False">0.0327027</Duration>
 								<Time>0.0798505545</Time>
 								<Renderable meta:RefKey="ParticleEffect">
-									<Name>Shadowstep</Name>
+									<Name>ShadowstepEnter</Name>
+									<Colour>255,255,255,167</Colour>
+									<Scale>0.5</Scale>
 								</Renderable>
 							</SourceRenderable>
 							<DestinationRenderable>
@@ -230,6 +241,65 @@
 					</Ability>
 					<Cooldown>6,10</Cooldown>
 					<Range>999</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Phase Out</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/gobuta_1</Name>
+						<Colour>51,51,51,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="Ability">
+						<Timeline>
+							<SelectSelf />
+							<ReplaceSourceRenderable>
+								<Time>0.019087404</Time>
+								<Duration LockDuration="False">0.183804631</Duration>
+								<Renderable meta:RefKey="Sprite">
+									<Name>Oryx/Custom/heroes/gobuta</Name>
+									<DrawActualSize>true</DrawActualSize>
+									<Colour>92,92,92,158</Colour>
+								</Renderable>
+							</ReplaceSourceRenderable>
+						</Timeline>
+						<Timeline>
+							<Buff>
+								<Time>0.019087404</Time>
+								<Duration LockDuration="False">0.183804631</Duration>
+								<Buff meta:RefKey="Buff">
+									<Description>Phased</Description>
+									<Icon meta:RefKey="Sprite">
+										<Name>Particle/blurrylines</Name>
+										<Colour>43,43,43,255</Colour>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Aegis>0.5</Aegis>
+									</Statistics>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<UnlockEntity>
+								<Time>0.019087404</Time>
+							</UnlockEntity>
+							<BlockTurn>
+								<Time>0.05470245</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.09260926</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.129370183</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.167544991</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.182953119</Time>
+							</BlockTurn>
+						</Timeline>
+					</Ability>
+					<Cooldown>5,9</Cooldown>
+					<Range>9999</Range>
 				</AbilityData>
 			</Abilities>
 		</Ability>

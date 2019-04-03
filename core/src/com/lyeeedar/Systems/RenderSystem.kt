@@ -27,6 +27,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 	var drawParticleDebug = false
 	var drawEmitters = false
 	var drawParticles = false
+	var drawEffectors = false
 	var drawTargetting = false
 	val particles = Array<ParticleEffect>()
 
@@ -61,13 +62,14 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 
 	override fun registerDebugCommands(debugConsole: DebugConsole)
 	{
-		debugConsole.register("ParticleDebug", "'ParticleDebug (Emitter|Particle) true' to enable, 'ParticleDebug (Emitter|Particle) false' to disable", fun (args, console): Boolean {
+		debugConsole.register("ParticleDebug", "'ParticleDebug (Emitter|Particle|Effector) true' to enable, 'ParticleDebug (Emitter|Particle|Effector) false' to disable", fun (args, console): Boolean {
 			if (args[0] == "false" && args.size == 1)
 			{
 				console.write("Particle debug draw disabled")
 
 				drawEmitters = false
 				drawParticles = false
+				drawEffectors = false
 				drawParticleDebug = false
 				return true
 			}
@@ -77,6 +79,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 
 				drawEmitters = true
 				drawParticles = true
+				drawEffectors = true
 				drawParticleDebug = true
 				return true
 			}
@@ -84,17 +87,19 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 			{
 				val changingEmitter = args.contains("emitter")
 				val changingParticle = args.contains("particle")
+				val changingEffector = args.contains("effector")
 
 				val isTrue = args.contains("true")
 				val isFalse = args.contains("false")
 
-				if (isTrue == isFalse || !(changingEmitter || changingParticle))
+				if (isTrue == isFalse || !(changingEmitter || changingParticle || changingEffector))
 				{
 					return false
 				}
 
 				if (changingEmitter) drawEmitters = isTrue
 				if (changingParticle) drawParticles = isTrue
+				if (changingEffector) drawEffectors = isTrue
 
 				console.write("Enable particle debug")
 				return true
@@ -374,7 +379,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 
 			for (particle in particles)
 			{
-				particle.debug(shape, 0f, 0f, tileSize, drawEmitters, drawParticles)
+				particle.debug(shape, 0f, 0f, tileSize, drawEmitters, drawParticles, drawEffectors)
 			}
 
 			shape.end()

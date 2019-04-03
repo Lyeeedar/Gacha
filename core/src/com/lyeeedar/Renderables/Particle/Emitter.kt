@@ -65,7 +65,8 @@ class Emitter(val particleEffect: ParticleEffect)
 	private val spawnDir = Vector2()
 	private val spawnOffset = Vector2()
 
-	val particles: Array<Particle> = Array(false, 16)
+	val particles: Array<Particle> = Array(false, 1)
+	val effectors: Array<Effector> = Array(false, 1)
 
 	val position = Vector2()
 	var rotation: Float = 0f
@@ -99,6 +100,9 @@ class Emitter(val particleEffect: ParticleEffect)
 
 	var emitted = false
 	var stopped = false
+
+	val currentOffset = Vector2()
+	val tempOffset = Vector2()
 
 	fun lifetime() = keyframes.last().time + particles.maxBy { it.lifetime.v2 }!!.lifetime.v2
 	fun complete(): Boolean
@@ -164,6 +168,8 @@ class Emitter(val particleEffect: ParticleEffect)
 
 		keyframeAlpha = alpha
 
+		currentOffset.set(keyframe1.offset).lerp(keyframe2.offset, keyframeAlpha)
+
 		if (!stopped || (singleBurst && !emitted))
 		{
 			val duration = keyframes.last().time
@@ -209,6 +215,12 @@ class Emitter(val particleEffect: ParticleEffect)
 					}
 				}
 			}
+		}
+
+		for (i in 0 until effectors.size)
+		{
+			val effector = effectors[i]
+			effector.update(scaledDelta)
 		}
 
 		for (i in 0 until particles.size)
@@ -259,7 +271,7 @@ class Emitter(val particleEffect: ParticleEffect)
 
 		val speed = particleSpeed.lerp(Random.random())
 		var localRot = particleRotation.lerp(Random.random()) + rotation
-		val offset = keyframe1.offset.lerp(keyframe2.offset, keyframeAlpha)
+		val offset = tempOffset.set(currentOffset)
 
 		if (particleEffect.flipX)
 		{
@@ -452,6 +464,12 @@ class Emitter(val particleEffect: ParticleEffect)
 		{
 			particle.store(kryo, output)
 		}
+
+		output.writeInt(effectors.size)
+		for (effector in effectors)
+		{
+			effector.store(kryo, output)
+		}
 	}
 
 	fun restore(kryo: Kryo, input: Input)
@@ -492,6 +510,14 @@ class Emitter(val particleEffect: ParticleEffect)
 			val particle = Particle(this)
 			particle.restore(kryo, input)
 			particles.add(particle)
+		}
+
+		val numEffectors = input.readInt()
+		for (i in 0 until numEffectors)
+		{
+			val effector = Effector(this)
+			effector.restore(kryo, input)
+			effectors.add(effector)
 		}
 	}
 
@@ -570,11 +596,22 @@ class Emitter(val particleEffect: ParticleEffect)
 			emitter.singleBurst = xml.getBoolean("SingleBurst", false)
 
 			val particlesEl = xml.getChildByName("Particles")!!
-			for (i in 0..particlesEl.childCount-1)
+			for (i in 0 until particlesEl.childCount)
 			{
 				val el = particlesEl.getChild(i)
 				val particle = Particle.load(el, emitter)
 				emitter.particles.add(particle)
+			}
+
+			val effectorsEl = xml.getChildByName("Effectors")
+			if (effectorsEl != null)
+			{
+				for (i in 0 until effectorsEl.childCount)
+				{
+					val el = effectorsEl.getChild(i)
+					val effector = Effector.load(el, emitter)
+					emitter.effectors.add(effector)
+				}
 			}
 
 			return emitter

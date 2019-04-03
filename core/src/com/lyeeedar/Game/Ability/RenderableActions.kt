@@ -35,6 +35,7 @@ class ReplaceSourceRenderableAction(ability: Ability) : AbstractAbilityAction(ab
 		}
 
 		source.renderable().renderable = renderable.copy()
+		source.renderable().lockRenderable = true
 
 		return false
 	}
@@ -48,6 +49,8 @@ class ReplaceSourceRenderableAction(ability: Ability) : AbstractAbilityAction(ab
 		if (originalRenderable != null)
 		{
 			source.renderable().renderable = originalRenderable!!
+			source.renderable().lockRenderable = false
+
 		}
 		else
 		{

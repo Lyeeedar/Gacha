@@ -247,7 +247,7 @@ class ParticleEditorScreen : AbstractScreen()
 			shape.setAutoShapeType(true)
 			shape.begin()
 
-			particle.debug(shape, 0f, 0f, tileSize, true, true)
+			particle.debug(shape, 0f, 0f, tileSize, true, true, true)
 
 			shape.end()
 		}
