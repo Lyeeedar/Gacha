@@ -82,7 +82,7 @@ class Ability
 			}
 		}
 
-		if (index >= actions.size-1)
+		if (index >= actions.size)
 		{
 			if (enteredActions.size == 0)
 			{

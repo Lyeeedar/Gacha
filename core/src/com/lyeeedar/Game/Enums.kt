@@ -314,7 +314,8 @@ enum class Statistic private constructor(val min: Float, val max: Float, val mod
 	DEBUFFDURATION(0f, Float.MAX_VALUE, true, "Debuff Duration", "The bonus to the duration of debuffs you create."),
 	DEBUFFPOWER(0f, Float.MAX_VALUE, true, "Debuff Power", "The bonus to the power of debuffs you create."),
 	AEGIS(0f, 1f, true, "Aegis", "The chance to avoid completely block damage when hit."),
-	ABILITYCOOLDOWN(-Float.MAX_VALUE, Float.MAX_VALUE, true, "Ability Cooldown", "The rate at which your abilities come off cooldown.");
+	ABILITYCOOLDOWN(-Float.MAX_VALUE, Float.MAX_VALUE, true, "Ability Cooldown", "The rate at which your abilities come off cooldown."),
+	ABILITYPOWER(-1f, 1f, true, "Ability Power", "The modifier to your power when used with your abilities.");
 
 	companion object
 	{

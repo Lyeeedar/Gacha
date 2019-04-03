@@ -2,6 +2,7 @@ package com.lyeeedar.Components
 
 import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.ObjectMap
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.Global
@@ -142,7 +143,7 @@ fun Entity.isEnemies(other: Entity): Boolean
 	return thisStats.faction != otherStats.faction
 }
 
-fun Renderable.addToEngine(point: Point)
+fun Renderable.addToEngine(point: Point, offset: Vector2 = Vector2())
 {
 	val pe = Entity()
 	pe.add(TransientComponent())
@@ -152,6 +153,7 @@ fun Renderable.addToEngine(point: Point)
 
 	ppos.size = min(this.size[0], this.size[1])
 	ppos.position = point
+	ppos.offset = offset
 
 	pe.add(ppos)
 	Global.engine.addEntity(pe)

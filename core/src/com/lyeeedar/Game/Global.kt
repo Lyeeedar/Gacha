@@ -78,7 +78,14 @@ class Global
 
 			Colors.put("IMPORTANT", Color(0.6f, 1f, 0.9f, 1f))
 
-			val faction = Faction.load("Adventurer/Adventurer")
+			var faction = Faction.load("Adventurer/Adventurer")
+			for (i in 0 until 20)
+			{
+				val toSpawn = faction.heroes.random()
+				data.heroPool.add(EntityData(toSpawn, Ascension.Values.toGdxArray().random()))
+			}
+
+			faction = Faction.load("Greenskin/GreenskinAlliance")
 			for (i in 0 until 20)
 			{
 				val toSpawn = faction.heroes.random()

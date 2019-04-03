@@ -1,9 +1,10 @@
 package com.lyeeedar.AI.Tasks
 
 import com.badlogic.ashley.core.Entity
-import com.lyeeedar.Components.ActiveAbilityComponent
-import com.lyeeedar.Components.Mappers
-import com.lyeeedar.Components.task
+import com.badlogic.gdx.math.Vector2
+import com.lyeeedar.Components.*
+import com.lyeeedar.Global
+import com.lyeeedar.Util.AssetManager
 
 class TaskInterrupt : AbstractTask()
 {
@@ -16,6 +17,12 @@ class TaskInterrupt : AbstractTask()
 		{
 			activeAbility.ability.cancel()
 			e.remove(ActiveAbilityComponent::class.java)
+		}
+
+		if (!Global.resolveInstant)
+		{
+			val stunParticle = AssetManager.loadParticleEffect("Stunned")
+			stunParticle.addToEngine(e.pos().tile!!, Vector2(0f, 0.8f))
 		}
 	}
 }

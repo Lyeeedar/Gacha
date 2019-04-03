@@ -25,11 +25,11 @@
 				<Animation>
 					<Name>idle</Name>
 					<Up meta:RefKey="Sprite">
-						<Name>Oryx/uf_split/uf_heroes/goblin</Name>
+						<Name>Oryx/Custom/heroes/gobuta</Name>
 						<DrawActualSize>true</DrawActualSize>
 					</Up>
 					<Down meta:RefKey="Sprite">
-						<Name>Oryx/uf_split/uf_heroes/goblin</Name>
+						<Name>Oryx/Custom/heroes/gobuta</Name>
 						<DrawActualSize>true</DrawActualSize>
 					</Down>
 				</Animation>
@@ -59,21 +59,26 @@
 								<Time>0.152364865</Time>
 								<MoveType>Teleport</MoveType>
 							</MoveSource>
+							<Stun>
+								<Time>0.157146409</Time>
+								<Count>3+rnd(3)</Count>
+							</Stun>
 						</Timeline>
 						<Timeline>
 							<SourceRenderable>
-								<Time>0.0798505545</Time>
 								<Duration LockDuration="False">0.0327027</Duration>
+								<Time>0.0798505545</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Shadowstep</Name>
 								</Renderable>
 							</SourceRenderable>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.0349184871</Duration>
 								<Time>0.143508285</Time>
+								<Duration LockDuration="False">0.0349184871</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Shadowstep</Name>
 								</Renderable>
+								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 						</Timeline>
 					</Ability>
@@ -90,8 +95,8 @@
 						<Timeline>
 							<SelectSelf />
 							<Summon>
-								<Time>0.02452702</Time>
 								<Duration LockDuration="False">0.07878379</Duration>
+								<Time>0.02452702</Time>
 								<Entity>Factions/Greenskin/Wolf</Entity>
 								<Effect meta:RefKey="ParticleEffect">
 									<Name>Shadowstep</Name>
@@ -99,8 +104,131 @@
 							</Summon>
 						</Timeline>
 					</Ability>
-					<Cooldown>8,10</Cooldown>
+					<Cooldown>5,8</Cooldown>
 					<SingleUse>true</SingleUse>
+					<Range>999</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Wolf Rush</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>EffectSprites/Jaws/Jaws_3</Name>
+						<Colour>99,77,94,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="Ability">
+						<Timeline>
+							<BlockTurn />
+							<SelectEnemies>
+								<Time>0.0243624151</Time>
+							</SelectEnemies>
+							<Damage>
+								<Time>0.19120805</Time>
+								<Amount>1.5</Amount>
+							</Damage>
+							<SelectEnemies>
+								<Time>0.263557047</Time>
+							</SelectEnemies>
+							<Damage>
+								<Time>0.437785238</Time>
+								<Amount>1.5</Amount>
+							</Damage>
+							<BlockTurn>
+								<Time>0.499798656</Time>
+							</BlockTurn>
+							<SelectEnemies>
+								<Time>0.5219463</Time>
+							</SelectEnemies>
+							<Damage>
+								<Time>0.688791931</Time>
+								<Amount>1.5</Amount>
+							</Damage>
+							<SelectEnemies>
+								<Time>0.734563768</Time>
+							</SelectEnemies>
+							<Damage>
+								<Time>0.8984564</Time>
+								<Amount>1.5</Amount>
+							</Damage>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Time>0.04798658</Time>
+								<Duration LockDuration="False">0.06791945</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>WolfRush</Name>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+							<DestinationRenderable>
+								<Time>0.11590603</Time>
+								<Duration LockDuration="False">0.147651017</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Bite</Name>
+									<Colour>51,43,51,255</Colour>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+							<DestinationRenderable>
+								<Time>0.3019463</Time>
+								<Duration LockDuration="False">0.0546308756</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>WolfRush</Name>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+							<DestinationRenderable>
+								<Time>0.3565772</Time>
+								<Duration LockDuration="False">0.128456384</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Bite</Name>
+									<Colour>51,43,51,255</Colour>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+							<DestinationRenderable>
+								<Time>0.554429531</Time>
+								<Duration LockDuration="False">0.06791949</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>WolfRush</Name>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+							<DestinationRenderable>
+								<Time>0.622349</Time>
+								<Duration LockDuration="False">0.112214744</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Bite</Name>
+									<Colour>51,43,51,255</Colour>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+							<DestinationRenderable>
+								<Time>0.77</Time>
+								<Duration LockDuration="False">0.0708724856</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>WolfRush</Name>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+							<DestinationRenderable>
+								<Time>0.840872467</Time>
+								<Duration LockDuration="False">0.109261692</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Bite</Name>
+									<Colour>51,43,51,255</Colour>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>6,10</Cooldown>
 					<Range>999</Range>
 				</AbilityData>
 			</Abilities>

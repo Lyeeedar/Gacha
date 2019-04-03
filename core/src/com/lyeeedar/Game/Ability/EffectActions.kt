@@ -38,7 +38,8 @@ class DamageAction(ability: Ability) : AbstractAbilityAction(ability)
 					sourceStats.write(map, "self")
 					targetstats.write(map, "target")
 
-					val damModifier = damage.evaluate(map)
+					var damModifier = damage.evaluate(map)
+					damModifier += damModifier * sourceStats.getStat(Statistic.ABILITYPOWER)
 
 					val attackDam = sourceStats.getAttackDam(damModifier)
 					val finalDam = targetstats.dealDamage(attackDam)
@@ -107,7 +108,8 @@ class HealAction(ability: Ability) : AbstractAbilityAction(ability)
 					sourceStats.write(map, "self")
 					targetstats.write(map, "target")
 
-					val healModifier = amount.evaluate(map)
+					var healModifier = amount.evaluate(map)
+					healModifier += healModifier * sourceStats.getStat(Statistic.ABILITYPOWER)
 
 					val power = sourceStats.getStat(Statistic.POWER)
 					targetstats.heal(power * healModifier)
@@ -329,6 +331,20 @@ class SummonAction(ability: Ability) : AbstractAbilityAction(ability)
 
 			// find empty file
 			val summonEntity = EntityLoader.load(entityPath)
+			summonEntity.stats().level = ability.source.stats().level
+			summonEntity.stats().ascension = ability.source.stats().ascension
+			summonEntity.stats().factionBuffs.addAll(ability.source.stats().factionBuffs)
+			summonEntity.stats().faction = ability.source.stats().faction
+
+			val abPower = ability.source.stats().getStat(Statistic.ABILITYPOWER)
+			val powerBuff = Buff()
+			powerBuff.duration = 9999
+			powerBuff.statistics[Statistic.MAXHP] = abPower
+			powerBuff.statistics[Statistic.POWER] = abPower
+			summonEntity.stats().factionBuffs.add(powerBuff)
+
+			summonEntity.stats().resetHP()
+
 			if (summonEntity.pos()!!.isValidTile(tile, summonEntity))
 			{
 

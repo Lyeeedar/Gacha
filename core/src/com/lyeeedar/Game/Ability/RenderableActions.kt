@@ -161,6 +161,7 @@ class DestinationRenderableAction(ability: Ability) : AbstractAbilityAction(abil
 	lateinit var slot: SpaceSlot
 	var entityPerTile = false
 	var killOnEnd = true
+	var alignToVector = true
 
 	val entities = Array<Entity>()
 
@@ -201,12 +202,16 @@ class DestinationRenderableAction(ability: Ability) : AbstractAbilityAction(abil
 			pos.min = ability.targets.minBy(Point::hashCode)!!
 			pos.max = ability.targets.maxBy(Point::hashCode)!!
 			pos.slot = slot
-			pos.facing = ability.facing
+
+			if (alignToVector)
+			{
+				pos.facing = ability.facing
+			}
 
 			r.size[0] = (pos.max.x - pos.min.x) + 1
 			r.size[1] = (pos.max.y - pos.min.y) + 1
 
-			if (r is ParticleEffect && r.useFacing)
+			if (alignToVector && r is ParticleEffect && r.useFacing)
 			{
 				r.rotation = pos.facing.angle
 				r.facing = pos.facing
@@ -259,6 +264,7 @@ class DestinationRenderableAction(ability: Ability) : AbstractAbilityAction(abil
 		out.renderable = renderable.copy()
 		out.slot = slot
 		out.killOnEnd = killOnEnd
+		out.alignToVector = alignToVector
 		out.entityPerTile = entityPerTile
 
 		return out
@@ -270,6 +276,7 @@ class DestinationRenderableAction(ability: Ability) : AbstractAbilityAction(abil
 		renderable = AssetManager.loadRenderable(xmlData.getChildByName("Renderable")!!)
 		entityPerTile = xmlData.getBoolean("RenderablePerTile", false)
 		killOnEnd = xmlData.getBoolean("KillOnEnd", false)
+		alignToVector = xmlData.getBoolean("AlignToVector", true)
 	}
 }
 
