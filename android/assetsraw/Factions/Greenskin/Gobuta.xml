@@ -65,15 +65,6 @@
 							</Stun>
 						</Timeline>
 						<Timeline>
-							<ReplaceSourceRenderable>
-								<Time>0.011734901</Time>
-								<Duration LockDuration="False">0.03713903</Duration>
-								<Renderable meta:RefKey="Sprite">
-									<Name>Oryx/Custom/heroes/gobuta</Name>
-									<DrawActualSize>true</DrawActualSize>
-									<Colour>41,41,41,225</Colour>
-								</Renderable>
-							</ReplaceSourceRenderable>
 							<SourceRenderable>
 								<Duration LockDuration="False">0.0327027</Duration>
 								<Time>0.0798505545</Time>
@@ -91,6 +82,17 @@
 								</Renderable>
 								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
+						</Timeline>
+						<Timeline>
+							<ReplaceSourceRenderable>
+								<Time>0.011734901</Time>
+								<Duration LockDuration="False">0.170587108</Duration>
+								<Renderable meta:RefKey="Sprite">
+									<Name>Oryx/Custom/heroes/gobuta</Name>
+									<DrawActualSize>true</DrawActualSize>
+									<Colour>41,41,41,225</Colour>
+								</Renderable>
+							</ReplaceSourceRenderable>
 						</Timeline>
 					</Ability>
 					<SingleUse>true</SingleUse>
@@ -132,47 +134,38 @@
 								<Time>0.0243624151</Time>
 							</SelectEnemies>
 							<Damage>
-								<Time>0.19120805</Time>
+								<Time>0.09405579</Time>
 								<Amount>1.5</Amount>
 							</Damage>
 							<SelectEnemies>
-								<Time>0.263557047</Time>
+								<Time>0.13395761</Time>
 							</SelectEnemies>
 							<Damage>
-								<Time>0.437785238</Time>
+								<Time>0.224397242</Time>
 								<Amount>1.5</Amount>
 							</Damage>
 							<BlockTurn>
-								<Time>0.499798656</Time>
+								<Time>0.276001453</Time>
 							</BlockTurn>
 							<SelectEnemies>
-								<Time>0.5219463</Time>
+								<Time>0.296414256</Time>
 							</SelectEnemies>
 							<Damage>
-								<Time>0.688791931</Time>
+								<Time>0.369577318</Time>
 								<Amount>1.5</Amount>
 							</Damage>
 							<SelectEnemies>
-								<Time>0.734563768</Time>
+								<Time>0.396415949</Time>
 							</SelectEnemies>
 							<Damage>
-								<Time>0.8984564</Time>
+								<Time>0.478619784</Time>
 								<Amount>1.5</Amount>
 							</Damage>
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Time>0.04798658</Time>
-								<Duration LockDuration="False">0.06791945</Duration>
-								<Renderable meta:RefKey="ParticleEffect">
-									<Name>WolfRush</Name>
-								</Renderable>
-								<RenderablePerTile>true</RenderablePerTile>
-								<AlignToVector>false</AlignToVector>
-							</DestinationRenderable>
-							<DestinationRenderable>
-								<Time>0.11590603</Time>
-								<Duration LockDuration="False">0.147651017</Duration>
+								<Time>0.0435570329</Time>
+								<Duration LockDuration="False">0.09040058</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Bite</Name>
 									<Colour>51,43,51,255</Colour>
@@ -181,17 +174,8 @@
 								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 							<DestinationRenderable>
-								<Time>0.3019463</Time>
-								<Duration LockDuration="False">0.0546308756</Duration>
-								<Renderable meta:RefKey="ParticleEffect">
-									<Name>WolfRush</Name>
-								</Renderable>
-								<RenderablePerTile>true</RenderablePerTile>
-								<AlignToVector>false</AlignToVector>
-							</DestinationRenderable>
-							<DestinationRenderable>
-								<Time>0.3565772</Time>
-								<Duration LockDuration="False">0.128456384</Duration>
+								<Time>0.165335327</Time>
+								<Duration LockDuration="False">0.08882195</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Bite</Name>
 									<Colour>51,43,51,255</Colour>
@@ -200,17 +184,8 @@
 								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 							<DestinationRenderable>
-								<Time>0.554429531</Time>
-								<Duration LockDuration="False">0.06791949</Duration>
-								<Renderable meta:RefKey="ParticleEffect">
-									<Name>WolfRush</Name>
-								</Renderable>
-								<RenderablePerTile>true</RenderablePerTile>
-								<AlignToVector>false</AlignToVector>
-							</DestinationRenderable>
-							<DestinationRenderable>
-								<Time>0.622349</Time>
-								<Duration LockDuration="False">0.112214744</Duration>
+								<Time>0.3222179</Time>
+								<Duration LockDuration="False">0.07419804</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Bite</Name>
 									<Colour>51,43,51,255</Colour>
@@ -219,16 +194,7 @@
 								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 							<DestinationRenderable>
-								<Time>0.77</Time>
-								<Duration LockDuration="False">0.0708724856</Duration>
-								<Renderable meta:RefKey="ParticleEffect">
-									<Name>WolfRush</Name>
-								</Renderable>
-								<RenderablePerTile>true</RenderablePerTile>
-								<AlignToVector>false</AlignToVector>
-							</DestinationRenderable>
-							<DestinationRenderable>
-								<Time>0.840872467</Time>
+								<Time>0.421035856</Time>
 								<Duration LockDuration="False">0.109261692</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Bite</Name>

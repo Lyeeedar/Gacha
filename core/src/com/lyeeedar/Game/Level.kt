@@ -233,6 +233,45 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 	}
 
 	// ----------------------------------------------------------------------
+	fun complete(): String?
+	{
+		var remainingFaction: String? = null
+		var foundEntity = false
+		for (x in 0 until width)
+		{
+			for (y in 0 until height)
+			{
+				val tile = grid[x, y]
+
+				for (slot in SpaceSlot.EntityValues)
+				{
+					val entity = tile.contents[slot] ?: continue
+					if (entity.stats() != null)
+					{
+						foundEntity = true
+
+						if (remainingFaction == null)
+						{
+							remainingFaction = entity.stats().faction
+						}
+						else if (entity.stats().faction != remainingFaction)
+						{
+							return null
+						}
+					}
+				}
+			}
+		}
+
+		if (!foundEntity)
+		{
+			return "null"
+		}
+
+		return remainingFaction
+	}
+
+	// ----------------------------------------------------------------------
 	fun getClosestMetaRegion(key: String, point: Point): Tile?
 	{
 		val lkey = key.toLowerCase()

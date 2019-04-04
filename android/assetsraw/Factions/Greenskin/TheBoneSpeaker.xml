@@ -1,0 +1,239 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>1100</MaxHP>
+				<Power>80</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack>
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+					<Colour>187,247,199,100</Colour>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/goblin_shaman</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/goblin_shaman</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Strength of Gorav</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/troll_1</Name>
+						<Colour>120,89,120,193</Colour>
+					</Icon>
+					<Ability meta:RefKey="Ability">
+						<Timeline>
+							<SelectAllies>
+								<Condition>power</Condition>
+								<Minimum>false</Minimum>
+							</SelectAllies>
+							<DestinationRenderable>
+								<Time>0.0224907082</Time>
+								<Duration LockDuration="False">0.0258983877</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Shout</Name>
+									<Colour>145,63,122,255</Colour>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+							<Buff>
+								<Time>0.06610905</Time>
+								<Duration LockDuration="False">0.03680297</Duration>
+								<Buff meta:RefKey="Buff">
+									<Description>Strength of Gorav</Description>
+									<Icon meta:RefKey="Sprite">
+										<Name>Oryx/uf_split/uf_heroes/troll_1</Name>
+										<Colour>120,89,120,193</Colour>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Power>0.2</Power>
+									</Statistics>
+									<Duration>5</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+					</Ability>
+					<Range>999</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Toughness of Nessa</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/dwarf_1</Name>
+						<Colour>120,89,120,193</Colour>
+					</Icon>
+					<Ability meta:RefKey="Ability">
+						<Timeline>
+							<SelectAllies>
+								<Condition>hp</Condition>
+							</SelectAllies>
+							<DestinationRenderable>
+								<Time>0.0224907082</Time>
+								<Duration LockDuration="False">0.0258983877</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Shout</Name>
+									<Colour>145,63,122,255</Colour>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+							<Buff>
+								<Time>0.06610905</Time>
+								<Duration LockDuration="False">0.03680297</Duration>
+								<Buff meta:RefKey="Buff">
+									<Description>Toughness of Nessa</Description>
+									<Icon meta:RefKey="Sprite">
+										<Name>Oryx/uf_split/uf_heroes/dwarf_1</Name>
+										<Colour>120,89,120,193</Colour>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<DR>0.2</DR>
+										<Aegis>0.3</Aegis>
+									</Statistics>
+									<Duration>5</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+					</Ability>
+					<Range>999</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Speed of Hellet</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/halfling_thief_1</Name>
+						<Colour>120,89,120,193</Colour>
+					</Icon>
+					<Ability meta:RefKey="Ability">
+						<Timeline>
+							<SelectAllies />
+							<DestinationRenderable>
+								<Time>0.0224907082</Time>
+								<Duration LockDuration="False">0.0258983877</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Shout</Name>
+									<Colour>145,63,122,255</Colour>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+							<Buff>
+								<Time>0.06610905</Time>
+								<Duration LockDuration="False">0.03680297</Duration>
+								<Buff meta:RefKey="Buff">
+									<Description>Speed of Hellet</Description>
+									<Icon meta:RefKey="Sprite">
+										<Name>Oryx/uf_split/uf_heroes/halfling_thief_1</Name>
+										<Colour>120,89,120,193</Colour>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Haste>0.3</Haste>
+									</Statistics>
+									<Duration>5</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+					</Ability>
+					<Range>999</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Wrath of the Ancestors</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/banshee_1</Name>
+						<Colour>135,91,129,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="Ability">
+						<Timeline>
+							<BlockTurn />
+							<SelectEnemies>
+								<Time>0.0170384161</Time>
+								<Count>10</Count>
+							</SelectEnemies>
+							<Damage>
+								<Time>0.09609666</Time>
+								<Amount>2.5</Amount>
+							</Damage>
+							<BlockTurn>
+								<Time>0.113816611</Time>
+							</BlockTurn>
+							<SelectEnemies>
+								<Time>0.131536558</Time>
+								<Count>10</Count>
+							</SelectEnemies>
+							<Damage>
+								<Time>0.19696407</Time>
+								<Amount>2.5</Amount>
+							</Damage>
+							<BlockTurn>
+								<Time>0.21468401</Time>
+							</BlockTurn>
+							<SelectEnemies>
+								<Time>0.233767033</Time>
+								<Count>10</Count>
+							</SelectEnemies>
+							<Damage>
+								<Time>0.3005576</Time>
+							</Damage>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Time>0.0275065769</Time>
+								<Duration LockDuration="False">0.081248045</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Stomp</Name>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+							<DestinationRenderable>
+								<Time>0.143804222</Time>
+								<Duration LockDuration="False">0.0662639</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Stomp</Name>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+							<DestinationRenderable>
+								<Time>0.242840782</Time>
+								<Duration LockDuration="False">0.0804213</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Stomp</Name>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>9,15</Cooldown>
+					<Range>999</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+	</Components>
+</Entity>

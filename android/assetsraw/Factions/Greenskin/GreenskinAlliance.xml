@@ -43,5 +43,9 @@
 			<Entity>Gobuta</Entity>
 			<Rarity>Rare</Rarity>
 		</Hero>
+		<Hero>
+			<Entity>TheBoneSpeaker</Entity>
+			<Rarity>Rare</Rarity>
+		</Hero>
 	</Heroes>
 </Faction>
