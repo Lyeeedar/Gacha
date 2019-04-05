@@ -55,14 +55,14 @@
 								<Time>0.128581077</Time>
 								<Condition>hp</Condition>
 							</SelectEnemies>
-							<MoveSource>
-								<Time>0.152364865</Time>
-								<MoveType>Teleport</MoveType>
-							</MoveSource>
 							<Stun>
-								<Time>0.157146409</Time>
+								<Time>0.134025663</Time>
 								<Count>3+rnd(3)</Count>
 							</Stun>
+							<MoveSource>
+								<Time>0.138235524</Time>
+								<MoveType>Teleport</MoveType>
+							</MoveSource>
 						</Timeline>
 						<Timeline>
 							<SourceRenderable>

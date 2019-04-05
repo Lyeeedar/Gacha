@@ -37,6 +37,9 @@ class MoveSourceAction(ability: Ability) : AbstractAbilityAction(ability)
 
 		doMove(srcTile, dstTile, type)
 
+		ability.targets.clear()
+		ability.targets.add(dst)
+
 		return false
 	}
 
@@ -55,7 +58,7 @@ class MoveSourceAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	override fun parse(xmlData: XmlData)
 	{
-		type = MovementType.valueOf(xmlData.get("MovementType", "Move")!!.toUpperCase())
+		type = MovementType.valueOf(xmlData.get("MoveType", "Move")!!.toUpperCase())
 	}
 }
 
@@ -91,7 +94,7 @@ class PullAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	override fun parse(xmlData: XmlData)
 	{
-		type = MovementType.valueOf(xmlData.get("MovementType", "Move")!!.toUpperCase())
+		type = MovementType.valueOf(xmlData.get("MoveType", "Move")!!.toUpperCase())
 	}
 }
 
@@ -133,21 +136,21 @@ class KnockbackAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	override fun parse(xmlData: XmlData)
 	{
-		type = MovementType.valueOf(xmlData.get("MovementType", "Move")!!.toUpperCase())
+		type = MovementType.valueOf(xmlData.get("MoveType", "Move")!!.toUpperCase())
 		dist = xmlData.getInt("Dist", 1)
 	}
 }
 
-private fun doMove(src: Tile, dst: Tile, type: MovementType)
+private fun doMove(src: Tile, dst: Tile, type: MovementType): Tile
 {
-	val entity = src.contents[SpaceSlot.ENTITY] ?: return
-	val pos = entity.pos() ?: return
-	if (!pos.moveable) return
-	val stats = entity.stats() ?: return
+	val entity = src.contents[SpaceSlot.ENTITY] ?: return dst
+	val pos = entity.pos() ?: return dst
+	if (!pos.moveable) return dst
+	val stats = entity.stats() ?: return dst
 	if (stats.invulnerable || stats.blocking)
 	{
 		stats.blockedDamage = true
-		return
+		return dst
 	}
 
 	val path = BresenhamLine.lineNoDiag(src.x, src.y, dst.x, dst.y, src.level.grid)
@@ -197,7 +200,7 @@ private fun doMove(src: Tile, dst: Tile, type: MovementType)
 		}
 	}
 
-	if (dst == src) return
+	if (dst == src) return dst
 
 	pos.doMove(dst, entity)
 
@@ -235,4 +238,6 @@ private fun doMove(src: Tile, dst: Tile, type: MovementType)
 			}
 		}
 	}
+
+	return dst
 }

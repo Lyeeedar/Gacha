@@ -78,10 +78,11 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 
 		turnTime += deltaTime
 
-		val hasEffects = renderables.any { (Mappers.transient.get(it) != null && it.renderable().renderable.isBlocking) || it.renderable()!!.renderable.animation != null }
+		val hasEffects = renderables.any {(Mappers.transient.get(it) != null && it.renderable().renderable.isBlocking)}
+		val hasAnimations = renderables.any {(it.renderable()!!.renderable.animationBlocksUpdate && it.renderable()!!.renderable.animation != null) }
 		val hasAbilities = abilities.any { !Mappers.activeAbility.get(it).ability.blocked }
 
-		if (!hasEffects && !hasAbilities)
+		if ((!hasEffects || turnTime >= minTurnTime) && !hasAnimations && !hasAbilities)
 		{
 			if (processArray.size == 0 && (Global.resolveInstant || turnTime >= minTurnTime))
 			{
@@ -91,6 +92,10 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 			{
 				updateEntities()
 			}
+		}
+		else if (hasAnimations)
+		{
+			lastState = "Waiting on animations"
 		}
 		else if (hasAbilities)
 		{

@@ -32,6 +32,7 @@ class BloodSplatter
 			sprite.baseScale[1] = sprite.baseScale[0]
 			sprite.rotation = Random.random(180f)
 			sprite.colour = Colour(1f, 0.6f + Random.random(0.2f), 0.6f + Random.random(0.2f), 0.4f + Random.random(0.2f))
+			sprite.animationBlocksUpdate = false
 
 			val renderable = RenderableComponent(sprite)
 			val pos = PositionComponent()

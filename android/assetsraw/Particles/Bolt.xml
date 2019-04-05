@@ -1,32 +1,31 @@
 <Effect xmlns:meta="Editor">
-	<Loop>false</Loop>
 	<Emitters>
 		<Emitter>
-			<Name>Hearts</Name>
-			<CustomBlockTime>
-				<Time>0.3</Time>
-			</CustomBlockTime>
-			<Shape>Cone</Shape>
-			<Width>90</Width>
-			<ParticleSpeed>0,1</ParticleSpeed>
-			<ParticleRotation>-30,30</ParticleRotation>
+			<Name>Bolt</Name>
+			<KillParticlesOnStop>true</KillParticlesOnStop>
+			<Space>Local</Space>
+			<Width>0</Width>
+			<Height>0</Height>
+			<Direction>Up</Direction>
+			<ParticleSpeed>0,0</ParticleSpeed>
+			<ParticleRotation>0,0</ParticleRotation>
 			<RateKeyframes>
-				<Keyframe>0|20</Keyframe>
+				<Keyframe>0|1</Keyframe>
 			</RateKeyframes>
 			<SingleBurst>true</SingleBurst>
 			<Particles>
 				<Particle>
-					<Lifetime>0.5,0.7</Lifetime>
-					<BlendMode>Additive</BlendMode>
+					<Lifetime>9999999,9999999</Lifetime>
+					<BlendMode>Multiplicative</BlendMode>
 					<VelocityAligned>true</VelocityAligned>
 					<TextureKeyframes>
 						<Stream>
-							<Keyframe>0|Particle/heart</Keyframe>
+							<Keyframe>0|EffectSprites/Bolt/Bolt_0</Keyframe>
 						</Stream>
 					</TextureKeyframes>
 					<SizeKeyframes>
 						<Stream>
-							<Keyframe>0|0.2|0.3</Keyframe>
+							<Keyframe>0|1|1</Keyframe>
 						</Stream>
 					</SizeKeyframes>
 					<ColourKeyframes>
@@ -37,8 +36,6 @@
 					<AlphaKeyframes>
 						<Stream>
 							<Keyframe>0|1</Keyframe>
-							<Keyframe>0.9|1</Keyframe>
-							<Keyframe>1|0</Keyframe>
 						</Stream>
 					</AlphaKeyframes>
 				</Particle>

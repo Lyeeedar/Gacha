@@ -13,11 +13,10 @@
 			</Death>
 			<Attack>
 				<Damage>1</Damage>
-				<Range>1</Range>
-				<HitEffect meta:RefKey="ParticleEffect">
-					<Name>slash</Name>
-					<Colour>187,247,199,100</Colour>
-				</HitEffect>
+				<Range>6</Range>
+				<FlightEffect meta:RefKey="ParticleEffect">
+					<Name>Bolt</Name>
+				</FlightEffect>
 			</Attack>
 		</Statistics>
 		<DirectionalSprite>
