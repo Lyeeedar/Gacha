@@ -172,9 +172,12 @@ class StatisticsComponent: AbstractComponent()
 	{
 		var value = baseStats[statistic] ?: 0f
 
-		// apply level / rarity
-		value *= Math.pow(1.1, level.toDouble()).toFloat() // 10% per level
-		value *= ascension.multiplier
+		// apply level / rarity, but only to the base stats
+		if (Statistic.BaseValues.contains(statistic))
+		{
+			value *= Math.pow(1.05, level.toDouble()).toFloat() // 5% per level
+			value *= ascension.multiplier
+		}
 
 		// apply buffs and equipment
 		var modifier = 0f

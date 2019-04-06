@@ -7,11 +7,11 @@
 		</AI>
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>1200</MaxHP>
-				<Power>110</Power>
-				<DR>0.05</DR>
+				<MaxHP>120</MaxHP>
+				<Power>11</Power>
 				<CritChance>0.1</CritChance>
 				<CritDamage>3</CritDamage>
+				<DR>0.05</DR>
 			</Statistics>
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
@@ -75,8 +75,8 @@
 								<MoveType>Leap</MoveType>
 							</MoveSource>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.2402454</Duration>
 								<Time>0.104601227</Time>
+								<Duration LockDuration="False">0.2402454</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Stomp</Name>
 								</Renderable>
@@ -96,16 +96,16 @@
 						<Timeline>
 							<SelectSelf />
 							<Buff>
-								<Duration LockDuration="False">0.06883435</Duration>
 								<Time>0.0222699419</Time>
+								<Duration LockDuration="False">0.06883435</Duration>
 								<Buff meta:RefKey="Buff">
 									<Icon meta:RefKey="Sprite">
 										<Name>Oryx/uf_split/uf_items/weapon_axe_exotic1</Name>
 										<DrawActualSize>true</DrawActualSize>
 									</Icon>
 									<Statistics meta:RefKey="Statistics">
-										<DR>0.3</DR>
 										<Haste>0.2</Haste>
+										<DR>0.3</DR>
 									</Statistics>
 									<Duration>6</Duration>
 								</Buff>
@@ -113,8 +113,8 @@
 						</Timeline>
 						<Timeline>
 							<SourceRenderable>
-								<Time>0.00302017061</Time>
 								<Duration LockDuration="False">0.09984035</Duration>
+								<Time>0.00302017061</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Shout</Name>
 								</Renderable>
@@ -133,8 +133,8 @@
 								<Count>5</Count>
 							</SelectAllies>
 							<Buff>
-								<Duration LockDuration="False">0.242000014</Duration>
 								<Time>0.0240625013</Time>
+								<Duration LockDuration="False">0.242000014</Duration>
 								<Buff meta:RefKey="Buff">
 									<Icon meta:RefKey="Sprite">
 										<Name>Oryx/uf_split/uf_items/armor_blood_helm</Name>
@@ -148,8 +148,8 @@
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.261250019</Duration>
 								<Time>0.0240625013</Time>
+								<Duration LockDuration="False">0.261250019</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>LifestealBuff</Name>
 									<Colour>199,11,11,255</Colour>

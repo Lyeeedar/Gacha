@@ -7,8 +7,8 @@
 		</AI>
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>900</MaxHP>
-				<Power>80</Power>
+				<MaxHP>90</MaxHP>
+				<Power>8</Power>
 				<Regeneration>0.05</Regeneration>
 			</Statistics>
 			<Death meta:RefKey="ParticleEffect">
@@ -91,16 +91,16 @@
 								<RenderablePerTile>true</RenderablePerTile>
 							</DestinationRenderable>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.213698611</Duration>
 								<Time>0.2431507</Time>
+								<Duration LockDuration="False">0.213698611</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Heal</Name>
 								</Renderable>
 								<RenderablePerTile>true</RenderablePerTile>
 							</DestinationRenderable>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.206849337</Duration>
 								<Time>0.495205462</Time>
+								<Duration LockDuration="False">0.206849337</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Heal</Name>
 								</Renderable>
@@ -135,8 +135,8 @@
 								</Renderable>
 							</MovementRenderable>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.1979452</Duration>
 								<Time>0.1979452</Time>
+								<Duration LockDuration="False">0.1979452</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>HeartBurst</Name>
 								</Renderable>

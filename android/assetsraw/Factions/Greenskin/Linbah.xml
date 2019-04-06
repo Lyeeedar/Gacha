@@ -3,8 +3,8 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>1000</MaxHP>
-				<Power>80</Power>
+				<MaxHP>100</MaxHP>
+				<Power>8</Power>
 				<CritChance>0.01</CritChance>
 				<CritDamage>2</CritDamage>
 				<DR>0.1</DR>
@@ -69,8 +69,8 @@
 					<Ability meta:RefKey="Ability">
 						<Timeline>
 							<Buff>
-								<Duration LockDuration="False">0.204183</Duration>
 								<Time>0.031633988</Time>
+								<Duration LockDuration="False">0.204183</Duration>
 								<Buff meta:RefKey="Buff">
 									<Description>Block attacks</Description>
 									<Icon meta:RefKey="Sprite">
@@ -97,8 +97,8 @@
 						</Timeline>
 						<Timeline>
 							<SourceRenderable>
-								<Time>0.031633988</Time>
 								<Duration LockDuration="False">0.1804575</Duration>
+								<Time>0.031633988</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Block</Name>
 								</Renderable>

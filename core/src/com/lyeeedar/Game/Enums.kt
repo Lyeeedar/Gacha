@@ -320,6 +320,7 @@ enum class Statistic private constructor(val min: Float, val max: Float, val mod
 	companion object
 	{
 		val Values = Statistic.values()
+		val BaseValues = arrayOf(Statistic.MAXHP, POWER)
 
 		fun parse(xmlData: XmlData, statistics: FastEnumMap<Statistic, Float>)
 		{

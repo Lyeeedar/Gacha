@@ -3,8 +3,8 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>700</MaxHP>
-				<Power>50</Power>
+				<MaxHP>70</MaxHP>
+				<Power>5</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
 			</Statistics>
@@ -54,8 +54,8 @@
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.155616254</Duration>
 								<Time>0.0387318246</Time>
+								<Duration LockDuration="False">0.155616254</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Bite</Name>
 								</Renderable>
