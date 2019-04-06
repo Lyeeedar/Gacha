@@ -177,7 +177,7 @@ class Zone(val seed: Long)
 
 		for (i in 0 until 5)
 		{
-			val level = max(1, level + ran.nextInt(-3, 3))
+			val level = 100;//max(1, level + ran.nextInt(-3, 3))
 			val heroData = entities.removeRandom(ran)
 			val entityData = EntityData(heroData, Ascension.MUNDANE, level)
 

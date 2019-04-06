@@ -18,7 +18,7 @@
 				<Data Name="Shape" EnumValues="Box,Circle,Cone" meta:RefKey="Enum" />
 				<Data Name="Width" Min="0" Default="1" meta:RefKey="Number" />
 				<Data Name="Height" Min="0" Default="1" meta:RefKey="Number" />
-				<Data Name="Rotation" Min="0" Max="360" meta:RefKey="Number" />
+				<Data Name="Rotation" Min="-360" Max="360" meta:RefKey="Number" />
 				<Data Name="Area" EnumValues="Interior,Border" meta:RefKey="Enum" />
 				<Data Name="Offset" meta:RefKey="Timeline">
 					<Keyframe Name="Keyframe" Collapse="True" Seperator="|" meta:RefKey="Keyframe">
@@ -32,8 +32,8 @@
 					<Data Name="Max" Default="1" SkipIfDefault="False" meta:RefKey="Number" />
 				</Data>
 				<Data Name="ParticleRotation" Nullable="False" Collapse="True" meta:RefKey="Struct">
-					<Data Name="Min" Min="0" Max="360" SkipIfDefault="False" meta:RefKey="Number" />
-					<Data Name="Max" Min="0" Max="360" Default="360" SkipIfDefault="False" meta:RefKey="Number" />
+					<Data Name="Min" Min="-360" Max="360" SkipIfDefault="False" meta:RefKey="Number" />
+					<Data Name="Max" Min="-360" Max="360" Default="360" SkipIfDefault="False" meta:RefKey="Number" />
 				</Data>
 				<Data Name="RateKeyframes" MinCount="1" meta:RefKey="Timeline">
 					<Keyframe Name="Keyframe" Collapse="True" Seperator="|" meta:RefKey="Keyframe">

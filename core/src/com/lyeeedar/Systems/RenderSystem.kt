@@ -1,12 +1,16 @@
 package com.lyeeedar.Systems
 
+import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family
+import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.ui.Widget
+import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import com.lyeeedar.Components.*
 import com.lyeeedar.Global
@@ -16,6 +20,7 @@ import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.SpaceSlot
 import com.lyeeedar.Statistic
 import com.lyeeedar.UI.DebugConsole
+import com.lyeeedar.UI.RenderSystemWidget
 import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.Colour
 import ktx.math.plus
@@ -57,8 +62,22 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 	val lostHpCol = Colour.ORANGE.copy()
 	val emptyCol = Colour.BLACK.copy()
 
+	val layout = GlyphLayout()
+	val font = Global.skin.getFont("small")
+
 	lateinit var renderer: SortedRenderer
 	val screenSpaceRenderer = SortedRenderer(Global.resolution[0].toFloat(), 1f, 1f, 1, true)
+
+	lateinit var statsEntities: ImmutableArray<Entity>
+
+	override fun addedToEngine(engine: Engine?)
+	{
+		if (engine == null) throw RuntimeException("Engine is null!")
+
+		super.addedToEngine(engine)
+
+		statsEntities = engine.getEntitiesFor(Family.all(StatisticsComponent::class.java).get())
+	}
 
 	override fun registerDebugCommands(debugConsole: DebugConsole)
 	{
@@ -342,6 +361,8 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 		if (drawTargetting)
 		{
 			shape.projectionMatrix = Global.stage.camera.combined
+			shape.transformMatrix = Global.stage.camera.combined
+			shape.updateMatrices()
 			shape.setAutoShapeType(true)
 			shape.begin()
 
@@ -385,6 +406,26 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 			shape.end()
 
 			particles.clear()
+		}
+
+		if (level.selectingEntities)
+		{
+			for (entity in statsEntities)
+			{
+				val pos = entity.tile() ?: continue
+				val stats = entity.stats() ?: continue
+
+				layout.setText(font, "Lv." + stats.level, Color.WHITE, Global.stage.width * 0.5f, Align.left, false)
+
+				val screenPos = RenderSystemWidget.instance.pointToScreenspace(pos.x.toFloat(), pos.y.toFloat() + 1.5f)
+
+				batch.setColor(0f, 0f, 0f, 0.3f)
+				batch.draw(white, screenPos.x + 2f, screenPos.y - layout.height*2 - 3f, layout.height + 10f + layout.width, layout.height + 6f)
+
+				batch.color = Color.WHITE
+				batch.draw(stats.factionData!!.icon.currentTexture, screenPos.x + 5f, screenPos.y - layout.height*2, layout.height, layout.height)
+				font.draw( batch, layout, screenPos.x + 10f + layout.height, screenPos.y - layout.height )
+			}
 		}
 	}
 

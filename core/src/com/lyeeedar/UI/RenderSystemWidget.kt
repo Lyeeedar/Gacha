@@ -76,12 +76,17 @@ class RenderSystemWidget : Widget()
 
 	fun pointToScreenspace(point: Point): Vector2
 	{
+		return pointToScreenspace(point.x.toFloat(), point.y.toFloat())
+	}
+
+	fun pointToScreenspace(x: Float, y: Float): Vector2
+	{
 		val level = Global.engine.level!!
 		val tileSize = Global.engine.render()!!.tileSize
 
 		val xp = (width / 2f) - ((level.width * tileSize) / 2f)
 
-		return this.localToStageCoordinates(Vector2(xp + point.x * tileSize, point.y * tileSize))
+		return this.localToStageCoordinates(Vector2(xp + x * tileSize, y * tileSize))
 	}
 
 	companion object

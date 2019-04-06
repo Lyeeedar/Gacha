@@ -78,14 +78,14 @@ class Global
 			for (i in 0 until 20)
 			{
 				val toSpawn = faction.heroes.random()
-				data.heroPool.add(EntityData(toSpawn, Ascension.Values.toGdxArray().random(), 1))
+				data.heroPool.add(EntityData(toSpawn, Ascension.Values.toGdxArray().random(), 100))
 			}
 
 			faction = Faction.load("Greenskin/GreenskinAlliance")
 			for (i in 0 until 20)
 			{
 				val toSpawn = faction.heroes.random()
-				data.heroPool.add(EntityData(toSpawn, Ascension.Values.toGdxArray().random(), 1))
+				data.heroPool.add(EntityData(toSpawn, Ascension.Values.toGdxArray().random(), 100))
 			}
 		}
 

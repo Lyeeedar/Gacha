@@ -4,23 +4,17 @@
 		<Emitter>
 			<Name>Circles</Name>
 			<Width>0</Width>
-			<Height>0.2</Height>
+			<Height>0.1</Height>
 			<Direction>Up</Direction>
 			<ParticleSpeed>0,0</ParticleSpeed>
-			<ParticleRotation>0,40</ParticleRotation>
+			<ParticleRotation>-40,40</ParticleRotation>
 			<RateKeyframes>
-				<Keyframe>0|5</Keyframe>
+				<Keyframe>0|3</Keyframe>
 			</RateKeyframes>
 			<SingleBurst>true</SingleBurst>
 			<Particles>
 				<Particle>
 					<Lifetime>0.4,0.4</Lifetime>
-					<BlendMode>Additive</BlendMode>
-					<TextureKeyframes>
-						<Stream>
-							<Keyframe>0|Particle/oval</Keyframe>
-						</Stream>
-					</TextureKeyframes>
 					<SizeKeyframes>
 						<Stream>
 							<Keyframe>0|0.6|0.6</Keyframe>
@@ -31,6 +25,12 @@
 							<Keyframe>0|-10|10</Keyframe>
 						</Stream>
 					</RotationSpeedKeyframes>
+					<BlendMode>Additive</BlendMode>
+					<TextureKeyframes>
+						<Stream>
+							<Keyframe>0|Particle/oval</Keyframe>
+						</Stream>
+					</TextureKeyframes>
 					<ColourKeyframes>
 						<Stream>
 							<Keyframe>0|255,255,255,255</Keyframe>
@@ -61,17 +61,17 @@
 			<Particles>
 				<Particle>
 					<Lifetime>0.1,0.2</Lifetime>
+					<SizeKeyframes>
+						<Stream>
+							<Keyframe>0|0.1|0.2</Keyframe>
+						</Stream>
+					</SizeKeyframes>
 					<BlendMode>Additive</BlendMode>
 					<TextureKeyframes>
 						<Stream>
 							<Keyframe>0|Particle/star</Keyframe>
 						</Stream>
 					</TextureKeyframes>
-					<SizeKeyframes>
-						<Stream>
-							<Keyframe>0|0.1|0.2</Keyframe>
-						</Stream>
-					</SizeKeyframes>
 					<ColourKeyframes>
 						<Stream>
 							<Keyframe>0|255,255,255,255</Keyframe>
