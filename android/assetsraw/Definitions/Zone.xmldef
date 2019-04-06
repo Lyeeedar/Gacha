@@ -1,0 +1,10 @@
+<Definitions Colour="45,247,67" Icon="Sprites/Oryx/uf_split/uf_terrain/wall_hedge_7.png" xmlns:meta="Editor">
+	<Definition Name="Zone" meta:RefKey="Struct">
+		<Data Name="Factions" meta:RefKey="Collection">
+			<Data Name="Faction" BasePath="Factions" StripExtension="True" ResourceType="Faction" meta:RefKey="File" />
+		</Data>
+		<Data Name="Floor1" Keys="SpriteWrapper" meta:RefKey="Reference" />
+		<Data Name="Floor2" Keys="SpriteWrapper" meta:RefKey="Reference" />
+		<Data Name="Path" Keys="SpriteWrapper" meta:RefKey="Reference" />
+	</Definition>
+</Definitions>

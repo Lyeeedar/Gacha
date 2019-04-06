@@ -9,10 +9,7 @@ import com.badlogic.gdx.utils.Array
 import com.lyeeedar.Renderables.Animation.AbstractColourAnimation
 import com.lyeeedar.Renderables.Renderable
 import com.lyeeedar.Renderables.SortedRenderer
-import com.lyeeedar.Util.Colour
-import com.lyeeedar.Util.doDraw
-import com.lyeeedar.Util.draw
-import com.lyeeedar.Util.drawBlend
+import com.lyeeedar.Util.*
 
 class Sprite(val fileName: String, var animationDelay: Float, var textures: Array<TextureRegion>, colour: Colour, var drawActualSize: Boolean) : Renderable()
 {
@@ -77,6 +74,12 @@ class Sprite(val fileName: String, var animationDelay: Float, var textures: Arra
 
 	val remainingLifetime: Float
 		get() = if (hasAnim) animation!!.duration() - animation!!.time() else animationDelay * (textures.size - texIndex)
+
+	fun randomiseAnimation()
+	{
+		texIndex = Random.random(textures.size)
+		animationAccumulator = Random.random(animationDelay)
+	}
 
 	override fun doUpdate(delta: Float): Boolean
 	{

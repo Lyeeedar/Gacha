@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen
 import com.lyeeedar.Screens.AbstractScreen
 import com.lyeeedar.Screens.MapScreen
 import com.lyeeedar.Screens.ParticleEditorScreen
+import com.lyeeedar.Screens.ZoneScreen
 import com.lyeeedar.Util.Future
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -17,6 +18,7 @@ class MainGame : Game()
 	enum class ScreenEnum
 	{
 		MAP,
+		ZONE,
 
 		PARTICLEEDITOR,
 		INVALID
@@ -75,8 +77,9 @@ class MainGame : Game()
 		else
 		{
 			screens.put(ScreenEnum.MAP, MapScreen())
+			screens.put(ScreenEnum.ZONE, ZoneScreen())
 
-			switchScreen(ScreenEnum.MAP)
+			switchScreen(ScreenEnum.ZONE)
 		}
 
 	}

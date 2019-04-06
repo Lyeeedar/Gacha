@@ -1,0 +1,57 @@
+<Zone xmlns:meta="Editor">
+	<Factions>
+		<Faction>Greenskin/GreenskinAlliance</Faction>
+	</Factions>
+	<Floor1 meta:RefKey="SpriteWrapper">
+		<Sprite meta:RefKey="RenderedLayeredSprite">
+			<Layers>
+				<Layer>
+					<Name>Oryx/uf_split/uf_terrain/ground_grass_1</Name>
+				</Layer>
+			</Layers>
+		</Sprite>
+		<SpriteVariants>
+			<Sprite>
+				<Sprite meta:RefKey="RenderedLayeredSprite">
+					<Layers>
+						<Layer>
+							<Name>Oryx/uf_split/uf_terrain/ground_grass_4</Name>
+						</Layer>
+					</Layers>
+				</Sprite>
+				<Chance>0.2</Chance>
+			</Sprite>
+		</SpriteVariants>
+	</Floor1>
+	<Floor2 meta:RefKey="SpriteWrapper">
+		<Sprite meta:RefKey="RenderedLayeredSprite">
+			<Layers>
+				<Layer>
+					<Name>Oryx/uf_split/uf_terrain/ground_grass_1</Name>
+				</Layer>
+				<Layer>
+					<Name>Oryx/Custom/terrain/tree1</Name>
+					<DrawActualSize>true</DrawActualSize>
+				</Layer>
+			</Layers>
+		</Sprite>
+	</Floor2>
+	<Path meta:RefKey="SpriteWrapper">
+		<Sprite meta:RefKey="RenderedLayeredSprite">
+			<Layers>
+				<Layer>
+					<Name>Oryx/uf_split/uf_terrain/ground_grass_1</Name>
+				</Layer>
+			</Layers>
+		</Sprite>
+		<TilingSprite meta:RefKey="TilingSprite">
+			<Name>Path</Name>
+			<Mode>Masked</Mode>
+			<Mask>Masks/path</Mask>
+			<Sprite meta:RefKey="Sprite">
+				<Name>Oryx/uf_split/uf_terrain/ground_dirt_brown_1</Name>
+				<Colour>255,255,255,142</Colour>
+			</Sprite>
+		</TilingSprite>
+	</Path>
+</Zone>
