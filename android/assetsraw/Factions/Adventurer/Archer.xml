@@ -39,5 +39,8 @@
 			<Speed>0.8</Speed>
 			<AI>BasicMonster</AI>
 		</AI>
+		<Name>
+			<Name>Archer</Name>
+		</Name>
 	</Components>
 </Entity>

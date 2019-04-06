@@ -80,6 +80,7 @@
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Stomp</Name>
 								</Renderable>
+								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 						</Timeline>
 					</Ability>
@@ -165,5 +166,8 @@
 				</AbilityData>
 			</Abilities>
 		</Ability>
+		<Name>
+			<Name>Khasos</Name>
+		</Name>
 	</Components>
 </Entity>

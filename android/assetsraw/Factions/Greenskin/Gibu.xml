@@ -117,5 +117,8 @@
 			<Speed>1</Speed>
 			<AI>BasicMonster</AI>
 		</AI>
+		<Name>
+			<Name>Gibu</Name>
+		</Name>
 	</Components>
 </Entity>

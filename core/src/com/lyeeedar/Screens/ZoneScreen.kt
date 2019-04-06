@@ -27,7 +27,7 @@ class ZoneScreen : AbstractScreen()
 
 			val level = enc.createLevel(zone.theme)
 			val mapScreen = Global.game.getTypedScreen<MapScreen>()!!
-			mapScreen.setNewLevel(level)
+			mapScreen.setNewLevel(zone)
 
 			Global.game.switchScreen(MainGame.ScreenEnum.MAP)
 

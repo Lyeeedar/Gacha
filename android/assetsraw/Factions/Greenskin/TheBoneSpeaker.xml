@@ -234,5 +234,8 @@
 			<Speed>1</Speed>
 			<AI>BasicMonster</AI>
 		</AI>
+		<Name>
+			<Name>The Bone Speaker</Name>
+		</Name>
 	</Components>
 </Entity>

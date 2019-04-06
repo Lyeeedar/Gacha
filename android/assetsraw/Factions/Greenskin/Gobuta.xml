@@ -273,5 +273,8 @@
 			<Speed>1</Speed>
 			<AI>BasicMonster</AI>
 		</AI>
+		<Name>
+			<Name>Gobuta</Name>
+		</Name>
 	</Components>
 </Entity>

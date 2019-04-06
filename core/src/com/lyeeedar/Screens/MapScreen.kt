@@ -3,6 +3,8 @@ package com.lyeeedar.Screens
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.scenes.scene2d.Touchable
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable
@@ -14,13 +16,16 @@ import com.lyeeedar.Components.stats
 import com.lyeeedar.Game.Faction
 import com.lyeeedar.Game.Level
 import com.lyeeedar.Game.Tile
+import com.lyeeedar.Game.Zone
 import com.lyeeedar.Global
+import com.lyeeedar.MainGame
 import com.lyeeedar.SpaceSlot
 import com.lyeeedar.Statistic
 import com.lyeeedar.Systems.AbstractSystem
 import com.lyeeedar.Systems.systemList
 import com.lyeeedar.UI.*
 import com.lyeeedar.Util.AssetManager
+import ktx.actors.then
 import ktx.collections.set
 
 class MapScreen : AbstractScreen()
@@ -28,6 +33,7 @@ class MapScreen : AbstractScreen()
 	lateinit var batch: SpriteBatch
 
 	var level: Level? = null
+	var zone: Zone? = null
 
 	class TimeMultiplier(val name: String, val multiplier: Float)
 	val multipliers = arrayOf(TimeMultiplier("x0.5", 0.5f), TimeMultiplier("x1", 1f), TimeMultiplier("x2", 2f))
@@ -50,6 +56,8 @@ class MapScreen : AbstractScreen()
 	val heroesTable = Table()
 	val heroWidgets = com.badlogic.gdx.utils.Array<HeroSelectionWidget>()
 	val factionBonusTable = Table()
+
+	var levelComplete = false
 
 	override fun create()
 	{
@@ -136,13 +144,17 @@ class MapScreen : AbstractScreen()
 		})
 	}
 
-	fun setNewLevel(level: Level)
+	fun setNewLevel(zone: Zone)
 	{
 		if ( !created )
 		{
 			baseCreate()
 			created = true
 		}
+
+		levelComplete = false
+		this.zone = zone
+		val level = zone.currentEncounter.encounter!!.createLevel(zone.theme)
 
 		this.level = level
 
@@ -342,6 +354,26 @@ class MapScreen : AbstractScreen()
 				heroesTable.row()
 			}
 		}
+
+		for (i in 0 until 5)
+		{
+			val lastSelectedHero = Global.data.lastSelectedHeroes[i]
+			if (lastSelectedHero != null)
+			{
+				val hero = allHeroes.firstOrNull { it.name().name == lastSelectedHero }
+				if (hero != null)
+				{
+					val slot = level!!.playerTiles[i]
+					slot.entity = hero
+
+					hero.pos().tile = slot.tile
+					hero.pos().addToTile(hero)
+					Global.engine.addEntity(hero)
+				}
+			}
+		}
+
+		updateHeroWidgets()
 	}
 
 	fun updateHeroWidgets()
@@ -380,6 +412,11 @@ class MapScreen : AbstractScreen()
 			faction.count++
 		}
 
+		for (i in 0 until 5)
+		{
+			Global.data.lastSelectedHeroes[i] = level!!.playerTiles[i].entity?.name()?.name
+		}
+
 		for (faction in playerFactions)
 		{
 			for (i in 0 until 4)
@@ -398,6 +435,62 @@ class MapScreen : AbstractScreen()
 	{
 		val extraMult = if (level!!.selectingEntities || paused) 0f else 1f
 		Global.engine.update(delta * multipliers[multiplierIndex].multiplier * extraMult)
+
+		if (!levelComplete && !level!!.selectingEntities)
+		{
+			val winningFaction = level!!.isComplete()
+
+			if (winningFaction != null)
+			{
+				val table = FullscreenTable(0.7f)
+				table.touchable = Touchable.disabled
+
+				val clickAction: () -> Unit
+				if (winningFaction == "1")
+				{
+					val label = Label("Victory", Global.skin, "title")
+					table.add(label).expand().center()
+
+					clickAction = {
+
+						val zone = zone!!
+						zone.currentEncounter.isComplete = true
+						zone.currentEncounter.isCurrent = false
+						zone.currentEncounter.updateFlag()
+
+						zone.currentEncounter = zone.currentEncounter.nextTile!!
+						zone.currentEncounter.isCurrent = true
+						zone.currentEncounter.updateFlag()
+
+						table.remove()
+						Global.game.switchScreen(MainGame.ScreenEnum.ZONE)
+					}
+				}
+				else
+				{
+					val label = Label("Defeat", Global.skin, "title")
+					table.add(label).expand().center()
+
+					clickAction = {
+
+						table.remove()
+						Global.game.switchScreen(MainGame.ScreenEnum.ZONE)
+					}
+				}
+
+				val showAction =
+					alpha(0f) then
+						delay(2f) then
+						fadeIn(0.5f) then
+						lambda {
+							table.touchable = Touchable.enabled
+							table.addClickListener(clickAction)
+						}
+				table.addAction(showAction)
+
+				levelComplete = true
+			}
+		}
 
 		if (!Global.release)
 		{

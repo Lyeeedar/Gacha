@@ -15,13 +15,13 @@ import com.lyeeedar.Util.Event0Arg
  * Created by Philip on 02-Aug-16.
  */
 
-open class FullscreenTable() : Table()
+open class FullscreenTable(opacity: Float = 0.4f) : Table()
 {
 	val onClosed = Event0Arg()
 
 	init
 	{
-		background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(0f, 0f, 0f, 0.4f))
+		background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(0f, 0f, 0f, opacity))
 		touchable = Touchable.enabled
 		setFillParent(true)
 

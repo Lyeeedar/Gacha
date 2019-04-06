@@ -70,5 +70,8 @@
 			<Speed>1</Speed>
 			<AI>BasicMonster</AI>
 		</AI>
+		<Name>
+			<Name>Wolf</Name>
+		</Name>
 	</Components>
 </Entity>

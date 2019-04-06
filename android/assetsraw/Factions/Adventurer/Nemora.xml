@@ -168,5 +168,8 @@
 				</AbilityData>
 			</Abilities>
 		</Ability>
+		<Name>
+			<Name>Nemora</Name>
+		</Name>
 	</Components>
 </Entity>
