@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.NinePatch
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
@@ -27,9 +26,6 @@ import com.lyeeedar.Systems.level
 import com.lyeeedar.UI.*
 import com.lyeeedar.UI.Tooltip
 import com.lyeeedar.Util.*
-import ktx.actors.alpha
-import ktx.actors.plus
-import ktx.actors.then
 import ktx.collections.set
 import ktx.collections.toGdxArray
 
@@ -82,14 +78,14 @@ class Global
 			for (i in 0 until 20)
 			{
 				val toSpawn = faction.heroes.random()
-				data.heroPool.add(EntityData(toSpawn, Ascension.Values.toGdxArray().random()))
+				data.heroPool.add(EntityData(toSpawn, Ascension.Values.toGdxArray().random(), 1))
 			}
 
 			faction = Faction.load("Greenskin/GreenskinAlliance")
 			for (i in 0 until 20)
 			{
 				val toSpawn = faction.heroes.random()
-				data.heroPool.add(EntityData(toSpawn, Ascension.Values.toGdxArray().random()))
+				data.heroPool.add(EntityData(toSpawn, Ascension.Values.toGdxArray().random(), 1))
 			}
 		}
 
@@ -98,26 +94,13 @@ class Global
 			settings = Settings()
 		}
 
-		fun changeLevel(level: Level, fadeColour: Colour)
+		fun changeLevel(level: Level)
 		{
-			val fadeTable = Table()
-			fadeTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("Sprites/white.png")).tint(fadeColour.color())
-			fadeTable.alpha = 0f
-
-			val sequence = Actions.alpha(0f) then Actions.fadeIn(0.2f) then lambda {
-				loadLevel(level)
-			} then Actions.fadeOut(0.2f) then Actions.removeActor()
-
-			fadeTable + sequence
-
-			Global.stage.addActor(fadeTable)
-			fadeTable.setFillParent(true)
+			loadLevel(level)
 		}
 
 		private fun loadLevel(level: Level)
 		{
-			//save()
-
 			Global.engine.level?.destroyingLevel = true
 
 			Global.engine.removeAllEntities()

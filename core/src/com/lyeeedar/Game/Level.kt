@@ -88,15 +88,13 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 	val metaregions = ObjectMap<String, com.badlogic.gdx.utils.Array<Tile>>()
 
 	// ----------------------------------------------------------------------
-	class PlayerTile(var tile: Tile, var entity: Entity?)
-	val playerTiles = Array<PlayerTile>(5) { i -> PlayerTile(Tile(-1, -1), null) }
+	class EntityTile(var tile: Tile, var entity: Entity?)
+	val playerTiles = Array<EntityTile>(5) { i -> EntityTile(Tile(-1, -1), null) }
+	var enemyTiles = com.badlogic.gdx.utils.Array<EntityTile>()
 	var selectingEntities = true
 	var dragStart = Point.MINUS_ONE
-	var tileCurrent: PlayerTile? = null
+	var tileCurrent: EntityTile? = null
 	var dragged = false
-
-	// ----------------------------------------------------------------------
-	val enemies = com.badlogic.gdx.utils.Array<Entity>()
 
 	// ----------------------------------------------------------------------
 	init
@@ -233,7 +231,7 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 	}
 
 	// ----------------------------------------------------------------------
-	fun complete(): String?
+	fun isComplete(): String?
 	{
 		var remainingFaction: String? = null
 		var foundEntity = false
@@ -272,6 +270,104 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 	}
 
 	// ----------------------------------------------------------------------
+	fun begin()
+	{
+		selectingEntities = false
+		applyFactionBuffs()
+	}
+
+	// ----------------------------------------------------------------------
+	fun runToCompletion(): String
+	{
+		begin()
+
+		Global.resolveInstant = true
+
+		var winningFaction: String? = null
+		while (true)
+		{
+			Global.engine.update(1f)
+			winningFaction = isComplete()
+			if (winningFaction != null)
+			{
+				break
+			}
+		}
+
+		Global.resolveInstant = false
+
+		return winningFaction!!
+	}
+
+	// ----------------------------------------------------------------------
+	fun applyFactionBuffs()
+	{
+		val enemies = com.badlogic.gdx.utils.Array<Entity>()
+		for (tile in enemyTiles)
+		{
+			val entity = tile.entity ?: continue
+			enemies.add(entity)
+		}
+
+		applyFactionBuffs(enemies)
+
+		val allies = com.badlogic.gdx.utils.Array<Entity>()
+		for (tile in playerTiles)
+		{
+			val entity = tile.entity ?: continue
+			allies.add(entity)
+		}
+
+		applyFactionBuffs(allies)
+	}
+
+	// ----------------------------------------------------------------------
+	fun applyFactionBuffs(entities: com.badlogic.gdx.utils.Array<Entity>)
+	{
+		class FactionCount(val faction: Faction, var count: Int)
+		val factions = ObjectMap<String, FactionCount>()
+		for (entity in entities)
+		{
+			val stats = entity.stats() ?: continue
+			val factionData = stats.factionData ?: continue
+
+			if (stats.faction == "2")
+			{
+				var faction = factions[factionData.name]
+				if (faction == null)
+				{
+					faction = FactionCount(factionData, 0)
+					factions[factionData.name] = faction
+				}
+
+				faction.count++
+			}
+
+			stats.factionBuffs.clear()
+		}
+
+		for (faction in factions)
+		{
+			for (i in 0 until 4)
+			{
+				if (faction.value.count >= 2+i)
+				{
+					for (entity in entities)
+					{
+						val stats = entity.stats()!!
+						stats.factionBuffs.add(faction.value.faction.buffs[i].copy())
+					}
+				}
+			}
+		}
+
+		for (entity in entities)
+		{
+			entity.stats()!!.resetHP()
+		}
+	}
+
+	// ----------------------------------------------------------------------
 	fun getClosestMetaRegion(key: String, point: Point): Tile?
 	{
 		val lkey = key.toLowerCase()
@@ -307,28 +403,13 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 	// ----------------------------------------------------------------------
 	companion object
 	{
-		fun load(path: String): Level
+		fun load(gridEl: XmlData, theme: Theme, symbolsMap: IntMap<Symbol> = IntMap()): Level
 		{
-			val xml = getXml(path)
-
 			val charGrid: Array2D<Char>
-			val gridEl = xml.getChildByName("Grid")!!
 			val width = gridEl.getChild(0).text.length
 			val height = gridEl.childCount
 			charGrid = Array2D<Char>(width, height) { x, y -> gridEl.getChild(y).text[x] }
 
-			val symbolsMap = IntMap<Symbol>()
-			val symbolsEl = xml.getChildByName("Symbols")
-			if (symbolsEl != null)
-			{
-				for (symbolEl in symbolsEl.children)
-				{
-					val symbol = Symbol.parse(symbolEl)
-					symbolsMap[symbol.char.toInt()] = symbol
-				}
-			}
-
-			val theme = Theme.load(xml.get("Theme"))
 			for (symbol in theme.symbols)
 			{
 				if (!symbolsMap.containsKey(symbol.char.toInt())) // level overrides theme
@@ -337,13 +418,10 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 				}
 			}
 
-			val pathSymbol = symbolsMap['.'.toInt()]
 			val groundSymbol = symbolsMap['#'.toInt()]
 
-			val playerEntities = com.badlogic.gdx.utils.Array<Entity>()
 			val playerTiles = com.badlogic.gdx.utils.Array<Tile>()
-			val enemies = com.badlogic.gdx.utils.Array<Entity>()
-			val enemyFaction = Faction.load("Greenskin/GreenskinAlliance")
+			val enemyTiles = com.badlogic.gdx.utils.Array<Tile>()
 
 			fun loadTile(tile: Tile, char: Char)
 			{
@@ -368,26 +446,11 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 				{
 					tile.sprite = groundSymbol.sprite!!.copy()
 
-					var isPlayer = false
 					if (char == '2')
 					{
-						val data = enemyFaction.heroes.random()
-
-						val entity = EntityLoader.load(data.entityPath)
-						entity.stats()!!.faction = char.toString()
-						entity.stats()!!.factionData = enemyFaction
-
-						tile.contents[entity.pos().slot] = entity
-						entity.pos().tile = tile
-
-						enemies.add(entity)
+						enemyTiles.add(tile)
 					}
 					else
-					{
-						isPlayer = true
-					}
-
-					if (isPlayer)
 					{
 						playerTiles.add(tile)
 					}
@@ -421,8 +484,37 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 			{
 				level.playerTiles[i].tile = playerTiles[i]
 			}
-			level.enemies.addAll(enemies)
 
+			for (enemy in enemyTiles)
+			{
+				level.enemyTiles.add(EntityTile(enemy, null))
+			}
+
+			level.ambient.set(theme.ambient)
+
+			return level
+		}
+
+		fun load(path: String): Level
+		{
+			val xml = getXml(path)
+
+			val gridEl = xml.getChildByName("Grid")!!
+
+			val symbolsMap = IntMap<Symbol>()
+			val symbolsEl = xml.getChildByName("Symbols")
+			if (symbolsEl != null)
+			{
+				for (symbolEl in symbolsEl.children)
+				{
+					val symbol = Symbol.parse(symbolEl)
+					symbolsMap[symbol.char.toInt()] = symbol
+				}
+			}
+
+			val theme = Theme.load(xml.get("Theme"))
+
+			val level = load(gridEl, theme, symbolsMap)
 			level.ambient.set(AssetManager.loadColour(xml.getChildByName("Ambient")!!))
 
 			return level

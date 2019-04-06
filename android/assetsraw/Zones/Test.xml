@@ -2,6 +2,7 @@
 	<Factions>
 		<Faction>Greenskin/GreenskinAlliance</Faction>
 	</Factions>
+	<LevelRange>1,20</LevelRange>
 	<Floor1 meta:RefKey="SpriteWrapper">
 		<Sprite meta:RefKey="RenderedLayeredSprite">
 			<Layers>
@@ -54,4 +55,16 @@
 			</Sprite>
 		</TilingSprite>
 	</Path>
+	<Theme>GrassyKnoll</Theme>
+	<Levels>
+		<Grid>
+			<Line>..##...</Line>
+			<Line>1.....2</Line>
+			<Line>.1...22</Line>
+			<Line>1.....2</Line>
+			<Line>.1...22</Line>
+			<Line>1.....2</Line>
+			<Line>.......</Line>
+		</Grid>
+	</Levels>
 </Zone>

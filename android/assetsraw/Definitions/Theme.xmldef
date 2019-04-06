@@ -4,5 +4,6 @@
 		<Data Name="Symbols" meta:RefKey="Collection">
 			<Data Name="Symbol" Keys="Symbol" Nullable="False" meta:RefKey="Reference" />
 		</Data>
+		<Data Name="Ambient" HasAlpha="False" Default="204,204,204,255" SkipIfDefault="False" meta:RefKey="Colour" />
 	</Definition>
 </Definitions>

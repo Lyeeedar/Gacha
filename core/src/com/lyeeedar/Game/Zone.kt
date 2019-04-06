@@ -1,6 +1,8 @@
 package com.lyeeedar.Game
 
 import com.badlogic.gdx.utils.Array
+import com.lyeeedar.Ascension
+import com.lyeeedar.Components.pos
 import com.lyeeedar.Pathfinding.BresenhamLine
 import com.lyeeedar.Pathfinding.IPathfindingTile
 import com.lyeeedar.Renderables.Sprite.Sprite
@@ -19,10 +21,16 @@ class Zone(val seed: Long)
 
 	val factions = Array<Faction>()
 	lateinit var grid: Array2D<ZoneTile>
+	lateinit var levelRange: Range
 
 	lateinit var floor1: SpriteWrapper
 	lateinit var floor2: SpriteWrapper
 	lateinit var path: SpriteWrapper
+
+	lateinit var theme: Theme
+	val possibleLevels = Array<XmlData>()
+
+	lateinit var currentEncounter: ZoneTile
 
 	fun createGrid()
 	{
@@ -58,13 +66,6 @@ class Zone(val seed: Long)
 		while (points.size < numEncounters)
 		{
 			points.add(validPoints.removeRandom(ran))
-		}
-
-		for (point in points)
-		{
-			point.isEncounter = true
-			point.flagSprite = AssetManager.loadSprite("Oryx/Custom/terrain/flag", drawActualSize = true)
-			point.flagSprite!!.randomiseAnimation()
 		}
 
 		// create array of points at each y
@@ -128,6 +129,62 @@ class Zone(val seed: Long)
 				break
 			}
 		}
+
+		current = pointsPerY[0]!![0]
+		var progression = 0
+		while (true)
+		{
+			val alpha = progression.toFloat() / numEncounters.toFloat()
+			val level = levelRange.min.lerp(levelRange.max, alpha).toInt()
+
+			current.encounter = createEncounter(level)
+
+			if (current.nextTile == null)
+			{
+				break
+			}
+
+			progression++
+			current = current.nextTile
+		}
+
+		pointsPerY[0]!![0].isCurrent = true
+		currentEncounter = pointsPerY[0]!![0]
+
+		for (point in points)
+		{
+			point.isEncounter = true
+			point.updateFlag()
+		}
+	}
+
+	fun createEncounter(level: Int): Encounter
+	{
+		val entities = Array<FactionEntity>()
+		for (faction in factions)
+		{
+			for (entity in faction.heroes)
+			{
+				for (i in 0 until entity.rarity.weight)
+				{
+					entities.add(entity)
+				}
+			}
+		}
+
+		val encounter = Encounter()
+		encounter.gridEl = possibleLevels.random(ran)
+
+		for (i in 0 until 5)
+		{
+			val level = max(1, level + ran.nextInt(-3, 3))
+			val heroData = entities.removeRandom(ran)
+			val entityData = EntityData(heroData, Ascension.MUNDANE, level)
+
+			encounter.enemies.add(entityData)
+		}
+
+		return encounter
 	}
 
 	companion object
@@ -147,6 +204,16 @@ class Zone(val seed: Long)
 			zone.floor1 = SpriteWrapper.load(xml.getChildByName("Floor1")!!)
 			zone.floor2 = SpriteWrapper.load(xml.getChildByName("Floor2")!!)
 			zone.path = SpriteWrapper.load(xml.getChildByName("Path")!!)
+
+			zone.levelRange = Range.parse(xml.get("LevelRange"))
+
+			zone.theme = Theme.load(xml.get("Theme"))
+
+			val levelsEl = xml.getChildByName("Levels")!!
+			for (el in levelsEl.children)
+			{
+				zone.possibleLevels.add(el)
+			}
 
 			zone.createGrid()
 			zone.createPath()
@@ -169,9 +236,59 @@ class ZoneTile(x: Int, y: Int) : Point(x, y), IPathfindingTile
 	}
 
 	var isEncounter = false
+	var isComplete = false
+	var isCurrent = false
+
 	var nextTile: ZoneTile? = null
+	var encounter: Encounter? = null
 
 	var flagSprite: Sprite? = null
 
 	lateinit var sprite: SpriteWrapper
+
+	fun updateFlag()
+	{
+		if (isEncounter)
+		{
+			if (isCurrent)
+			{
+				flagSprite = AssetManager.loadSprite("Oryx/Custom/terrain/flag_combat", drawActualSize = true)
+				flagSprite!!.randomiseAnimation()
+			}
+			else if (isComplete)
+			{
+				flagSprite = AssetManager.loadSprite("Oryx/Custom/terrain/flag_complete", drawActualSize = true)
+				flagSprite!!.randomiseAnimation()
+			}
+			else
+			{
+				flagSprite = AssetManager.loadSprite("Oryx/Custom/terrain/flag_enemy", drawActualSize = true)
+				flagSprite!!.randomiseAnimation()
+			}
+		}
+	}
+}
+
+class Encounter
+{
+	val enemies = Array<EntityData>()
+	lateinit var gridEl: XmlData
+
+	fun createLevel(theme: Theme): Level
+	{
+		val level = Level.load(gridEl, theme)
+
+		var i = 0
+		for (enemy in enemies)
+		{
+			val entity = enemy.getEntity("2")
+			level.enemyTiles[i].entity = entity
+			entity.pos().tile = level.enemyTiles[i].tile
+			entity.pos().addToTile(entity)
+
+			i++
+		}
+
+		return level
+	}
 }

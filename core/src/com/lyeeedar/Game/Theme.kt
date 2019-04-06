@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.utils.Array
 import com.lyeeedar.Renderables.Sprite.SpriteWrapper
 import com.lyeeedar.Util.AssetManager
+import com.lyeeedar.Util.Colour
 import com.lyeeedar.Util.XmlData
 import com.lyeeedar.Util.getXml
 
@@ -12,6 +13,8 @@ class Theme(val filepath: String)
 	val symbols = Array<Symbol>()
 
 	lateinit var backgroundTile: TextureRegion
+
+	var ambient = Colour()
 
 	companion object
 	{
@@ -28,6 +31,8 @@ class Theme(val filepath: String)
 				val symbol = Symbol.parse(symbolEl)
 				theme.symbols.add(symbol)
 			}
+
+			theme.ambient = AssetManager.loadColour(xml.getChildByName("Ambient")!!)
 
 			return theme
 		}

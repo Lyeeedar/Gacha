@@ -31,11 +31,11 @@ enum class Ascension(val multiplier: Float, val colour: Colour)
 }
 
 // ----------------------------------------------------------------------
-enum class Rarity
+enum class Rarity private constructor(val weight: Int)
 {
-	COMMON,
-	UNCOMMON,
-	RARE;
+	COMMON(3),
+	UNCOMMON(2),
+	RARE(1);
 
 	companion object
 	{

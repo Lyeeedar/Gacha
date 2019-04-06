@@ -11,27 +11,28 @@ import com.lyeeedar.Systems.directionSprite
 class GameData
 {
 	val heroPool = Array<EntityData>()
-	var level: Int = 1
 }
 
 class EntityData()
 {
 	lateinit var factionEntity: FactionEntity
 	var ascension: Ascension = Ascension.MUNDANE
+	var level: Int = 0
 
-	constructor(entity: FactionEntity, ascension: Ascension) : this()
+	constructor(entity: FactionEntity, ascension: Ascension, level: Int) : this()
 	{
 		this.factionEntity = entity
 		this.ascension = ascension
+		this.level = level
 	}
 
-	fun getEntity(gameData: GameData): Entity
+	fun getEntity(faction: String): Entity
 	{
 		val entity = EntityLoader.load(factionEntity.entityPath)
 		val stats = entity.stats()!!
 		stats.ascension = ascension
-		stats.level = gameData.level
-		stats.faction = "1"
+		stats.level = level
+		stats.faction = faction
 		stats.factionData = factionEntity.faction
 		stats.resetHP()
 

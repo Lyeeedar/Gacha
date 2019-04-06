@@ -21,7 +21,6 @@ import com.lyeeedar.Systems.AbstractSystem
 import com.lyeeedar.Systems.systemList
 import com.lyeeedar.UI.*
 import com.lyeeedar.Util.AssetManager
-import com.lyeeedar.Util.Colour
 import ktx.collections.set
 
 class MapScreen : AbstractScreen()
@@ -55,23 +54,6 @@ class MapScreen : AbstractScreen()
 	override fun create()
 	{
 		batch = SpriteBatch()
-
-		level = Level.load("Levels/Test")
-		Global.changeLevel(level!!, Colour.BLACK)
-
-		//val collisionGrid = Array2D<Boolean>(map.width, map.height) { x,y -> map.grid[x,y].type == TileType.WALL }
-		//Global.collisionGrid = collisionGrid
-
-		val mapWidget = RenderSystemWidget()
-
-		val gridStack = Stack()
-		gridStack.add(mapWidget)
-		gridStack.add(aboveGridTable)
-
-		mainTable.background = TiledDrawable(TextureRegionDrawable(level!!.theme.backgroundTile)).tint(level!!.ambient.color())
-		mainTable.add(gridStack).grow().height(Value.percentHeight(0.7f, mainTable))
-		mainTable.row()
-		mainTable.add(bottomArea).grow().height(Value.percentHeight(0.3f, mainTable))
 
 		debugConsole.register("SystemDebug", "'SystemDebug true' to enable, 'SystemDebug false' to disable", fun (args, console): Boolean {
 			if (args[0] == "false")
@@ -152,8 +134,33 @@ class MapScreen : AbstractScreen()
 
 			return false
 		})
+	}
+
+	fun setNewLevel(level: Level)
+	{
+		if ( !created )
+		{
+			baseCreate()
+			created = true
+		}
+
+		this.level = level
+
+		val mapWidget = RenderSystemWidget()
+
+		val gridStack = Stack()
+		gridStack.add(mapWidget)
+		gridStack.add(aboveGridTable)
+
+		mainTable.clear()
+		mainTable.background = TiledDrawable(TextureRegionDrawable(level.theme.backgroundTile)).tint(level.ambient.color())
+		mainTable.add(gridStack).grow().height(Value.percentHeight(0.7f, mainTable))
+		mainTable.row()
+		mainTable.add(bottomArea).grow().height(Value.percentHeight(0.3f, mainTable))
 
 		selectEntities()
+
+		Global.changeLevel(level)
 	}
 
 	fun beginLevel()
@@ -207,7 +214,7 @@ class MapScreen : AbstractScreen()
 		bottomArea.row()
 		bottomArea.add(entityTable).growX().height(75f)
 
-		level!!.selectingEntities = false
+		level!!.begin()
 	}
 
 	fun selectEntities()
@@ -216,13 +223,6 @@ class MapScreen : AbstractScreen()
 
 		bottomArea.clear()
 		aboveGridTable.clear()
-
-		val playerTeamLevel = Label("Level: 1", Global.skin, "title")
-		val enemyTeamLevel = Label("Level: 1", Global.skin, "title")
-
-		aboveGridTable.add(playerTeamLevel).expandX().left().pad(15f)
-		aboveGridTable.add(enemyTeamLevel).expandX().right().pad(15f)
-		aboveGridTable.row()
 
 		val bonusTable = Table()
 		aboveGridTable.add(bonusTable).colspan(2).growX()
@@ -237,8 +237,10 @@ class MapScreen : AbstractScreen()
 
 		class FactionCount(val faction: Faction, var count: Int)
 		val enemyFactions = ObjectMap<String, FactionCount>()
-		for (entity in level!!.enemies)
+		for (tile in level!!.enemyTiles)
 		{
+			val entity = tile.entity ?: continue
+
 			val stats = entity.stats() ?: continue
 			val factionData = stats.factionData ?: continue
 
@@ -253,8 +255,6 @@ class MapScreen : AbstractScreen()
 
 				faction.count++
 			}
-
-			stats.factionBuffs.clear()
 		}
 
 		for (faction in enemyFactions)
@@ -266,19 +266,8 @@ class MapScreen : AbstractScreen()
 					val widget = SpriteWidget(faction.value.faction.icon.copy(), 24f, 24f)
 					widget.addTapToolTip(faction.value.faction.name + " ${i+2}:\n" + faction.value.faction.buffs[i].description)
 					enemyBonusTable.add(widget).pad(5f)
-
-					for (entity in level!!.enemies)
-					{
-						val stats = entity.stats()!!
-						stats.factionBuffs.add(faction.value.faction.buffs[i].copy())
-					}
 				}
 			}
-		}
-
-		for (entity in level!!.enemies)
-		{
-			entity.stats()!!.resetHP()
 		}
 
 		val beginButton = TextButton("Begin", Global.skin)
@@ -308,7 +297,7 @@ class MapScreen : AbstractScreen()
 		val allHeroes = com.badlogic.gdx.utils.Array<Entity>()
 		for (heroData in Global.data.heroPool)
 		{
-			val hero = heroData.getEntity(Global.data)
+			val hero = heroData.getEntity("1")
 			allHeroes.add(hero)
 		}
 
@@ -389,8 +378,6 @@ class MapScreen : AbstractScreen()
 			}
 
 			faction.count++
-
-			stats.factionBuffs.clear()
 		}
 
 		for (faction in playerFactions)
@@ -402,21 +389,8 @@ class MapScreen : AbstractScreen()
 					val widget = SpriteWidget(faction.value.faction.icon.copy(), 24f, 24f)
 					widget.addTapToolTip(faction.value.faction.name + " ${i+2}:\n" + faction.value.faction.buffs[i].description)
 					factionBonusTable.add(widget).pad(5f)
-
-					for (tile in level!!.playerTiles)
-					{
-						val entity = tile.entity ?: continue
-						val stats = entity.stats()!!
-						stats.factionBuffs.add(faction.value.faction.buffs[i].copy())
-					}
 				}
 			}
-		}
-
-		for (tile in level!!.playerTiles)
-		{
-			val entity = tile.entity ?: continue
-			entity.stats()!!.resetHP()
 		}
 	}
 
