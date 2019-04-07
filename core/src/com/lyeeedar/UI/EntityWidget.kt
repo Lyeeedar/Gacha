@@ -17,7 +17,7 @@ import com.lyeeedar.Util.max
 class EntityWidget(var entity: Entity?) : Widget()
 {
 	val background = AssetManager.loadTextureRegion("Icons/Empty")!!
-	val border = AssetManager.loadTextureRegion("GUI/border")!!
+	val border = AssetManager.loadTextureRegion("GUI/RewardChanceBorder")!!
 	val white = AssetManager.loadTextureRegion("white")!!
 	val hp_border = AssetManager.loadTextureRegion("Sprites/GUI/health_border.png")!!
 

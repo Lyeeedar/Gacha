@@ -220,6 +220,24 @@ class ZoneWidget(val zone: Zone) : Widget()
 				val xi = x.toFloat()
 				val yi = y.toFloat()
 
+				val groundSprite = tile.sprite
+				if (!groundSprite.hasChosenSprites)
+				{
+					groundSprite.chooseSprites()
+				}
+
+				val sprite = groundSprite.chosenSprite
+				if (sprite != null)
+				{
+					renderer.queueSprite(sprite, xi, yi, TILE, 0, tileColour)
+				}
+
+				val tilingSprite = groundSprite.chosenTilingSprite
+				if (tilingSprite != null)
+				{
+					renderer.queueSprite(tilingSprite, xi, yi, TILE, 0, tileColour)
+				}
+
 				if (tile.isEncounter)
 				{
 					renderer.queueSprite(tile.flagSprite!!, xi, yi, TILE, 0, tileColour)

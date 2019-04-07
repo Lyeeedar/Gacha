@@ -177,6 +177,11 @@ class MapScreen : AbstractScreen()
 
 	fun beginLevel()
 	{
+		for (i in 0 until 5)
+		{
+			Global.data.lastSelectedHeroes[i] = level!!.playerTiles[i].entity?.name()?.name
+		}
+
 		bottomArea.clear()
 		aboveGridTable.clear()
 
@@ -283,7 +288,12 @@ class MapScreen : AbstractScreen()
 		}
 
 		val beginButton = TextButton("Begin", Global.skin)
-		beginButton.addClickListener { beginLevel() }
+		beginButton.addClickListener {
+			if (level!!.playerTiles.any{ it.entity != null})
+			{
+				beginLevel()
+			}
+		}
 		bottomArea.add(beginButton).expandX().center().width(200f).height(30f).pad(2f)
 		bottomArea.row()
 		bottomArea.add(Seperator(Global.skin, false)).growX()
@@ -315,7 +325,7 @@ class MapScreen : AbstractScreen()
 
 		val heroesARow = 5
 		var x = 0
-		for (hero in allHeroes.sortedByDescending { it.stats().getStat(Statistic.POWER) * it.stats().getStat(Statistic.MAXHP) })
+		for (hero in allHeroes.sortedByDescending { (it.stats().getStat(Statistic.POWER) * 10) + it.stats().getStat(Statistic.MAXHP) })
 		{
 			val heroWidget = HeroSelectionWidget(hero)
 			for (existing in level!!.playerTiles)
@@ -444,6 +454,7 @@ class MapScreen : AbstractScreen()
 			{
 				val table = FullscreenTable(0.7f)
 				table.touchable = Touchable.disabled
+				table.color.a = 0f
 
 				val clickAction: () -> Unit
 				if (winningFaction == "1")

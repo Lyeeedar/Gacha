@@ -9,7 +9,7 @@
 			<Statistics meta:RefKey="Statistics">
 				<MaxHP>90</MaxHP>
 				<Power>8</Power>
-				<Regeneration>0.05</Regeneration>
+				<Regeneration>0.01</Regeneration>
 			</Statistics>
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
@@ -54,7 +54,6 @@
 							</SelectAllies>
 							<Heal>
 								<Time>0.0239726044</Time>
-								<Amount>1.1</Amount>
 							</Heal>
 							<BlockTurn>
 								<Time>0.219178081</Time>
@@ -65,7 +64,6 @@
 							</SelectAllies>
 							<Heal>
 								<Time>0.267808229</Time>
-								<Amount>1.1</Amount>
 							</Heal>
 							<BlockTurn>
 								<Time>0.4719178</Time>
@@ -76,7 +74,6 @@
 							</SelectAllies>
 							<Heal>
 								<Time>0.5171233</Time>
-								<Amount>1.1</Amount>
 							</Heal>
 							<BlockTurn>
 								<Time>0.714056849</Time>
@@ -87,6 +84,7 @@
 								<Duration LockDuration="False">0.200684935</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Heal</Name>
+									<Colour>0,235,71,255</Colour>
 								</Renderable>
 								<RenderablePerTile>true</RenderablePerTile>
 							</DestinationRenderable>
@@ -95,6 +93,7 @@
 								<Duration LockDuration="False">0.213698611</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Heal</Name>
+									<Colour>0,235,71,255</Colour>
 								</Renderable>
 								<RenderablePerTile>true</RenderablePerTile>
 							</DestinationRenderable>
@@ -103,6 +102,7 @@
 								<Duration LockDuration="False">0.206849337</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Heal</Name>
+									<Colour>0,235,71,255</Colour>
 								</Renderable>
 								<RenderablePerTile>true</RenderablePerTile>
 							</DestinationRenderable>
@@ -159,7 +159,7 @@
 							</SelectAllies>
 							<Heal>
 								<Time>0.0222426467</Time>
-								<Amount>0.2</Amount>
+								<Amount>0.1</Amount>
 							</Heal>
 						</Timeline>
 					</Ability>

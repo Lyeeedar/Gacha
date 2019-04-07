@@ -3,10 +3,7 @@ package com.lyeeedar
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
-import com.lyeeedar.Screens.AbstractScreen
-import com.lyeeedar.Screens.MapScreen
-import com.lyeeedar.Screens.ParticleEditorScreen
-import com.lyeeedar.Screens.ZoneScreen
+import com.lyeeedar.Screens.*
 import com.lyeeedar.Util.Future
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -19,6 +16,10 @@ class MainGame : Game()
 	{
 		MAP,
 		ZONE,
+		DUNGEON,
+		SHOP,
+		HEROES,
+		SETTINGS,
 
 		PARTICLEEDITOR,
 		INVALID
@@ -78,6 +79,10 @@ class MainGame : Game()
 		{
 			screens.put(ScreenEnum.MAP, MapScreen())
 			screens.put(ScreenEnum.ZONE, ZoneScreen())
+			screens.put(ScreenEnum.SHOP, ShopScreen())
+			screens.put(ScreenEnum.DUNGEON, DungeonScreen())
+			screens.put(ScreenEnum.HEROES, HeroesScreen())
+			screens.put(ScreenEnum.SETTINGS, SettingsScreen())
 
 			switchScreen(ScreenEnum.ZONE)
 		}

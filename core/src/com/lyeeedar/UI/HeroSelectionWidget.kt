@@ -17,7 +17,7 @@ import com.lyeeedar.Util.Colour
 class HeroSelectionWidget(var entity: Entity) : Widget()
 {
 	val background = AssetManager.loadTextureRegion("Icons/Empty")!!
-	val border = AssetManager.loadTextureRegion("GUI/border")!!
+	val border = AssetManager.loadTextureRegion("GUI/RewardChanceBorder")!!
 	val white = AssetManager.loadTextureRegion("white")!!
 
 	val whiteColour = Colour.WHITE

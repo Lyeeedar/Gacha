@@ -171,7 +171,6 @@
 							</SelectEnemies>
 							<Damage>
 								<Time>0.09609666</Time>
-								<Amount>2.5</Amount>
 							</Damage>
 							<BlockTurn>
 								<Time>0.113816611</Time>
@@ -182,7 +181,6 @@
 							</SelectEnemies>
 							<Damage>
 								<Time>0.19696407</Time>
-								<Amount>2.5</Amount>
 							</Damage>
 							<BlockTurn>
 								<Time>0.21468401</Time>
@@ -225,7 +223,7 @@
 							</DestinationRenderable>
 						</Timeline>
 					</Ability>
-					<Cooldown>9,15</Cooldown>
+					<Cooldown>12,15</Cooldown>
 					<Range>999</Range>
 				</AbilityData>
 			</Abilities>

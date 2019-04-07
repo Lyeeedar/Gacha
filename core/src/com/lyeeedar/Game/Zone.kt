@@ -14,8 +14,8 @@ import ktx.collections.toGdxArray
 class Zone(val seed: Long)
 {
 	val numEncounters = 40
-	val width = 25
-	val height = 30
+	val width = 10
+	val height = 15
 
 	val ran = Random.obtainTS(seed)
 
@@ -48,7 +48,7 @@ class Zone(val seed: Long)
 		val validPoints = Array<ZoneTile>()
 		for (x in 1 until grid.width-1)
 		{
-			for (y in 3 until grid.height-1 step 3)
+			for (y in 2 until grid.height-1 step 2)
 			{
 				validPoints.add(grid[x, y])
 			}
@@ -60,8 +60,9 @@ class Zone(val seed: Long)
 		}
 
 		val points = Array<ZoneTile>()
-		points.add(grid[10+ran.nextInt(grid.width-20), 0])
-		points.add(grid[10+ran.nextInt(grid.width-20), grid.height-1])
+		val w3 = width / 3
+		points.add(grid[w3+ran.nextInt(grid.width-w3*2), 0])
+		points.add(grid[w3+ran.nextInt(grid.width-w3*2), grid.height-1])
 
 		while (points.size < numEncounters)
 		{

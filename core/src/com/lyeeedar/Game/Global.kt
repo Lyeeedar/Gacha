@@ -27,7 +27,6 @@ import com.lyeeedar.UI.*
 import com.lyeeedar.UI.Tooltip
 import com.lyeeedar.Util.*
 import ktx.collections.set
-import ktx.collections.toGdxArray
 
 /**
  * Created by Philip on 04-Jul-16.
@@ -75,17 +74,15 @@ class Global
 			Colors.put("IMPORTANT", Color(0.6f, 1f, 0.9f, 1f))
 
 			var faction = Faction.load("Adventurer/Adventurer")
-			for (i in 0 until 20)
+			for (hero in faction.heroes)
 			{
-				val toSpawn = faction.heroes.random()
-				data.heroPool.add(EntityData(toSpawn, Ascension.Values.toGdxArray().random(), 1))
+				data.heroPool.add(EntityData(hero, Ascension.MUNDANE, 1))
 			}
 
 			faction = Faction.load("Greenskin/GreenskinAlliance")
-			for (i in 0 until 20)
+			for (hero in faction.heroes)
 			{
-				val toSpawn = faction.heroes.random()
-				data.heroPool.add(EntityData(toSpawn, Ascension.Values.toGdxArray().random(), 1))
+				data.heroPool.add(EntityData(hero, Ascension.MUNDANE, 1))
 			}
 		}
 
