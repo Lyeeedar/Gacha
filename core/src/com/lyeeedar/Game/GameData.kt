@@ -11,6 +11,7 @@ import com.lyeeedar.Systems.directionSprite
 class GameData
 {
 	val heroPool = Array<EntityData>()
+	val unlockedFactions = Array<Faction>()
 
 	val lastSelectedHeroes = kotlin.Array<String?>(5) { null }
 }

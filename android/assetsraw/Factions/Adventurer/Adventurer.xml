@@ -2,8 +2,7 @@
 	<Name>Adventurer</Name>
 	<Description>Members of the guild of adventurers</Description>
 	<Icon meta:RefKey="Sprite">
-		<Name>Oryx/uf_split/uf_items/armor_plate_chest</Name>
-		<DrawActualSize>true</DrawActualSize>
+		<Name>Icons/AdventurersGuild</Name>
 	</Icon>
 	<Buffs>
 		<Buff2 meta:RefKey="Buff">

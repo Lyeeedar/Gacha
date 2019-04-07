@@ -2,7 +2,7 @@
 	<Name>Greenskin Alliance</Name>
 	<Description>An alliance of multiple races, united by the colour of their skin and a complex bond of agreements and pacts.</Description>
 	<Icon meta:RefKey="Sprite">
-		<Name>Oryx/uf_split/uf_portraits/head_orc_female</Name>
+		<Name>Icons/GreenskinAlliance</Name>
 	</Icon>
 	<Buffs>
 		<Buff2 meta:RefKey="Buff">

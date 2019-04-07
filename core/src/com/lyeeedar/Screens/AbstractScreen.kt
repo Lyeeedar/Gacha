@@ -123,7 +123,7 @@ abstract class AbstractScreen() : Screen, InputProcessor, GestureDetector.Gestur
 			actualFps = (1.0f / deltaAverage).toInt()
 		}
 
-		if (!Global.release)
+		if (!Global.release && drawFPS)
 		{
 			stage.batch.begin()
 			font.draw(stage.batch, "Frame FPS: $fps", Global.resolution.x - 200f, Global.resolution.y - 20f)
@@ -339,6 +339,7 @@ abstract class AbstractScreen() : Screen, InputProcessor, GestureDetector.Gestur
 	var fps: Int = 0
 	var actualFps: Int = 0
 	var fpsAccumulator: Float = 0f
+	var drawFPS = true
 
 	lateinit var font: BitmapFont
 

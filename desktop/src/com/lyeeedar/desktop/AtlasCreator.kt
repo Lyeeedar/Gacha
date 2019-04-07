@@ -174,6 +174,18 @@ class AtlasCreator
 
 			processTilingSprite(baseName, maskName, false)
 		}
+
+		val oryxRegex = Regex("\"Oryx/.*\"")
+
+		val occurancesOryx = oryxRegex.findAll(contents)
+
+		for (occurance in occurancesOryx)
+		{
+			var path = occurance.value
+			path = path.replace("\"", "")
+
+			processSprite(path)
+		}
 	}
 
 	private fun parseXml(file: String)
