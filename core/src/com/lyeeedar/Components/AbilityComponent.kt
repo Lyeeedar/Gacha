@@ -3,7 +3,7 @@ package com.lyeeedar.Components
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Array
 import com.exp4j.Helpers.CompiledExpression
-import com.lyeeedar.Game.Ability.Ability
+import com.lyeeedar.Game.ActionSequence.ActionSequence
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.Point
@@ -19,7 +19,7 @@ class AbilityComponent : AbstractComponent()
 		for (el in abilitiesEl.children)
 		{
 			val abilityEl = el.getChildByName("Ability")!!
-			val ability = Ability.load(abilityEl)
+			val ability = ActionSequence.load(abilityEl)
 
 			val name = el.get("Name")
 			val description = el.get("Description", "")!!
@@ -54,7 +54,7 @@ class AbilityData
 	lateinit var description: String
 	lateinit var icon: Sprite
 
-	lateinit var ability: Ability
+	lateinit var ability: ActionSequence
 	lateinit var cooldown: com.lyeeedar.Util.IntRange
 	var singleUse = false
 	var availableOnStart = false

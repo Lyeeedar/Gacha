@@ -1,13 +1,13 @@
-package com.lyeeedar.Game.Ability
+package com.lyeeedar.Game.ActionSequence
 
 import com.badlogic.ashley.core.Entity
-import com.lyeeedar.Components.ActiveAbilityComponent
+import com.lyeeedar.Components.ActiveActionSequenceComponent
 import com.lyeeedar.Components.Mappers
 import com.lyeeedar.Components.TransientComponent
 import com.lyeeedar.Global
 import com.lyeeedar.Util.XmlData
 
-class BlockTurnAction(ability: Ability) : AbstractAbilityAction(ability)
+class BlockTurnAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
 	override fun enter(): Boolean
 	{
@@ -24,7 +24,7 @@ class BlockTurnAction(ability: Ability) : AbstractAbilityAction(ability)
 		return false
 	}
 
-	override fun doCopy(ability: Ability): AbstractAbilityAction
+	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
 	{
 		return BlockTurnAction(ability)
 	}
@@ -35,20 +35,20 @@ class BlockTurnAction(ability: Ability) : AbstractAbilityAction(ability)
 	}
 }
 
-class UnlockEntityAction(ability: Ability) : AbstractAbilityAction(ability)
+class UnlockEntityAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
 	override fun enter(): Boolean
 	{
 		val entity = Entity()
-		var activeAbilityComponent = Mappers.activeAbility.get(ability.source)
-		if (activeAbilityComponent?.ability == ability)
+		var activeAbilityComponent = Mappers.activeActionSequence.get(ability.source)
+		if (activeAbilityComponent?.sequence == ability)
 		{
-			ability.source.remove(ActiveAbilityComponent::class.java)
+			ability.source.remove(ActiveActionSequenceComponent::class.java)
 		}
 		else
 		{
-			activeAbilityComponent = ActiveAbilityComponent()
-			activeAbilityComponent.ability = ability
+			activeAbilityComponent = ActiveActionSequenceComponent()
+			activeAbilityComponent.sequence = ability
 		}
 
 		entity.add(TransientComponent())
@@ -63,7 +63,7 @@ class UnlockEntityAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	}
 
-	override fun doCopy(ability: Ability): AbstractAbilityAction
+	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
 	{
 		val action = UnlockEntityAction(ability)
 		return action

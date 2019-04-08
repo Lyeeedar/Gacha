@@ -69,7 +69,7 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 
 		entities = engine.getEntitiesFor(Family.all(TaskComponent::class.java).get())
 		renderables = engine.getEntitiesFor(Family.all(RenderableComponent::class.java).get())
-		abilities = engine.getEntitiesFor(Family.all(ActiveAbilityComponent::class.java).get())
+		abilities = engine.getEntitiesFor(Family.all(ActiveActionSequenceComponent::class.java).get())
 	}
 
 	override fun doUpdate(deltaTime: Float)
@@ -80,9 +80,9 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 
 		val hasEffects = renderables.any {(Mappers.transient.get(it) != null && it.renderable().renderable.isBlocking)}
 		val hasAnimations = renderables.any {(it.renderable()!!.renderable.animationBlocksUpdate && it.renderable()!!.renderable.animation != null) }
-		val hasAbilities = abilities.any { !Mappers.activeAbility.get(it).ability.blocked }
+		val hasActionSequences = abilities.any { !Mappers.activeActionSequence.get(it).sequence.blocked }
 
-		if ((!hasEffects || turnTime >= minTurnTime) && !hasAnimations && !hasAbilities)
+		if ((!hasEffects || turnTime >= minTurnTime) && !hasAnimations && !hasActionSequences)
 		{
 			if (processArray.size == 0 && (Global.resolveInstant || turnTime >= minTurnTime))
 			{
@@ -97,9 +97,9 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 		{
 			lastState = "Waiting on animations"
 		}
-		else if (hasAbilities)
+		else if (hasActionSequences)
 		{
-			lastState = "Waiting on abilities"
+			lastState = "Waiting on action sequences"
 		}
 		else if (hasEffects)
 		{

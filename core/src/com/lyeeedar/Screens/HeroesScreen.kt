@@ -141,7 +141,7 @@ class HeroesScreen : AbstractScreen()
 		val nameLabel = Label(entity.name().name, Global.skin, "title")
 		mainTable.add(nameLabel).expandX().center().padTop(10f)
 		mainTable.row()
-		mainTable.add(Label(entity.name().title, Global.skin, "small")).expandX().center().padTop(2f).padBottom(10f)
+		mainTable.add(Label(entity.name().title, Global.skin, "small").tint(Color.LIGHT_GRAY)).expandX().center().padTop(2f).padBottom(10f)
 		mainTable.row()
 
 		// sprite and skills

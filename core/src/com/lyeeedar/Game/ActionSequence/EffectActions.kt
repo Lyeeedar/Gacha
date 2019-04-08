@@ -1,4 +1,4 @@
-package com.lyeeedar.Game.Ability
+package com.lyeeedar.Game.ActionSequence
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Array
@@ -15,7 +15,7 @@ import com.lyeeedar.Renderables.Particle.ParticleEffect
 import com.lyeeedar.Statistic
 import com.lyeeedar.Util.*
 
-class DamageAction(ability: Ability) : AbstractAbilityAction(ability)
+class DamageAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
 	lateinit var damage: CompiledExpression
 
@@ -66,7 +66,7 @@ class DamageAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	}
 
-	override fun doCopy(ability: Ability): AbstractAbilityAction
+	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
 	{
 		val action = DamageAction(ability)
 		action.damage = damage
@@ -85,7 +85,7 @@ class DamageAction(ability: Ability) : AbstractAbilityAction(ability)
 	}
 }
 
-class HealAction(ability: Ability) : AbstractAbilityAction(ability)
+class HealAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
 	lateinit var amount: CompiledExpression
 
@@ -126,7 +126,7 @@ class HealAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	}
 
-	override fun doCopy(ability: Ability): AbstractAbilityAction
+	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
 	{
 		val action = HealAction(ability)
 		action.amount = amount
@@ -146,7 +146,7 @@ class HealAction(ability: Ability) : AbstractAbilityAction(ability)
 	}
 }
 
-class StunAction(ability: Ability) : AbstractAbilityAction(ability)
+class StunAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
 	lateinit var chance: CompiledExpression
 	lateinit var count: CompiledExpression
@@ -204,7 +204,7 @@ class StunAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	}
 
-	override fun doCopy(ability: Ability): AbstractAbilityAction
+	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
 	{
 		val action = StunAction(ability)
 		action.chance = chance
@@ -228,7 +228,7 @@ class StunAction(ability: Ability) : AbstractAbilityAction(ability)
 
 }
 
-class BuffAction(ability: Ability) : AbstractAbilityAction(ability)
+class BuffAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
 	var isDebuff = false
 	lateinit var buff: Buff
@@ -299,7 +299,7 @@ class BuffAction(ability: Ability) : AbstractAbilityAction(ability)
 		appliedToEntities.clear()
 	}
 
-	override fun doCopy(ability: Ability): AbstractAbilityAction
+	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
 	{
 		val action = BuffAction(ability)
 		action.isDebuff = isDebuff
@@ -316,7 +316,7 @@ class BuffAction(ability: Ability) : AbstractAbilityAction(ability)
 	}
 }
 
-class SummonAction(ability: Ability) : AbstractAbilityAction(ability)
+class SummonAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
 	lateinit var entityPath: String
 	lateinit var summonEffect: ParticleEffect
@@ -403,7 +403,7 @@ class SummonAction(ability: Ability) : AbstractAbilityAction(ability)
 		summonedEntities.clear()
 	}
 
-	override fun doCopy(ability: Ability): AbstractAbilityAction
+	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
 	{
 		val action = SummonAction(ability)
 		action.entityPath = entityPath

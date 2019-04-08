@@ -12,11 +12,11 @@ class TaskInterrupt : AbstractTask()
 	{
 		e.task().ai.cancel(e)
 
-		val activeAbility = Mappers.activeAbility.get(e)
+		val activeAbility = Mappers.activeActionSequence.get(e)
 		if (activeAbility != null)
 		{
-			activeAbility.ability.cancel()
-			e.remove(ActiveAbilityComponent::class.java)
+			activeAbility.sequence.cancel()
+			e.remove(ActiveActionSequenceComponent::class.java)
 		}
 
 		if (!Global.resolveInstant)

@@ -1,4 +1,4 @@
-package com.lyeeedar.Game.Ability
+package com.lyeeedar.Game.ActionSequence
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Array
@@ -10,11 +10,11 @@ import com.lyeeedar.Util.Point
 import com.lyeeedar.Util.XmlData
 import ktx.collections.addAll
 
-class Ability
+class ActionSequence
 {
-	val actions: Array<AbstractAbilityAction> = Array()
+	val actions: Array<AbstractActionSequenceAction> = Array()
 
-	val enteredActions: Array<AbstractAbilityAction> = Array(false, 4)
+	val enteredActions: Array<AbstractActionSequenceAction> = Array(false, 4)
 	lateinit var source: Entity
 	val targets: Array<Point> = Array()
 	lateinit var level: Level
@@ -140,9 +140,9 @@ class Ability
 		targets.clear()
 	}
 
-	fun copy(): Ability
+	fun copy(): ActionSequence
 	{
-		val ability = Ability()
+		val ability = ActionSequence()
 		for (action in actions)
 		{
 			val copy = action.copy(ability)
@@ -154,16 +154,16 @@ class Ability
 
 	companion object
 	{
-		fun load(xmlData: XmlData): Ability
+		fun load(xmlData: XmlData): ActionSequence
 		{
-			val actions = Array<AbstractAbilityAction>()
-			val ability = Ability()
+			val actions = Array<AbstractActionSequenceAction>()
+			val ability = ActionSequence()
 
 			for (timelineEl in xmlData.children)
 			{
 				for (actionEl in timelineEl.children)
 				{
-					val action = AbstractAbilityAction.load(actionEl, ability)
+					val action = AbstractActionSequenceAction.load(actionEl, ability)
 					actions.add(action)
 				}
 			}

@@ -1,12 +1,12 @@
 package com.lyeeedar.Components
 
 import com.badlogic.ashley.core.Entity
-import com.lyeeedar.Game.Ability.Ability
+import com.lyeeedar.Game.ActionSequence.ActionSequence
 import com.lyeeedar.Util.XmlData
 
-class ActiveAbilityComponent : AbstractComponent()
+class ActiveActionSequenceComponent : AbstractComponent()
 {
-	lateinit var ability: Ability
+	lateinit var sequence: ActionSequence
 
 	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{

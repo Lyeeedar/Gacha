@@ -1,8 +1,8 @@
-package com.lyeeedar.Game.Ability
+package com.lyeeedar.Game.ActionSequence
 
 import com.lyeeedar.Util.XmlData
 
-abstract class AbstractAbilityAction(val ability: Ability)
+abstract class AbstractActionSequenceAction(val ability: ActionSequence)
 {
 	var start: Float = 0f
 	var end: Float = 0f
@@ -16,7 +16,7 @@ abstract class AbstractAbilityAction(val ability: Ability)
 		return false
 	}
 
-	fun copy(ability: Ability): AbstractAbilityAction
+	fun copy(ability: ActionSequence): AbstractActionSequenceAction
 	{
 		val newAction = doCopy(ability)
 		newAction.start = start
@@ -25,12 +25,12 @@ abstract class AbstractAbilityAction(val ability: Ability)
 		return newAction
 	}
 
-	protected abstract fun doCopy(ability: Ability): AbstractAbilityAction
+	protected abstract fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
 	abstract fun parse(xmlData: XmlData)
 
 	companion object
 	{
-		fun load(xmlData: XmlData, ability: Ability): AbstractAbilityAction
+		fun load(xmlData: XmlData, ability: ActionSequence): AbstractActionSequenceAction
 		{
 			val node = when (xmlData.name.toUpperCase())
 			{

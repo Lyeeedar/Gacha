@@ -59,7 +59,7 @@ class Mappers
 		val dialogue: ComponentMapper<DialogueComponent> = ComponentMapper.getFor(DialogueComponent::class.java)
 		val metaregion: ComponentMapper<MetaRegionComponent> = ComponentMapper.getFor(MetaRegionComponent::class.java)
 		val loaddata: ComponentMapper<LoadDataComponent> = ComponentMapper.getFor(LoadDataComponent::class.java)
-		val activeAbility: ComponentMapper<ActiveAbilityComponent> = ComponentMapper.getFor(ActiveAbilityComponent::class.java)
+		val activeActionSequence: ComponentMapper<ActiveActionSequenceComponent> = ComponentMapper.getFor(ActiveActionSequenceComponent::class.java)
 		val ability: ComponentMapper<AbilityComponent> = ComponentMapper.getFor(AbilityComponent::class.java)
 		val transient: ComponentMapper<TransientComponent> = ComponentMapper.getFor(TransientComponent::class.java)
 	}

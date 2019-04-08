@@ -53,10 +53,10 @@ class DeletionSystem : AbstractSystem(Family.all(MarkedForDeletionComponent::cla
 			}
 		}
 
-		val activeAbility = Mappers.activeAbility.get(entity)
+		val activeAbility = Mappers.activeActionSequence.get(entity)
 		if (activeAbility != null)
 		{
-			activeAbility.ability.cancel()
+			activeAbility.sequence.cancel()
 		}
 
 		engine.removeEntity(entity)

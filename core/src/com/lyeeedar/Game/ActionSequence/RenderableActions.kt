@@ -1,4 +1,4 @@
-package com.lyeeedar.Game.Ability
+package com.lyeeedar.Game.ActionSequence
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Interpolation
@@ -12,7 +12,7 @@ import com.lyeeedar.SpaceSlot
 import com.lyeeedar.Systems.render
 import com.lyeeedar.Util.*
 
-class ReplaceSourceRenderableAction(ability: Ability) : AbstractAbilityAction(ability)
+class ReplaceSourceRenderableAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
 	lateinit var renderable: Renderable
 
@@ -60,7 +60,7 @@ class ReplaceSourceRenderableAction(ability: Ability) : AbstractAbilityAction(ab
 		originalRenderable = null
 	}
 
-	override fun doCopy(ability: Ability): AbstractAbilityAction
+	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
 	{
 		val action = ReplaceSourceRenderableAction(ability)
 
@@ -77,7 +77,7 @@ class ReplaceSourceRenderableAction(ability: Ability) : AbstractAbilityAction(ab
 	}
 }
 
-class SourceAnimationAction(ability: Ability) : AbstractAbilityAction(ability)
+class SourceAnimationAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
 	enum class Animation
 	{
@@ -130,7 +130,7 @@ class SourceAnimationAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	}
 
-	override fun doCopy(ability: Ability): AbstractAbilityAction
+	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
 	{
 		val action = SourceAnimationAction(ability)
 
@@ -158,7 +158,7 @@ class SourceAnimationAction(ability: Ability) : AbstractAbilityAction(ability)
 
 }
 
-class DestinationRenderableAction(ability: Ability) : AbstractAbilityAction(ability)
+class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
 	lateinit var renderable: Renderable
 	lateinit var slot: SpaceSlot
@@ -261,7 +261,7 @@ class DestinationRenderableAction(ability: Ability) : AbstractAbilityAction(abil
 		entities.clear()
 	}
 
-	override fun doCopy(ability: Ability): AbstractAbilityAction
+	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
 	{
 		val out = DestinationRenderableAction(ability)
 		out.renderable = renderable.copy()
@@ -283,7 +283,7 @@ class DestinationRenderableAction(ability: Ability) : AbstractAbilityAction(abil
 	}
 }
 
-class SourceRenderableAction(ability: Ability) : AbstractAbilityAction(ability)
+class SourceRenderableAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
 	lateinit var renderable: Renderable
 	lateinit var slot: SpaceSlot
@@ -339,7 +339,7 @@ class SourceRenderableAction(ability: Ability) : AbstractAbilityAction(ability)
 		entities.clear()
 	}
 
-	override fun doCopy(ability: Ability): AbstractAbilityAction
+	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
 	{
 		val out = SourceRenderableAction(ability)
 		out.renderable = renderable.copy()
@@ -357,7 +357,7 @@ class SourceRenderableAction(ability: Ability) : AbstractAbilityAction(ability)
 	}
 }
 
-class MovementRenderableAction(ability: Ability) : AbstractAbilityAction(ability)
+class MovementRenderableAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
 	lateinit var renderable: Renderable
 	lateinit var slot: SpaceSlot
@@ -410,7 +410,7 @@ class MovementRenderableAction(ability: Ability) : AbstractAbilityAction(ability
 		Global.engine.removeEntity(entity)
 	}
 
-	override fun doCopy(ability: Ability): AbstractAbilityAction
+	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
 	{
 		val out = MovementRenderableAction(ability)
 		out.renderable = renderable.copy()
@@ -428,7 +428,7 @@ class MovementRenderableAction(ability: Ability) : AbstractAbilityAction(ability
 	}
 }
 
-class ScreenShakeAction(ability: Ability) : AbstractAbilityAction(ability)
+class ScreenShakeAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
 	var speed: Float = 0f
 	var amount: Float = 0f
@@ -446,7 +446,7 @@ class ScreenShakeAction(ability: Ability) : AbstractAbilityAction(ability)
 		Global.engine.render().renderer.unlockScreenShake()
 	}
 
-	override fun doCopy(ability: Ability): AbstractAbilityAction
+	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
 	{
 		val out = ScreenShakeAction(ability)
 		out.speed = speed

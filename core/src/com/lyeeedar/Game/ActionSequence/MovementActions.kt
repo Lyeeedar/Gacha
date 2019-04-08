@@ -1,4 +1,4 @@
-package com.lyeeedar.Game.Ability
+package com.lyeeedar.Game.ActionSequence
 
 import com.lyeeedar.Components.pos
 import com.lyeeedar.Components.renderable
@@ -25,7 +25,7 @@ enum class MovementType
 	TELEPORT
 }
 
-class MoveSourceAction(ability: Ability) : AbstractAbilityAction(ability)
+class MoveSourceAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
 	lateinit var type: MovementType
 
@@ -48,7 +48,7 @@ class MoveSourceAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	}
 
-	override fun doCopy(ability: Ability): AbstractAbilityAction
+	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
 	{
 		val action = MoveSourceAction(ability)
 		action.type = type
@@ -62,7 +62,7 @@ class MoveSourceAction(ability: Ability) : AbstractAbilityAction(ability)
 	}
 }
 
-class PullAction(ability: Ability) : AbstractAbilityAction(ability)
+class PullAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
 	lateinit var type: MovementType
 
@@ -84,7 +84,7 @@ class PullAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	}
 
-	override fun doCopy(ability: Ability): AbstractAbilityAction
+	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
 	{
 		val action = PullAction(ability)
 		action.type = type
@@ -98,7 +98,7 @@ class PullAction(ability: Ability) : AbstractAbilityAction(ability)
 	}
 }
 
-class KnockbackAction(ability: Ability) : AbstractAbilityAction(ability)
+class KnockbackAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
 	lateinit var type: MovementType
 	var dist: Int = 1
@@ -125,7 +125,7 @@ class KnockbackAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	}
 
-	override fun doCopy(ability: Ability): AbstractAbilityAction
+	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
 	{
 		val action = KnockbackAction(ability)
 		action.type = type

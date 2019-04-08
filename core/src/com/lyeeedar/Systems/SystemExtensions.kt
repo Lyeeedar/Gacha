@@ -7,13 +7,13 @@ import com.lyeeedar.Game.Level
 import kotlin.reflect.KClass
 
 val systemList: Array<KClass<out AbstractSystem>> = arrayOf(
-		AbilitySystem::class,
-		TaskProcessorSystem::class,
-		StatisticsSystem::class,
-		DeletionSystem::class,
-		DirectionalSpriteSystem::class,
-		RenderSystem::class,
-		DialogueSystem::class
+	ActionSequenceSystem::class,
+	TaskProcessorSystem::class,
+	StatisticsSystem::class,
+	DeletionSystem::class,
+	DirectionalSpriteSystem::class,
+	RenderSystem::class,
+	DialogueSystem::class
 )
 
 fun createEngine(): Engine

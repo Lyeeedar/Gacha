@@ -1,4 +1,4 @@
-package com.lyeeedar.Game.Ability
+package com.lyeeedar.Game.ActionSequence
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Matrix3
@@ -12,7 +12,7 @@ import com.lyeeedar.SpaceSlot
 import com.lyeeedar.Util.*
 import ktx.collections.toGdxArray
 
-class PermuteAction(ability: Ability) : AbstractAbilityAction(ability)
+class PermuteAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
 	val hitPoints = Array<Point>()
 
@@ -53,7 +53,7 @@ class PermuteAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	}
 
-	override fun doCopy(ability: Ability): AbstractAbilityAction
+	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
 	{
 		val action = PermuteAction(ability)
 		action.hitPoints.addAll(hitPoints)
@@ -69,7 +69,7 @@ class PermuteAction(ability: Ability) : AbstractAbilityAction(ability)
 	}
 }
 
-class SelectEntitiesAction(ability: Ability) : AbstractAbilityAction(ability)
+class SelectEntitiesAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
 	enum class Mode
 	{
@@ -139,7 +139,7 @@ class SelectEntitiesAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	}
 
-	override fun doCopy(ability: Ability): AbstractAbilityAction
+	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
 	{
 		val action = SelectEntitiesAction(ability)
 		action.mode = mode
@@ -182,7 +182,7 @@ class SelectEntitiesAction(ability: Ability) : AbstractAbilityAction(ability)
 	}
 }
 
-class SelectTilesAction(ability: Ability) : AbstractAbilityAction(ability)
+class SelectTilesAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
 	lateinit var count: CompiledExpression
 	var emptyOnly = false
@@ -219,7 +219,7 @@ class SelectTilesAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	}
 
-	override fun doCopy(ability: Ability): AbstractAbilityAction
+	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
 	{
 		val action = SelectTilesAction(ability)
 		action.count = count
@@ -237,7 +237,7 @@ class SelectTilesAction(ability: Ability) : AbstractAbilityAction(ability)
 	}
 }
 
-class SelectSelfAction(ability: Ability) : AbstractAbilityAction(ability)
+class SelectSelfAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
 	override fun enter(): Boolean
 	{
@@ -252,7 +252,7 @@ class SelectSelfAction(ability: Ability) : AbstractAbilityAction(ability)
 
 	}
 
-	override fun doCopy(ability: Ability): AbstractAbilityAction
+	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
 	{
 		val action = SelectSelfAction(ability)
 		return action

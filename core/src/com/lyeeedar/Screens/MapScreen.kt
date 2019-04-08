@@ -294,15 +294,6 @@ class MapScreen : AbstractScreen()
 			}
 		}
 
-		val beginButton = TextButton("Begin", Global.skin)
-		beginButton.addClickListener {
-			if (level!!.playerTiles.any{ it.entity != null})
-			{
-				beginLevel()
-			}
-		}
-		bottomArea.add(beginButton).expandX().center().width(200f).height(30f).pad(2f)
-		bottomArea.row()
 		bottomArea.add(Seperator(Global.skin, false)).growX()
 		bottomArea.row()
 
@@ -317,8 +308,11 @@ class MapScreen : AbstractScreen()
 		scroll.setOverscroll(false, false)
 		scroll.setForceScroll(false, true)
 		scrollTable.add(scroll).grow()
+		scrollTable.row()
+		scrollTable.add(Seperator(Global.skin)).growX()
 
 		bottomArea.add(scrollTable).grow()
+		bottomArea.row()
 
 		heroWidgets.clear()
 		heroesTable.clear()
@@ -391,6 +385,32 @@ class MapScreen : AbstractScreen()
 		}
 
 		updateHeroWidgets()
+
+		val backTable = Table()
+		val backButton = TextButton("Back", Global.skin)
+		backButton.addClickListener {
+			Global.game.switchScreen(MainGame.ScreenEnum.ZONE)
+		}
+		backTable.add(backButton).expandX().left().pad(2f)
+
+		val beginTable = Table()
+		beginTable.background(TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(0.1f, 0.1f, 0.1f, 1.0f)))
+
+		val beginButton = TextButton("Begin", Global.skin)
+		beginButton.addClickListener {
+			if (level!!.playerTiles.any{ it.entity != null})
+			{
+				beginLevel()
+			}
+		}
+		beginTable.add(beginButton).expandX().center().height(30f).pad(2f)
+
+		val buttonStack = Stack()
+		buttonStack.add(beginTable)
+		buttonStack.add(backTable)
+
+		bottomArea.add(buttonStack).growX()
+		bottomArea.row()
 	}
 
 	fun updateHeroWidgets()
