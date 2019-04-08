@@ -117,9 +117,9 @@ void main()
 	vec4 layer3Sample = texture2D(u_texture, v_layer3TexCoords);
 
 	vec4 masked = (maskSample.r * layer1Sample + maskSample.g * layer2Sample + maskSample.b * layer3Sample) * baseSample;
-	vec4 output = mix(baseSample, masked, maskSample.a);
+	vec4 final = mix(baseSample, masked, maskSample.a);
 
-	gl_FragColor = v_color * output;
+	gl_FragColor = v_color * final;
 }
 
 """
