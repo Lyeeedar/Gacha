@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Family
 import com.lyeeedar.AI.Tasks.TaskUseAbility
 import com.lyeeedar.Components.ActiveActionSequenceComponent
 import com.lyeeedar.Components.Mappers
+import com.lyeeedar.Components.isTransient
 import com.lyeeedar.Components.task
 
 class ActionSequenceSystem : AbstractSystem(Family.one(ActiveActionSequenceComponent::class.java).get())
@@ -18,7 +19,7 @@ class ActionSequenceSystem : AbstractSystem(Family.one(ActiveActionSequenceCompo
 			if (complete)
 			{
 				entity.remove(ActiveActionSequenceComponent::class.java)
-				if (Mappers.transient.get(entity) != null)
+				if (entity.isTransient() || entity.components.size() == 0)
 				{
 					engine.removeEntity(entity)
 				}

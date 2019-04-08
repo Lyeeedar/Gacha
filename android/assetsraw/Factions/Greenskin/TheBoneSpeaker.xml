@@ -8,6 +8,7 @@
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
 			</Statistics>
+			<EquipmentWeight>Medium</EquipmentWeight>
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
@@ -38,19 +39,20 @@
 			<Abilities>
 				<AbilityData>
 					<Name>Strength of Gorav</Name>
+					<Description>Channel the strength of the mighty Gorav, granting your strongest ally [GOLD]20%[] extra power for 5 turns.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_heroes/troll_1</Name>
 						<Colour>120,89,120,193</Colour>
 					</Icon>
-					<Ability meta:RefKey="Ability">
+					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
 							<SelectAllies>
 								<Condition>power</Condition>
 								<Minimum>false</Minimum>
 							</SelectAllies>
 							<DestinationRenderable>
-								<Time>0.0224907082</Time>
 								<Duration LockDuration="False">0.0258983877</Duration>
+								<Time>0.0224907082</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Shout</Name>
 									<Colour>145,63,122,255</Colour>
@@ -59,8 +61,8 @@
 								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 							<Buff>
-								<Time>0.06610905</Time>
 								<Duration LockDuration="False">0.03680297</Duration>
+								<Time>0.06610905</Time>
 								<Buff meta:RefKey="Buff">
 									<Description>Strength of Gorav</Description>
 									<Icon meta:RefKey="Sprite">
@@ -79,18 +81,19 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Toughness of Nessa</Name>
+					<Description>Evoke the toughness of Nessa, granting your weakest ally [GOLD]20%[] damage reduction and [GOLD]30%[] chance to block attacks for 5 rounds.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_heroes/dwarf_1</Name>
 						<Colour>120,89,120,193</Colour>
 					</Icon>
-					<Ability meta:RefKey="Ability">
+					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
 							<SelectAllies>
 								<Condition>hp</Condition>
 							</SelectAllies>
 							<DestinationRenderable>
-								<Time>0.0224907082</Time>
 								<Duration LockDuration="False">0.0258983877</Duration>
+								<Time>0.0224907082</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Shout</Name>
 									<Colour>145,63,122,255</Colour>
@@ -99,8 +102,8 @@
 								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 							<Buff>
-								<Time>0.06610905</Time>
 								<Duration LockDuration="False">0.03680297</Duration>
+								<Time>0.06610905</Time>
 								<Buff meta:RefKey="Buff">
 									<Description>Toughness of Nessa</Description>
 									<Icon meta:RefKey="Sprite">
@@ -120,16 +123,17 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Speed of Hellet</Name>
+					<Description>Summon the speed of Hellet, granting a random ally [GOLD]30%[] haste for 5 rounds.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_heroes/halfling_thief_1</Name>
 						<Colour>120,89,120,193</Colour>
 					</Icon>
-					<Ability meta:RefKey="Ability">
+					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
 							<SelectAllies />
 							<DestinationRenderable>
-								<Time>0.0224907082</Time>
 								<Duration LockDuration="False">0.0258983877</Duration>
+								<Time>0.0224907082</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Shout</Name>
 									<Colour>145,63,122,255</Colour>
@@ -138,8 +142,8 @@
 								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 							<Buff>
-								<Time>0.06610905</Time>
 								<Duration LockDuration="False">0.03680297</Duration>
+								<Time>0.06610905</Time>
 								<Buff meta:RefKey="Buff">
 									<Description>Speed of Hellet</Description>
 									<Icon meta:RefKey="Sprite">
@@ -158,45 +162,41 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Wrath of the Ancestors</Name>
+					<Description>Unleash the wrath of the ancestors, smiting all foes for [GOLD]100%[] damage 3 times.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_heroes/banshee_1</Name>
 						<Colour>135,91,129,255</Colour>
 					</Icon>
-					<Ability meta:RefKey="Ability">
+					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
 							<BlockTurn />
 							<SelectEnemies>
-								<Time>0.0170384161</Time>
+								<Time>0.008365531</Time>
 								<Count>10</Count>
 							</SelectEnemies>
+							<LockTargets>
+								<Time>0.0156593751</Time>
+							</LockTargets>
 							<Damage>
 								<Time>0.09609666</Time>
 							</Damage>
 							<BlockTurn>
-								<Time>0.113816611</Time>
+								<Time>0.10875462</Time>
 							</BlockTurn>
-							<SelectEnemies>
-								<Time>0.131536558</Time>
-								<Count>10</Count>
-							</SelectEnemies>
 							<Damage>
-								<Time>0.19696407</Time>
+								<Time>0.155045122</Time>
 							</Damage>
 							<BlockTurn>
-								<Time>0.21468401</Time>
+								<Time>0.182122171</Time>
 							</BlockTurn>
-							<SelectEnemies>
-								<Time>0.233767033</Time>
-								<Count>10</Count>
-							</SelectEnemies>
 							<Damage>
-								<Time>0.3005576</Time>
+								<Time>0.242256552</Time>
 							</Damage>
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Time>0.0275065769</Time>
 								<Duration LockDuration="False">0.081248045</Duration>
+								<Time>0.0275065769</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Stomp</Name>
 								</Renderable>
@@ -204,8 +204,8 @@
 								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 							<DestinationRenderable>
-								<Time>0.143804222</Time>
 								<Duration LockDuration="False">0.0662639</Duration>
+								<Time>0.115858264</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Stomp</Name>
 								</Renderable>
@@ -213,8 +213,8 @@
 								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 							<DestinationRenderable>
-								<Time>0.242840782</Time>
 								<Duration LockDuration="False">0.0804213</Duration>
+								<Time>0.186948851</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Stomp</Name>
 								</Renderable>

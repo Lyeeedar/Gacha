@@ -213,7 +213,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 			if (renderable is ParticleEffect)
 			{
 				val effect = renderable
-				if (effect.completed && Mappers.transient.get(entity) != null)
+				if (effect.completed && entity.isTransient())
 				{
 					entity.add(MarkedForDeletionComponent())
 				}

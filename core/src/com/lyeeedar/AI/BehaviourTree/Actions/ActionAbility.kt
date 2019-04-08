@@ -6,6 +6,7 @@ import com.lyeeedar.AI.Tasks.TaskAbility
 import com.lyeeedar.Components.Mappers
 import com.lyeeedar.Components.ability
 import com.lyeeedar.Components.stats
+import com.lyeeedar.Components.tile
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.Statistic
 import com.lyeeedar.Util.Point
@@ -19,7 +20,7 @@ class ActionAbility : AbstractAction()
 
 	override fun evaluate(entity: Entity): ExecutionState
 	{
-		val target = getData<Point>(key, null)
+		val targetPoint = getData<Point>(key, null)
 		val posData = Mappers.position.get(entity)
 		val taskData = Mappers.task.get(entity)
 		val tile = posData.position as? Tile
@@ -27,14 +28,14 @@ class ActionAbility : AbstractAction()
 		val stats = entity.stats()
 
 		// doesnt have all the needed data, fail
-		if ( target == null || posData == null || tile == null || taskData == null || ability == null || stats == null )
+		if ( targetPoint == null || posData == null || tile == null || taskData == null || ability == null || stats == null )
 		{
 			state = ExecutionState.FAILED
 			return state
 		}
 
-		val targetTile = tile.level.getTile(target)
-		if (targetTile == null)
+		val target = tile.level.getTile(targetPoint)?.firstEntity()
+		if (target == null)
 		{
 			state = ExecutionState.FAILED
 			return state
@@ -45,7 +46,7 @@ class ActionAbility : AbstractAction()
 			ab.remainingCooldown -= (1f + stats.getStat(Statistic.ABILITYCOOLDOWN))
 		}
 
-		val dist = target.taxiDist(tile)
+		val dist = target.tile()!!.taxiDist(tile)
 
 		val readyAbility = ability.abilities.filter { it.remainingCooldown <= 0 && it.range >= dist && it.condition.evaluate(stats.variables()) != 0f }.toGdxArray().randomOrNull()
 		if (readyAbility != null)
@@ -63,7 +64,7 @@ class ActionAbility : AbstractAction()
 
 			val newAb = readyAbility.ability.copy()
 			newAb.source = entity
-			taskData.tasks.add(TaskAbility(targetTile, newAb))
+			taskData.tasks.add(TaskAbility(target, newAb))
 
 			state = ExecutionState.COMPLETED
 			return state

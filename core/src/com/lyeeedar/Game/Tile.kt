@@ -34,6 +34,17 @@ class Tile(x: Int = 0, y: Int = 0) : Point(x, y), IPathfindingTile
 		sprite!!.sprite = AssetManager.loadSprite("white", colour = Colour.LIGHT_GRAY)
 	}
 
+	fun firstEntity(): Entity?
+	{
+		for (slot in SpaceSlot.EntityValues)
+		{
+			val entity = contents[slot] ?: continue
+			return entity
+		}
+
+		return null
+	}
+
 	override fun getInfluence(travelType: SpaceSlot, self: Any?) = 0
 
 	override fun getPassable(travelType: SpaceSlot, self: Any?): Boolean

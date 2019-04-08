@@ -40,7 +40,8 @@ fun Entity.metaregion() = Mappers.metaregion.get(this)
 fun Entity.loaddata() = Mappers.loaddata.get(this)
 fun Entity.ability() = Mappers.ability.get(this)
 fun Entity.eventHandler() = Mappers.eventHandler.get(this)
-fun Entity.markedForDeletion() = Mappers.markedForDeletion.get(this) != null
+fun Entity.isMarkedForDeletion() = Mappers.markedForDeletion.get(this) != null
+fun Entity.isTransient() = Mappers.transient.get(this) != null
 
 fun <T: AbstractComponent> Entity.hasComponent(c: Class<T>) = this.getComponent(c) != null
 

@@ -42,7 +42,7 @@
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_terrain/rune_4</Name>
 					</Icon>
-					<Ability meta:RefKey="Ability">
+					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
 							<BlockTurn />
 							<BlockTurn>
@@ -104,7 +104,7 @@
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_heroes/wolf_black_1</Name>
 					</Icon>
-					<Ability meta:RefKey="Ability">
+					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
 							<SelectSelf />
 							<Summon>
@@ -127,7 +127,7 @@
 						<Name>EffectSprites/Jaws/Jaws_3</Name>
 						<Colour>99,77,94,255</Colour>
 					</Icon>
-					<Ability meta:RefKey="Ability">
+					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
 							<BlockTurn />
 							<SelectEnemies>
@@ -214,7 +214,7 @@
 						<Name>Oryx/Custom/heroes/gobuta_1</Name>
 						<Colour>51,51,51,255</Colour>
 					</Icon>
-					<Ability meta:RefKey="Ability">
+					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
 							<SelectSelf />
 							<ReplaceSourceRenderable>

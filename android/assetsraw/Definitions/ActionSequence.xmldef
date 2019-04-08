@@ -127,7 +127,9 @@
 			</Keyframe>
 			<Keyframe Name="SelectSelf" Background="247,176,78,47" meta:RefKey="Keyframe">
 				<Time Name="Time" Min="0" meta:RefKey="Number" />
-				<Data Name="Count" Type="Int" Min="1" Default="1" meta:RefKey="Number" />
+			</Keyframe>
+			<Keyframe Name="LockTargets" Background="247,176,78,47" meta:RefKey="Keyframe">
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
 			</Keyframe>
 		</Data>
 	</Definition>

@@ -47,7 +47,7 @@
 						<Name>Oryx/uf_split/uf_items/book_green</Name>
 						<DrawActualSize>true</DrawActualSize>
 					</Icon>
-					<Ability meta:RefKey="Ability">
+					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
 							<SelectAllies>
 								<Count>5</Count>
@@ -118,7 +118,7 @@
 						<DrawActualSize>true</DrawActualSize>
 						<Colour>255,103,234,255</Colour>
 					</Icon>
-					<Ability meta:RefKey="Ability">
+					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
 							<Stun>
 								<Time>0.272602737</Time>
@@ -152,7 +152,7 @@
 						<Name>Oryx/uf_split/uf_items/cloak_glow</Name>
 						<DrawActualSize>true</DrawActualSize>
 					</Icon>
-					<Ability meta:RefKey="Ability">
+					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
 							<SelectAllies>
 								<Condition>hp/maxhp</Condition>

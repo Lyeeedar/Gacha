@@ -51,6 +51,7 @@ abstract class AbstractActionSequenceAction(val sequence: ActionSequence)
 				"SELECTALLIES", "SELECTENEMIES", "SELECTENTITIES" -> SelectEntitiesAction(sequence)
 				"SELECTTILES" -> SelectTilesAction(sequence)
 				"SELECTSELF" -> SelectSelfAction(sequence)
+				"LOCKTARGETS" -> LockTargetsAction(sequence)
 
 				"SOURCERENDERABLE" -> SourceRenderableAction(sequence)
 				"REPLACESOURCERENDERABLE" -> ReplaceSourceRenderableAction(sequence)

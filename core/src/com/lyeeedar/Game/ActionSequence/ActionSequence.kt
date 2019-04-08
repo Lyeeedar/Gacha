@@ -17,6 +17,7 @@ class ActionSequence
 	val enteredActions: Array<AbstractActionSequenceAction> = Array(false, 4)
 	lateinit var source: Entity
 	val targets: Array<Point> = Array()
+	val lockedTargets: Array<Entity> = Array()
 	lateinit var level: Level
 	lateinit var facing: Direction
 
@@ -33,6 +34,7 @@ class ActionSequence
 
 		this.level = level
 		this.source = source
+		lockedTargets.clear()
 		targets.clear()
 		enteredActions.clear()
 		index = 0
@@ -62,6 +64,15 @@ class ActionSequence
 		if (blocked)
 		{
 			return false
+		}
+
+		if (lockedTargets.size > 0)
+		{
+			targets.clear()
+			for (target in lockedTargets)
+			{
+				targets.add(target.pos().position)
+			}
 		}
 
 		if (Global.resolveInstant)

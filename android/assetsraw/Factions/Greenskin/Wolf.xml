@@ -42,7 +42,7 @@
 					<Icon meta:RefKey="Sprite">
 						<Name>white</Name>
 					</Icon>
-					<Ability meta:RefKey="Ability">
+					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
 							<BlockTurn>
 								<Time>0.008265478</Time>

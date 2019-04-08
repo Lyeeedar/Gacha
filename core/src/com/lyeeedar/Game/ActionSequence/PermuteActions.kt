@@ -20,6 +20,7 @@ class PermuteAction(ability: ActionSequence) : AbstractActionSequenceAction(abil
 	{
 		val current = sequence.targets.toGdxArray()
 		sequence.targets.clear()
+		sequence.lockedTargets.clear()
 
 		val mat = Matrix3()
 		mat.setToRotation(sequence.facing.angle)
@@ -87,6 +88,8 @@ class SelectEntitiesAction(ability: ActionSequence) : AbstractActionSequenceActi
 	override fun enter(): Boolean
 	{
 		sequence.targets.clear()
+		sequence.lockedTargets.clear()
+
 		val entities = ObjectSet<Entity>()
 
 		for (tile in sequence.level.grid)
@@ -190,6 +193,8 @@ class SelectTilesAction(ability: ActionSequence) : AbstractActionSequenceAction(
 	override fun enter(): Boolean
 	{
 		sequence.targets.clear()
+		sequence.lockedTargets.clear()
+
 		val tiles = Array<Tile>()
 
 		for (tile in sequence.level.grid)
@@ -242,6 +247,8 @@ class SelectSelfAction(ability: ActionSequence) : AbstractActionSequenceAction(a
 	override fun enter(): Boolean
 	{
 		sequence.targets.clear()
+		sequence.lockedTargets.clear()
+
 		sequence.targets.add(sequence.source.tile()!!)
 
 		return false
@@ -255,6 +262,42 @@ class SelectSelfAction(ability: ActionSequence) : AbstractActionSequenceAction(a
 	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
 		val action = SelectSelfAction(sequence)
+		return action
+	}
+
+	override fun parse(xmlData: XmlData)
+	{
+
+	}
+}
+
+class LockTargetsAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
+{
+	override fun enter(): Boolean
+	{
+		sequence.lockedTargets.clear()
+
+		for (target in sequence.targets)
+		{
+			val tile = sequence.level.getTile(target) ?: continue
+			for (slot in SpaceSlot.EntityValues)
+			{
+				val entity = tile.contents[slot] ?: continue
+				sequence.lockedTargets.add(entity)
+			}
+		}
+
+		return false
+	}
+
+	override fun exit()
+	{
+
+	}
+
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	{
+		val action = LockTargetsAction(sequence)
 		return action
 	}
 
