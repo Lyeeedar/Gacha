@@ -23,7 +23,7 @@ class ReplaceSourceRenderableAction(ability: ActionSequence) : AbstractActionSeq
 	{
 		if (Global.resolveInstant) return false
 
-		val source = ability.source
+		val source = sequence.source
 
 		if (source.renderable() == null)
 		{
@@ -44,7 +44,7 @@ class ReplaceSourceRenderableAction(ability: ActionSequence) : AbstractActionSeq
 	{
 		if (Global.resolveInstant) return
 
-		val source = ability.source
+		val source = sequence.source
 
 		if (originalRenderable != null)
 		{
@@ -60,9 +60,9 @@ class ReplaceSourceRenderableAction(ability: ActionSequence) : AbstractActionSeq
 		originalRenderable = null
 	}
 
-	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		val action = ReplaceSourceRenderableAction(ability)
+		val action = ReplaceSourceRenderableAction(sequence)
 
 		action.renderable = renderable
 		action.restoreOriginal = restoreOriginal
@@ -101,7 +101,7 @@ class SourceAnimationAction(ability: ActionSequence) : AbstractActionSequenceAct
 	{
 		if (Global.resolveInstant) return false
 
-		val source = ability.source
+		val source = sequence.source
 		val sourceRenderable = source.renderable()?.renderable ?: return false
 
 		val duration = end - start
@@ -130,9 +130,9 @@ class SourceAnimationAction(ability: ActionSequence) : AbstractActionSequenceAct
 
 	}
 
-	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		val action = SourceAnimationAction(ability)
+		val action = SourceAnimationAction(sequence)
 
 		action.anim = anim
 		action.startSize = startSize
@@ -174,7 +174,7 @@ class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSeque
 
 		if (entityPerTile)
 		{
-			for (tile in ability.targets)
+			for (tile in sequence.targets)
 			{
 				val entity = Entity()
 
@@ -193,7 +193,7 @@ class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSeque
 		}
 		else
 		{
-			if (ability.targets.size == 0) return false
+			if (sequence.targets.size == 0) return false
 
 			val entity = Entity()
 
@@ -202,13 +202,13 @@ class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSeque
 			entity.add(PositionComponent())
 			val pos = entity.pos()!!
 
-			pos.min = ability.targets.minBy(Point::hashCode)!!
-			pos.max = ability.targets.maxBy(Point::hashCode)!!
+			pos.min = sequence.targets.minBy(Point::hashCode)!!
+			pos.max = sequence.targets.maxBy(Point::hashCode)!!
 			pos.slot = slot
 
 			if (alignToVector)
 			{
-				pos.facing = ability.facing
+				pos.facing = sequence.facing
 			}
 
 			r.size[0] = (pos.max.x - pos.min.x) + 1
@@ -261,9 +261,9 @@ class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSeque
 		entities.clear()
 	}
 
-	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		val out = DestinationRenderableAction(ability)
+		val out = DestinationRenderableAction(sequence)
 		out.renderable = renderable.copy()
 		out.slot = slot
 		out.killOnEnd = killOnEnd
@@ -295,7 +295,7 @@ class SourceRenderableAction(ability: ActionSequence) : AbstractActionSequenceAc
 	{
 		if (Global.resolveInstant) return false
 
-		val tile = ability.source.tile()!!
+		val tile = sequence.source.tile()!!
 		val entity = Entity()
 
 		val r = renderable.copy()
@@ -339,9 +339,9 @@ class SourceRenderableAction(ability: ActionSequence) : AbstractActionSequenceAc
 		entities.clear()
 	}
 
-	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		val out = SourceRenderableAction(ability)
+		val out = SourceRenderableAction(sequence)
 		out.renderable = renderable.copy()
 		out.slot = slot
 		out.killOnEnd = killOnEnd
@@ -376,26 +376,26 @@ class MovementRenderableAction(ability: ActionSequence) : AbstractActionSequence
 		entity.add(PositionComponent())
 		val pos = entity.pos()!!
 
-		val min = ability.targets.minBy(Point::hashCode)!!
-		val max = ability.targets.maxBy(Point::hashCode)!!
+		val min = sequence.targets.minBy(Point::hashCode)!!
+		val max = sequence.targets.maxBy(Point::hashCode)!!
 		val midPoint = min + (max - min) / 2
 
-		pos.position = ability.level.getTileClamped(midPoint)
+		pos.position = sequence.level.getTileClamped(midPoint)
 		pos.slot = slot
 
-		r.rotation = getRotation(ability.source.tile()!!, pos.position)
+		r.rotation = getRotation(sequence.source.tile()!!, pos.position)
 
 		val duration = end - start
 		if (useLeap)
 		{
 			r.faceInMoveDirection = true
-			r.animation = LeapAnimation.obtain().set(duration, pos.position.getPosDiff(ability.source.tile()!!), 2f)
+			r.animation = LeapAnimation.obtain().set(duration, pos.position.getPosDiff(sequence.source.tile()!!), 2f)
 			r.animation = ExpandAnimation.obtain().set(duration, 0.5f, 1.5f, false)
 		}
 		else
 		{
 			r.faceInMoveDirection = true
-			r.animation = MoveAnimation.obtain().set(duration, UnsmoothedPath(midPoint.getPosDiff(ability.source.tile()!!)), Interpolation.linear)
+			r.animation = MoveAnimation.obtain().set(duration, UnsmoothedPath(midPoint.getPosDiff(sequence.source.tile()!!)), Interpolation.linear)
 		}
 
 		Global.engine.addEntity(entity)
@@ -410,9 +410,9 @@ class MovementRenderableAction(ability: ActionSequence) : AbstractActionSequence
 		Global.engine.removeEntity(entity)
 	}
 
-	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		val out = MovementRenderableAction(ability)
+		val out = MovementRenderableAction(sequence)
 		out.renderable = renderable.copy()
 		out.useLeap = useLeap
 		out.slot = slot
@@ -446,9 +446,9 @@ class ScreenShakeAction(ability: ActionSequence) : AbstractActionSequenceAction(
 		Global.engine.render().renderer.unlockScreenShake()
 	}
 
-	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		val out = ScreenShakeAction(ability)
+		val out = ScreenShakeAction(sequence)
 		out.speed = speed
 		out.amount = amount
 

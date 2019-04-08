@@ -8,11 +8,14 @@ import com.exp4j.Helpers.CompiledExpression
 import com.lyeeedar.AI.Tasks.TaskInterrupt
 import com.lyeeedar.Components.*
 import com.lyeeedar.Direction
+import com.lyeeedar.EventType
 import com.lyeeedar.Game.Buff
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Particle.ParticleEffect
 import com.lyeeedar.Statistic
+import com.lyeeedar.Systems.EventData
+import com.lyeeedar.Systems.event
 import com.lyeeedar.Util.*
 
 class DamageAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
@@ -22,18 +25,18 @@ class DamageAction(ability: ActionSequence) : AbstractActionSequenceAction(abili
 	override fun enter(): Boolean
 	{
 		val hitEntities = ObjectSet<Entity>()
-		for (point in ability.targets)
+		for (point in sequence.targets)
 		{
-			val tile = ability.level.getTile(point) ?: continue
+			val tile = sequence.level.getTile(point) ?: continue
 			for (entity in tile.contents)
 			{
 				if (hitEntities.contains(entity)) continue
 				hitEntities.add(entity)
 
 				val targetstats = entity.stats() ?: continue
-				if (entity.isEnemies(ability.source))
+				if (entity.isEnemies(sequence.source))
 				{
-					val sourceStats = ability.source.stats()!!
+					val sourceStats = sequence.source.stats()!!
 
 					val map = ObjectFloatMap<String>()
 					sourceStats.write(map, "self")
@@ -45,15 +48,28 @@ class DamageAction(ability: ActionSequence) : AbstractActionSequenceAction(abili
 					val attackDam = sourceStats.getAttackDam(damModifier)
 					val finalDam = targetstats.dealDamage(attackDam)
 
-					BloodSplatter.splatter(ability.source.tile()!!, entity.tile()!!, 1f)
-					targetstats.lastHitSource = ability.source.tile()!!
+					BloodSplatter.splatter(sequence.source.tile()!!, entity.tile()!!, 1f)
+					targetstats.lastHitSource = sequence.source.tile()!!
 
 					val lifeSteal = sourceStats.getStat(Statistic.LIFESTEAL)
 					val stolenLife = finalDam * lifeSteal
 					if (stolenLife > 0f)
 					{
 						sourceStats.heal(stolenLife)
+
+						val healEventData = EventData(EventType.HEALED, sequence.source, sequence.source, mapOf(Pair("damage", stolenLife)))
+						Global.engine.event().addEvent(healEventData)
 					}
+
+					// do damage events
+
+					// deal damage
+					val dealEventData = EventData(EventType.DEALDAMAGE, sequence.source, entity, mapOf(Pair("damage", finalDam)))
+					Global.engine.event().addEvent(dealEventData)
+
+					// take damage
+					val takeEventData = EventData(EventType.TAKEDAMAGE, entity, sequence.source, mapOf(Pair("damage", finalDam)))
+					Global.engine.event().addEvent(takeEventData)
 				}
 			}
 		}
@@ -66,9 +82,9 @@ class DamageAction(ability: ActionSequence) : AbstractActionSequenceAction(abili
 
 	}
 
-	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		val action = DamageAction(ability)
+		val action = DamageAction(sequence)
 		action.damage = damage
 
 		return action
@@ -92,18 +108,18 @@ class HealAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 	override fun enter(): Boolean
 	{
 		val hitEntities = ObjectSet<Entity>()
-		for (point in ability.targets)
+		for (point in sequence.targets)
 		{
-			val tile = ability.level.getTile(point) ?: continue
+			val tile = sequence.level.getTile(point) ?: continue
 			for (entity in tile.contents)
 			{
 				if (hitEntities.contains(entity)) continue
 				hitEntities.add(entity)
 
 				val targetstats = entity.stats() ?: continue
-				if (entity.isAllies(ability.source))
+				if (entity.isAllies(sequence.source))
 				{
-					val sourceStats = ability.source.stats()!!
+					val sourceStats = sequence.source.stats()!!
 
 					val map = ObjectFloatMap<String>()
 					sourceStats.write(map, "self")
@@ -113,7 +129,11 @@ class HealAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 					healModifier += healModifier * sourceStats.getStat(Statistic.ABILITYPOWER)
 
 					val power = sourceStats.getStat(Statistic.POWER)
-					targetstats.heal(power * healModifier)
+					val healing = power * healModifier
+					targetstats.heal(healing)
+
+					val healEventData = EventData(EventType.HEALED, entity, sequence.source, mapOf(Pair("amount", healing)))
+					Global.engine.event().addEvent(healEventData)
 				}
 			}
 		}
@@ -126,9 +146,9 @@ class HealAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 
 	}
 
-	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		val action = HealAction(ability)
+		val action = HealAction(sequence)
 		action.amount = amount
 
 		return action
@@ -154,9 +174,9 @@ class StunAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 	override fun enter(): Boolean
 	{
 		val hitEntities = ObjectSet<Entity>()
-		for (point in ability.targets)
+		for (point in sequence.targets)
 		{
-			val tile = ability.level.getTile(point) ?: continue
+			val tile = sequence.level.getTile(point) ?: continue
 			for (entity in tile.contents)
 			{
 				if (hitEntities.contains(entity)) continue
@@ -165,9 +185,9 @@ class StunAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 				val targetstats = entity.stats() ?: continue
 				val task = entity.task() ?: continue
 
-				if (entity.isEnemies(ability.source) && chance.evaluate() != 0f)
+				if (entity.isEnemies(sequence.source) && chance.evaluate() != 0f)
 				{
-					val sourceStats = ability.source.stats()!!
+					val sourceStats = sequence.source.stats()!!
 
 					val map = ObjectFloatMap<String>()
 					sourceStats.write(map, "self")
@@ -204,9 +224,9 @@ class StunAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 
 	}
 
-	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		val action = StunAction(ability)
+		val action = StunAction(sequence)
 		action.chance = chance
 		action.count = count
 
@@ -238,19 +258,19 @@ class BuffAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 
 	override fun enter(): Boolean
 	{
-		val sourcestats = ability.source.stats()!!
+		val sourcestats = sequence.source.stats()!!
 
 		val hitEntities = ObjectSet<Entity>()
-		for (point in ability.targets)
+		for (point in sequence.targets)
 		{
-			val tile = ability.level.getTile(point) ?: continue
+			val tile = sequence.level.getTile(point) ?: continue
 			for (entity in tile.contents)
 			{
 				if (hitEntities.contains(entity)) continue
 				hitEntities.add(entity)
 
 				val stats = entity.stats() ?: continue
-				if ((isDebuff && entity.isEnemies(ability.source)) || entity.isAllies(ability.source))
+				if ((isDebuff && entity.isEnemies(sequence.source)) || entity.isAllies(sequence.source))
 				{
 					val buff = buff.copy()
 
@@ -299,9 +319,9 @@ class BuffAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 		appliedToEntities.clear()
 	}
 
-	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		val action = BuffAction(ability)
+		val action = BuffAction(sequence)
 		action.isDebuff = isDebuff
 		action.buff = buff
 
@@ -326,18 +346,18 @@ class SummonAction(ability: ActionSequence) : AbstractActionSequenceAction(abili
 
 	override fun enter(): Boolean
 	{
-		for (point in ability.targets)
+		for (point in sequence.targets)
 		{
-			var tile = ability.level.getTile(point) ?: continue
+			var tile = sequence.level.getTile(point) ?: continue
 
 			// find empty file
 			val summonEntity = EntityLoader.load(entityPath)
-			summonEntity.stats().level = ability.source.stats().level
-			summonEntity.stats().ascension = ability.source.stats().ascension
-			summonEntity.stats().factionBuffs.addAll(ability.source.stats().factionBuffs)
-			summonEntity.stats().faction = ability.source.stats().faction
+			summonEntity.stats().level = sequence.source.stats().level
+			summonEntity.stats().ascension = sequence.source.stats().ascension
+			summonEntity.stats().factionBuffs.addAll(sequence.source.stats().factionBuffs)
+			summonEntity.stats().faction = sequence.source.stats().faction
 
-			val abPower = ability.source.stats().getStat(Statistic.ABILITYPOWER)
+			val abPower = sequence.source.stats().getStat(Statistic.ABILITYPOWER)
 			val powerBuff = Buff()
 			powerBuff.duration = 9999
 			powerBuff.statistics[Statistic.MAXHP] = abPower
@@ -355,7 +375,7 @@ class SummonAction(ability: ActionSequence) : AbstractActionSequenceAction(abili
 				val validTiles = Array<Tile>()
 				for (dir in Direction.Values)
 				{
-					val dirtile = ability.level.getTile(tile, dir) ?: continue
+					val dirtile = sequence.level.getTile(tile, dir) ?: continue
 					if (summonEntity.pos()!!.isValidTile(dirtile, summonEntity))
 					{
 						validTiles.add(dirtile)
@@ -403,9 +423,9 @@ class SummonAction(ability: ActionSequence) : AbstractActionSequenceAction(abili
 		summonedEntities.clear()
 	}
 
-	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		val action = SummonAction(ability)
+		val action = SummonAction(sequence)
 		action.entityPath = entityPath
 		action.summonEffect = summonEffect
 		action.killOnExit = killOnExit

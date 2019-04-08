@@ -382,3 +382,15 @@ enum class SpaceSlot
 		val EntityValues = arrayOf(BELOWENTITY, ENTITY, ABOVEENTITY)
 	}
 }
+
+// ----------------------------------------------------------------------
+enum class EventType
+{
+	DEALDAMAGE,
+	TAKEDAMAGE,
+	KILL,
+	ALLYDEATH,
+	ENEMYDEATH,
+	ANYDEATH,
+	HEALED
+}

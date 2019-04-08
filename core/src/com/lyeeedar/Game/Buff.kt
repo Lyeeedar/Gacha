@@ -1,5 +1,9 @@
 package com.lyeeedar.Game
 
+import com.badlogic.gdx.utils.Array
+import com.lyeeedar.Components.EventAndCondition
+import com.lyeeedar.Components.EventHandlerComponent
+import com.lyeeedar.EventType
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Statistic
 import com.lyeeedar.Util.AssetManager
@@ -13,6 +17,7 @@ class Buff
 	var duration = 0
 	var icon: Sprite? = null
 	val statistics = FastEnumMap<Statistic, Float>(Statistic::class.java)
+	val eventHandlers = FastEnumMap<EventType, Array<EventAndCondition>>(EventType::class.java)
 
 	var source: Any? = null
 
@@ -35,6 +40,13 @@ class Buff
 		}
 
 		Statistic.parse(xml.getChildByName("Statistics")!!, statistics)
+
+		val eventHandlersEl = xml.getChildByName("EventHandlers")
+		if (eventHandlersEl != null)
+		{
+			EventHandlerComponent.parseEvents(eventHandlers, eventHandlersEl)
+		}
+
 		duration = xml.getInt("Duration", 0)
 
 		description = xml.get("Description", "")!!

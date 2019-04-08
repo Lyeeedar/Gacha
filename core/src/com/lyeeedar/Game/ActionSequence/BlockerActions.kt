@@ -24,9 +24,9 @@ class BlockTurnAction(ability: ActionSequence) : AbstractActionSequenceAction(ab
 		return false
 	}
 
-	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		return BlockTurnAction(ability)
+		return BlockTurnAction(sequence)
 	}
 
 	override fun parse(xmlData: XmlData)
@@ -40,15 +40,15 @@ class UnlockEntityAction(ability: ActionSequence) : AbstractActionSequenceAction
 	override fun enter(): Boolean
 	{
 		val entity = Entity()
-		var activeAbilityComponent = Mappers.activeActionSequence.get(ability.source)
-		if (activeAbilityComponent?.sequence == ability)
+		var activeAbilityComponent = Mappers.activeActionSequence.get(sequence.source)
+		if (activeAbilityComponent?.sequence == sequence)
 		{
-			ability.source.remove(ActiveActionSequenceComponent::class.java)
+			sequence.source.remove(ActiveActionSequenceComponent::class.java)
 		}
 		else
 		{
 			activeAbilityComponent = ActiveActionSequenceComponent()
-			activeAbilityComponent.sequence = ability
+			activeAbilityComponent.sequence = sequence
 		}
 
 		entity.add(TransientComponent())
@@ -63,9 +63,9 @@ class UnlockEntityAction(ability: ActionSequence) : AbstractActionSequenceAction
 
 	}
 
-	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		val action = UnlockEntityAction(ability)
+		val action = UnlockEntityAction(sequence)
 		return action
 	}
 

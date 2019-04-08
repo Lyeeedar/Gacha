@@ -8,7 +8,7 @@
 						<Data Name="Name" meta:RefKey="String" />
 						<Data Name="Description" meta:RefKey="String" />
 						<Data Name="Icon" Keys="Sprite" Nullable="False" meta:RefKey="Reference" />
-						<Data Name="Ability" Keys="Ability" Nullable="False" meta:RefKey="Reference" />
+						<Data Name="Ability" Keys="ActionSequence" Nullable="False" meta:RefKey="Reference" />
 						<Data Name="Cooldown" Name1="Min" Name2="Max" Min="1" Default="5,10" Type="Int" meta:RefKey="Vector" />
 						<Data Name="SingleUse" meta:RefKey="Boolean" />
 						<Data Name="AvailableOnStart" meta:RefKey="Boolean" />
@@ -36,6 +36,7 @@
 				<Data Name="AI" BasePath="AI" StripExtension="True" AllowedFileTypes="xml" meta:RefKey="File" />
 			</Data>
 			<Data Name="DirectionalSprite" Extends="DirectionalSprite" meta:RefKey="Struct" />
+			<Data Name="EventHandler" Keys="EventHandler" Nullable="False" meta:RefKey="Reference" />
 			<Data Name="MetaRegion" meta:RefKey="Struct">
 				<Data Name="Key" meta:RefKey="String" />
 			</Data>

@@ -13,6 +13,7 @@
 				<CritDamage>3</CritDamage>
 				<DR>0.05</DR>
 			</Statistics>
+			<EquipmentWeight>Medium</EquipmentWeight>
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
@@ -48,43 +49,7 @@
 						<Name>Oryx/uf_split/uf_items/weapon_greatspear</Name>
 						<DrawActualSize>true</DrawActualSize>
 					</Icon>
-					<Ability meta:RefKey="Ability">
-						<Timeline>
-							<SelectEnemies />
-							<BlockTurn>
-								<Time>0.0411656424</Time>
-							</BlockTurn>
-							<Permute>
-								<Time>0.07625766</Time>
-								<HitPoints>
-									<Line>.#.</Line>
-									<Line>###</Line>
-									<Line>.#.</Line>
-								</HitPoints>
-							</Permute>
-							<Stun>
-								<Time>0.189631909</Time>
-								<Chance>0.5</Chance>
-							</Stun>
-							<Damage>
-								<Time>0.211227</Time>
-							</Damage>
-						</Timeline>
-						<Timeline>
-							<MoveSource>
-								<Time>0.0101736365</Time>
-								<MoveType>Leap</MoveType>
-							</MoveSource>
-							<DestinationRenderable>
-								<Time>0.104601227</Time>
-								<Duration LockDuration="False">0.2402454</Duration>
-								<Renderable meta:RefKey="ParticleEffect">
-									<Name>Stomp</Name>
-								</Renderable>
-								<AlignToVector>false</AlignToVector>
-							</DestinationRenderable>
-						</Timeline>
-					</Ability>
+					<Ability meta:RefKey="ActionSequence" />
 					<Cooldown>9,15</Cooldown>
 					<Range>9</Range>
 				</AbilityData>
@@ -95,35 +60,7 @@
 						<Name>Oryx/uf_split/uf_items/weapon_axe_exotic1</Name>
 						<DrawActualSize>true</DrawActualSize>
 					</Icon>
-					<Ability meta:RefKey="Ability">
-						<Timeline>
-							<SelectSelf />
-							<Buff>
-								<Time>0.0222699419</Time>
-								<Duration LockDuration="False">0.06883435</Duration>
-								<Buff meta:RefKey="Buff">
-									<Icon meta:RefKey="Sprite">
-										<Name>Oryx/uf_split/uf_items/weapon_axe_exotic1</Name>
-										<DrawActualSize>true</DrawActualSize>
-									</Icon>
-									<Statistics meta:RefKey="Statistics">
-										<Haste>0.2</Haste>
-										<DR>0.3</DR>
-									</Statistics>
-									<Duration>6</Duration>
-								</Buff>
-							</Buff>
-						</Timeline>
-						<Timeline>
-							<SourceRenderable>
-								<Duration LockDuration="False">0.09984035</Duration>
-								<Time>0.00302017061</Time>
-								<Renderable meta:RefKey="ParticleEffect">
-									<Name>Shout</Name>
-								</Renderable>
-							</SourceRenderable>
-						</Timeline>
-					</Ability>
+					<Ability meta:RefKey="ActionSequence" />
 				</AbilityData>
 				<AbilityData>
 					<Name>Battle Focus</Name>
@@ -131,38 +68,7 @@
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_items/armor_blood_helm</Name>
 					</Icon>
-					<Ability meta:RefKey="Ability">
-						<Timeline>
-							<SelectAllies>
-								<Count>5</Count>
-							</SelectAllies>
-							<Buff>
-								<Time>0.0240625013</Time>
-								<Duration LockDuration="False">0.242000014</Duration>
-								<Buff meta:RefKey="Buff">
-									<Icon meta:RefKey="Sprite">
-										<Name>Oryx/uf_split/uf_items/armor_blood_helm</Name>
-									</Icon>
-									<Statistics meta:RefKey="Statistics">
-										<LifeSteal>0.1</LifeSteal>
-									</Statistics>
-									<Duration>99999</Duration>
-								</Buff>
-							</Buff>
-						</Timeline>
-						<Timeline>
-							<DestinationRenderable>
-								<Time>0.0240625013</Time>
-								<Duration LockDuration="False">0.261250019</Duration>
-								<Renderable meta:RefKey="ParticleEffect">
-									<Name>LifestealBuff</Name>
-									<Colour>199,11,11,255</Colour>
-									<TimeMultiplier>1.5</TimeMultiplier>
-								</Renderable>
-								<RenderablePerTile>true</RenderablePerTile>
-							</DestinationRenderable>
-						</Timeline>
-					</Ability>
+					<Ability meta:RefKey="ActionSequence" />
 					<SingleUse>true</SingleUse>
 					<AvailableOnStart>true</AvailableOnStart>
 					<Range>9</Range>
@@ -173,5 +79,17 @@
 			<Name>Khasos</Name>
 			<Title>The Blood Dancer</Title>
 		</Name>
+		<EventHandler meta:RefKey="EventHandler">
+			<Events>
+				<DealDamage>
+					<EventHandler>
+						<Condition>1</Condition>
+						<ActionSequence meta:RefKey="ActionSequence">
+							<Timeline />
+						</ActionSequence>
+					</EventHandler>
+				</DealDamage>
+			</Events>
+		</EventHandler>
 	</Components>
 </Entity>

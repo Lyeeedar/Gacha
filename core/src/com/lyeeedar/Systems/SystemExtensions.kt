@@ -11,6 +11,7 @@ val systemList: Array<KClass<out AbstractSystem>> = arrayOf(
 	TaskProcessorSystem::class,
 	StatisticsSystem::class,
 	DeletionSystem::class,
+	EventSystem::class,
 	DirectionalSpriteSystem::class,
 	RenderSystem::class,
 	DialogueSystem::class
@@ -42,3 +43,4 @@ var Engine.level: Level?
 fun Engine.render() = this.getSystem(RenderSystem::class.java)
 fun Engine.task() = this.getSystem(TaskProcessorSystem::class.java)
 fun Engine.directionSprite() = this.getSystem(DirectionalSpriteSystem::class.java)
+fun Engine.event() = this.getSystem(EventSystem::class.java)

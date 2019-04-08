@@ -31,14 +31,14 @@ class MoveSourceAction(ability: ActionSequence) : AbstractActionSequenceAction(a
 
 	override fun enter(): Boolean
 	{
-		val srcTile = ability.source.tile()!!
-		val dst = ability.targets.random() ?: return false
-		val dstTile = ability.level.getTile(dst) ?: return false
+		val srcTile = sequence.source.tile()!!
+		val dst = sequence.targets.random() ?: return false
+		val dstTile = sequence.level.getTile(dst) ?: return false
 
 		doMove(srcTile, dstTile, type)
 
-		ability.targets.clear()
-		ability.targets.add(dst)
+		sequence.targets.clear()
+		sequence.targets.add(dst)
 
 		return false
 	}
@@ -48,9 +48,9 @@ class MoveSourceAction(ability: ActionSequence) : AbstractActionSequenceAction(a
 
 	}
 
-	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		val action = MoveSourceAction(ability)
+		val action = MoveSourceAction(sequence)
 		action.type = type
 
 		return action
@@ -68,10 +68,10 @@ class PullAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 
 	override fun enter(): Boolean
 	{
-		val dstTile = ability.source.tile()!!
-		for (src in ability.targets)
+		val dstTile = sequence.source.tile()!!
+		for (src in sequence.targets)
 		{
-			val srcTile = ability.level.getTile(src) ?: continue
+			val srcTile = sequence.level.getTile(src) ?: continue
 
 			doMove(srcTile, dstTile, type)
 		}
@@ -84,9 +84,9 @@ class PullAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 
 	}
 
-	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		val action = PullAction(ability)
+		val action = PullAction(sequence)
 		action.type = type
 
 		return action
@@ -105,14 +105,14 @@ class KnockbackAction(ability: ActionSequence) : AbstractActionSequenceAction(ab
 
 	override fun enter(): Boolean
 	{
-		val srcTile = ability.source.tile()!!
-		for (target in ability.targets)
+		val srcTile = sequence.source.tile()!!
+		for (target in sequence.targets)
 		{
-			val targetTile = ability.level.getTile(target) ?: continue
+			val targetTile = sequence.level.getTile(target) ?: continue
 
 			val dir = Direction.getDirection(srcTile, targetTile)
 			val dstPoint = targetTile + Point(dir.x, dir.y) * dist
-			val dst = ability.level.getTileClamped(dstPoint)
+			val dst = sequence.level.getTileClamped(dstPoint)
 
 			doMove(targetTile, dst, type)
 		}
@@ -125,9 +125,9 @@ class KnockbackAction(ability: ActionSequence) : AbstractActionSequenceAction(ab
 
 	}
 
-	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		val action = KnockbackAction(ability)
+		val action = KnockbackAction(sequence)
 		action.type = type
 		action.dist = dist
 

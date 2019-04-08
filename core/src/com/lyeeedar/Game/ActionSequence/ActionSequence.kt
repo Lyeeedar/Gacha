@@ -28,7 +28,7 @@ class ActionSequence
 	{
 		if (enteredActions.size > 0)
 		{
-			throw Exception("Tried to start a non-complete ability!")
+			throw Exception("Tried to start a non-complete sequence!")
 		}
 
 		this.level = level

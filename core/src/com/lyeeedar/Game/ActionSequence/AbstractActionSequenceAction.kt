@@ -2,7 +2,7 @@ package com.lyeeedar.Game.ActionSequence
 
 import com.lyeeedar.Util.XmlData
 
-abstract class AbstractActionSequenceAction(val ability: ActionSequence)
+abstract class AbstractActionSequenceAction(val sequence: ActionSequence)
 {
 	var start: Float = 0f
 	var end: Float = 0f
@@ -16,50 +16,50 @@ abstract class AbstractActionSequenceAction(val ability: ActionSequence)
 		return false
 	}
 
-	fun copy(ability: ActionSequence): AbstractActionSequenceAction
+	fun copy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		val newAction = doCopy(ability)
+		val newAction = doCopy(sequence)
 		newAction.start = start
 		newAction.end = end
 
 		return newAction
 	}
 
-	protected abstract fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
+	protected abstract fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	abstract fun parse(xmlData: XmlData)
 
 	companion object
 	{
-		fun load(xmlData: XmlData, ability: ActionSequence): AbstractActionSequenceAction
+		fun load(xmlData: XmlData, sequence: ActionSequence): AbstractActionSequenceAction
 		{
 			val node = when (xmlData.name.toUpperCase())
 			{
-				"BLOCKTURN" -> BlockTurnAction(ability)
-				"UNLOCKENTITY" -> UnlockEntityAction(ability)
+				"BLOCKTURN" -> BlockTurnAction(sequence)
+				"UNLOCKENTITY" -> UnlockEntityAction(sequence)
 
-				"DAMAGE" -> DamageAction(ability)
-				"STUN" -> StunAction(ability)
-				"HEAL" -> HealAction(ability)
-				"BUFF", "DEBUFF" -> BuffAction(ability)
-				"SUMMON" -> SummonAction(ability)
+				"DAMAGE" -> DamageAction(sequence)
+				"STUN" -> StunAction(sequence)
+				"HEAL" -> HealAction(sequence)
+				"BUFF", "DEBUFF" -> BuffAction(sequence)
+				"SUMMON" -> SummonAction(sequence)
 
-				"MOVESOURCE" -> MoveSourceAction(ability)
-				"PULL" -> PullAction(ability)
-				"KNOCKBACK" -> KnockbackAction(ability)
+				"MOVESOURCE" -> MoveSourceAction(sequence)
+				"PULL" -> PullAction(sequence)
+				"KNOCKBACK" -> KnockbackAction(sequence)
 
-				"PERMUTE" -> PermuteAction(ability)
-				"SELECTALLIES", "SELECTENEMIES", "SELECTENTITIES" -> SelectEntitiesAction(ability)
-				"SELECTTILES" -> SelectTilesAction(ability)
-				"SELECTSELF" -> SelectSelfAction(ability)
+				"PERMUTE" -> PermuteAction(sequence)
+				"SELECTALLIES", "SELECTENEMIES", "SELECTENTITIES" -> SelectEntitiesAction(sequence)
+				"SELECTTILES" -> SelectTilesAction(sequence)
+				"SELECTSELF" -> SelectSelfAction(sequence)
 
-				"SOURCERENDERABLE" -> SourceRenderableAction(ability)
-				"REPLACESOURCERENDERABLE" -> ReplaceSourceRenderableAction(ability)
-				"SOURCEANIMATION" -> SourceAnimationAction(ability)
-				"DESTINATIONRENDERABLE" -> DestinationRenderableAction(ability)
-				"MOVEMENTRENDERABLE" -> MovementRenderableAction(ability)
-				"SCREENSHAKE" -> ScreenShakeAction(ability)
+				"SOURCERENDERABLE" -> SourceRenderableAction(sequence)
+				"REPLACESOURCERENDERABLE" -> ReplaceSourceRenderableAction(sequence)
+				"SOURCEANIMATION" -> SourceAnimationAction(sequence)
+				"DESTINATIONRENDERABLE" -> DestinationRenderableAction(sequence)
+				"MOVEMENTRENDERABLE" -> MovementRenderableAction(sequence)
+				"SCREENSHAKE" -> ScreenShakeAction(sequence)
 
-				else -> throw Exception("Unhandled ability action type " + xmlData.getAttribute("meta:RefKey") + "!")
+				else -> throw Exception("Unhandled sequence action type " + xmlData.getAttribute("meta:RefKey") + "!")
 			}
 
 			node.parse(xmlData)

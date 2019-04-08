@@ -2,14 +2,13 @@ package com.lyeeedar.AI.Tasks
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.ObjectSet
+import com.lyeeedar.*
 import com.lyeeedar.Components.*
-import com.lyeeedar.Direction
 import com.lyeeedar.Game.Tile
-import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Animation.BumpAnimation
 import com.lyeeedar.Renderables.Animation.MoveAnimation
-import com.lyeeedar.SpaceSlot
-import com.lyeeedar.Statistic
+import com.lyeeedar.Systems.EventData
+import com.lyeeedar.Systems.event
 import com.lyeeedar.Util.BloodSplatter
 import com.lyeeedar.Util.Future
 import com.lyeeedar.Util.Random
@@ -86,7 +85,20 @@ class TaskAttack(val tile: Tile, val attackDefinition: AttackDefinition) : Abstr
 					if (stolenLife > 0f)
 					{
 						attackerStats.heal(stolenLife)
+
+						val healEventData = EventData(EventType.HEALED, e, e, mapOf(Pair("amount", stolenLife)))
+						Global.engine.event().addEvent(healEventData)
 					}
+
+					// do damage events
+
+					// deal damage
+					val dealEventData = EventData(EventType.DEALDAMAGE, e, entity, mapOf(Pair("damage", finalDam)))
+					Global.engine.event().addEvent(dealEventData)
+
+					// take damage
+					val takeEventData = EventData(EventType.TAKEDAMAGE, entity, e, mapOf(Pair("damage", finalDam)))
+					Global.engine.event().addEvent(takeEventData)
 				}
 			}, delay)
 	}

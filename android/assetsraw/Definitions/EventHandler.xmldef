@@ -1,0 +1,48 @@
+<Definitions xmlns:meta="Editor">
+	<Definition Name="EventHandler" IsGlobal="True" meta:RefKey="StructDef">
+		<Data Name="Events" ChildrenAreUnique="True" meta:RefKey="Collection">
+			<Data Name="DealDamage" meta:RefKey="Collection">
+				<Data Name="EventHandler" Nullable="False" meta:RefKey="Struct">
+					<Data Name="Condition" Default="1" SkipIfDefault="False" meta:RefKey="String" />
+					<Data Name="ActionSequence" Keys="ActionSequence" Nullable="False" meta:RefKey="Reference" />
+				</Data>
+			</Data>
+			<Data Name="TakeDamage" meta:RefKey="Collection">
+				<Data Name="EventHandler" Nullable="False" meta:RefKey="Struct">
+					<Data Name="Condition" Default="1" SkipIfDefault="False" meta:RefKey="String" />
+					<Data Name="ActionSequence" Keys="ActionSequence" Nullable="False" meta:RefKey="Reference" />
+				</Data>
+			</Data>
+			<Data Name="Kill" meta:RefKey="Collection">
+				<Data Name="EventHandler" Nullable="False" meta:RefKey="Struct">
+					<Data Name="Condition" Default="1" SkipIfDefault="False" meta:RefKey="String" />
+					<Data Name="ActionSequence" Keys="ActionSequence" Nullable="False" meta:RefKey="Reference" />
+				</Data>
+			</Data>
+			<Data Name="AllyDeath" meta:RefKey="Collection">
+				<Data Name="EventHandler" Nullable="False" meta:RefKey="Struct">
+					<Data Name="Condition" Default="1" SkipIfDefault="False" meta:RefKey="String" />
+					<Data Name="ActionSequence" Keys="ActionSequence" Nullable="False" meta:RefKey="Reference" />
+				</Data>
+			</Data>
+			<Data Name="EnemyDeath" meta:RefKey="Collection">
+				<Data Name="EventHandler" Nullable="False" meta:RefKey="Struct">
+					<Data Name="Condition" Default="1" SkipIfDefault="False" meta:RefKey="String" />
+					<Data Name="ActionSequence" Keys="ActionSequence" Nullable="False" meta:RefKey="Reference" />
+				</Data>
+			</Data>
+			<Data Name="AnyDeath" meta:RefKey="Collection">
+				<Data Name="EventHandler" Nullable="False" meta:RefKey="Struct">
+					<Data Name="Condition" Default="1" SkipIfDefault="False" meta:RefKey="String" />
+					<Data Name="ActionSequence" Keys="ActionSequence" Nullable="False" meta:RefKey="Reference" />
+				</Data>
+			</Data>
+			<Data Name="HealedDeath" meta:RefKey="Collection">
+				<Data Name="EventHandler" Nullable="False" meta:RefKey="Struct">
+					<Data Name="Condition" Default="1" SkipIfDefault="False" meta:RefKey="String" />
+					<Data Name="ActionSequence" Keys="ActionSequence" Nullable="False" meta:RefKey="Reference" />
+				</Data>
+			</Data>
+		</Data>
+	</Definition>
+</Definitions>

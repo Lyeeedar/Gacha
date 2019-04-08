@@ -1,0 +1,9 @@
+<Definitions xmlns:meta="Editor">
+	<Definition Name="Buff" IsGlobal="True" meta:RefKey="StructDef">
+		<Data Name="Description" meta:RefKey="String" />
+		<Data Name="Icon" Keys="Sprite" meta:RefKey="Reference" />
+		<Data Name="Statistics" Keys="Statistics" Nullable="False" meta:RefKey="Reference" />
+		<Data Name="EventHandlers" Keys="EventHandler" meta:RefKey="Reference" />
+		<Data Name="Duration" Type="Int" Min="0" meta:RefKey="Number" />
+	</Definition>
+</Definitions>

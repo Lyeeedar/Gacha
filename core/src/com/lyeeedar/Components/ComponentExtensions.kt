@@ -39,6 +39,8 @@ fun Entity.occludes() = Mappers.occludes.get(this)
 fun Entity.metaregion() = Mappers.metaregion.get(this)
 fun Entity.loaddata() = Mappers.loaddata.get(this)
 fun Entity.ability() = Mappers.ability.get(this)
+fun Entity.eventHandler() = Mappers.eventHandler.get(this)
+fun Entity.markedForDeletion() = Mappers.markedForDeletion.get(this) != null
 
 fun <T: AbstractComponent> Entity.hasComponent(c: Class<T>) = this.getComponent(c) != null
 
@@ -62,6 +64,8 @@ class Mappers
 		val activeActionSequence: ComponentMapper<ActiveActionSequenceComponent> = ComponentMapper.getFor(ActiveActionSequenceComponent::class.java)
 		val ability: ComponentMapper<AbilityComponent> = ComponentMapper.getFor(AbilityComponent::class.java)
 		val transient: ComponentMapper<TransientComponent> = ComponentMapper.getFor(TransientComponent::class.java)
+		val eventHandler: ComponentMapper<EventHandlerComponent> = ComponentMapper.getFor(EventHandlerComponent::class.java)
+		val markedForDeletion: ComponentMapper<MarkedForDeletionComponent> = ComponentMapper.getFor(MarkedForDeletionComponent::class.java)
 	}
 }
 
@@ -96,6 +100,7 @@ class EntityLoader()
 					"AI" -> TaskComponent()
 					"ABILITY" -> AbilityComponent()
 					"TRAILING" -> TrailingEntityComponent()
+					"EVENTHANDLER" -> EventHandlerComponent()
 
 					else -> throw Exception("Unknown component type '" + componentEl.name + "'!")
 				}

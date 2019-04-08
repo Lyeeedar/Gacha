@@ -1,15 +1,19 @@
 package com.lyeeedar.Game
 
+import com.badlogic.gdx.utils.Array
 import com.lyeeedar.Ascension
+import com.lyeeedar.Components.EventAndCondition
 import com.lyeeedar.Components.applyAscensionAndLevel
 import com.lyeeedar.EquipmentWeight
+import com.lyeeedar.EventType
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Statistic
 import com.lyeeedar.Util.FastEnumMap
 
 class Equipment
 {
-	val baseStats = FastEnumMap<Statistic, Float>(Statistic::class.java)
+	val stats = FastEnumMap<Statistic, Float>(Statistic::class.java)
+	val eventHandlers = FastEnumMap<EventType, Array<EventAndCondition>>(EventType::class.java)
 
 	var ascension: Ascension = Ascension.MUNDANE
 	var level: Int = 1
@@ -20,7 +24,7 @@ class Equipment
 
 	fun getStat(statistic: Statistic): Float
 	{
-		var value = baseStats[statistic] ?: 0f
+		var value = stats[statistic] ?: 0f
 
 		// apply level / rarity, but only to the base stats
 		if (Statistic.BaseValues.contains(statistic))

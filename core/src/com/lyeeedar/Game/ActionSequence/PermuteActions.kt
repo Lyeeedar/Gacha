@@ -18,11 +18,11 @@ class PermuteAction(ability: ActionSequence) : AbstractActionSequenceAction(abil
 
 	override fun enter(): Boolean
 	{
-		val current = ability.targets.toGdxArray()
-		ability.targets.clear()
+		val current = sequence.targets.toGdxArray()
+		sequence.targets.clear()
 
 		val mat = Matrix3()
-		mat.setToRotation(ability.facing.angle)
+		mat.setToRotation(sequence.facing.angle)
 		val vec = Vector3()
 
 		val addedset = ObjectSet<Tile>()
@@ -36,10 +36,10 @@ class PermuteAction(ability: ActionSequence) : AbstractActionSequenceAction(abil
 				val dx = Math.round(vec.x)
 				val dy = Math.round(vec.y)
 
-				val ntile = ability.level.getTile(tile, dx, dy) ?: continue
+				val ntile = sequence.level.getTile(tile, dx, dy) ?: continue
 				if (!addedset.contains(ntile))
 				{
-					ability.targets.add(ntile)
+					sequence.targets.add(ntile)
 					addedset.add(ntile)
 				}
 			}
@@ -53,9 +53,9 @@ class PermuteAction(ability: ActionSequence) : AbstractActionSequenceAction(abil
 
 	}
 
-	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		val action = PermuteAction(ability)
+		val action = PermuteAction(sequence)
 		action.hitPoints.addAll(hitPoints)
 
 		return action
@@ -86,16 +86,16 @@ class SelectEntitiesAction(ability: ActionSequence) : AbstractActionSequenceActi
 
 	override fun enter(): Boolean
 	{
-		ability.targets.clear()
+		sequence.targets.clear()
 		val entities = ObjectSet<Entity>()
 
-		for (tile in ability.level.grid)
+		for (tile in sequence.level.grid)
 		{
 			for (slot in SpaceSlot.EntityValues)
 			{
 				val entity = tile.contents[slot] ?: continue
 
-				if (mode == Mode.Any || (mode == Mode.Allies && entity.isAllies(ability.source)) || (mode == Mode.Enemies && entity.isEnemies(ability.source)))
+				if (mode == Mode.Any || (mode == Mode.Allies && entity.isAllies(sequence.source)) || (mode == Mode.Enemies && entity.isEnemies(sequence.source)))
 				{
 					entities.add(entity)
 				}
@@ -119,7 +119,7 @@ class SelectEntitiesAction(ability: ActionSequence) : AbstractActionSequenceActi
 			}
 		}
 
-		val count = count.evaluate(ability.source.stats().variables()).round()
+		val count = count.evaluate(sequence.source.stats().variables()).round()
 		for (i in 0 until count)
 		{
 			if (i == sorted.size)
@@ -128,7 +128,7 @@ class SelectEntitiesAction(ability: ActionSequence) : AbstractActionSequenceActi
 			}
 
 			val ally = sorted[i]
-			ability.targets.add(ally.tile())
+			sequence.targets.add(ally.tile())
 		}
 
 		return false
@@ -139,9 +139,9 @@ class SelectEntitiesAction(ability: ActionSequence) : AbstractActionSequenceActi
 
 	}
 
-	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		val action = SelectEntitiesAction(ability)
+		val action = SelectEntitiesAction(sequence)
 		action.mode = mode
 		action.count = count
 		action.conditionString = conditionString
@@ -189,15 +189,15 @@ class SelectTilesAction(ability: ActionSequence) : AbstractActionSequenceAction(
 
 	override fun enter(): Boolean
 	{
-		ability.targets.clear()
+		sequence.targets.clear()
 		val tiles = Array<Tile>()
 
-		for (tile in ability.level.grid)
+		for (tile in sequence.level.grid)
 		{
 			tiles.add(tile)
 		}
 
-		val count = count.evaluate(ability.source.stats().variables()).round()
+		val count = count.evaluate(sequence.source.stats().variables()).round()
 		for (i in 0 until count)
 		{
 			if (tiles.size == 0)
@@ -208,7 +208,7 @@ class SelectTilesAction(ability: ActionSequence) : AbstractActionSequenceAction(
 			val tile = tiles.random()
 			tiles.removeValue(tile, true)
 
-			ability.targets.add(tile)
+			sequence.targets.add(tile)
 		}
 
 		return false
@@ -219,9 +219,9 @@ class SelectTilesAction(ability: ActionSequence) : AbstractActionSequenceAction(
 
 	}
 
-	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		val action = SelectTilesAction(ability)
+		val action = SelectTilesAction(sequence)
 		action.count = count
 		action.emptyOnly = emptyOnly
 
@@ -241,8 +241,8 @@ class SelectSelfAction(ability: ActionSequence) : AbstractActionSequenceAction(a
 {
 	override fun enter(): Boolean
 	{
-		ability.targets.clear()
-		ability.targets.add(ability.source.tile()!!)
+		sequence.targets.clear()
+		sequence.targets.add(sequence.source.tile()!!)
 
 		return false
 	}
@@ -252,9 +252,9 @@ class SelectSelfAction(ability: ActionSequence) : AbstractActionSequenceAction(a
 
 	}
 
-	override fun doCopy(ability: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		val action = SelectSelfAction(ability)
+		val action = SelectSelfAction(sequence)
 		return action
 	}
 
