@@ -233,7 +233,8 @@
 			<AI>BasicMonster</AI>
 		</AI>
 		<Name>
-			<Name>The Bone Speaker</Name>
+			<Name>Rimuru</Name>
+			<Title>The Bone Speaker</Title>
 		</Name>
 	</Components>
 </Entity>

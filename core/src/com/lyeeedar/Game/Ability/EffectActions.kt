@@ -8,6 +8,7 @@ import com.exp4j.Helpers.CompiledExpression
 import com.lyeeedar.AI.Tasks.TaskInterrupt
 import com.lyeeedar.Components.*
 import com.lyeeedar.Direction
+import com.lyeeedar.Game.Buff
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Particle.ParticleEffect

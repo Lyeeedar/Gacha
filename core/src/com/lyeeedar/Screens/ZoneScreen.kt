@@ -43,7 +43,7 @@ class ZoneScreen : AbstractScreen()
 		buttonsTable.add(beginButton).pad(20f).expand().bottom().width(200f).height(30f)
 		buttonsTable.row()
 
-		buttonsTable.add(NavigationBar(MainGame.ScreenEnum.ZONE)).growX().height(75f)
+		buttonsTable.add(NavigationBar(MainGame.ScreenEnum.ZONE)).growX()
 	}
 
 	override fun doRender(delta: Float)

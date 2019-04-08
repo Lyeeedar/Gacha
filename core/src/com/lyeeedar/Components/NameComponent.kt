@@ -6,7 +6,7 @@ import com.lyeeedar.Util.XmlData
 class NameComponent() : AbstractComponent()
 {
 	lateinit var name: String
-	var isPlayer = false
+	lateinit var title: String
 
 	constructor(name: String) : this()
 	{
@@ -15,6 +15,7 @@ class NameComponent() : AbstractComponent()
 
 	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
-		name = xml.get("Name")
+		name = xml.get("Name", "")!!
+		title = xml.get("Title", "")!!
 	}
 }

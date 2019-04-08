@@ -20,7 +20,6 @@ import com.lyeeedar.Game.Zone
 import com.lyeeedar.Global
 import com.lyeeedar.MainGame
 import com.lyeeedar.SpaceSlot
-import com.lyeeedar.Statistic
 import com.lyeeedar.Systems.AbstractSystem
 import com.lyeeedar.Systems.systemList
 import com.lyeeedar.UI.*
@@ -280,9 +279,17 @@ class MapScreen : AbstractScreen()
 			{
 				if (faction.value.count >= 2+i)
 				{
+					val stack = Stack()
 					val widget = SpriteWidget(faction.value.faction.icon.copy(), 24f, 24f)
-					widget.addTapToolTip(faction.value.faction.name + " ${i+2}:\n" + faction.value.faction.buffs[i].description)
-					enemyBonusTable.add(widget).pad(5f)
+					stack.addTapToolTip(faction.value.faction.name + " ${i+2}:\n" + faction.value.faction.buffs[i].description)
+
+					val table = Table()
+					table.add(Label((i+2).toString(), Global.skin, "small")).expand().bottom().right()
+
+					stack.add(widget)
+					stack.add(table)
+
+					enemyBonusTable.add(stack).size(24f).pad(5f)
 				}
 			}
 		}
@@ -325,7 +332,7 @@ class MapScreen : AbstractScreen()
 
 		val heroesARow = 5
 		var x = 0
-		for (hero in allHeroes.sortedByDescending { (it.stats().getStat(Statistic.POWER) * 10) + it.stats().getStat(Statistic.MAXHP) })
+		for (hero in allHeroes.sortedByDescending { it.stats().calculatePowerRating(it) })
 		{
 			val heroWidget = HeroSelectionWidget(hero)
 			for (existing in level!!.playerTiles)
@@ -433,9 +440,17 @@ class MapScreen : AbstractScreen()
 			{
 				if (faction.value.count >= 2+i)
 				{
+					val stack = Stack()
 					val widget = SpriteWidget(faction.value.faction.icon.copy(), 24f, 24f)
-					widget.addTapToolTip(faction.value.faction.name + " ${i+2}:\n" + faction.value.faction.buffs[i].description)
-					factionBonusTable.add(widget).pad(5f)
+					stack.addTapToolTip(faction.value.faction.name + " ${i+2}:\n" + faction.value.faction.buffs[i].description)
+
+					val table = Table()
+					table.add(Label((i+2).toString(), Global.skin, "small")).expand().bottom().right()
+
+					stack.add(widget)
+					stack.add(table)
+
+					factionBonusTable.add(stack).size(24f).pad(5f)
 				}
 			}
 		}

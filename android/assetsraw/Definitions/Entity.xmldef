@@ -6,6 +6,7 @@
 				<Data Name="Abilities" meta:RefKey="Collection">
 					<Data Name="AbilityData" meta:RefKey="Struct">
 						<Data Name="Name" meta:RefKey="String" />
+						<Data Name="Description" meta:RefKey="String" />
 						<Data Name="Icon" Keys="Sprite" Nullable="False" meta:RefKey="Reference" />
 						<Data Name="Ability" Keys="Ability" Nullable="False" meta:RefKey="Reference" />
 						<Data Name="Cooldown" Name1="Min" Name2="Max" Min="1" Default="5,10" Type="Int" meta:RefKey="Vector" />
@@ -40,6 +41,7 @@
 			</Data>
 			<Data Name="Name" meta:RefKey="Struct">
 				<Data Name="Name" meta:RefKey="String" />
+				<Data Name="Title" meta:RefKey="String" />
 			</Data>
 			<Data Name="Occludes" meta:RefKey="Struct">
 				<Data Name="Occludes" Default="True" SkipIfDefault="False" meta:RefKey="Boolean" />
@@ -60,6 +62,7 @@
 			</Data>
 			<Data Name="Statistics" meta:RefKey="Struct">
 				<Data Name="Statistics" Keys="Statistics" Nullable="False" meta:RefKey="Reference" />
+				<Data Name="EquipmentWeight" EnumValues="Heavy,Medium,Light" Default="Medium" SkipIfDefault="False" meta:RefKey="Enum" />
 				<Data Name="Death" Keys="ParticleEffect" meta:RefKey="Reference" />
 				<Data Name="Attack" Nullable="False" meta:RefKey="Struct">
 					<Data Name="Damage" Min="0" Default="1" SkipIfDefault="False" meta:RefKey="Number" />

@@ -43,6 +43,7 @@
 			<Abilities>
 				<AbilityData>
 					<Name>Charge</Name>
+					<Description>Leap toward a random enemy, dealing [GOLD]100%[] damage to them. Also has a [GOLD]50%[] chance to stun.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_items/weapon_greatspear</Name>
 						<DrawActualSize>true</DrawActualSize>
@@ -89,6 +90,7 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Frenzy</Name>
+					<Description>Grant self a [GOLD]20%[] haste and a [GOLD]30%[] damage reduction buff.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_items/weapon_axe_exotic1</Name>
 						<DrawActualSize>true</DrawActualSize>
@@ -125,6 +127,7 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Battle Focus</Name>
+					<Description>At the start of the battle, give all allies [GOLD]10%[] lifesteal.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_items/armor_blood_helm</Name>
 					</Icon>
@@ -168,6 +171,7 @@
 		</Ability>
 		<Name>
 			<Name>Khasos</Name>
+			<Title>The Blood Dancer</Title>
 		</Name>
 	</Components>
 </Entity>

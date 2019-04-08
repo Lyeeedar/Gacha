@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable
 import com.lyeeedar.Ascension
 import com.lyeeedar.Components.*
+import com.lyeeedar.Game.EntityData
 import com.lyeeedar.Game.Faction
 import com.lyeeedar.Global
 import com.lyeeedar.MainGame
@@ -17,6 +18,8 @@ import com.lyeeedar.Statistic
 import com.lyeeedar.UI.*
 import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.Colour
+import com.lyeeedar.Util.neaten
+import com.lyeeedar.Util.prettyPrint
 
 class HeroesScreen : AbstractScreen()
 {
@@ -65,22 +68,23 @@ class HeroesScreen : AbstractScreen()
 		contentTable.row()
 
 		// fill in the content
-		val allHeroes = com.badlogic.gdx.utils.Array<Entity>()
+		class EntityAndData(val data: EntityData, val entity: Entity)
+		val allHeroes = com.badlogic.gdx.utils.Array<EntityAndData>()
 		for (heroData in Global.data.heroPool)
 		{
 			val hero = heroData.getEntity("1")
-			allHeroes.add(hero)
+			allHeroes.add(EntityAndData(heroData, hero))
 		}
 
 		val heroesTable = Table()
 
 		val heroesARow = 5
 		var x = 0
-		for (hero in allHeroes.sortedByDescending { (it.stats().getStat(Statistic.POWER) * 10) + it.stats().getStat(Statistic.MAXHP) })
+		for (hero in allHeroes.sortedByDescending { it.entity.stats().calculatePowerRating(it.entity) })
 		{
-			val heroWidget = HeroSelectionWidget(hero)
+			val heroWidget = HeroSelectionWidget(hero.entity)
 			heroWidget.addClickListener {
-				createHeroTable(hero, false)
+				createHeroTable(hero.entity, hero.data, false)
 			}
 
 			heroesTable.add(heroWidget).size((Global.resolution.x - (heroesARow * 2f) - 10f) / heroesARow.toFloat()).pad(2f)
@@ -103,7 +107,7 @@ class HeroesScreen : AbstractScreen()
 
 		contentTable.add(scroll).grow()
 		contentTable.row()
-		contentTable.add(NavigationBar(MainGame.ScreenEnum.HEROES)).growX().height(75f)
+		contentTable.add(NavigationBar(MainGame.ScreenEnum.HEROES)).growX()
 	}
 
 	fun createHeroesTable()
@@ -112,7 +116,7 @@ class HeroesScreen : AbstractScreen()
 		mainTable.add(heroesContentTable).grow()
 	}
 
-	fun createHeroTable(entity: Entity, cameFromFaction: Boolean)
+	fun createHeroTable(entity: Entity, entityData: EntityData, cameFromFaction: Boolean)
 	{
 		mainTable.clear()
 
@@ -129,7 +133,7 @@ class HeroesScreen : AbstractScreen()
 		factionAscensionTable.add(SpriteWidget(AssetManager.loadSprite("GUI/attack_empty"), 32f, 32f))
 		factionAscensionTable.row()
 
-		val ascensionLabel = Label(stats.ascension.toString().toLowerCase().capitalize(), Global.skin)
+		val ascensionLabel = Label(stats.ascension.toString().neaten(), Global.skin)
 		ascensionLabel.color = stats.ascension.colour.color()
 		factionAscensionTable.add(ascensionLabel).colspan(3).center()
 
@@ -138,7 +142,9 @@ class HeroesScreen : AbstractScreen()
 
 		// name
 		val nameLabel = Label(entity.name().name, Global.skin, "title")
-		mainTable.add(nameLabel).expandX().center().pad(15f)
+		mainTable.add(nameLabel).expandX().center().padTop(15f)
+		mainTable.row()
+		mainTable.add(Label(entity.name().title, Global.skin, "small")).expandX().center().padTop(2f).padBottom(15f)
 		mainTable.row()
 
 		// sprite and skills
@@ -161,7 +167,7 @@ class HeroesScreen : AbstractScreen()
 				imageStack.add(SpriteWidget(tileSprite, 32f, 32f))
 				imageStack.add(SpriteWidget(ability.icon.copy(), 32f, 32f))
 
-				//imageStack.addTapToolTip(ability.description)
+				imageStack.addTapToolTip(ability.name + "\n\n" + ability.description)
 
 				column.add(imageStack).size(48f).pad(10f)
 				column.row()
@@ -198,14 +204,115 @@ class HeroesScreen : AbstractScreen()
 		mainTable.row()
 
 		// stats
-		val statsTable = Table()
-		mainTable.add(statsTable).growX()
+		val statsAndPowerTable = Table()
+		mainTable.add(statsAndPowerTable).growX()
 		mainTable.row()
+
+		statsAndPowerTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(1f, 1f, 1f, 0.1f))
+
+		val powerRatingLabel = Label(stats.calculatePowerRating(entity).toInt().prettyPrint(), Global.skin)
+		powerRatingLabel.color = Color.GOLD
+		powerRatingLabel.addTapToolTip("Strength Rating (calculated from stats).")
+
+		statsAndPowerTable.add(powerRatingLabel).expandX().center().padTop(5f)
+		statsAndPowerTable.row()
+
+		val statsTable = Table()
+		statsAndPowerTable.add(statsTable).growX().pad(5f)
+		statsAndPowerTable.row()
+
+		fun addSubtextNumber(text: String, value: Int)
+		{
+			val table = Table()
+			table.add(Label(value.prettyPrint(), Global.skin)).growX().center()
+			table.row()
+			val textLabel = Label(text, Global.skin, "small")
+			textLabel.color = Color.DARK_GRAY
+			table.add(textLabel).growX().center()
+
+			statsTable.add(table).growX()
+		}
+
+		addSubtextNumber("Level", stats.level)
+		addSubtextNumber("Ascension", stats.ascension.ordinal+1)
+		addSubtextNumber("Health", stats.getStat(Statistic.MAXHP).toInt())
+		addSubtextNumber("Power", stats.getStat(Statistic.POWER).toInt())
+
+		val fullStats = SpriteWidget(AssetManager.loadSprite("GUI/attack_empty"), 32f, 32f)
+		fullStats.addClickListener {
+			val table = Table()
+			var bright = true
+			for (stat in Statistic.Values)
+			{
+				val rawValue = stats.getStat(stat)
+
+				val value: Int
+				val valueStr: String
+				if (Statistic.BaseValues.contains(stat))
+				{
+					value = rawValue.toInt()
+					valueStr = value.prettyPrint()
+				}
+				else
+				{
+					value = (rawValue * 100f).toInt()
+					valueStr = value.prettyPrint() + "%"
+				}
+
+				if (value != 0 || Statistic.CoreValues.contains(stat))
+				{
+					val rowTable = Table()
+					rowTable.add(Label(stat.niceName, Global.skin, "small")).pad(15f)
+					rowTable.add(Label(valueStr, Global.skin, "small")).expandX().right().pad(15f)
+					rowTable.addTapToolTip(stat.niceName + ":\n\n" + stat.tooltip)
+
+					if (bright)
+					{
+						rowTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(1f, 1f, 1f, 0.1f))
+					}
+
+					table.add(rowTable).growX()
+					table.row()
+
+					bright = !bright
+				}
+			}
+
+			table.add(Table()).grow()
+
+			FullscreenTable.createCloseable(table)
+		}
+		statsTable.add(fullStats).size(32f).expandX().right().padRight(5f)
 
 		// level up / ascend button
 		val levelButtonTable = Table()
 		mainTable.add(levelButtonTable).growX()
 		mainTable.row()
+
+		val levelButton = TextButton("Level Up", Global.skin)
+		val ascendButton = TextButton("Ascend", Global.skin)
+
+		levelButton.addClickListener {
+			entityData.level++
+			stats.level = entityData.level
+
+			createHeroTable(entity, entityData, cameFromFaction)
+			recreateHeroesTable()
+		}
+
+		ascendButton.addClickListener {
+			if (stats.ascension != Ascension.Values.last())
+			{
+				entityData.ascension = Ascension.Values[Ascension.Values.indexOf(entityData.ascension) + 1]
+				stats.ascension = entityData.ascension
+
+				createHeroTable(entity, entityData, cameFromFaction)
+				recreateHeroesTable()
+			}
+		}
+
+		levelButtonTable.add(levelButton).expandX().center().pad(5f)
+		levelButtonTable.add(ascendButton).expandX().center().pad(5f)
 
 		// back button
 		val backButtonTable = Table()
@@ -276,7 +383,7 @@ class HeroesScreen : AbstractScreen()
 
 		contentTable.add(scroll).grow()
 		contentTable.row()
-		contentTable.add(NavigationBar(MainGame.ScreenEnum.HEROES)).growX().height(75f)
+		contentTable.add(NavigationBar(MainGame.ScreenEnum.HEROES)).growX()
 	}
 
 	fun createFactionsTable()

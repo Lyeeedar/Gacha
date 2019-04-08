@@ -12,10 +12,18 @@ class NavigationBar(val current: MainGame.ScreenEnum) : Table()
 {
 	val screenMap = FastEnumMap<MainGame.ScreenEnum, TextAndIconButton>(MainGame.ScreenEnum::class.java)
 
+	override fun getHeight(): Float
+	{
+		return 50f
+	}
+
+	override fun getPrefHeight(): Float
+	{
+		return 50f
+	}
+
 	init
 	{
-		height = 75f
-
 		defaults().width(Value.percentWidth(1f / 5f, this)).growY()
 
 		background = TextureRegionDrawable(AssetManager.loadTextureRegion("GUI/BasePanel"))

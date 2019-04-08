@@ -22,6 +22,7 @@ class AbilityComponent : AbstractComponent()
 			val ability = Ability.load(abilityEl)
 
 			val name = el.get("Name")
+			val description = el.get("Description", "")!!
 			val icon = AssetManager.loadSprite(el.getChildByName("Icon")!!)
 			val cooldown = com.lyeeedar.Util.IntRange(el.getPoint("Cooldown", Point(5, 10)))
 			val singleUse = el.getBoolean("SingleUse", false)
@@ -32,6 +33,7 @@ class AbilityComponent : AbstractComponent()
 
 			val data = AbilityData()
 			data.name = name
+			data.description = description
 			data.icon = icon
 			data.ability = ability
 			data.cooldown = cooldown
@@ -49,6 +51,7 @@ class AbilityComponent : AbstractComponent()
 class AbilityData
 {
 	lateinit var name: String
+	lateinit var description: String
 	lateinit var icon: Sprite
 
 	lateinit var ability: Ability

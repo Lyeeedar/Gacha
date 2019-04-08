@@ -12,7 +12,7 @@ class DungeonScreen : AbstractScreen()
 
 		mainTable.add(shopTable).grow()
 		mainTable.row()
-		mainTable.add(NavigationBar(MainGame.ScreenEnum.DUNGEON)).growX().height(75f)
+		mainTable.add(NavigationBar(MainGame.ScreenEnum.DUNGEON)).growX()
 	}
 
 	override fun doRender(delta: Float)

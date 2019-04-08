@@ -105,14 +105,6 @@ class EntityLoader()
 				entity.add(component)
 			}
 
-			if (xml.getBoolean("IsPlayer", false))
-			{
-				val name = entity.name() ?: NameComponent("player")
-				name.isPlayer = true
-				name.fromLoad = true
-				entity.add(name)
-			}
-
 			if (entity.name() == null)
 			{
 				val name = NameComponent(path)

@@ -9,11 +9,15 @@ import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
 import com.lyeeedar.Ascension
+import com.lyeeedar.EquipmentSlot
+import com.lyeeedar.EquipmentWeight
+import com.lyeeedar.Game.Buff
+import com.lyeeedar.Game.Equipment
 import com.lyeeedar.Game.Faction
 import com.lyeeedar.Renderables.Particle.ParticleEffect
-import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Statistic
 import com.lyeeedar.Util.*
+import ktx.collections.toGdxArray
 
 class StatisticsComponent: AbstractComponent()
 {
@@ -86,10 +90,15 @@ class StatisticsComponent: AbstractComponent()
 
 	var lastHitSource = Point()
 
+	val equipment = FastEnumMap<EquipmentSlot, Equipment>(EquipmentSlot::class.java)
+	var equipmentWeight: EquipmentWeight = EquipmentWeight.MEDIUM
+
 	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
 		Statistic.parse(xml.getChildByName("Statistics")!!, baseStats)
 		hp = getStat(Statistic.MAXHP)
+
+		equipmentWeight = EquipmentWeight.valueOf(xml.get("EquipmentWeight", "Medium")!!.toUpperCase())
 
 		val deathEl = xml.getChildByName("Death")
 		if (deathEl != null) deathEffect = AssetManager.loadParticleEffect(deathEl)
@@ -175,8 +184,13 @@ class StatisticsComponent: AbstractComponent()
 		// apply level / rarity, but only to the base stats
 		if (Statistic.BaseValues.contains(statistic))
 		{
-			value *= Math.pow(1.05, level.toDouble()).toFloat() // 5% per level
-			value *= ascension.multiplier
+			value = value.applyAscensionAndLevel(level, ascension)
+		}
+
+		for (slot in EquipmentSlot.Values)
+		{
+			val equip = equipment[slot] ?: continue
+			value += equip.getStat(statistic)
 		}
 
 		// apply buffs and equipment
@@ -229,6 +243,45 @@ class StatisticsComponent: AbstractComponent()
 		val critAttack = attack * getCritMultiplier()
 
 		return critAttack * multiplier
+	}
+
+	fun calculatePowerRating(entity: Entity): Float
+	{
+		val oldFactionBuffs = factionBuffs.toGdxArray()
+		val oldBuffs = buffs.toGdxArray()
+
+		factionBuffs.clear()
+		buffs.clear()
+
+		var hp = getStat(Statistic.MAXHP)
+		hp *= 1f + getStat(Statistic.AEGIS)
+		hp *= 1f + getStat(Statistic.DR)
+		hp *= 1f + getStat(Statistic.REGENERATION) * 2f
+		hp *= 1f + getStat(Statistic.LIFESTEAL)
+
+		var power = getStat(Statistic.POWER) * 10f
+		power += (power * (1f + getStat(Statistic.CRITDAMAGE))) * getStat(Statistic.CRITCHANCE)
+		power *= 1f + getStat(Statistic.HASTE)
+
+		var rating = hp + power
+		val ability = entity.ability()
+		if (ability != null)
+		{
+			var abilityModifier = 1f + (ability.abilities.size * 0.2f)
+			abilityModifier *= 1f + getStat(Statistic.BUFFPOWER)
+			abilityModifier *= 1f + getStat(Statistic.BUFFDURATION)
+			abilityModifier *= 1f + getStat(Statistic.DEBUFFPOWER)
+			abilityModifier *= 1f + getStat(Statistic.DEBUFFDURATION)
+			abilityModifier *= 1f + getStat(Statistic.ABILITYPOWER)
+			abilityModifier *= 1f + getStat(Statistic.ABILITYCOOLDOWN)
+
+			rating *= abilityModifier
+		}
+
+		factionBuffs.addAll(oldFactionBuffs)
+		buffs.addAll(oldBuffs)
+
+		return rating
 	}
 
 	fun variables(): ObjectFloatMap<String>
@@ -312,71 +365,11 @@ class AttackDefinition
 	}
 }
 
-class Buff
+fun Float.applyAscensionAndLevel(level: Int, ascension: Ascension): Float
 {
-	lateinit var description: String
+	var value = this
+	value *= Math.pow(1.05, level.toDouble()).toFloat() // 5% per level
+	value *= ascension.multiplier
 
-	var duration = 0
-	var icon: Sprite? = null
-	val statistics = FastEnumMap<Statistic, Float>(Statistic::class.java)
-
-	var source: Any? = null
-
-	fun copy(): Buff
-	{
-		val buff = Buff()
-		buff.duration = duration
-		buff.icon = icon
-		buff.statistics.addAll(statistics)
-
-		return buff
-	}
-
-	fun parse(xml: XmlData)
-	{
-		val iconEl = xml.getChildByName("Icon")
-		if (iconEl != null)
-		{
-			icon = AssetManager.loadSprite(iconEl)
-		}
-
-		Statistic.parse(xml.getChildByName("Statistics")!!, statistics)
-		duration = xml.getInt("Duration", 0)
-
-		description = xml.get("Description", "")!!
-
-		description += "\n[GOLD]"
-		var first = true
-		for (stat in Statistic.Values)
-		{
-			val value = statistics[stat] ?: continue
-			if (value != 0f)
-			{
-				if (!first)
-				{
-					description += ", "
-				}
-				first = false
-
-				if (value > 0)
-				{
-					description += "+"
-				}
-
-				description += (value * 100).toInt().toString() + "% " + stat.niceName
-			}
-		}
-
-		description += "[]."
-	}
-
-	companion object
-	{
-		fun load(xml: XmlData): Buff
-		{
-			val buff = Buff()
-			buff.parse(xml)
-			return buff
-		}
-	}
+	return value
 }

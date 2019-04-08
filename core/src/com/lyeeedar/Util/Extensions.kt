@@ -10,6 +10,18 @@ import com.badlogic.gdx.utils.Pool
 
 fun String.neaten() = this.substring(0, 1).toUpperCase() + this.substring(1).toLowerCase()
 
+fun Int.prettyPrint(): String
+{
+	if (this < 10000)
+	{
+		return this.toString()
+	}
+	else
+	{
+		return String.format("%,d", this)
+	}
+}
+
 fun Color.toHSV(out: FloatArray? = null): FloatArray
 {
 	val max = Math.max(this.r, Math.max(this.g, this.b))

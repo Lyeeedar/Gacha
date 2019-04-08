@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Array
+import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Util.*
 
 // ----------------------------------------------------------------------
@@ -306,21 +307,24 @@ enum class Statistic private constructor(val min: Float, val max: Float, val mod
 	DR(-1f, 1f, true, "Damage Resistance", "Your resistance to damage"),
 	CRITCHANCE(0f, 1f, true, "Critical Chance", "The chance to deal a critical hit anytime you deal damage"),
 	CRITDAMAGE(1f, Float.MAX_VALUE, true, "Critical Damage", "The multiplier to your damage when you deal a critical hit"),
+
 	REGENERATION(-1f, 1f, true, "Regeneration", "The percentage of your max health you gain each turn"),
 	HASTE(-1f, 1f, true, "Haste", "How fast you act"),
 	LIFESTEAL(0f, 1f, true, "Life Steal", "The portion of your damage dealt you absorb as life"),
+	AEGIS(0f, 1f, true, "Aegis", "The chance to avoid completely block damage when hit."),
+
 	BUFFDURATION(0f, Float.MAX_VALUE, true, "Buff Duration", "The bonus to the duration of buffs you create."),
 	BUFFPOWER(0f, Float.MAX_VALUE, true, "Buff Power", "The bonus to the power of buffs you create."),
 	DEBUFFDURATION(0f, Float.MAX_VALUE, true, "Debuff Duration", "The bonus to the duration of debuffs you create."),
 	DEBUFFPOWER(0f, Float.MAX_VALUE, true, "Debuff Power", "The bonus to the power of debuffs you create."),
-	AEGIS(0f, 1f, true, "Aegis", "The chance to avoid completely block damage when hit."),
 	ABILITYCOOLDOWN(-Float.MAX_VALUE, Float.MAX_VALUE, true, "Ability Cooldown", "The rate at which your abilities come off cooldown."),
 	ABILITYPOWER(-1f, 1f, true, "Ability Power", "The modifier to your power when used with your abilities.");
 
 	companion object
 	{
 		val Values = Statistic.values()
-		val BaseValues = arrayOf(Statistic.MAXHP, POWER)
+		val BaseValues = arrayOf(MAXHP, POWER)
+		val CoreValues = arrayOf(MAXHP, POWER, DR, CRITCHANCE, CRITDAMAGE)
 
 		fun parse(xmlData: XmlData, statistics: FastEnumMap<Statistic, Float>)
 		{
@@ -335,12 +339,20 @@ enum class Statistic private constructor(val min: Float, val max: Float, val mod
 }
 
 // ----------------------------------------------------------------------
-enum class EquipmentSlot
+enum class EquipmentWeight(val icon: Sprite)
 {
-	HEAD,
-	MAINHAND,
-	OFFHAND,
-	BODY;
+	HEAVY(AssetManager.loadSprite("Oryx/uf_split/uf_items/armor_plate_chest")),
+	MEDIUM(AssetManager.loadSprite("Oryx/uf_split/uf_items/armor_leather_boot")),
+	LIGHT(AssetManager.loadSprite("Oryx/uf_split/uf_items/cloak_ornate"))
+}
+
+// ----------------------------------------------------------------------
+enum class EquipmentSlot(val icon: Sprite)
+{
+	HEAD(AssetManager.loadSprite("Oryx/uf_split/uf_items/armor_plate_helm")),
+	WEAPON(AssetManager.loadSprite("Oryx/uf_split/uf_items/weapon_broadsword")),
+	BODY(AssetManager.loadSprite("Oryx/uf_split/uf_items/armor_plate_chest")),
+	FEET(AssetManager.loadSprite("Oryx/uf_split/uf_items/armor_plate_boot"));
 
 	companion object
 	{
