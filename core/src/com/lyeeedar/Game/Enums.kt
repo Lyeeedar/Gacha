@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Array
+import com.exp4j.Helpers.CompiledExpression
+import com.lyeeedar.Components.EventAndCondition
+import com.lyeeedar.Game.ActionSequence.ActionSequence
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Util.*
 
@@ -326,8 +329,10 @@ enum class Statistic private constructor(val min: Float, val max: Float, val mod
 		val BaseValues = arrayOf(MAXHP, POWER)
 		val CoreValues = arrayOf(MAXHP, POWER, DR, CRITCHANCE, CRITDAMAGE)
 
-		fun parse(xmlData: XmlData, statistics: FastEnumMap<Statistic, Float>)
+		fun parse(xmlData: XmlData?, statistics: FastEnumMap<Statistic, Float>)
 		{
+			if (xmlData == null) return
+
 			for (stat in Values)
 			{
 				var value = statistics[stat] ?: 0f
@@ -392,5 +397,32 @@ enum class EventType
 	ALLYDEATH,
 	ENEMYDEATH,
 	ANYDEATH,
-	HEALED
+	HEALED;
+
+	companion object
+	{
+		fun parseEvents(xml: XmlData?, holder: FastEnumMap<EventType, Array<EventAndCondition>>)
+		{
+			if (xml == null) return
+
+			val eventsEl = xml.getChildByName("Events")!!
+			for (eventEl in eventsEl.children)
+			{
+				val type = EventType.valueOf(eventEl.name.toUpperCase())
+				val handlers = Array<EventAndCondition>()
+
+				for (handlerEl in eventEl.children)
+				{
+					val rawcondition = handlerEl.get("Condition")
+					val condition = CompiledExpression(rawcondition)
+
+					val sequence = ActionSequence.load(handlerEl.getChildByName("ActionSequence")!!)
+
+					handlers.add(EventAndCondition(condition, sequence))
+				}
+
+				holder[type] = handlers
+			}
+		}
+	}
 }

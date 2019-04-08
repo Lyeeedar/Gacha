@@ -13,7 +13,38 @@
 				<CritDamage>3</CritDamage>
 				<DR>0.05</DR>
 			</Statistics>
-			<EquipmentWeight>Medium</EquipmentWeight>
+			<EquipmentWeight>Heavy</EquipmentWeight>
+			<Equipment meta:RefKey="EquipmentMap">
+				<Weapon meta:RefKey="Equipment">
+					<Icon meta:RefKey="MaskedTexture">
+						<Base>Oryx/Custom/items/light_weapon</Base>
+						<Mask>Oryx/Custom/items/light_weapon_mask</Mask>
+						<Layer1>Oryx/uf_split/uf_terrain/carpet</Layer1>
+						<Layer2>white</Layer2>
+						<Layer3>grass</Layer3>
+					</Icon>
+					<Weight>Heavy</Weight>
+					<Slot>Head</Slot>
+					<Level>1</Level>
+					<Ascension>Mythical</Ascension>
+					<Statistics meta:RefKey="Statistics" />
+				</Weapon>
+				<Body meta:RefKey="Equipment">
+					<Name>Test</Name>
+					<Icon meta:RefKey="MaskedTexture">
+						<Base>Oryx/Custom/items/heavy_body</Base>
+						<Mask>Oryx/Custom/items/heavy_body_mask</Mask>
+						<Layer1>Oryx/uf_split/uf_terrain/water_lava_1</Layer1>
+						<Layer2>Oryx/uf_split/uf_terrain/water_teal_1</Layer2>
+						<Layer3>white</Layer3>
+					</Icon>
+					<Weight>Heavy</Weight>
+					<Slot>Head</Slot>
+					<Level>1</Level>
+					<Ascension>Extraordinary</Ascension>
+					<Statistics meta:RefKey="Statistics" />
+				</Body>
+			</Equipment>
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
@@ -77,8 +108,8 @@
 								<MoveType>Leap</MoveType>
 							</MoveSource>
 							<DestinationRenderable>
-								<Time>0.104601227</Time>
 								<Duration LockDuration="False">0.2402454</Duration>
+								<Time>0.104601227</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Stomp</Name>
 								</Renderable>
@@ -100,8 +131,8 @@
 						<Timeline>
 							<SelectSelf />
 							<Buff>
-								<Time>0.0222699419</Time>
 								<Duration LockDuration="False">0.06883435</Duration>
+								<Time>0.0222699419</Time>
 								<Buff meta:RefKey="Buff">
 									<Icon meta:RefKey="Sprite">
 										<Name>Oryx/uf_split/uf_items/weapon_axe_exotic1</Name>
@@ -117,8 +148,8 @@
 						</Timeline>
 						<Timeline>
 							<SourceRenderable>
-								<Duration LockDuration="False">0.09984035</Duration>
 								<Time>0.00302017061</Time>
+								<Duration LockDuration="False">0.09984035</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Shout</Name>
 								</Renderable>
@@ -138,8 +169,8 @@
 								<Count>5</Count>
 							</SelectAllies>
 							<Buff>
-								<Time>0.0240625013</Time>
 								<Duration LockDuration="False">0.242000014</Duration>
+								<Time>0.0240625013</Time>
 								<Buff meta:RefKey="Buff">
 									<Icon meta:RefKey="Sprite">
 										<Name>Oryx/uf_split/uf_items/armor_blood_helm</Name>
@@ -153,8 +184,8 @@
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Time>0.0240625013</Time>
 								<Duration LockDuration="False">0.261250019</Duration>
+								<Time>0.0240625013</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>LifestealBuff</Name>
 									<Colour>199,11,11,255</Colour>

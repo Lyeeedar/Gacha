@@ -2,7 +2,6 @@ package com.lyeeedar.Game
 
 import com.badlogic.gdx.utils.Array
 import com.lyeeedar.Components.EventAndCondition
-import com.lyeeedar.Components.EventHandlerComponent
 import com.lyeeedar.EventType
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Statistic
@@ -44,7 +43,7 @@ class Buff
 		val eventHandlersEl = xml.getChildByName("EventHandlers")
 		if (eventHandlersEl != null)
 		{
-			EventHandlerComponent.parseEvents(eventHandlers, eventHandlersEl)
+			EventType.parseEvents(eventHandlersEl, eventHandlers)
 		}
 
 		duration = xml.getInt("Duration", 0)

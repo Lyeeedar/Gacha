@@ -100,6 +100,18 @@ class StatisticsComponent: AbstractComponent()
 
 		equipmentWeight = EquipmentWeight.valueOf(xml.get("EquipmentWeight", "Medium")!!.toUpperCase())
 
+		val equipmentEl = xml.getChildByName("Equipment")
+		if (equipmentEl != null)
+		{
+			for (el in equipmentEl.children)
+			{
+				val slot = EquipmentSlot.valueOf(el.name.toUpperCase())
+				val equipment = Equipment.load(el)
+
+				this.equipment[slot] = equipment
+			}
+		}
+
 		val deathEl = xml.getChildByName("Death")
 		if (deathEl != null) deathEffect = AssetManager.loadParticleEffect(deathEl)
 
@@ -136,7 +148,7 @@ class StatisticsComponent: AbstractComponent()
 		val alpha = dam / maxHP
 		val size = lerp(0.25f, 1f, clamp(alpha, 0f, 1f))
 
-		messagesToShow.add(MessageData(dam.toInt().toString(), Colour.RED, size))
+		messagesToShow.add(MessageData(dam.ciel().toString(), Colour.RED, size))
 
 		return dam
 	}
@@ -148,7 +160,7 @@ class StatisticsComponent: AbstractComponent()
 		val maxHP = getStat(Statistic.MAXHP)
 		val alpha = amount / maxHP
 		val size = lerp(0.25f, 1f, clamp(alpha, 0f, 1f))
-		messagesToShow.add(MessageData(amount.toInt().toString(), Colour.GREEN, size))
+		messagesToShow.add(MessageData(amount.ciel().toString(), Colour.GREEN, size))
 	}
 
 	fun regenerate(amount: Float)

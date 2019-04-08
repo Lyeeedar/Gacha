@@ -256,6 +256,18 @@ class AtlasCreator
 			}
 		}
 
+		val maskedTextureElements = xml.getChildrenByAttributeRecursively("meta:RefKey", "MaskedTexture")
+		maskedTextureElements.addAll(xml.getChildrenByAttributeRecursively("RefKey", "MaskedTexture"))
+
+		for (el in maskedTextureElements)
+		{
+			val succeed = processMaskedTexture(el)
+			if (!succeed)
+			{
+				throw RuntimeException("Failed to process masked texture in file: " + file)
+			}
+		}
+
 		val particleElements = xml.getChildrenByNameRecursively("TextureKeyframes")
 
 		for (el in particleElements)
@@ -688,6 +700,19 @@ class AtlasCreator
 		packedPaths.add(mergedName)
 
 		println("Added layered sprite: " + mergedName)
+
+		return true
+	}
+
+	private fun processMaskedTexture(element: XmlReader.Element): Boolean
+	{
+		for (el in element.children())
+		{
+			if (!tryPackSprite(el.text))
+			{
+				return false
+			}
+		}
 
 		return true
 	}

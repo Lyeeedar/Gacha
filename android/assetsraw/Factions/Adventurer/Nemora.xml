@@ -11,6 +11,7 @@
 				<Power>8</Power>
 				<Regeneration>0.01</Regeneration>
 			</Statistics>
+			<EquipmentWeight>Light</EquipmentWeight>
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
@@ -89,8 +90,8 @@
 								<RenderablePerTile>true</RenderablePerTile>
 							</DestinationRenderable>
 							<DestinationRenderable>
-								<Time>0.2431507</Time>
 								<Duration LockDuration="False">0.213698611</Duration>
+								<Time>0.2431507</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Heal</Name>
 									<Colour>0,235,71,255</Colour>
@@ -98,8 +99,8 @@
 								<RenderablePerTile>true</RenderablePerTile>
 							</DestinationRenderable>
 							<DestinationRenderable>
-								<Time>0.495205462</Time>
 								<Duration LockDuration="False">0.206849337</Duration>
+								<Time>0.495205462</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Heal</Name>
 									<Colour>0,235,71,255</Colour>
@@ -135,8 +136,8 @@
 								</Renderable>
 							</MovementRenderable>
 							<DestinationRenderable>
-								<Time>0.1979452</Time>
 								<Duration LockDuration="False">0.1979452</Duration>
+								<Time>0.1979452</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>HeartBurst</Name>
 								</Renderable>

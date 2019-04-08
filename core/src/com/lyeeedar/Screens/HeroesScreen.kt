@@ -146,7 +146,7 @@ class HeroesScreen : AbstractScreen()
 
 		// sprite and skills
 		val spriteAndSkillsTable = Table()
-		mainTable.add(spriteAndSkillsTable).growX().padTop(40f).padBottom(15f)
+		mainTable.add(spriteAndSkillsTable).growX().padTop(20f).padBottom(15f)
 		mainTable.row()
 
 		val leftSkillsColumn = Table()
@@ -207,26 +207,28 @@ class HeroesScreen : AbstractScreen()
 				hasEquipment = true
 
 				val equipmentStack = Stack()
-				val tileBack = SpriteWidget(AssetManager.loadSprite("Icons/Active"), 32f, 32f)
+				val tileBack = SpriteWidget(AssetManager.loadSprite("GUI/textured_back"), 48f, 48f)
+				tileBack.color = equip.ascension.colour.color()
 				equipmentStack.add(tileBack)
 
-				val tileFront = SpriteWidget(equip.icon.copy(), 32f, 32f)
+				val tileFront = MaskedTexture(equip.icon)
 				equipmentStack.add(tileFront)
+				equipmentStack.add(SpriteWidget(AssetManager.loadSprite("GUI/PortraitFrameBorder"), 48f, 48f))
 
-				equipmentTable.add(equipmentStack).size(32f).expandX().center()
+				equipmentTable.add(equipmentStack).size(48f).expandX().center()
 			}
 			else
 			{
 				val equipmentStack = Stack()
-				val tileBack = SpriteWidget(AssetManager.loadSprite("Icons/Empty"), 32f, 32f)
+				val tileBack = SpriteWidget(AssetManager.loadSprite("Icons/Empty"), 48f, 48f)
 				equipmentStack.add(tileBack)
 
-				val tileFront = SpriteWidget(slot.icon.copy(), 32f, 32f)
+				val tileFront = SpriteWidget(slot.icon.copy(), 48f, 48f)
 				tileFront.color = Color(0.6f, 0.6f, 0.6f, 0.5f)
 
 				equipmentStack.add(tileFront)
 
-				equipmentTable.add(equipmentStack).size(32f).expandX().center()
+				equipmentTable.add(equipmentStack).size(48f).expandX().center()
 			}
 		}
 

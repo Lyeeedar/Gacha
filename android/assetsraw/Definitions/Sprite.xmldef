@@ -98,4 +98,11 @@
 		<Data Name="MinRange" Name1="Min" Name2="Max" meta:RefKey="Vector" />
 		<Data Name="MaxRange" Name1="Min" Name2="Max" meta:RefKey="Vector" />
 	</Definition>
+	<Definition Name="MaskedTexture" IsGlobal="True" meta:RefKey="StructDef">
+		<Data Name="Base" BasePath="Sprites" StripExtension="True" AllowedFileTypes="png" Default="white" SkipIfDefault="False" meta:RefKey="File" />
+		<Data Name="Mask" BasePath="Sprites" StripExtension="True" AllowedFileTypes="png" Default="white" SkipIfDefault="False" meta:RefKey="File" />
+		<Data Name="Layer1" BasePath="Sprites" StripExtension="True" AllowedFileTypes="png" Default="white" SkipIfDefault="False" meta:RefKey="File" />
+		<Data Name="Layer2" BasePath="Sprites" StripExtension="True" AllowedFileTypes="png" Default="white" SkipIfDefault="False" meta:RefKey="File" />
+		<Data Name="Layer3" BasePath="Sprites" StripExtension="True" AllowedFileTypes="png" Default="white" SkipIfDefault="False" meta:RefKey="File" />
+	</Definition>
 </Definitions>

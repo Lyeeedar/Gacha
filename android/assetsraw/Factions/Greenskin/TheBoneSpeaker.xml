@@ -8,7 +8,7 @@
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
 			</Statistics>
-			<EquipmentWeight>Medium</EquipmentWeight>
+			<EquipmentWeight>Light</EquipmentWeight>
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>

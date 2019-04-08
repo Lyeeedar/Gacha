@@ -63,7 +63,8 @@
 			</Data>
 			<Data Name="Statistics" meta:RefKey="Struct">
 				<Data Name="Statistics" Keys="Statistics" Nullable="False" meta:RefKey="Reference" />
-				<Data Name="EquipmentWeight" EnumValues="Heavy,Medium,Light" Default="Medium" SkipIfDefault="False" meta:RefKey="Enum" />
+				<Data Name="EquipmentWeight" Key="EquipmentWeight" Default="Medium" SkipIfDefault="False" meta:RefKey="Enum" />
+				<Data Name="Equipment" Keys="EquipmentMap" meta:RefKey="Reference" />
 				<Data Name="Death" Keys="ParticleEffect" meta:RefKey="Reference" />
 				<Data Name="Attack" Nullable="False" meta:RefKey="Struct">
 					<Data Name="Damage" Min="0" Default="1" SkipIfDefault="False" meta:RefKey="Number" />

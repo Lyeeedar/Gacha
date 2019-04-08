@@ -1,26 +1,26 @@
 package com.lyeeedar.Game
 
 import com.badlogic.gdx.utils.Array
-import com.lyeeedar.Ascension
+import com.lyeeedar.*
 import com.lyeeedar.Components.EventAndCondition
 import com.lyeeedar.Components.applyAscensionAndLevel
-import com.lyeeedar.EquipmentWeight
-import com.lyeeedar.EventType
-import com.lyeeedar.Renderables.Sprite.Sprite
-import com.lyeeedar.Statistic
+import com.lyeeedar.Renderables.Sprite.MaskedTextureData
 import com.lyeeedar.Util.FastEnumMap
+import com.lyeeedar.Util.XmlData
 
 class Equipment
 {
-	val stats = FastEnumMap<Statistic, Float>(Statistic::class.java)
-	val eventHandlers = FastEnumMap<EventType, Array<EventAndCondition>>(EventType::class.java)
+	lateinit var name: String
+	lateinit var icon: MaskedTextureData
+
+	var weight: EquipmentWeight = EquipmentWeight.MEDIUM
+	var slot: EquipmentSlot = EquipmentSlot.WEAPON
 
 	var ascension: Ascension = Ascension.MUNDANE
 	var level: Int = 1
 
-	var equipmentWeight: EquipmentWeight = EquipmentWeight.MEDIUM
-
-	lateinit var icon: Sprite
+	val stats = FastEnumMap<Statistic, Float>(Statistic::class.java)
+	val eventHandlers = FastEnumMap<EventType, Array<EventAndCondition>>(EventType::class.java)
 
 	fun getStat(statistic: Statistic): Float
 	{
@@ -47,8 +47,39 @@ class Equipment
 		power += (power * (1f + getStat(Statistic.CRITDAMAGE))) * getStat(Statistic.CRITCHANCE)
 		power *= 1f + getStat(Statistic.HASTE)
 
-		val rating = hp + power
+		var rating = hp + power
+
+		for (handlers in eventHandlers)
+		{
+			rating *= 1f + 0.2f * handlers.size
+		}
 
 		return rating
+	}
+
+	fun parse(xmlData: XmlData)
+	{
+		name = xmlData.get("Name", "")!!
+		icon = MaskedTextureData(xmlData.getChildByName("Icon")!!)
+
+		weight = EquipmentWeight.valueOf(xmlData.get("Weight", "Medium")!!.toUpperCase())
+		slot = EquipmentSlot.valueOf(xmlData.get("Slot", "Weapon")!!.toUpperCase())
+
+		level = xmlData.getInt("Level", 1)
+		ascension = Ascension.valueOf(xmlData.get("Ascension", "Mundane")!!.toUpperCase())
+
+		Statistic.parse(xmlData.getChildByName("Statistics"), stats)
+		EventType.parseEvents(xmlData.getChildByName("EventHandlers"), eventHandlers)
+	}
+
+	companion object
+	{
+		fun load(xmlData: XmlData): Equipment
+		{
+			val equip = Equipment()
+			equip.parse(xmlData)
+
+			return equip
+		}
 	}
 }

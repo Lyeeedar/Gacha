@@ -22,4 +22,7 @@
 		<Data Name="DebuffPower" Min="0" meta:RefKey="Number" />
 	</Definition>
 	<Definition Name="Rarities" IsGlobal="True" meta:RefKey="EnumDef">Common,Uncommon,Rare</Definition>
+	<Definition Name="Ascensions" IsGlobal="True" meta:RefKey="EnumDef">Mundane,Exceptional,Extraordinary,Fabled,Legendary,Mythical,Divine</Definition>
+	<Definition Name="EquipmentWeight" IsGlobal="True" meta:RefKey="EnumDef">Heavy,Medium,Light</Definition>
+	<Definition Name="EquipmentSlot" IsGlobal="True" meta:RefKey="EnumDef">Head,Weapon,Body,Feet</Definition>
 </Definitions>
