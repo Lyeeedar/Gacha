@@ -7,14 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable
-import com.lyeeedar.Ascension
+import com.lyeeedar.*
 import com.lyeeedar.Components.*
 import com.lyeeedar.Game.EntityData
 import com.lyeeedar.Game.Faction
-import com.lyeeedar.Global
-import com.lyeeedar.MainGame
 import com.lyeeedar.Renderables.Sprite.Sprite
-import com.lyeeedar.Statistic
 import com.lyeeedar.UI.*
 import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.Colour
@@ -130,7 +127,7 @@ class HeroesScreen : AbstractScreen()
 			SpriteWidget(AssetManager.loadSprite("GUI/ascensionBar", colour = stats.ascension.colour), 48f, 48f)
 				.addTapToolTip("Ascension level " + (Ascension.values().indexOfFirst { it == stats.ascension } + 1)))
 
-		factionAscensionTable.add(SpriteWidget(AssetManager.loadSprite("GUI/attack_empty"), 32f, 32f))
+		factionAscensionTable.add(SpriteWidget(stats.equipmentWeight.icon.copy(), 32f, 32f).addTapToolTip("Wears ${stats.equipmentWeight.niceName} equipment."))
 		factionAscensionTable.row()
 
 		val ascensionLabel = Label(stats.ascension.toString().neaten(), Global.skin)
@@ -142,14 +139,14 @@ class HeroesScreen : AbstractScreen()
 
 		// name
 		val nameLabel = Label(entity.name().name, Global.skin, "title")
-		mainTable.add(nameLabel).expandX().center().padTop(15f)
+		mainTable.add(nameLabel).expandX().center().padTop(10f)
 		mainTable.row()
-		mainTable.add(Label(entity.name().title, Global.skin, "small")).expandX().center().padTop(2f).padBottom(15f)
+		mainTable.add(Label(entity.name().title, Global.skin, "small")).expandX().center().padTop(2f).padBottom(10f)
 		mainTable.row()
 
 		// sprite and skills
 		val spriteAndSkillsTable = Table()
-		mainTable.add(spriteAndSkillsTable).growX().padTop(40f).padBottom(20f)
+		mainTable.add(spriteAndSkillsTable).growX().padTop(40f).padBottom(15f)
 		mainTable.row()
 
 		val leftSkillsColumn = Table()
@@ -197,7 +194,58 @@ class HeroesScreen : AbstractScreen()
 
 		// equipment
 		val equipmentTable = Table()
-		mainTable.add(equipmentTable).grow()
+		mainTable.add(equipmentTable).growX().pad(5f)
+		mainTable.row()
+
+		var hasEquipment = false
+		for (slot in EquipmentSlot.Values)
+		{
+			val equip = stats.equipment[slot]
+
+			if (equip != null)
+			{
+				hasEquipment = true
+
+				val equipmentStack = Stack()
+				val tileBack = SpriteWidget(AssetManager.loadSprite("Icons/Active"), 32f, 32f)
+				equipmentStack.add(tileBack)
+
+				val tileFront = SpriteWidget(equip.icon.copy(), 32f, 32f)
+				equipmentStack.add(tileFront)
+
+				equipmentTable.add(equipmentStack).size(32f).expandX().center()
+			}
+			else
+			{
+				val equipmentStack = Stack()
+				val tileBack = SpriteWidget(AssetManager.loadSprite("Icons/Empty"), 32f, 32f)
+				equipmentStack.add(tileBack)
+
+				val tileFront = SpriteWidget(slot.icon.copy(), 32f, 32f)
+				tileFront.color = Color(0.6f, 0.6f, 0.6f, 0.5f)
+
+				equipmentStack.add(tileFront)
+
+				equipmentTable.add(equipmentStack).size(32f).expandX().center()
+			}
+		}
+
+		val removeEquipButton = TextButton("Remove Equipment", Global.skin)
+		if (hasEquipment)
+		{
+
+		}
+		else
+		{
+			removeEquipButton.color = Color.DARK_GRAY
+		}
+
+		val optimiseEquipButton = TextButton("Optimise Equipment", Global.skin)
+
+		val equipButtonsTable = Table()
+		equipButtonsTable.add(removeEquipButton).expandX().left()
+		equipButtonsTable.add(optimiseEquipButton).expandX().right()
+		mainTable.add(equipButtonsTable).growX().pad(5f)
 		mainTable.row()
 
 		mainTable.add(Seperator(Global.skin)).growX()
@@ -224,13 +272,13 @@ class HeroesScreen : AbstractScreen()
 		fun addSubtextNumber(text: String, value: Int)
 		{
 			val table = Table()
-			table.add(Label(value.prettyPrint(), Global.skin)).growX().center()
+			table.add(Label(value.prettyPrint(), Global.skin)).expandX().center()
 			table.row()
 			val textLabel = Label(text, Global.skin, "small")
-			textLabel.color = Color.DARK_GRAY
-			table.add(textLabel).growX().center()
+			textLabel.color = Color.GRAY
+			table.add(textLabel).expandX().center()
 
-			statsTable.add(table).growX()
+			statsTable.add(table).expandX()
 		}
 
 		addSubtextNumber("Level", stats.level)
@@ -286,33 +334,84 @@ class HeroesScreen : AbstractScreen()
 
 		// level up / ascend button
 		val levelButtonTable = Table()
-		mainTable.add(levelButtonTable).growX()
+		mainTable.add(levelButtonTable).growX().pad(5f)
 		mainTable.row()
 
-		val levelButton = TextButton("Level Up", Global.skin)
-		val ascendButton = TextButton("Ascend", Global.skin)
+		val levelTable = Table()
+		val expRequired = (100 * Math.pow(1.2, stats.level.toDouble())).toInt()
+		if (expRequired < Global.data.experience)
+		{
+			levelTable.add(Label("${expRequired.prettyPrint()} / ${Global.data.experience.prettyPrint()}", Global.skin, "small")).expandX().center().pad(2f)
+			levelTable.row()
 
-		levelButton.addClickListener {
-			entityData.level++
-			stats.level = entityData.level
+			val levelButton = TextButton("Level Up", Global.skin)
+			levelButton.addClickListener {
+				entityData.level++
+				stats.level = entityData.level
 
-			createHeroTable(entity, entityData, cameFromFaction)
-			recreateHeroesTable()
-		}
-
-		ascendButton.addClickListener {
-			if (stats.ascension != Ascension.Values.last())
-			{
-				entityData.ascension = Ascension.Values[Ascension.Values.indexOf(entityData.ascension) + 1]
-				stats.ascension = entityData.ascension
+				Global.data.experience -= expRequired
 
 				createHeroTable(entity, entityData, cameFromFaction)
 				recreateHeroesTable()
 			}
+			levelTable.add(levelButton).expandX().center()
+		}
+		else
+		{
+			levelTable.add(Label("[RED]${expRequired.prettyPrint()}[] / ${Global.data.experience.prettyPrint()}", Global.skin, "small")).expandX().center().pad(2f)
+			levelTable.row()
+			val levelButton = TextButton("Level Up", Global.skin)
+			levelButton.color = Color.DARK_GRAY
+			levelTable.add(levelButton).expandX().center()
 		}
 
-		levelButtonTable.add(levelButton).expandX().center().pad(5f)
-		levelButtonTable.add(ascendButton).expandX().center().pad(5f)
+		val ascensionTable = Table()
+		if (stats.ascension != Ascension.Values.last())
+		{
+			val nextAscension = Ascension.Values[Ascension.Values.indexOf(entityData.ascension) + 1]
+
+			if (entityData.ascensionShards >= nextAscension.shardsRequired)
+			{
+				ascensionTable.add(Label("${nextAscension.shardsRequired} / ${entityData.ascensionShards}", Global.skin, "small")).expandX().center().pad(2f)
+				ascensionTable.row()
+
+				val ascendButton = TextButton("Ascend", Global.skin)
+
+				ascendButton.addClickListener {
+					if (stats.ascension != Ascension.Values.last())
+					{
+						entityData.ascensionShards -= nextAscension.shardsRequired
+
+						entityData.ascension = nextAscension
+						stats.ascension = entityData.ascension
+
+						createHeroTable(entity, entityData, cameFromFaction)
+						recreateHeroesTable()
+					}
+				}
+				ascensionTable.add(ascendButton).expandX().center()
+			}
+			else
+			{
+				ascensionTable.add(Label("[RED]${nextAscension.shardsRequired}[] / ${entityData.ascensionShards}", Global.skin, "small")).expandX().center().pad(2f)
+				ascensionTable.row()
+
+				val ascendButton = TextButton("Ascend", Global.skin)
+				ascendButton.color = Color.DARK_GRAY
+				ascensionTable.add(ascendButton).expandX().center()
+			}
+		}
+		else
+		{
+			ascensionTable.add(Label("---", Global.skin, "small")).expandX().center().pad(2f)
+			ascensionTable.row()
+			val ascensionButton = TextButton("Max Ascension", Global.skin)
+			ascensionButton.color = Color.DARK_GRAY
+			ascensionTable.add(ascensionButton).expandX().center()
+		}
+
+		levelButtonTable.add(levelTable).expandX().center()
+		levelButtonTable.add(ascensionTable).expandX().center()
 
 		// back button
 		val backButtonTable = Table()
@@ -369,6 +468,10 @@ class HeroesScreen : AbstractScreen()
 			factionTable.add(Label(faction.name, Global.skin)).padLeft(10f)
 			factionTable.add(Label("2/6", Global.skin)).expandX().right()
 
+			factionTable.addClickListener {
+				createFactionTable(faction)
+			}
+
 			factionsTable.add(factionTable).pad(5f).growX()
 			factionsTable.row()
 		}
@@ -394,7 +497,103 @@ class HeroesScreen : AbstractScreen()
 
 	fun createFactionTable(faction: Faction)
 	{
+		mainTable.clear()
 
+		// icon
+		mainTable.add(SpriteWidget(faction.icon.copy(), 32f, 32f)).expandX().center().pad(20f)
+		mainTable.row()
+
+		// name
+		mainTable.add(Label(faction.name, Global.skin, "title")).expandX().center().pad(20f)
+		mainTable.row()
+
+		// description
+		mainTable.add(Label(faction.description, Global.skin).wrap()).growX().pad(20f)
+		mainTable.row()
+
+		mainTable.add(Seperator(Global.skin)).growX().pad(10f)
+		mainTable.row()
+
+		// buffs
+		mainTable.add(Label("Buffs gained when 2 or more of this faction are chosen to battle.", Global.skin, "small")).padTop(20f)
+		mainTable.row()
+
+		val buffsTable = Table()
+		for (i in 0 until faction.buffs.size)
+		{
+			val stack = Stack()
+			val widget = SpriteWidget(faction.icon.copy(), 32f, 32f)
+			stack.addTapToolTip(faction.name + " ${i+2}:\n\n" + faction.buffs[i].description)
+
+			val table = Table()
+			table.add(Label((i+2).toString(), Global.skin)).expand().bottom().right()
+
+			stack.add(widget)
+			stack.add(table)
+
+			buffsTable.add(stack).size(32f).pad(15f)
+		}
+		mainTable.add(buffsTable).growX().padBottom(20f)
+		mainTable.row()
+
+		mainTable.add(Seperator(Global.skin)).growX().pad(10f)
+		mainTable.row()
+
+		// heroes
+		val heroesTable = Table()
+		mainTable.add(heroesTable).grow().padTop(20f)
+		mainTable.row()
+
+		val heroesARow = 5
+		var x = 0
+		for (factionHero in faction.heroes)
+		{
+			val entityData = Global.data.heroPool.firstOrNull { it.factionEntity == factionHero }
+			if (entityData != null)
+			{
+				val entity = entityData.getEntity("1")
+
+				val heroWidget = HeroSelectionWidget(entity)
+				heroWidget.addClickListener {
+					createHeroTable(entity, entityData, true)
+				}
+
+				heroesTable.add(heroWidget).size((Global.resolution.x - (heroesARow * 2f) - 10f) / heroesARow.toFloat()).pad(2f)
+				x++
+				if (x == heroesARow)
+				{
+					x = 0
+					heroesTable.row()
+				}
+			}
+			else
+			{
+				val heroWidget = SpriteWidget(AssetManager.loadSprite("Icons/Unknown"), 32f, 32f)
+				heroWidget.addTapToolTip("Unknown hero. Rarity [GOLD]${factionHero.rarity.toString().neaten()}[].")
+
+				heroesTable.add(heroWidget).size((Global.resolution.x - (heroesARow * 2f) - 10f) / heroesARow.toFloat()).pad(2f)
+				x++
+				if (x == heroesARow)
+				{
+					x = 0
+					heroesTable.row()
+				}
+			}
+		}
+
+		heroesTable.row()
+		heroesTable.add(Table()).colspan(heroesARow).grow()
+
+		// back button
+		val backButtonTable = Table()
+		mainTable.add(backButtonTable).growX()
+		mainTable.row()
+
+		val backButton = TextButton("Back", Global.skin)
+		backButton.addClickListener {
+			createFactionsTable()
+		}
+		backButtonTable.add(backButton).expandX().left().pad(5f)
 	}
 
 	override fun doRender(delta: Float)

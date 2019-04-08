@@ -15,15 +15,15 @@ enum class BlendMode constructor(val src: Int, val dst: Int)
 }
 
 // ----------------------------------------------------------------------
-enum class Ascension(val multiplier: Float, val colour: Colour)
+enum class Ascension(val multiplier: Float, val colour: Colour, val shardsRequired: Int)
 {
-	MUNDANE(1f, Colour(152, 127, 95, 255, true)),
-	EXCEPTIONAL(1.2f, Colour(107, 193, 101, 255, true)),
-	EXTRAORDINARY(1.4f, Colour(79, 185, 243, 255, true)),
-	FABLED(1.6f, Colour(137, 20, 223, 255, true)),
-	LEGENDARY(2.0f, Colour(255, 219, 0, 255, true)),
-	MYTHICAL(2.5f, Colour(186, 0, 39, 255, true)),
-	DIVINE(3.0f, Colour(255, 221, 249, 255, true));
+	MUNDANE(1f, Colour(152, 127, 95, 255, true), 0),
+	EXCEPTIONAL(1.2f, Colour(107, 193, 101, 255, true), 3),
+	EXTRAORDINARY(1.4f, Colour(79, 185, 243, 255, true), 9),
+	FABLED(1.6f, Colour(137, 20, 223, 255, true), 27),
+	LEGENDARY(2.0f, Colour(255, 219, 0, 255, true), 50),
+	MYTHICAL(2.5f, Colour(186, 0, 39, 255, true), 100),
+	DIVINE(3.0f, Colour(255, 221, 249, 255, true), 150);
 
 	companion object
 	{
@@ -339,11 +339,11 @@ enum class Statistic private constructor(val min: Float, val max: Float, val mod
 }
 
 // ----------------------------------------------------------------------
-enum class EquipmentWeight(val icon: Sprite)
+enum class EquipmentWeight(val icon: Sprite, val niceName: String)
 {
-	HEAVY(AssetManager.loadSprite("Oryx/uf_split/uf_items/armor_plate_chest")),
-	MEDIUM(AssetManager.loadSprite("Oryx/uf_split/uf_items/armor_leather_boot")),
-	LIGHT(AssetManager.loadSprite("Oryx/uf_split/uf_items/cloak_ornate"))
+	HEAVY(AssetManager.loadSprite("Icons/EquipmentHeavy"), "Heavy"),
+	MEDIUM(AssetManager.loadSprite("Icons/EquipmentMedium"), "Medium"),
+	LIGHT(AssetManager.loadSprite("Icons/EquipmentLight"), "Light")
 }
 
 // ----------------------------------------------------------------------

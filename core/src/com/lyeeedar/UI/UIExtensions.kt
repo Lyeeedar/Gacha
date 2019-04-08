@@ -2,7 +2,9 @@ package com.lyeeedar.UI
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.lyeeedar.Global
 import com.lyeeedar.Util.AssetManager
@@ -46,4 +48,16 @@ fun showFullscreenText(text: String, minDuration: Float, exitAction: ()->Unit)
 fun Batch.setColor(col: Colour)
 {
 	this.setColor(col.toFloatBits())
+}
+
+fun Actor.tint(col: Color): Actor
+{
+	this.color = col
+	return this
+}
+
+fun Label.wrap(): Label
+{
+	this.setWrap(true)
+	return this
 }

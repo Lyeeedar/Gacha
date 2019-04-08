@@ -33,9 +33,18 @@ class EntityWidget(var entity: Entity?) : Widget()
 
 	override fun draw(batch: Batch, parentAlpha: Float)
 	{
-		batch.setColor(whiteColour)
+		if (entity == null)
+		{
+			batch.setColor(darkGray)
+		}
+		else
+		{
+			batch.setColor(whiteColour)
+		}
+
 		batch.draw(background, x, y, width, height)
 
+		batch.setColor(whiteColour)
 		val renderable = entity?.renderable()?.renderable as? Sprite
 		if (renderable != null)
 		{

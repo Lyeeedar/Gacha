@@ -27,7 +27,6 @@ import com.lyeeedar.UI.*
 import com.lyeeedar.UI.Tooltip
 import com.lyeeedar.Util.*
 import ktx.collections.set
-import ktx.collections.toGdxArray
 
 /**
  * Created by Philip on 04-Jul-16.
@@ -77,15 +76,14 @@ class Global
 			var faction = Faction.load("Adventurer/Adventurer")
 			for (hero in faction.heroes)
 			{
-				for (i in 0 until 30)
-				data.heroPool.add(EntityData(hero, Ascension.values().toGdxArray().random(), 1))
+				data.heroPool.add(EntityData(hero, Ascension.MUNDANE, 1))
 			}
 			data.unlockedFactions.add(faction)
 
 			faction = Faction.load("Greenskin/GreenskinAlliance")
 			for (hero in faction.heroes)
 			{
-				data.heroPool.add(EntityData(hero, Ascension.MUNDANE, 1))
+				//data.heroPool.add(EntityData(hero, Ascension.MUNDANE, 1))
 			}
 			data.unlockedFactions.add(faction)
 		}

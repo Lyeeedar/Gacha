@@ -275,13 +275,13 @@ class MapScreen : AbstractScreen()
 
 		for (faction in enemyFactions)
 		{
-			for (i in 0 until 4)
+			for (i in 0 until faction.value.faction.buffs.size)
 			{
 				if (faction.value.count >= 2+i)
 				{
 					val stack = Stack()
 					val widget = SpriteWidget(faction.value.faction.icon.copy(), 24f, 24f)
-					stack.addTapToolTip(faction.value.faction.name + " ${i+2}:\n" + faction.value.faction.buffs[i].description)
+					stack.addTapToolTip(faction.value.faction.name + " ${i+2}:\n\n" + faction.value.faction.buffs[i].description)
 
 					val table = Table()
 					table.add(Label((i+2).toString(), Global.skin, "small")).expand().bottom().right()
@@ -436,13 +436,13 @@ class MapScreen : AbstractScreen()
 
 		for (faction in playerFactions)
 		{
-			for (i in 0 until 4)
+			for (i in 0 until faction.value.faction.buffs.size)
 			{
 				if (faction.value.count >= 2+i)
 				{
 					val stack = Stack()
 					val widget = SpriteWidget(faction.value.faction.icon.copy(), 24f, 24f)
-					stack.addTapToolTip(faction.value.faction.name + " ${i+2}:\n" + faction.value.faction.buffs[i].description)
+					stack.addTapToolTip(faction.value.faction.name + " ${i+2}:\n\n" + faction.value.faction.buffs[i].description)
 
 					val table = Table()
 					table.add(Label((i+2).toString(), Global.skin, "small")).expand().bottom().right()

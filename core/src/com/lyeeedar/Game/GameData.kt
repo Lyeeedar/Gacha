@@ -14,6 +14,8 @@ class GameData
 	val unlockedFactions = Array<Faction>()
 
 	val lastSelectedHeroes = kotlin.Array<String?>(5) { null }
+
+	var experience = 100000
 }
 
 class EntityData()
@@ -21,6 +23,8 @@ class EntityData()
 	lateinit var factionEntity: FactionEntity
 	var ascension: Ascension = Ascension.MUNDANE
 	var level: Int = 0
+
+	var ascensionShards = 10
 
 	constructor(entity: FactionEntity, ascension: Ascension, level: Int) : this()
 	{
