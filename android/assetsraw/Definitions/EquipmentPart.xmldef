@@ -4,6 +4,7 @@
 		<Data Name="Type" EnumValues="Prefix,Material,Suffix" SkipIfDefault="False" meta:RefKey="Enum" />
 		<Data Name="AllowedSlots" Key="EquipmentSlot" SkipIfDefault="False" meta:RefKey="Flags" />
 		<Data Name="AllowedWeights" Key="EquipmentWeight" SkipIfDefault="False" meta:RefKey="Flags" />
+		<Data Name="Rarity" Key="Rarities" SkipIfDefault="False" meta:RefKey="Enum" />
 		<!--Data-->
 		<Data Name="Parts" meta:RefKey="Collection">
 			<Data Name="Part" meta:RefKey="Struct">

@@ -1,0 +1,21 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Weapon</AllowedSlots>
+	<AllowedWeights>Heavy,Medium,Light</AllowedWeights>
+	<Rarity>Rare</Rarity>
+	<Parts>
+		<Part>
+			<Name>Blood Iron</Name>
+			<MinLevel>70</MinLevel>
+			<MinAscension>Fabled</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/bloodiron</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>1</MaxHP>
+				<Power>2</Power>
+				<LifeSteal>0.1</LifeSteal>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

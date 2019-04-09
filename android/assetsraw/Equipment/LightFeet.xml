@@ -1,18 +1,18 @@
 <Equipment xmlns:meta="Editor">
-	<Name>Chestplate</Name>
+	<Name>Boots</Name>
 	<Icon meta:RefKey="MaskedTexture">
-		<Base>Oryx/Custom/items/heavy_body</Base>
-		<Mask>Oryx/Custom/items/heavy_body_mask</Mask>
-		<Layer1>Oryx/Custom/textures/iron</Layer1>
+		<Base>Oryx/Custom/items/light_foot</Base>
+		<Mask>Oryx/Custom/items/light_foot_mask</Mask>
+		<Layer1>Oryx/Custom/textures/cloth</Layer1>
 		<Layer2>Oryx/Custom/textures/fur_brown</Layer2>
-		<Layer3>Oryx/Custom/textures/steel</Layer3>
+		<Layer3>Oryx/Custom/textures/gold</Layer3>
 	</Icon>
 	<Weight>Heavy</Weight>
-	<Slot>Body</Slot>
+	<Slot>Feet</Slot>
 	<Level>1</Level>
 	<Ascension>Mundane</Ascension>
 	<Statistics meta:RefKey="Statistics">
-		<MaxHP>10</MaxHP>
-		<DR>0.05</DR>
+		<MaxHP>4</MaxHP>
+		<Haste>0.15</Haste>
 	</Statistics>
 </Equipment>

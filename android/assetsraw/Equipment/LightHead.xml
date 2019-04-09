@@ -1,0 +1,18 @@
+<Equipment xmlns:meta="Editor">
+	<Name>Hat</Name>
+	<Icon meta:RefKey="MaskedTexture">
+		<Base>Oryx/Custom/items/light_head</Base>
+		<Mask>Oryx/Custom/items/light_head_mask</Mask>
+		<Layer1>Oryx/Custom/textures/cloth</Layer1>
+		<Layer2>Oryx/Custom/textures/fur_brown</Layer2>
+		<Layer3>Oryx/Custom/textures/gold</Layer3>
+	</Icon>
+	<Weight>Light</Weight>
+	<Slot>Head</Slot>
+	<Level>1</Level>
+	<Ascension>Mundane</Ascension>
+	<Statistics meta:RefKey="Statistics">
+		<MaxHP>2</MaxHP>
+		<Power>2</Power>
+	</Statistics>
+</Equipment>

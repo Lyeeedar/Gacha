@@ -37,8 +37,8 @@ class TextureCompressor
 			}
 		}
 
-		findFilesRecursive(File("../assetsraw").absoluteFile)
-		parseCodeFilesRecursive(File("../../core/src").absoluteFile)
+		//findFilesRecursive(File("../assetsraw").absoluteFile)
+		//parseCodeFilesRecursive(File("../../core/src").absoluteFile)
 		processAtlas()
 
 		var output = ""

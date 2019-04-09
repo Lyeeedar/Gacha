@@ -1,0 +1,20 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Weapon</AllowedSlots>
+	<AllowedWeights>Heavy,Medium,Light</AllowedWeights>
+	<Rarity>Uncommon</Rarity>
+	<Parts>
+		<Part>
+			<Name>Bone</Name>
+			<MinLevel>1</MinLevel>
+			<MinAscension>Mundane</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/bone</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<Power>0.1</Power>
+				<CritChance>0.1</CritChance>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

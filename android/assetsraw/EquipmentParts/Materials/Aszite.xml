@@ -1,0 +1,21 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Head,Body,Feet</AllowedSlots>
+	<AllowedWeights>Heavy,Medium</AllowedWeights>
+	<Rarity>Uncommon</Rarity>
+	<Parts>
+		<Part>
+			<Name>Aszite</Name>
+			<MinLevel>30</MinLevel>
+			<MinAscension>Extraordinary</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/aszite</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<AbilityPower>0.2</AbilityPower>
+				<BuffDuration>0.1</BuffDuration>
+				<BuffPower>0.1</BuffPower>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

@@ -1,0 +1,41 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Head,Body,Feet</AllowedSlots>
+	<AllowedWeights>Heavy,Medium</AllowedWeights>
+	<Rarity>Common</Rarity>
+	<Parts>
+		<Part>
+			<Name>Iron</Name>
+			<MinLevel>1</MinLevel>
+			<MinAscension>Mundane</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/iron</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>1</MaxHP>
+			</Statistics>
+		</Part>
+		<Part>
+			<Name>Steel</Name>
+			<MinLevel>30</MinLevel>
+			<MinAscension>Exceptional</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/steel</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>3</MaxHP>
+			</Statistics>
+		</Part>
+		<Part>
+			<Name>Adamantium</Name>
+			<MinLevel>60</MinLevel>
+			<MinAscension>Extraordinary</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/adamantium</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>6</MaxHP>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

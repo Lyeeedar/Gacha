@@ -9,6 +9,8 @@ import kotlinx.coroutines.experimental.launch
 import squidpony.squidmath.LightRNG
 import kotlin.coroutines.experimental.buildSequence
 
+fun <T> kotlin.Array<T>.random(ran: LightRNG = Random.random): T = this[ran.nextInt(this.size)]
+
 fun <T> com.badlogic.gdx.utils.Array<T>.tryGet(i: Int): T = this[MathUtils.clamp(i, 0, this.size-1)]
 fun <T> com.badlogic.gdx.utils.Array<T>.random(ran: LightRNG = Random.random): T = this[ran.nextInt(this.size)]
 fun <T> com.badlogic.gdx.utils.Array<T>.randomOrNull(ran: LightRNG = Random.random): T? = if (this.size == 0) null else this[ran.nextInt(this.size)]

@@ -23,12 +23,13 @@ class XmlData
 	val childCount: Int
 		get() = children.size
 
-	lateinit var attributeMap: IntMap<XmlAttributeData>
+	var attributeMap: IntMap<XmlAttributeData> = IntMap()
 
 	var value: Any? = null
 
 	constructor()
-	{}
+	{
+	}
 
 	constructor(handle: FileHandle)
 	{

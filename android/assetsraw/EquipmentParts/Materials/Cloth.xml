@@ -1,0 +1,44 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Head,Body,Feet</AllowedSlots>
+	<AllowedWeights>Medium,Light</AllowedWeights>
+	<Rarity>Common</Rarity>
+	<Parts>
+		<Part>
+			<Name>Cloth</Name>
+			<MinLevel>1</MinLevel>
+			<MinAscension>Mundane</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/cloth</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>0.5</MaxHP>
+			</Statistics>
+		</Part>
+		<Part>
+			<Name>Silk</Name>
+			<MinLevel>30</MinLevel>
+			<MinAscension>Exceptional</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/silk</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>1</MaxHP>
+				<Haste>0.05</Haste>
+			</Statistics>
+		</Part>
+		<Part>
+			<Name>Sliverweave</Name>
+			<MinLevel>60</MinLevel>
+			<MinAscension>Extraordinary</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/sliverweave</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>3</MaxHP>
+				<CritChance>0.1</CritChance>
+				<Haste>0.05</Haste>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

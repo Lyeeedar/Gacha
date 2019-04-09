@@ -1,0 +1,19 @@
+<Equipment xmlns:meta="Editor">
+	<Name>Blade</Name>
+	<Icon meta:RefKey="MaskedTexture">
+		<Base>Oryx/Custom/items/medium_weapon</Base>
+		<Mask>Oryx/Custom/items/medium_weapon_mask</Mask>
+		<Layer1>Oryx/Custom/textures/iron</Layer1>
+		<Layer2>Oryx/Custom/textures/wood</Layer2>
+		<Layer3>Oryx/Custom/textures/gold</Layer3>
+	</Icon>
+	<Weight>Medium</Weight>
+	<Slot>Weapon</Slot>
+	<Level>1</Level>
+	<Ascension>Mundane</Ascension>
+	<Statistics meta:RefKey="Statistics">
+		<Power>4</Power>
+		<CritChance>0.1</CritChance>
+		<CritDamage>0.5</CritDamage>
+	</Statistics>
+</Equipment>

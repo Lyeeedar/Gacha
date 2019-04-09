@@ -1,0 +1,19 @@
+<Equipment xmlns:meta="Editor">
+	<Name>Robe</Name>
+	<Icon meta:RefKey="MaskedTexture">
+		<Base>Oryx/Custom/items/light_body</Base>
+		<Mask>Oryx/Custom/items/light_body_mask</Mask>
+		<Layer1>Oryx/Custom/textures/cloth</Layer1>
+		<Layer2>Oryx/Custom/textures/fur_brown</Layer2>
+		<Layer3>Oryx/Custom/textures/gold</Layer3>
+	</Icon>
+	<Weight>Light</Weight>
+	<Slot>Body</Slot>
+	<Level>1</Level>
+	<Ascension>Mundane</Ascension>
+	<Statistics meta:RefKey="Statistics">
+		<MaxHP>5</MaxHP>
+		<CritChance>0.1</CritChance>
+		<AbilityPower>0.3</AbilityPower>
+	</Statistics>
+</Equipment>
