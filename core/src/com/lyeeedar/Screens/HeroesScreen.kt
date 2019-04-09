@@ -128,7 +128,7 @@ class HeroesScreen : AbstractScreen()
 
 		factionAscensionTable.add(
 			SpriteWidget(AssetManager.loadSprite("GUI/ascensionBar", colour = stats.ascension.colour), 48f, 48f)
-				.addTapToolTip("Ascension level " + (Ascension.values().indexOfFirst { it == stats.ascension } + 1)))
+				.addTapToolTip("Ascension level " + (stats.ascension.ordinal + 1)))
 
 		factionAscensionTable.add(SpriteWidget(stats.equipmentWeight.icon.copy(), 32f, 32f).addTapToolTip("Wears ${stats.equipmentWeight.niceName} equipment."))
 		factionAscensionTable.row()
@@ -209,19 +209,9 @@ class HeroesScreen : AbstractScreen()
 			{
 				hasEquipment = true
 
-				val equipmentStack = Stack()
-				val tileBack = SpriteWidget(AssetManager.loadSprite("GUI/textured_back"), 48f, 48f)
-				tileBack.color = equip.ascension.colour.color()
-				equipmentStack.add(tileBack)
-				equipmentStack.add(SpriteWidget(Sprite(equip.fullIcon.glow), 48f, 48f).tint(equip.ascension.colour.copy().a(0.7f).color()))
+				val tile = equip.createTile(48f)
 
-				val tileFront = MaskedTexture(equip.fullIcon)
-				equipmentStack.add(tileFront)
-				equipmentStack.add(SpriteWidget(AssetManager.loadSprite("GUI/PortraitFrameBorder"), 48f, 48f))
-
-				equipmentTable.add(equipmentStack).size(48f).expandX().center()
-
-				equipmentStack.addClickListener {
+				tile.addClickListener {
 
 					val card = CardWidget(equip.createCardTable(), equip.createCardTable(), equip.icon.base, null)
 					card.setFacing(true, false)
@@ -254,6 +244,8 @@ class HeroesScreen : AbstractScreen()
 					CardWidget.layoutCards(gdxArrayOf(card), Direction.CENTER)
 					card.focus()
 				}
+
+				equipmentTable.add(tile).size(48f).expandX().center()
 			}
 			else
 			{
@@ -568,7 +560,7 @@ class HeroesScreen : AbstractScreen()
 		{
 			val equipTable = Table()
 
-			equipTable.add(MaskedTexture(equip.fullIcon)).size(24f).pad(5f)
+			equipTable.add(equip.createTile(24f)).size(24f).pad(5f)
 			equipTable.add(Label(equip.fullName, Global.skin, "small")).pad(5f)
 			equipTable.add(Label(equip.calculatePowerRating().toInt().prettyPrint(), Global.skin).tint(Color.GOLD)).expandX().right().pad(5f)
 

@@ -11,6 +11,7 @@ import com.lyeeedar.*
 import com.lyeeedar.Components.EventAndCondition
 import com.lyeeedar.Components.applyAscensionAndLevel
 import com.lyeeedar.Renderables.Sprite.MaskedTextureData
+import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.UI.*
 import com.lyeeedar.Util.*
 import kotlin.coroutines.experimental.buildSequence
@@ -115,6 +116,37 @@ class Equipment : IEquipmentStatsProvider
 		return rating
 	}
 
+	fun createTile(size: Float): Table
+	{
+		val equipmentStack = Stack()
+		if (ascension == Ascension.DIVINE || ascension == Ascension.LEGENDARY)
+		{
+			val tileBack = SpriteWidget(AssetManager.loadSprite("GUI/textured_back_bright"), size, size)
+			tileBack.color = ascension.colour.color()
+			equipmentStack.add(tileBack)
+		}
+		else
+		{
+			val tileBack = SpriteWidget(AssetManager.loadSprite("GUI/textured_back"), size, size)
+			tileBack.color = ascension.colour.color()
+			equipmentStack.add(tileBack)
+		}
+
+		equipmentStack.add(
+			SpriteWidget(AssetManager.loadSprite("GUI/background_stars"), size, size)
+				.tint(Color(1f, 1f, 1f, ascension.ordinal.toFloat() / Ascension.Values.size.toFloat())))
+		equipmentStack.add(SpriteWidget(Sprite(fullIcon.glow), size, size).tint(ascension.colour.color().lerp(Color.WHITE, 0.6f)))
+
+		val tileFront = MaskedTexture(fullIcon)
+		equipmentStack.add(tileFront)
+		equipmentStack.add(SpriteWidget(AssetManager.loadSprite("GUI/PortraitFrameBorder"), size, size))
+		equipmentStack.add(SpriteWidget(AssetManager.loadSprite("GUI/EquipmentBorder"), size, size).tint(ascension.colour.color()))
+
+		val table = Table()
+		table.add(equipmentStack).grow()
+		return table
+	}
+
 	fun createCardTable(): Table
 	{
 		val table = Table()
@@ -125,7 +157,9 @@ class Equipment : IEquipmentStatsProvider
 		slotStack.add(SpriteWidget(slot.icon.copy(), 32f, 32f))
 		slotStack.addTapToolTip("${slot.name.neaten()} slot.")
 		ascensionTable.add(slotStack)
-		ascensionTable.add(SpriteWidget(AssetManager.loadSprite("GUI/ascensionBar", colour = ascension.colour), 48f, 48f))
+		ascensionTable.add(
+			SpriteWidget(AssetManager.loadSprite("GUI/ascensionBar", colour = ascension.colour), 48f, 48f)
+				.addTapToolTip("Ascension level " + (ascension.ordinal + 1)))
 		ascensionTable.add(SpriteWidget(weight.icon.copy(), 32f, 32f).addTapToolTip("${weight.niceName} equipment."))
 		ascensionTable.row()
 		ascensionTable.add(Label(ascension.toString().neaten(), Global.skin).tint(ascension.colour.color())).colspan(3).center()
@@ -134,7 +168,11 @@ class Equipment : IEquipmentStatsProvider
 		table.row()
 		table.add(Label(fullName, Global.skin, "cardtitle").wrap().align(Align.center)).growX().center()
 		table.row()
-		table.add(MaskedTexture(fullIcon)).size(64f).expandX().center()
+
+		val imageStack = Stack()
+		imageStack.add(SpriteWidget(Sprite(fullIcon.glow), 64f, 64f).tint(Color(1f, 1f, 1f, 0.75f)))
+		imageStack.add(MaskedTexture(fullIcon))
+		table.add(imageStack).size(64f).expandX().center()
 		table.row()
 
 		val levelPowerTable = Table()

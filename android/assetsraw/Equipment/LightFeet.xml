@@ -8,7 +8,7 @@
 		<Layer2>Oryx/Custom/textures/fur_brown</Layer2>
 		<Layer3>Oryx/Custom/textures/gold</Layer3>
 	</Icon>
-	<Weight>Heavy</Weight>
+	<Weight>Light</Weight>
 	<Slot>Feet</Slot>
 	<Level>1</Level>
 	<Ascension>Mundane</Ascension>
