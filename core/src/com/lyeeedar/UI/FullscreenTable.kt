@@ -19,6 +19,8 @@ open class FullscreenTable(opacity: Float = 0.4f) : Table()
 {
 	val onClosed = Event0Arg()
 
+	var closeButton: Button? = null
+
 	init
 	{
 		background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(0f, 0f, 0f, opacity))
@@ -31,6 +33,7 @@ open class FullscreenTable(opacity: Float = 0.4f) : Table()
 	override fun remove(): Boolean
 	{
 		onClosed()
+		closeButton?.remove()
 		return super.remove()
 	}
 
@@ -38,7 +41,7 @@ open class FullscreenTable(opacity: Float = 0.4f) : Table()
 	{
 		var openCount = 0
 
-		fun createCloseable(content: Table)
+		fun createCloseable(content: Table): Table
 		{
 			val xPad = 15f * (openCount+1)
 
@@ -60,8 +63,11 @@ open class FullscreenTable(opacity: Float = 0.4f) : Table()
 			closeButton.setPosition(Global.stage.width - 35 - xPad, Global.stage.height - 50)
 
 			Global.stage.addActor(closeButton)
+			table.closeButton = closeButton
 
 			openCount++
+
+			return table
 		}
 	}
 }

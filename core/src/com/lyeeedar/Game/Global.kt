@@ -16,10 +16,7 @@ import com.badlogic.gdx.utils.ObjectSet
 import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
-import com.lyeeedar.Game.EntityData
-import com.lyeeedar.Game.Faction
-import com.lyeeedar.Game.GameData
-import com.lyeeedar.Game.Level
+import com.lyeeedar.Game.*
 import com.lyeeedar.Screens.AbstractScreen
 import com.lyeeedar.Systems.createEngine
 import com.lyeeedar.Systems.level
@@ -86,6 +83,12 @@ class Global
 				//data.heroPool.add(EntityData(hero, Ascension.MUNDANE, 1))
 			}
 			data.unlockedFactions.add(faction)
+
+			for (i in 0 until 50)
+			{
+				val equip = EquipmentCreator.create(EquipmentSlot.Values.random(), EquipmentWeight.values().random(), Random.random(100), Ascension.values().random(), Random.random)
+				data.equipment.add(equip)
+			}
 		}
 
 		fun newGame()

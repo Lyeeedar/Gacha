@@ -5,13 +5,17 @@ import com.badlogic.gdx.utils.Array
 import com.lyeeedar.Ascension
 import com.lyeeedar.Components.EntityLoader
 import com.lyeeedar.Components.stats
+import com.lyeeedar.EquipmentSlot
 import com.lyeeedar.Global
 import com.lyeeedar.Systems.directionSprite
+import com.lyeeedar.Util.FastEnumMap
 
 class GameData
 {
 	val heroPool = Array<EntityData>()
 	val unlockedFactions = Array<Faction>()
+
+	val equipment = Array<Equipment>()
 
 	val lastSelectedHeroes = kotlin.Array<String?>(5) { null }
 
@@ -23,6 +27,8 @@ class EntityData()
 	lateinit var factionEntity: FactionEntity
 	var ascension: Ascension = Ascension.MUNDANE
 	var level: Int = 0
+
+	val equipment = FastEnumMap<EquipmentSlot, Equipment>(EquipmentSlot::class.java)
 
 	var ascensionShards = 10
 
@@ -42,6 +48,11 @@ class EntityData()
 		stats.faction = faction
 		stats.factionData = factionEntity.faction
 		stats.resetHP()
+
+		for (slot in EquipmentSlot.Values)
+		{
+			stats.equipment[slot] = equipment[slot]
+		}
 
 		Global.engine.directionSprite().processEntity(entity, 0f)
 

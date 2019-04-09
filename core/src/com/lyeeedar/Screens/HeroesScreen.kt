@@ -7,9 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable
+import com.badlogic.gdx.utils.Array
 import com.lyeeedar.*
 import com.lyeeedar.Components.*
 import com.lyeeedar.Game.EntityData
+import com.lyeeedar.Game.Equipment
 import com.lyeeedar.Game.Faction
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.UI.*
@@ -17,6 +19,7 @@ import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.Colour
 import com.lyeeedar.Util.neaten
 import com.lyeeedar.Util.prettyPrint
+import ktx.collections.gdxArrayOf
 
 class HeroesScreen : AbstractScreen()
 {
@@ -216,6 +219,40 @@ class HeroesScreen : AbstractScreen()
 				equipmentStack.add(SpriteWidget(AssetManager.loadSprite("GUI/PortraitFrameBorder"), 48f, 48f))
 
 				equipmentTable.add(equipmentStack).size(48f).expandX().center()
+
+				equipmentStack.addClickListener {
+
+					val card = CardWidget(equip.createCardTable(), equip.createCardTable(), equip.icon.base, null)
+					card.setFacing(true, false)
+
+					card.addPick("Change", {
+						createEquipmentTable(stats, entityData, slot, {
+							recreateHeroesTable()
+							createHeroTable(entity, entityData, cameFromFaction)
+						})
+					})
+
+					card.addPick("Remove", {
+						val equip = stats.equipment[slot]
+						if (equip != null)
+						{
+							Global.data.equipment.add(equip)
+							stats.equipment[slot] = null
+							entityData.equipment[slot] = null
+
+							recreateHeroesTable()
+							createHeroTable(entity, entityData, cameFromFaction)
+						}
+					})
+
+					card.collapseFun = {
+						card.remove()
+					}
+
+					stage.addActor(card)
+					CardWidget.layoutCards(gdxArrayOf(card), Direction.CENTER)
+					card.focus()
+				}
 			}
 			else
 			{
@@ -229,13 +266,31 @@ class HeroesScreen : AbstractScreen()
 				equipmentStack.add(tileFront)
 
 				equipmentTable.add(equipmentStack).size(48f).expandX().center()
+
+				equipmentStack.addClickListener {
+					createEquipmentTable(stats, entityData, slot, {
+						recreateHeroesTable()
+						createHeroTable(entity, entityData, cameFromFaction)
+					})
+				}
 			}
 		}
 
 		val removeEquipButton = TextButton("Remove Equipment", Global.skin)
 		if (hasEquipment)
 		{
+			removeEquipButton.addClickListener {
+				for (slot in EquipmentSlot.Values)
+				{
+					val equip = stats.equipment[slot] ?: continue
+					Global.data.equipment.add(equip)
+					stats.equipment[slot] = null
+					entityData.equipment[slot] = null
+				}
 
+				recreateHeroesTable()
+				createHeroTable(entity, entityData, cameFromFaction)
+			}
 		}
 		else
 		{
@@ -243,6 +298,34 @@ class HeroesScreen : AbstractScreen()
 		}
 
 		val optimiseEquipButton = TextButton("Optimise Equipment", Global.skin)
+		optimiseEquipButton.addClickListener {
+			for (slot in EquipmentSlot.Values)
+			{
+				val valid = Array<Equipment>()
+				if (stats.equipment[slot] != null) valid.add(stats.equipment[slot])
+
+				for (equip in Global.data.equipment)
+				{
+					if (equip.slot == slot && equip.weight == stats.equipmentWeight)
+					{
+						valid.add(equip)
+					}
+				}
+
+				if (valid.size > 0)
+				{
+					if (stats.equipment[slot] != null) Global.data.equipment.add(stats.equipment[slot])
+
+					val best = valid.maxBy { it.calculatePowerRating() }
+					stats.equipment[slot] = best
+					entityData.equipment[slot] = best
+					Global.data.equipment.removeValue(best, true)
+				}
+			}
+
+			recreateHeroesTable()
+			createHeroTable(entity, entityData, cameFromFaction)
+		}
 
 		val equipButtonsTable = Table()
 		equipButtonsTable.add(removeEquipButton).expandX().left()
@@ -432,6 +515,111 @@ class HeroesScreen : AbstractScreen()
 			}
 		}
 		backButtonTable.add(backButton).expandX().left().pad(5f)
+	}
+
+	fun createEquipmentTable(stats: StatisticsComponent, entityData: EntityData, slot: EquipmentSlot, refreshFunc: () -> Unit)
+	{
+		val table = Table()
+		val fullscreenTable = FullscreenTable.createCloseable(table)
+
+		val equipped = stats.equipment[slot]
+		if (equipped != null)
+		{
+			table.add(Label("Equipped", Global.skin, "title")).expandX().center().pad(10f)
+			table.row()
+
+			val equipTable = Table()
+
+			equipTable.add(MaskedTexture(equipped.fullIcon)).size(24f).pad(2f)
+			equipTable.add(Label(equipped.fullName, Global.skin, "small")).pad(2f)
+			equipTable.add(Label(equipped.calculatePowerRating().toInt().prettyPrint(), Global.skin).tint(Color.GOLD)).expandX().right().pad(2f)
+
+			equipTable.addClickListener {
+				val card = CardWidget(equipped.createCardTable(), equipped.createCardTable(), equipped.icon.base, equipped)
+				card.collapseFun = {
+					card.remove()
+				}
+
+				card.setFacing(true, false)
+				stage.addActor(card)
+				CardWidget.layoutCards(gdxArrayOf(card), Direction.CENTER)
+				card.focus()
+			}
+
+			table.add(equipTable).growX()
+			table.row()
+		}
+
+		val equipmentList = Table()
+
+		val valid = Array<Equipment>()
+		for (equip in Global.data.equipment)
+		{
+			if (equip.slot == slot && equip.weight == stats.equipmentWeight)
+			{
+				valid.add(equip)
+			}
+		}
+
+		var bright = true
+		val sorted = valid.sortedByDescending { it.calculatePowerRating() }
+		for (equip in sorted)
+		{
+			val equipTable = Table()
+
+			equipTable.add(MaskedTexture(equip.fullIcon)).size(24f).pad(5f)
+			equipTable.add(Label(equip.fullName, Global.skin, "small")).pad(5f)
+			equipTable.add(Label(equip.calculatePowerRating().toInt().prettyPrint(), Global.skin).tint(Color.GOLD)).expandX().right().pad(5f)
+
+			if (bright)
+			{
+				equipTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(1f, 1f, 1f, 0.1f))
+			}
+
+			equipTable.addClickListener {
+				val card = CardWidget(equip.createCardTable(), equip.createCardTable(), equip.icon.base, equip)
+				card.addPick("Equip",
+							 {
+								 val existing = stats.equipment[slot]
+								 if (existing != null)
+								 {
+									 Global.data.equipment.add(existing)
+								 }
+
+								 stats.equipment[slot] = equip
+								 entityData.equipment[slot] = equip
+								 Global.data.equipment.removeValue(equip, true)
+								 fullscreenTable.remove()
+								 card.remove()
+
+								 refreshFunc.invoke()
+							 })
+				card.collapseFun = {
+					card.remove()
+				}
+
+				card.setFacing(true, false)
+				stage.addActor(card)
+				CardWidget.layoutCards(gdxArrayOf(card), Direction.CENTER)
+				card.focus()
+			}
+
+			equipmentList.add(equipTable).growX()
+			equipmentList.row()
+
+			bright = !bright
+		}
+		equipmentList.add(Table()).grow()
+
+		val scroll = ScrollPane(equipmentList)
+		scroll.setFadeScrollBars(false)
+		scroll.setScrollingDisabled(true, false)
+		scroll.setOverscroll(false, false)
+		scroll.setForceScroll(false, true)
+
+		table.add(Label("Equipment", Global.skin, "title")).expandX().center().padTop(10f)
+		table.row()
+		table.add(scroll).grow()
 	}
 
 	val factionsContentTable = Table()
