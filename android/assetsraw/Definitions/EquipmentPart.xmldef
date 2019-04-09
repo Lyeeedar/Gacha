@@ -10,6 +10,7 @@
 			<Data Name="Part" meta:RefKey="Struct">
 				<!--Part-->
 				<Data Name="Name" SkipIfDefault="False" meta:RefKey="String" />
+				<Data Name="Description" SkipIfDefault="False" meta:RefKey="String" />
 				<Data Name="MinLevel" Type="Int" Min="1" Default="1" SkipIfDefault="False" meta:RefKey="Number" />
 				<Data Name="MinAscension" Key="Ascensions" SkipIfDefault="False" meta:RefKey="Enum" />
 				<Data Name="Layer" Keys="Texture" meta:RefKey="Reference" />

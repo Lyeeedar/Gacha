@@ -44,7 +44,10 @@ class EventSystem : AbstractSystem()
 
 				for (equip in stats.equipment)
 				{
-					checkHandlers(event, equip.eventHandlers)
+					for (provider in equip.statsProviders)
+					{
+						checkHandlers(event, provider.eventHandlers)
+					}
 				}
 			}
 

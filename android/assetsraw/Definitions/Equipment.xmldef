@@ -3,6 +3,7 @@
 	<Definition Name="Equipment" meta:RefKey="Struct">
 		<!--UI stuff-->
 		<Data Name="Name" meta:RefKey="String" />
+		<Data Name="Description" meta:RefKey="String" />
 		<Data Name="Icon" Keys="MaskedTexture" Nullable="False" meta:RefKey="Reference" />
 		<!--Enums-->
 		<Data Name="Weight" Key="EquipmentWeight" SkipIfDefault="False" meta:RefKey="Enum" />

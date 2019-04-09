@@ -305,15 +305,15 @@ enum class Direction private constructor(val x: Int, val y: Int, val identifier:
 // ----------------------------------------------------------------------
 enum class Statistic private constructor(val min: Float, val max: Float, val modifiersAreAdded: Boolean, val niceName: String, val tooltip: String)
 {
-	MAXHP(1f, Float.MAX_VALUE, false, "Health", "The amount of damage you can take before dieing"),
-	POWER(1f, Float.MAX_VALUE, false, "Power", "The damage of your attacks and the effectiveness of your abilities"),
-	DR(-1f, 1f, true, "Damage Resistance", "Your resistance to damage"),
-	CRITCHANCE(0f, 1f, true, "Critical Chance", "The chance to deal a critical hit anytime you deal damage"),
-	CRITDAMAGE(1f, Float.MAX_VALUE, true, "Critical Damage", "The multiplier to your damage when you deal a critical hit"),
+	MAXHP(1f, Float.MAX_VALUE, false, "Health", "The amount of damage you can take before dieing."),
+	POWER(1f, Float.MAX_VALUE, false, "Power", "The damage of your attacks and the effectiveness of your abilities."),
+	DR(-1f, 1f, true, "Damage Resistance", "Your resistance to damage."),
+	CRITCHANCE(0f, 1f, true, "Critical Chance", "The chance to deal a critical hit anytime you deal damage."),
+	CRITDAMAGE(1f, Float.MAX_VALUE, true, "Critical Damage", "The multiplier to your damage when you deal a critical hit."),
 
-	REGENERATION(-1f, 1f, true, "Regeneration", "The percentage of your max health you gain each turn"),
-	HASTE(-1f, 1f, true, "Haste", "How fast you act"),
-	LIFESTEAL(0f, 1f, true, "Life Steal", "The portion of your damage dealt you absorb as life"),
+	REGENERATION(-1f, 1f, true, "Regeneration", "The percentage of your max health you gain each turn."),
+	HASTE(-1f, 1f, true, "Haste", "How fast you act."),
+	LIFESTEAL(0f, 1f, true, "Life Steal", "The portion of your damage dealt you absorb as life."),
 	AEGIS(0f, 1f, true, "Aegis", "The chance to avoid completely block damage when hit."),
 
 	BUFFDURATION(0f, Float.MAX_VALUE, true, "Buff Duration", "The bonus to the duration of buffs you create."),

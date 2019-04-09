@@ -61,3 +61,9 @@ fun Label.wrap(): Label
 	this.setWrap(true)
 	return this
 }
+
+fun Label.align(alignment: Int): Label
+{
+	this.setAlignment(alignment)
+	return this
+}

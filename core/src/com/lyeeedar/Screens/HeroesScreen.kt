@@ -211,7 +211,7 @@ class HeroesScreen : AbstractScreen()
 				tileBack.color = equip.ascension.colour.color()
 				equipmentStack.add(tileBack)
 
-				val tileFront = MaskedTexture(equip.icon)
+				val tileFront = MaskedTexture(equip.fullIcon)
 				equipmentStack.add(tileFront)
 				equipmentStack.add(SpriteWidget(AssetManager.loadSprite("GUI/PortraitFrameBorder"), 48f, 48f))
 

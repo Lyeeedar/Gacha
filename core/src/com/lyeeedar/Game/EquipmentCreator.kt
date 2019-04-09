@@ -35,71 +35,22 @@ class EquipmentCreator
 			// load base equipment
 			val baseEquipmentName = "Equipment/" + weight.toString().neaten() + slot.toString().neaten()
 			val baseEquipment = Equipment.load(getXml(baseEquipmentName))
+			baseEquipment.level = level
+			baseEquipment.ascension = ascension
 
-			val material = getPart(EquipmentPart.PartType.MATERIAL, slot, weight, level, ascension, ran)
-			if (material != null)
-			{
-				applyPart(baseEquipment, material)
-				baseEquipment.name = material.name + " " + baseEquipment.name
-
-				if (material.layerTexture != null)
-				{
-					baseEquipment.icon.layer1 = material.layerTexture!!
-				}
-			}
+			baseEquipment.material = getPart(EquipmentPart.PartType.MATERIAL, slot, weight, level, ascension, ran)
 
 			if (ran.nextFloat() < 0.3f * ascension.multiplier) // 30% chance of prefix
 			{
-				val prefix = getPart(EquipmentPart.PartType.PREFIX, slot, weight, level, ascension, ran)
-				if (prefix != null)
-				{
-					applyPart(baseEquipment, prefix)
-					baseEquipment.name = prefix.name + " " + baseEquipment.name
-
-					if (prefix.layerTexture != null)
-					{
-						baseEquipment.icon.layer2 = prefix.layerTexture!!
-					}
-				}
+				baseEquipment.prefix = getPart(EquipmentPart.PartType.PREFIX, slot, weight, level, ascension, ran)
 			}
 
 			if (ran.nextFloat() < 0.1f * ascension.multiplier) // 10% chance of suffix
 			{
-				val suffix = getPart(EquipmentPart.PartType.SUFFIX, slot, weight, level, ascension, ran)
-				if (suffix != null)
-				{
-					applyPart(baseEquipment, suffix)
-					baseEquipment.name = baseEquipment.name + " " + suffix.name
-
-					if (suffix.layerTexture != null)
-					{
-						baseEquipment.icon.layer3 = suffix.layerTexture!!
-					}
-				}
+				baseEquipment.suffix = getPart(EquipmentPart.PartType.SUFFIX, slot, weight, level, ascension, ran)
 			}
 
 			return baseEquipment
-		}
-
-		private fun applyPart(equipment: Equipment, part: Part)
-		{
-			for (stat in Statistic.Values)
-			{
-				val partVal = part.stats[stat] ?: 0f
-				val equipVal = equipment.stats[stat] ?: 0f
-
-				equipment.stats[stat] = partVal + equipVal
-			}
-
-			for (event in EventType.values())
-			{
-				val equipEvents = equipment.eventHandlers[event] ?: Array()
-				val partEvents = part.eventHandlers[event] ?: Array()
-
-				equipEvents.addAll(partEvents)
-
-				equipment.eventHandlers[event] = equipEvents
-			}
 		}
 
 		private fun getPart(partType: EquipmentPart.PartType, slot: EquipmentSlot, weight: EquipmentWeight, level: Int, ascension: Ascension, ran: LightRNG): Part?
@@ -187,21 +138,24 @@ class EquipmentPart
 	}
 }
 
-class Part
+class Part : IEquipmentStatsProvider
 {
-	lateinit var name: String
+	override lateinit var name: String
+	override lateinit var description: String
 
 	var minLevel: Int = 1
 	lateinit var minAscension: Ascension
 
 	var layerTexture: TextureRegion? = null
 
-	val stats = FastEnumMap<Statistic, Float>(Statistic::class.java)
-	val eventHandlers = FastEnumMap<EventType, Array<EventAndCondition>>(EventType::class.java)
+	override val stats = FastEnumMap<Statistic, Float>(Statistic::class.java)
+	override val eventHandlers = FastEnumMap<EventType, Array<EventAndCondition>>(EventType::class.java)
 
 	fun parse(xmlData: XmlData)
 	{
-		name = xmlData.get("Name")
+		name = xmlData.get("Name", "")!!
+		description = xmlData.get("Description", "")!!
+
 		minLevel = xmlData.getInt("MinLevel", 1)
 		minAscension = Ascension.valueOf(xmlData.get("MinAscension", "mundane")!!.toUpperCase())
 
