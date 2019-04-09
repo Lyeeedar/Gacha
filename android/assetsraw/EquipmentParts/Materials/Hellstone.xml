@@ -1,0 +1,21 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Head,Weapon,Body,Feet</AllowedSlots>
+	<AllowedWeights>Heavy</AllowedWeights>
+	<Rarity>Rare</Rarity>
+	<Parts>
+		<Part>
+			<Name>Hellstone</Name>
+			<Description></Description>
+			<MinLevel>20</MinLevel>
+			<MinAscension>Exceptional</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/hellstone</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>-4</MaxHP>
+				<Power>4</Power>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

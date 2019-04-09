@@ -1,0 +1,22 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Weapon</AllowedSlots>
+	<AllowedWeights>Heavy,Medium,Light</AllowedWeights>
+	<Rarity>Rare</Rarity>
+	<Parts>
+		<Part>
+			<Name>Cryptstone</Name>
+			<Description></Description>
+			<MinLevel>30</MinLevel>
+			<MinAscension>Exceptional</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/cryptstone</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<AbilityPower>0.1</AbilityPower>
+				<DebuffDuration>0.2</DebuffDuration>
+				<DebuffPower>0.2</DebuffPower>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

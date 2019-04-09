@@ -1,0 +1,21 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Weapon</AllowedSlots>
+	<AllowedWeights>Heavy,Medium,Light</AllowedWeights>
+	<Rarity>Rare</Rarity>
+	<Parts>
+		<Part>
+			<Name>Inubrix</Name>
+			<Description></Description>
+			<MinLevel>50</MinLevel>
+			<MinAscension>Extraordinary</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/crystal</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<Power>-3</Power>
+				<CritDamage>0.8</CritDamage>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

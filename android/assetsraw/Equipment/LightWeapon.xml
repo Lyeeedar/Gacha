@@ -2,6 +2,7 @@
 	<Name>Staff</Name>
 	<Icon meta:RefKey="MaskedTexture">
 		<Base>Oryx/Custom/items/light_weapon</Base>
+		<Glow>Oryx/Custom/items/light_weapon_glow</Glow>
 		<Mask>Oryx/Custom/items/light_weapon_mask</Mask>
 		<Layer1>Oryx/Custom/textures/iron</Layer1>
 		<Layer2>Oryx/Custom/textures/wood</Layer2>

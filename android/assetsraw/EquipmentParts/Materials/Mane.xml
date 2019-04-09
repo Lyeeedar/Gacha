@@ -1,0 +1,34 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Head,Body,Feet</AllowedSlots>
+	<AllowedWeights>Light</AllowedWeights>
+	<Rarity>Common</Rarity>
+	<Parts>
+		<Part>
+			<Name>Griffon Mane</Name>
+			<Description></Description>
+			<MinLevel>1</MinLevel>
+			<MinAscension>Mundane</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/fur_brown</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>1</MaxHP>
+				<Haste>0.05</Haste>
+			</Statistics>
+		</Part>
+		<Part>
+			<Name>Chimera Mane</Name>
+			<Description></Description>
+			<MinLevel>50</MinLevel>
+			<MinAscension>Extraordinary</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/fur_grey</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>2</MaxHP>
+				<Haste>0.1</Haste>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

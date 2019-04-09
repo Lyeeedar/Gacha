@@ -1,0 +1,21 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Head,Body,Feet</AllowedSlots>
+	<AllowedWeights>Light</AllowedWeights>
+	<Rarity>Rare</Rarity>
+	<Parts>
+		<Part>
+			<Name>Darkleaf Cloth</Name>
+			<Description></Description>
+			<MinLevel>20</MinLevel>
+			<MinAscension>Extraordinary</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/darkleafcloth</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>2</MaxHP>
+				<Aegis>0.1</Aegis>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

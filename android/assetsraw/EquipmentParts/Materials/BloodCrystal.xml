@@ -1,0 +1,21 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Weapon</AllowedSlots>
+	<AllowedWeights>Heavy,Medium,Light</AllowedWeights>
+	<Rarity>Uncommon</Rarity>
+	<Parts>
+		<Part>
+			<Name>Blood Crystal</Name>
+			<Description></Description>
+			<MinLevel>1</MinLevel>
+			<MinAscension>Exceptional</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/bloodcrystal</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<CritChance>0.07</CritChance>
+				<LifeSteal>0.1</LifeSteal>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

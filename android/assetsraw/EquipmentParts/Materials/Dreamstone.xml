@@ -1,0 +1,21 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Head,Weapon,Body,Feet</AllowedSlots>
+	<AllowedWeights>Heavy,Medium</AllowedWeights>
+	<Rarity>Uncommon</Rarity>
+	<Parts>
+		<Part>
+			<Name>Dreamstone</Name>
+			<Description></Description>
+			<MinLevel>1</MinLevel>
+			<MinAscension>Mundane</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/dreamstone</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<BuffDuration>0.2</BuffDuration>
+				<BuffPower>0.2</BuffPower>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

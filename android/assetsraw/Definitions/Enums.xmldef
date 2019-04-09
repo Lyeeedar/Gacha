@@ -2,7 +2,7 @@
 	<Definition Name="Elements" IsGlobal="True" meta:RefKey="EnumDef">None,Corrosion,Vorpal,Distortion,Entropic</Definition>
 	<Definition Name="Statistics" IsGlobal="True" meta:RefKey="StructDef">
 		<!--Base-->
-		<Data Name="MaxHP" Min="0" meta:RefKey="Number" />
+		<Data Name="MaxHP" meta:RefKey="Number" />
 		<Data Name="Power" meta:RefKey="Number" />
 		<!--Offense-->
 		<Data Name="CritChance" Min="0" meta:RefKey="Number" />

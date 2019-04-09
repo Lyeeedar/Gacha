@@ -41,6 +41,7 @@ class Equipment : IEquipmentStatsProvider
 		get() {
 			val data = MaskedTextureData()
 			data.base = icon.base
+			data.glow = icon.glow
 			data.mask = icon.mask
 			data.layer1 = material?.layerTexture ?: icon.layer1
 			data.layer2 = prefix?.layerTexture ?: icon.layer2
@@ -91,13 +92,13 @@ class Equipment : IEquipmentStatsProvider
 
 	fun calculatePowerRating(): Float
 	{
-		var hp = getStat(Statistic.MAXHP)
+		var hp = 100 + getStat(Statistic.MAXHP)
 		hp *= 1f + getStat(Statistic.AEGIS)
 		hp *= 1f + getStat(Statistic.DR)
 		hp *= 1f + getStat(Statistic.REGENERATION) * 2f
 		hp *= 1f + getStat(Statistic.LIFESTEAL)
 
-		var power = getStat(Statistic.POWER) * 10f
+		var power = 100 + getStat(Statistic.POWER) * 10f
 		power += (power * (1f + getStat(Statistic.CRITDAMAGE))) * getStat(Statistic.CRITCHANCE)
 		power *= 1f + getStat(Statistic.HASTE)
 

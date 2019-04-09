@@ -1,0 +1,26 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Weapon</AllowedSlots>
+	<AllowedWeights>Heavy,Medium,Light</AllowedWeights>
+	<Rarity>Rare</Rarity>
+	<Parts>
+		<Part>
+			<Name>Gold</Name>
+			<Description></Description>
+			<MinLevel>20</MinLevel>
+			<MinAscension>Extraordinary</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/gold</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<Power>-6</Power>
+				<AbilityCooldown>0.2</AbilityCooldown>
+				<AbilityPower>0.2</AbilityPower>
+				<BuffDuration>0.2</BuffDuration>
+				<BuffPower>0.2</BuffPower>
+				<DebuffDuration>0.2</DebuffDuration>
+				<DebuffPower>0.2</DebuffPower>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

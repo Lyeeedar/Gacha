@@ -1,0 +1,22 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Weapon</AllowedSlots>
+	<AllowedWeights>Heavy,Medium,Light</AllowedWeights>
+	<Rarity>Rare</Rarity>
+	<Parts>
+		<Part>
+			<Name>Elysian Bronze</Name>
+			<Description></Description>
+			<MinLevel>30</MinLevel>
+			<MinAscension>Extraordinary</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/bronze</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<Power>1</Power>
+				<CritDamage>0.3</CritDamage>
+				<LifeSteal>0.1</LifeSteal>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

@@ -47,12 +47,13 @@ class EntityData()
 		stats.level = level
 		stats.faction = faction
 		stats.factionData = factionEntity.faction
-		stats.resetHP()
 
 		for (slot in EquipmentSlot.Values)
 		{
 			stats.equipment[slot] = equipment[slot]
 		}
+
+		stats.resetHP()
 
 		Global.engine.directionSprite().processEntity(entity, 0f)
 

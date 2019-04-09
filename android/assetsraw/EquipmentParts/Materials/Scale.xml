@@ -1,0 +1,34 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Head,Body,Feet</AllowedSlots>
+	<AllowedWeights>Medium,Light</AllowedWeights>
+	<Rarity>Uncommon</Rarity>
+	<Parts>
+		<Part>
+			<Name>Beastscale</Name>
+			<Description></Description>
+			<MinLevel>1</MinLevel>
+			<MinAscension>Mundane</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/beastscale</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>1</MaxHP>
+				<DR>0.05</DR>
+			</Statistics>
+		</Part>
+		<Part>
+			<Name>Dragonscale</Name>
+			<Description></Description>
+			<MinLevel>60</MinLevel>
+			<MinAscension>Fabled</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/dragonscale</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>5</MaxHP>
+				<DR>0.2</DR>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

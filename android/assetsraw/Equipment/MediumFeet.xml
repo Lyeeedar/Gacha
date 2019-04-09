@@ -2,6 +2,7 @@
 	<Name>Legs</Name>
 	<Icon meta:RefKey="MaskedTexture">
 		<Base>Oryx/Custom/items/medium_foot</Base>
+		<Glow>Oryx/Custom/items/medium_foot_glow</Glow>
 		<Mask>Oryx/Custom/items/medium_foot_mask</Mask>
 		<Layer1>Oryx/Custom/textures/iron</Layer1>
 		<Layer2>Oryx/Custom/textures/fur_brown</Layer2>

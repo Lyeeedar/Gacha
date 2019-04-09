@@ -12,6 +12,7 @@ class MaskedTextureData()
 	}
 
 	lateinit var base: TextureRegion
+	lateinit var glow: TextureRegion
 	lateinit var mask: TextureRegion
 	lateinit var layer1: TextureRegion
 	lateinit var layer2: TextureRegion
@@ -20,6 +21,7 @@ class MaskedTextureData()
 	fun parse(xmlData: XmlData)
 	{
 		base = AssetManager.loadTextureRegion(xmlData.get("Base"))!!
+		glow = AssetManager.loadTextureRegion(xmlData.get("Glow"))!!
 		mask = AssetManager.loadTextureRegion(xmlData.get("Mask"))!!
 		layer1 = AssetManager.loadTextureRegion(xmlData.get("Layer1"))!!
 		layer2 = AssetManager.loadTextureRegion(xmlData.get("Layer2"))!!

@@ -2,6 +2,7 @@
 	<Name>Robe</Name>
 	<Icon meta:RefKey="MaskedTexture">
 		<Base>Oryx/Custom/items/light_body</Base>
+		<Glow>Oryx/Custom/items/light_body_glow</Glow>
 		<Mask>Oryx/Custom/items/light_body_mask</Mask>
 		<Layer1>Oryx/Custom/textures/cloth</Layer1>
 		<Layer2>Oryx/Custom/textures/fur_brown</Layer2>

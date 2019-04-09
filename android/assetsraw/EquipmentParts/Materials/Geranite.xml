@@ -1,0 +1,21 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Head,Weapon,Body,Feet</AllowedSlots>
+	<AllowedWeights>Heavy,Medium</AllowedWeights>
+	<Rarity>Rare</Rarity>
+	<Parts>
+		<Part>
+			<Name>Geranite</Name>
+			<Description></Description>
+			<MinLevel>40</MinLevel>
+			<MinAscension>Fabled</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/stone</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<Haste>0.15</Haste>
+				<DR>0.1</DR>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

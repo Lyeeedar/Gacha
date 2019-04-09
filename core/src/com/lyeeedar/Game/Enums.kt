@@ -21,11 +21,11 @@ enum class BlendMode constructor(val src: Int, val dst: Int)
 enum class Ascension(val multiplier: Float, val colour: Colour, val shardsRequired: Int)
 {
 	MUNDANE(1f, Colour(152, 127, 95, 255, true), 0),
-	EXCEPTIONAL(1.2f, Colour(107, 193, 101, 255, true), 3),
-	EXTRAORDINARY(1.4f, Colour(79, 185, 243, 255, true), 9),
-	FABLED(1.6f, Colour(137, 20, 223, 255, true), 27),
+	EXCEPTIONAL(1.2f, Colour(78, 232, 67, 255, true), 3),
+	EXTRAORDINARY(1.4f, Colour(12, 239, 247, 255, true), 9),
+	FABLED(1.6f, Colour(186, 85, 223, 255, true), 27),
 	LEGENDARY(2.0f, Colour(255, 219, 0, 255, true), 50),
-	MYTHICAL(2.5f, Colour(186, 0, 39, 255, true), 100),
+	MYTHICAL(2.5f, Colour(226, 0, 51, 255, true), 100),
 	DIVINE(3.0f, Colour(255, 221, 249, 255, true), 150);
 
 	companion object

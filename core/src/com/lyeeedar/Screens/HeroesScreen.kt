@@ -213,6 +213,7 @@ class HeroesScreen : AbstractScreen()
 				val tileBack = SpriteWidget(AssetManager.loadSprite("GUI/textured_back"), 48f, 48f)
 				tileBack.color = equip.ascension.colour.color()
 				equipmentStack.add(tileBack)
+				equipmentStack.add(SpriteWidget(Sprite(equip.fullIcon.glow), 48f, 48f).tint(equip.ascension.colour.copy().a(0.7f).color()))
 
 				val tileFront = MaskedTexture(equip.fullIcon)
 				equipmentStack.add(tileFront)
@@ -617,7 +618,7 @@ class HeroesScreen : AbstractScreen()
 		scroll.setOverscroll(false, false)
 		scroll.setForceScroll(false, true)
 
-		table.add(Label("Equipment", Global.skin, "title")).expandX().center().padTop(10f)
+		table.add(Label("Equipment", Global.skin, "title")).expandX().center().pad(10f)
 		table.row()
 		table.add(scroll).grow()
 	}

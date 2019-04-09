@@ -1,0 +1,22 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Weapon</AllowedSlots>
+	<AllowedWeights>Heavy,Medium,Light</AllowedWeights>
+	<Rarity>Rare</Rarity>
+	<Parts>
+		<Part>
+			<Name>Mawine</Name>
+			<Description></Description>
+			<MinLevel>50</MinLevel>
+			<MinAscension>Extraordinary</MinAscension>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/silver</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<AbilityCooldown>0.2</AbilityCooldown>
+				<AbilityPower>0.3</AbilityPower>
+				<Regeneration>-0.05</Regeneration>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

@@ -2,6 +2,7 @@
 	<Name>Cuirass</Name>
 	<Icon meta:RefKey="MaskedTexture">
 		<Base>Oryx/Custom/items/heavy_boots</Base>
+		<Glow>Oryx/Custom/items/heavy_boots_glow</Glow>
 		<Mask>Oryx/Custom/items/heavy_boots_mask</Mask>
 		<Layer1>Oryx/Custom/textures/iron</Layer1>
 		<Layer2>Oryx/Custom/textures/fur_brown</Layer2>

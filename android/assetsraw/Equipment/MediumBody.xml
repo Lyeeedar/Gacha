@@ -2,6 +2,7 @@
 	<Name>Mail</Name>
 	<Icon meta:RefKey="MaskedTexture">
 		<Base>Oryx/Custom/items/medium_body</Base>
+		<Glow>Oryx/Custom/items/medium_body_glow</Glow>
 		<Mask>Oryx/Custom/items/medium_body_mask</Mask>
 		<Layer1>Oryx/Custom/textures/iron</Layer1>
 		<Layer2>Oryx/Custom/textures/fur_brown</Layer2>

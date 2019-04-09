@@ -14,37 +14,6 @@
 				<DR>0.05</DR>
 			</Statistics>
 			<EquipmentWeight>Heavy</EquipmentWeight>
-			<Equipment meta:RefKey="EquipmentMap">
-				<Weapon meta:RefKey="Equipment">
-					<Icon meta:RefKey="MaskedTexture">
-						<Base>Oryx/Custom/items/light_weapon</Base>
-						<Mask>Oryx/Custom/items/light_weapon_mask</Mask>
-						<Layer1>Oryx/uf_split/uf_terrain/carpet</Layer1>
-						<Layer2>white</Layer2>
-						<Layer3>grass</Layer3>
-					</Icon>
-					<Weight>Heavy</Weight>
-					<Slot>Head</Slot>
-					<Level>1</Level>
-					<Ascension>Mythical</Ascension>
-					<Statistics meta:RefKey="Statistics" />
-				</Weapon>
-				<Body meta:RefKey="Equipment">
-					<Name>Test</Name>
-					<Icon meta:RefKey="MaskedTexture">
-						<Base>Oryx/Custom/items/heavy_body</Base>
-						<Mask>Oryx/Custom/items/heavy_body_mask</Mask>
-						<Layer1>Oryx/Custom/textures/iron</Layer1>
-						<Layer2>Oryx/Custom/textures/fur_brown</Layer2>
-						<Layer3>white</Layer3>
-					</Icon>
-					<Weight>Heavy</Weight>
-					<Slot>Head</Slot>
-					<Level>1</Level>
-					<Ascension>Extraordinary</Ascension>
-					<Statistics meta:RefKey="Statistics" />
-				</Body>
-			</Equipment>
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
