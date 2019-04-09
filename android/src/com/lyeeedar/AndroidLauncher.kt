@@ -17,6 +17,7 @@ class AndroidLauncher : AndroidApplication()
 		val config = AndroidApplicationConfiguration()
 		config.resolutionStrategy.calcMeasures(360, 640)
 		config.disableAudio = false
+		config.useImmersiveMode = true
 
 		Global.android = true
 		Global.game = MainGame()

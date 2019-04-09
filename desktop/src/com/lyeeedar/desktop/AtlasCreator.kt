@@ -268,6 +268,18 @@ class AtlasCreator
 			}
 		}
 
+		val textureElements = xml.getChildrenByAttributeRecursively("meta:RefKey", "Texture")
+		textureElements.addAll(xml.getChildrenByAttributeRecursively("RefKey", "Texture"))
+
+		for (el in textureElements)
+		{
+			val succeed = tryPackSprite(el.get("File"))
+			if (!succeed)
+			{
+				throw RuntimeException("Failed to process texture in file: " + file)
+			}
+		}
+
 		val particleElements = xml.getChildrenByNameRecursively("TextureKeyframes")
 
 		for (el in particleElements)

@@ -34,8 +34,8 @@
 					<Icon meta:RefKey="MaskedTexture">
 						<Base>Oryx/Custom/items/heavy_body</Base>
 						<Mask>Oryx/Custom/items/heavy_body_mask</Mask>
-						<Layer1>Oryx/uf_split/uf_terrain/water_lava_1</Layer1>
-						<Layer2>Oryx/uf_split/uf_terrain/water_teal_1</Layer2>
+						<Layer1>Oryx/Custom/textures/iron</Layer1>
+						<Layer2>Oryx/Custom/textures/fur_brown</Layer2>
 						<Layer3>white</Layer3>
 					</Icon>
 					<Weight>Heavy</Weight>

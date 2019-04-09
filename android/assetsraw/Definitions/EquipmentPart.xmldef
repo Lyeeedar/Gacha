@@ -1,0 +1,20 @@
+<Definitions Colour="130,118,150" Icon="Sprites/Oryx/uf_split/uf_items/weapon_crossbow.png" xmlns:meta="Editor">
+	<Definition Name="EquipmentPart" meta:RefKey="Struct">
+		<!--Base-->
+		<Data Name="Type" EnumValues="Prefix,Material,Suffix" SkipIfDefault="False" meta:RefKey="Enum" />
+		<Data Name="AllowedSlots" Key="EquipmentSlot" SkipIfDefault="False" meta:RefKey="Flags" />
+		<Data Name="AllowedWeights" Key="EquipmentWeight" SkipIfDefault="False" meta:RefKey="Flags" />
+		<!--Data-->
+		<Data Name="Parts" meta:RefKey="Collection">
+			<Data Name="Part" meta:RefKey="Struct">
+				<!--Part-->
+				<Data Name="Name" SkipIfDefault="False" meta:RefKey="String" />
+				<Data Name="MinLevel" Type="Int" Min="1" Default="1" SkipIfDefault="False" meta:RefKey="Number" />
+				<Data Name="MinAscension" Key="Ascensions" SkipIfDefault="False" meta:RefKey="Enum" />
+				<Data Name="Layer" Keys="Texture" meta:RefKey="Reference" />
+				<Data Name="Statistics" Keys="Statistics" Nullable="False" meta:RefKey="Reference" />
+				<Data Name="EventHandlers" Keys="EventHandler" meta:RefKey="Reference" />
+			</Data>
+		</Data>
+	</Definition>
+</Definitions>

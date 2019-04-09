@@ -23,6 +23,7 @@
 				<CritChance>0.01</CritChance>
 				<CritDamage>3</CritDamage>
 			</Statistics>
+			<EquipmentWeight>Medium</EquipmentWeight>
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
@@ -43,4 +44,5 @@
 			<Name>Archer</Name>
 		</Name>
 	</Components>
+	<Flags>Cheese,Pie,Oranges</Flags>
 </Entity>
