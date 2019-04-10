@@ -12,7 +12,7 @@ import com.lyeeedar.Util.Future
 import com.lyeeedar.Util.XmlData
 import ktx.collections.set
 
-class HeroEntry(val path: String, var wins: Int = 0, var losses: Int = 0, var averageDps: Float = 1f)
+class HeroEntry(val path: String, var wins: Int = 0, var losses: Int = 0, var damage: Float = 0f, var averageDps: Float = 1f)
 
 class RatingTest
 {

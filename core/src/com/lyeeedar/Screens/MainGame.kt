@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
 import com.lyeeedar.Screens.*
-import com.lyeeedar.Tests.DPSTest
 import com.lyeeedar.Util.Future
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -23,6 +22,7 @@ class MainGame : Game()
 		SETTINGS,
 
 		PARTICLEEDITOR,
+		TEST,
 		INVALID
 	}
 
@@ -72,7 +72,7 @@ class MainGame : Game()
 		}
 		else
 		{
-			DPSTest().runDPSTest()
+			//DPSTest().runDPSTest()
 			//RatingTest().runRatingTest()
 		}
 
@@ -83,6 +83,8 @@ class MainGame : Game()
 		}
 		else
 		{
+			screens.put(ScreenEnum.TEST, TestScreen())
+
 			screens.put(ScreenEnum.MAP, MapScreen())
 			screens.put(ScreenEnum.ZONE, ZoneScreen())
 			screens.put(ScreenEnum.SHOP, ShopScreen())
@@ -90,7 +92,7 @@ class MainGame : Game()
 			screens.put(ScreenEnum.HEROES, HeroesScreen())
 			screens.put(ScreenEnum.SETTINGS, SettingsScreen())
 
-			switchScreen(ScreenEnum.ZONE)
+			switchScreen(ScreenEnum.TEST)
 		}
 
 	}

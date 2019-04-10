@@ -10,6 +10,11 @@ import com.badlogic.gdx.utils.Pool
 
 fun String.neaten() = this.substring(0, 1).toUpperCase() + this.substring(1).toLowerCase()
 
+fun Float.toString(sigFig: Int): String
+{
+	return String.format("%.${sigFig}f", this)
+}
+
 fun Int.prettyPrint(): String
 {
 	if (this < 10000)
