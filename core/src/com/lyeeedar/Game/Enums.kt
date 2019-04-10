@@ -22,7 +22,7 @@ enum class Ascension(val multiplier: Float, val colour: Colour, val shardsRequir
 {
 	MUNDANE(1f, Colour(152, 127, 95, 255, true), 0),
 	EXCEPTIONAL(1.2f, Colour(78, 232, 67, 255, true), 3),
-	EXTRAORDINARY(1.4f, Colour(12, 239, 247, 255, true), 9),
+	EXTRAORDINARY(1.4f, Colour(72, 169, 255, 255, true), 9),
 	FABLED(1.6f, Colour(186, 85, 223, 255, true), 27),
 	LEGENDARY(2.0f, Colour(255, 219, 0, 255, true), 50),
 	MYTHICAL(2.5f, Colour(226, 0, 51, 255, true), 100),
@@ -316,9 +316,7 @@ enum class Statistic private constructor(val min: Float, val max: Float, val mod
 	LIFESTEAL(0f, 1f, true, "Life Steal", "The portion of your damage dealt you absorb as life."),
 	AEGIS(0f, 1f, true, "Aegis", "The chance to avoid completely block damage when hit."),
 
-	BUFFDURATION(0f, Float.MAX_VALUE, true, "Buff Duration", "The bonus to the duration of buffs you create."),
 	BUFFPOWER(0f, Float.MAX_VALUE, true, "Buff Power", "The bonus to the power of buffs you create."),
-	DEBUFFDURATION(0f, Float.MAX_VALUE, true, "Debuff Duration", "The bonus to the duration of debuffs you create."),
 	DEBUFFPOWER(0f, Float.MAX_VALUE, true, "Debuff Power", "The bonus to the power of debuffs you create."),
 	ABILITYCOOLDOWN(-Float.MAX_VALUE, Float.MAX_VALUE, true, "Ability Cooldown", "The rate at which your abilities come off cooldown."),
 	ABILITYPOWER(-1f, 1f, true, "Ability Power", "The modifier to your power when used with your abilities.");

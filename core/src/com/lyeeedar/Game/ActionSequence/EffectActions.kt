@@ -276,7 +276,7 @@ class BuffAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 
 					if (isDebuff)
 					{
-						buff.duration = buff.duration + (buff.duration * sourcestats.getStat(Statistic.DEBUFFDURATION)).ciel()
+						buff.duration = buff.duration + (buff.duration * sourcestats.getStat(Statistic.DEBUFFPOWER)).ciel()
 
 						for (stat in Statistic.Values)
 						{
@@ -286,7 +286,7 @@ class BuffAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 					}
 					else
 					{
-						buff.duration = buff.duration + (buff.duration * sourcestats.getStat(Statistic.BUFFDURATION)).ciel()
+						buff.duration = buff.duration + (buff.duration * sourcestats.getStat(Statistic.BUFFPOWER)).ciel()
 
 						for (stat in Statistic.Values)
 						{

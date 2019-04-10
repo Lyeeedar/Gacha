@@ -16,9 +16,7 @@
 		<Data Name="LifeSteal" Min="0" meta:RefKey="Number" />
 		<Data Name="Aegis" Min="0" meta:RefKey="Number" />
 		<!--Buff-->
-		<Data Name="BuffDuration" Min="0" meta:RefKey="Number" />
 		<Data Name="BuffPower" Min="0" meta:RefKey="Number" />
-		<Data Name="DebuffDuration" Min="0" meta:RefKey="Number" />
 		<Data Name="DebuffPower" Min="0" meta:RefKey="Number" />
 	</Definition>
 	<Definition Name="Rarities" IsGlobal="True" meta:RefKey="EnumDef">Common,Uncommon,Rare</Definition>

@@ -27,7 +27,7 @@ class HeroesScreen : AbstractScreen()
 	{
 		drawFPS = false
 
-		mainTable.background = TiledDrawable(TextureRegionDrawable(AssetManager.loadTextureRegion("Oryx/uf_split/uf_terrain/floor_extra_15"))).tint(Color(0.2f, 0.2f, 0.2f, 1f))
+		mainTable.background = TiledDrawable(TextureRegionDrawable(AssetManager.loadTextureRegion("Oryx/uf_split/uf_terrain/floor_extra_15"))).tint(Color(0.4f, 0.4f, 0.4f, 1f))
 
 		recreateFactionsTable()
 		recreateHeroesTable()
@@ -213,7 +213,7 @@ class HeroesScreen : AbstractScreen()
 
 				tile.addClickListener {
 
-					val card = CardWidget(equip.createCardTable(entity), equip.createCardTable(entity), equip.icon.base, null)
+					val card = CardWidget(equip.createCardTable(entity), equip.createCardTable(entity), equip.icon.base, null, border = equip.ascension.colour)
 					card.setFacing(true, false)
 
 					card.addPick("Change", {
@@ -221,6 +221,10 @@ class HeroesScreen : AbstractScreen()
 							recreateHeroesTable()
 							createHeroTable(entity, entityData, cameFromFaction)
 						})
+					})
+
+					card.addPick("Enhance", {
+
 					})
 
 					card.addPick("Remove", {
@@ -530,7 +534,7 @@ class HeroesScreen : AbstractScreen()
 			equipTable.add(Label(equipped.calculatePowerRating(entity).toInt().prettyPrint(), Global.skin).tint(Color.GOLD)).expandX().right().pad(2f)
 
 			equipTable.addClickListener {
-				val card = CardWidget(equipped.createCardTable(entity), equipped.createCardTable(entity), equipped.icon.base, equipped)
+				val card = CardWidget(equipped.createCardTable(entity), equipped.createCardTable(entity), equipped.icon.base, equipped, border = equipped.ascension.colour)
 				card.collapseFun = {
 					card.remove()
 				}
@@ -572,7 +576,7 @@ class HeroesScreen : AbstractScreen()
 			}
 
 			equipTable.addClickListener {
-				val card = CardWidget(equip.createCardTable(entity), equip.createCardTable(entity), equip.icon.base, equip)
+				val card = CardWidget(equip.createCardTable(entity), equip.createCardTable(entity), equip.icon.base, equip, border = equip.ascension.colour)
 				card.addPick("Equip",
 							 {
 								 val existing = stats.equipment[slot]

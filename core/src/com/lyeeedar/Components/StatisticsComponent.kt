@@ -201,6 +201,10 @@ class StatisticsComponent: AbstractComponent()
 		{
 			value = value.applyAscensionAndLevel(level, ascension)
 		}
+		else
+		{
+			value *= 1f + level.toFloat() / 100f + ascension.multiplier / 10f
+		}
 
 		for (slot in EquipmentSlot.Values)
 		{
@@ -282,29 +286,29 @@ class StatisticsComponent: AbstractComponent()
 		val ability = entity.ability()
 		if (ability != null)
 		{
-			var abilityModifier = 1f + (ability.abilities.size * 0.2f)
+			var abilityModifier = (ability.abilities.size * 0.2f)
 
 			for (ability in ability.abilities)
 			{
 				if (ability.ability.actions.any{ it is DamageAction || it is HealAction })
 				{
-					abilityModifier *= 1f + getStat(Statistic.ABILITYPOWER)
+					abilityModifier += getStat(Statistic.ABILITYPOWER)
 				}
 
 				if (ability.ability.actions.any{ it is BuffAction && !it.isDebuff })
 				{
-					abilityModifier *= 1f + getStat(Statistic.BUFFPOWER) + getStat(Statistic.BUFFDURATION)
+					abilityModifier += getStat(Statistic.BUFFPOWER)
 				}
 
 				if (ability.ability.actions.any{ it is BuffAction && it.isDebuff })
 				{
-					abilityModifier *= 1f + getStat(Statistic.DEBUFFPOWER) + getStat(Statistic.DEBUFFDURATION)
+					abilityModifier += getStat(Statistic.DEBUFFPOWER)
 				}
 
-				abilityModifier *= 1f + getStat(Statistic.ABILITYCOOLDOWN)
+				abilityModifier += getStat(Statistic.ABILITYCOOLDOWN)
 			}
 
-			rating *= abilityModifier
+			rating *= 1f + abilityModifier * 0.5f
 		}
 
 		factionBuffs.addAll(oldFactionBuffs)

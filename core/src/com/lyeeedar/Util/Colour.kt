@@ -349,6 +349,7 @@ class Colour()
 		internal val PINK = Colour(Color.PINK, true)
 		internal val ORANGE = Colour(Color.ORANGE, true)
 		internal val YELLOW = Colour(Color.YELLOW, true)
+		internal val TRANSPARENT = Colour(0f, 0f, 0f, 0f, true)
 
 		fun random(s: Float = 0.9f, l: Float = 0.7f): Colour
 		{

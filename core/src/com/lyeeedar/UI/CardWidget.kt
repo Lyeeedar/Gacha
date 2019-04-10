@@ -25,7 +25,7 @@ import ktx.actors.then
 
 data class Pick(val string: String, var pickFun: (card: CardWidget) -> Unit)
 
-class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backImage: TextureRegion, var data: Any?, val colour: Colour = Colour.WHITE) : WidgetGroup()
+class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backImage: TextureRegion, var data: Any?, val colour: Colour = Colour.WHITE, val border: Colour = Colour.TRANSPARENT) : WidgetGroup()
 {
 	val referenceWidth = Global.resolution.x - 100f
 	val referenceHeight = Global.resolution.y - 200f
@@ -46,6 +46,7 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 	var clickable = true
 
 	val back = NinePatch(AssetManager.loadTextureRegion("GUI/CardBackground"), 30, 30, 30, 30)
+	val backborder = NinePatch(AssetManager.loadTextureRegion("GUI/CardBackgroundBorder"), 30, 30, 30, 30)
 
 	init
 	{
@@ -229,7 +230,20 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 		if (animating) return
 
 		val nextTable = if (faceup) backTable else frontTable
-		val flipFun = fun () { contentTable.clearChildren(); contentTable.add(nextTable).grow(); flipping = false }
+		val flipFun = fun () {
+			contentTable.clearChildren()
+			contentTable.add(nextTable).grow()
+			flipping = false
+
+			if (faceup)
+			{
+				contentTable.background = LayeredDrawable(NinePatchDrawable(back).tint(colour.color()), NinePatchDrawable(backborder).tint(border.color()))
+			}
+			else
+			{
+				contentTable.background = NinePatchDrawable(back).tint(colour.color())
+			}
+		}
 
 		if (animate)
 		{
@@ -262,7 +276,7 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 		zoomTable.isTransform = true
 		zoomTable.originX = referenceWidth / 2
 		zoomTable.originY = referenceHeight / 2
-		zoomTable.background = NinePatchDrawable(back).tint(colour.color())
+		zoomTable.background = LayeredDrawable(NinePatchDrawable(back).tint(colour.color()), NinePatchDrawable(backborder).tint(border.color()))
 		zoomTable.setPosition(contentTable.x, contentTable.y)
 		zoomTable.setSize(referenceWidth, referenceHeight)
 		zoomTable.setScale(contentTable.scaleX, contentTable.scaleY)
@@ -428,8 +442,8 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 			}
 
 			// Calculate card sizes
-			val xSize = (areaWidth - (cardXCount+2)*padding) / cardXCount
-			val ySize = (areaHeight - (cardYCount+2)*padding) / cardYCount
+			val xSize = min((areaWidth - padding*2)/2f, (areaWidth - (cardXCount+2)*padding) / cardXCount)
+			val ySize = min((areaHeight - padding*2)/2f, (areaHeight - (cardYCount+2)*padding) / cardYCount)
 
 			val normalLayout = (cardWidgets.size.toFloat() / cardXCount).toInt() * cardXCount
 			val finalRowLen = cardWidgets.size - normalLayout

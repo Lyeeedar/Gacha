@@ -22,12 +22,12 @@ class ShopScreen : AbstractScreen()
 		generateEquipmentButton.addClickListener {
 
 			val equipment = Array<CardWidget>()
-			for (i in 0 until 22)
+			for (i in 0 until 10)
 			{
 				val equip = EquipmentCreator.create(EquipmentSlot.Values.random(), EquipmentWeight.values().random(), Random.random(100), Ascension.values().random(), Random.random)
 				val table = equip.createCardTable(Global.data.heroPool[0].getEntity("1"))
 
-				val card = CardWidget(table, table, AssetManager.loadTextureRegion("white")!!, null)
+				val card = CardWidget(table, table, AssetManager.loadTextureRegion("white")!!, null, border = equip.ascension.colour)
 				equipment.add(card)
 
 				stage.addActor(card)

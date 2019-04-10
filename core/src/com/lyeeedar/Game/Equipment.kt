@@ -98,6 +98,8 @@ class Equipment : IEquipmentStatsProvider
 
 			val alpha = ascension.multiplier / Ascension.Values.last().multiplier
 			value = 0f.lerp(value, alpha)
+
+			value *= 1f + level / 1000f
 		}
 
 		return value
@@ -107,13 +109,19 @@ class Equipment : IEquipmentStatsProvider
 	{
 		val stats = entity.stats()!!
 
-		var hp = stats.baseStats[Statistic.MAXHP] * stats.ascension.multiplier + getStat(Statistic.MAXHP, stats.level)
+		var hp = stats.baseStats[Statistic.MAXHP].applyAscensionAndLevel(stats.level, stats.ascension) + getStat(Statistic.MAXHP, stats.level)
+		hp = max(hp, 1f)
+
 		hp *= 1f + getStat(Statistic.AEGIS, stats.level)
 		hp *= 1f + getStat(Statistic.DR, stats.level)
 		hp *= 1f + getStat(Statistic.REGENERATION, stats.level) * 2f
 
-		var power = stats.baseStats[Statistic.POWER] * stats.ascension.multiplier + getStat(Statistic.POWER, stats.level) * 10f
-		power += (power * (1f + getStat(Statistic.CRITDAMAGE, stats.level))) * getStat(Statistic.CRITCHANCE, stats.level)
+		var power = stats.baseStats[Statistic.POWER].applyAscensionAndLevel(stats.level, stats.ascension) * 10f + getStat(Statistic.POWER, stats.level) * 10f
+		power = max(power, 1f)
+
+		val critDam = 1f + getStat(Statistic.CRITDAMAGE, stats.level) + stats.baseStats[Statistic.CRITDAMAGE]
+		val critChance = getStat(Statistic.CRITCHANCE, stats.level) + stats.baseStats[Statistic.CRITCHANCE]
+		power += (power * critDam) * critChance
 		power *= 1f + getStat(Statistic.HASTE, stats.level)
 		power *= 1f + getStat(Statistic.LIFESTEAL, stats.level)
 
@@ -130,29 +138,29 @@ class Equipment : IEquipmentStatsProvider
 		val ability = entity.ability()
 		if (ability != null)
 		{
-			var abilityModifier = 1f + (ability.abilities.size * 0.2f)
+			var abilityModifier = 0f
 
 			for (ability in ability.abilities)
 			{
 				if (ability.ability.actions.any { it is DamageAction || it is HealAction })
 				{
-					abilityModifier *= 1f + getStat(Statistic.ABILITYPOWER, stats.level)
+					abilityModifier += getStat(Statistic.ABILITYPOWER, stats.level)
 				}
 
 				if (ability.ability.actions.any { it is BuffAction && !it.isDebuff })
 				{
-					abilityModifier *= 1f + getStat(Statistic.BUFFPOWER, stats.level) + getStat(Statistic.BUFFDURATION, stats.level)
+					abilityModifier += getStat(Statistic.BUFFPOWER, stats.level)
 				}
 
 				if (ability.ability.actions.any { it is BuffAction && it.isDebuff })
 				{
-					abilityModifier *= 1f + getStat(Statistic.DEBUFFPOWER, stats.level) + getStat(Statistic.DEBUFFDURATION, stats.level)
+					abilityModifier += getStat(Statistic.DEBUFFPOWER, stats.level)
 				}
 
-				abilityModifier *= 1f + getStat(Statistic.ABILITYCOOLDOWN, stats.level)
+				abilityModifier += getStat(Statistic.ABILITYCOOLDOWN, stats.level)
 			}
 
-			rating *= abilityModifier
+			rating *= 1f + abilityModifier * 0.5f
 		}
 
 		return rating
@@ -206,9 +214,9 @@ class Equipment : IEquipmentStatsProvider
 		ascensionTable.row()
 		ascensionTable.add(Label(ascension.toString().neaten(), Global.skin).tint(ascension.colour.color())).colspan(3).center()
 
-		table.add(ascensionTable).padBottom(10f)
+		table.add(ascensionTable).padBottom(5f)
 		table.row()
-		table.add(Label(fullName, Global.skin, "cardtitle").wrap().align(Align.center)).growX().center()
+		table.add(Label(fullName, Global.skin, "card").wrap().align(Align.center)).growX().center()
 		table.row()
 
 		val imageStack = Stack()
@@ -232,7 +240,7 @@ class Equipment : IEquipmentStatsProvider
 		addSubtextNumber("Ascension", ascension.ordinal+1)
 		addSubtextNumber("Rating", calculatePowerRating(entity).toInt())
 
-		table.add(levelPowerTable).growX().pad(5f)
+		table.add(levelPowerTable).growX().pad(3f)
 		table.row()
 
 		table.add(Label(fullDescription, Global.skin, "card").wrap()).growX().center()
@@ -260,8 +268,8 @@ class Equipment : IEquipmentStatsProvider
 			if (value != 0)
 			{
 				val rowTable = Table()
-				rowTable.add(Label(stat.niceName, Global.skin, "cardsmall")).pad(7f)
-				rowTable.add(Label(valueStr, Global.skin, "cardsmall")).expandX().right().pad(7f)
+				rowTable.add(Label(stat.niceName, Global.skin, "cardsmall")).pad(5f)
+				rowTable.add(Label(valueStr, Global.skin, "cardsmall")).expandX().right().pad(5f)
 				rowTable.addTapToolTip(stat.niceName + ":\n\n" + stat.tooltip)
 
 				if (bright)
