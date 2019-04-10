@@ -31,12 +31,12 @@ fun createEngine(): Engine
 }
 
 var Engine.level: Level?
-	get() = this.render().level
+	get() = this.task().level
 	set(value)
 	{
 		for (system in systemList)
 		{
-			this.getSystem(system.java).level = value
+			this.getSystem(system.java)?.level = value
 		}
 	}
 

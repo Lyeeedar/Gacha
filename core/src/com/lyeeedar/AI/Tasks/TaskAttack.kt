@@ -8,6 +8,7 @@ import com.lyeeedar.Game.Tile
 import com.lyeeedar.Renderables.Animation.BumpAnimation
 import com.lyeeedar.Renderables.Animation.MoveAnimation
 import com.lyeeedar.Systems.EventData
+import com.lyeeedar.Systems.EventSystem
 import com.lyeeedar.Systems.event
 import com.lyeeedar.Util.BloodSplatter
 import com.lyeeedar.Util.Future
@@ -74,6 +75,8 @@ class TaskAttack(val tile: Tile, val attackDefinition: AttackDefinition) : Abstr
 					val dam = attackerStats.getAttackDam(attackerStats.attackDefinition.damage)
 					val finalDam = defenderStats.dealDamage(dam)
 
+					attackerStats.damageDealt += finalDam
+
 					if (Random.random() < 0.5f)
 					{
 						BloodSplatter.splatter(e.tile()!!, entity.tile()!!, 1f)
@@ -86,19 +89,28 @@ class TaskAttack(val tile: Tile, val attackDefinition: AttackDefinition) : Abstr
 					{
 						attackerStats.heal(stolenLife)
 
-						val healEventData = EventData(EventType.HEALED, e, e, mapOf(Pair("amount", stolenLife)))
-						Global.engine.event().addEvent(healEventData)
+						if (EventSystem.isEventRegistered(EventType.HEALED, e))
+						{
+							val healEventData = EventData(EventType.HEALED, e, e, mapOf(Pair("amount", stolenLife)))
+							Global.engine.event().addEvent(healEventData)
+						}
 					}
 
 					// do damage events
 
 					// deal damage
-					val dealEventData = EventData(EventType.DEALDAMAGE, e, entity, mapOf(Pair("damage", finalDam)))
-					Global.engine.event().addEvent(dealEventData)
+					if (EventSystem.isEventRegistered(EventType.DEALDAMAGE, e))
+					{
+						val dealEventData = EventData(EventType.DEALDAMAGE, e, entity, mapOf(Pair("damage", finalDam)))
+						Global.engine.event().addEvent(dealEventData)
+					}
 
 					// take damage
-					val takeEventData = EventData(EventType.TAKEDAMAGE, entity, e, mapOf(Pair("damage", finalDam)))
-					Global.engine.event().addEvent(takeEventData)
+					if (EventSystem.isEventRegistered(EventType.TAKEDAMAGE, entity))
+					{
+						val takeEventData = EventData(EventType.TAKEDAMAGE, entity, e, mapOf(Pair("damage", finalDam)))
+						Global.engine.event().addEvent(takeEventData)
+					}
 				}
 			}, delay)
 	}

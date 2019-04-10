@@ -125,9 +125,12 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 
 		onTurnEvent()
 
-		for (system in systemList)
+		for (system in engine.systems)
 		{
-			(engine.getSystem(system.java) as AbstractSystem).onTurn()
+			if (system is AbstractSystem)
+			{
+				system.onTurn()
+			}
 		}
 	}
 

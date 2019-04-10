@@ -1,9 +1,7 @@
 package com.lyeeedar.Game.ActionSequence
 
-import com.lyeeedar.Components.pos
-import com.lyeeedar.Components.renderable
-import com.lyeeedar.Components.stats
-import com.lyeeedar.Components.tile
+import com.lyeeedar.AI.Tasks.TaskInterrupt
+import com.lyeeedar.Components.*
 import com.lyeeedar.Direction
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.Global
@@ -14,7 +12,9 @@ import com.lyeeedar.Renderables.Animation.MoveAnimation
 import com.lyeeedar.Renderables.Animation.SpinAnimation
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.SpaceSlot
+import com.lyeeedar.Statistic
 import com.lyeeedar.Util.Point
+import com.lyeeedar.Util.Random
 import com.lyeeedar.Util.XmlData
 
 enum class MovementType
@@ -35,7 +35,7 @@ class MoveSourceAction(ability: ActionSequence) : AbstractActionSequenceAction(a
 		val dst = sequence.targets.random() ?: return false
 		val dstTile = sequence.level.getTile(dst) ?: return false
 
-		doMove(srcTile, dstTile, type)
+		doMove(srcTile, dstTile, type, false)
 
 		sequence.targets.clear()
 		sequence.targets.add(dst)
@@ -73,7 +73,7 @@ class PullAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 		{
 			val srcTile = sequence.level.getTile(src) ?: continue
 
-			doMove(srcTile, dstTile, type)
+			doMove(srcTile, dstTile, type, true)
 		}
 
 		return false
@@ -114,7 +114,7 @@ class KnockbackAction(ability: ActionSequence) : AbstractActionSequenceAction(ab
 			val dstPoint = targetTile + Point(dir.x, dir.y) * dist
 			val dst = sequence.level.getTileClamped(dstPoint)
 
-			doMove(targetTile, dst, type)
+			doMove(targetTile, dst, type, true)
 		}
 
 		return false
@@ -141,16 +141,26 @@ class KnockbackAction(ability: ActionSequence) : AbstractActionSequenceAction(ab
 	}
 }
 
-private fun doMove(src: Tile, dst: Tile, type: MovementType): Tile
+private fun doMove(src: Tile, dst: Tile, type: MovementType, interrupt: Boolean): Tile
 {
 	val entity = src.contents[SpaceSlot.ENTITY] ?: return dst
 	val pos = entity.pos() ?: return dst
 	if (!pos.moveable) return dst
 	val stats = entity.stats() ?: return dst
-	if (stats.invulnerable || stats.blocking)
+	if (stats.invulnerable || stats.blocking || Random.random.nextFloat() < stats.getStat(Statistic.AEGIS))
 	{
 		stats.blockedDamage = true
 		return dst
+	}
+
+	if (interrupt)
+	{
+		val task = entity.task()
+		if (task != null)
+		{
+			task.tasks.clear()
+			task.tasks.add(TaskInterrupt())
+		}
 	}
 
 	val path = BresenhamLine.lineNoDiag(src.x, src.y, dst.x, dst.y, src.level.grid)

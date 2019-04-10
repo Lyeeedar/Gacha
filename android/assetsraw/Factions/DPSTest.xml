@@ -1,0 +1,18 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>1E+08</MaxHP>
+			</Statistics>
+			<EquipmentWeight>Medium</EquipmentWeight>
+			<Attack>
+				<Damage>1</Damage>
+				<Range>1</Range>
+			</Attack>
+		</Statistics>
+		<Position />
+		<Name>
+			<Name>DPSTest</Name>
+		</Name>
+	</Components>
+</Entity>

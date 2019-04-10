@@ -93,6 +93,54 @@ class EventSystem : AbstractSystem()
 	{
 		queuedEvents.add(eventData)
 	}
+
+	companion object
+	{
+		fun isEventRegistered(type: EventType, entity: Entity): Boolean
+		{
+			val stats = entity.stats()
+			if (stats != null)
+			{
+				for (buff in stats.buffs)
+				{
+					if ((buff.eventHandlers[type]?.size ?: 0) > 0)
+					{
+						return true
+					}
+				}
+
+				for (buff in stats.factionBuffs)
+				{
+					if ((buff.eventHandlers[type]?.size ?: 0) > 0)
+					{
+						return true
+					}
+				}
+
+				for (equip in stats.equipment)
+				{
+					for (provider in equip.statsProviders)
+					{
+						if ((provider.eventHandlers[type]?.size ?: 0) > 0)
+						{
+							return true
+						}
+					}
+				}
+			}
+
+			val eventHandler = entity.eventHandler()
+			if (eventHandler != null)
+			{
+				if ((eventHandler.handlers[type]?.size ?: 0) > 0)
+				{
+					return true
+				}
+			}
+
+			return false
+		}
+	}
 }
 
 class EventData(val type: EventType, val source: Entity, val targets: Array<Point>, val variables: ObjectFloatMap<String>)

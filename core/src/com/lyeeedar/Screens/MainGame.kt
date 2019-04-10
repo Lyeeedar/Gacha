@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
 import com.lyeeedar.Screens.*
+import com.lyeeedar.Tests.DPSTest
 import com.lyeeedar.Util.Future
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -68,6 +69,11 @@ class MainGame : Game()
 			}
 
 			Thread.currentThread().uncaughtExceptionHandler = handler
+		}
+		else
+		{
+			DPSTest().runDPSTest()
+			//RatingTest().runRatingTest()
 		}
 
 		if (Global.PARTICLE_EDITOR)

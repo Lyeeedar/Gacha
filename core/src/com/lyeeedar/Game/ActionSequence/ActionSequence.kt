@@ -2,6 +2,7 @@ package com.lyeeedar.Game.ActionSequence
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Array
+import com.badlogic.gdx.utils.ObjectMap
 import com.lyeeedar.Components.pos
 import com.lyeeedar.Direction
 import com.lyeeedar.Game.Level
@@ -9,6 +10,7 @@ import com.lyeeedar.Global
 import com.lyeeedar.Util.Point
 import com.lyeeedar.Util.XmlData
 import ktx.collections.addAll
+import ktx.collections.set
 
 class ActionSequence
 {
@@ -77,7 +79,7 @@ class ActionSequence
 
 		if (Global.resolveInstant)
 		{
-			currentTime = actions.last().end * 2f
+			currentTime = (actions.lastOrNull()?.end ?: 0f) * 2f
 		}
 
 		currentTime += delta
@@ -165,8 +167,12 @@ class ActionSequence
 
 	companion object
 	{
+		val loadedSequences = ObjectMap<XmlData, ActionSequence>()
 		fun load(xmlData: XmlData): ActionSequence
 		{
+			val existing = loadedSequences[xmlData]
+			if (existing != null) return existing.copy()
+
 			val actions = Array<AbstractActionSequenceAction>()
 			val ability = ActionSequence()
 
@@ -181,6 +187,8 @@ class ActionSequence
 
 			val sorted = actions.sortedBy { it.start }
 			ability.actions.addAll(sorted)
+
+			loadedSequences[xmlData] = existing
 
 			return ability
 		}

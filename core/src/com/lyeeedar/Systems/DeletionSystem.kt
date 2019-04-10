@@ -64,7 +64,7 @@ class DeletionSystem : AbstractSystem(Family.all(MarkedForDeletionComponent::cla
 					val e = killerTile.contents[slot] ?: continue
 					val stats = e.stats() ?: continue
 
-					if (stats.faction != entityStats.faction)
+					if (stats.faction != entityStats.faction && EventSystem.isEventRegistered(EventType.KILL, e))
 					{
 						// we have our killer!
 						val eventData = EventData(EventType.KILL, e, entity, ObjectFloatMap())
@@ -81,15 +81,18 @@ class DeletionSystem : AbstractSystem(Family.all(MarkedForDeletionComponent::cla
 					val e = tile.contents[slot] ?: continue
 					val stats = e.stats() ?: continue
 
-					val eventData = EventData(EventType.ANYDEATH, e, entity, ObjectFloatMap())
-					engine.event().addEvent(eventData)
+					if (EventSystem.isEventRegistered(EventType.ANYDEATH, e))
+					{
+						val eventData = EventData(EventType.ANYDEATH, e, entity, ObjectFloatMap())
+						engine.event().addEvent(eventData)
+					}
 
-					if (stats.faction == entityStats.faction)
+					if (stats.faction == entityStats.faction && EventSystem.isEventRegistered(EventType.ALLYDEATH, e))
 					{
 						val eventData = EventData(EventType.ALLYDEATH, e, entity, ObjectFloatMap())
 						engine.event().addEvent(eventData)
 					}
-					else
+					else if (EventSystem.isEventRegistered(EventType.ENEMYDEATH, e))
 					{
 						val eventData = EventData(EventType.ENEMYDEATH, e, entity, ObjectFloatMap())
 						engine.event().addEvent(eventData)

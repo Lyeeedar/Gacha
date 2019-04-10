@@ -15,6 +15,7 @@ import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Particle.ParticleEffect
 import com.lyeeedar.Statistic
 import com.lyeeedar.Systems.EventData
+import com.lyeeedar.Systems.EventSystem
 import com.lyeeedar.Systems.event
 import com.lyeeedar.Util.*
 
@@ -48,6 +49,8 @@ class DamageAction(ability: ActionSequence) : AbstractActionSequenceAction(abili
 					val attackDam = sourceStats.getAttackDam(damModifier)
 					val finalDam = targetstats.dealDamage(attackDam)
 
+					sourceStats.damageDealt += finalDam
+
 					BloodSplatter.splatter(sequence.source.tile()!!, entity.tile()!!, 1f)
 					targetstats.lastHitSource = sequence.source.tile()!!
 
@@ -57,19 +60,28 @@ class DamageAction(ability: ActionSequence) : AbstractActionSequenceAction(abili
 					{
 						sourceStats.heal(stolenLife)
 
-						val healEventData = EventData(EventType.HEALED, sequence.source, sequence.source, mapOf(Pair("damage", stolenLife)))
-						Global.engine.event().addEvent(healEventData)
+						if (EventSystem.isEventRegistered(EventType.HEALED, sequence.source))
+						{
+							val healEventData = EventData(EventType.HEALED, sequence.source, sequence.source, mapOf(Pair("damage", stolenLife)))
+							Global.engine.event().addEvent(healEventData)
+						}
 					}
 
 					// do damage events
 
 					// deal damage
-					val dealEventData = EventData(EventType.DEALDAMAGE, sequence.source, entity, mapOf(Pair("damage", finalDam)))
-					Global.engine.event().addEvent(dealEventData)
+					if (EventSystem.isEventRegistered(EventType.DEALDAMAGE, sequence.source))
+					{
+						val dealEventData = EventData(EventType.DEALDAMAGE, sequence.source, entity, mapOf(Pair("damage", finalDam)))
+						Global.engine.event().addEvent(dealEventData)
+					}
 
 					// take damage
-					val takeEventData = EventData(EventType.TAKEDAMAGE, entity, sequence.source, mapOf(Pair("damage", finalDam)))
-					Global.engine.event().addEvent(takeEventData)
+					if (EventSystem.isEventRegistered(EventType.TAKEDAMAGE, entity))
+					{
+						val takeEventData = EventData(EventType.TAKEDAMAGE, entity, sequence.source, mapOf(Pair("damage", finalDam)))
+						Global.engine.event().addEvent(takeEventData)
+					}
 				}
 			}
 		}
@@ -132,8 +144,11 @@ class HealAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 					val healing = power * healModifier
 					targetstats.heal(healing)
 
-					val healEventData = EventData(EventType.HEALED, entity, sequence.source, mapOf(Pair("amount", healing)))
-					Global.engine.event().addEvent(healEventData)
+					if (EventSystem.isEventRegistered(EventType.HEALED, entity))
+					{
+						val healEventData = EventData(EventType.HEALED, entity, sequence.source, mapOf(Pair("amount", healing)))
+						Global.engine.event().addEvent(healEventData)
+					}
 				}
 			}
 		}
@@ -185,7 +200,7 @@ class StunAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 				val targetstats = entity.stats() ?: continue
 				val task = entity.task() ?: continue
 
-				if (entity.isEnemies(sequence.source) && chance.evaluate() != 0f)
+				if (entity.isEnemies(sequence.source) && chance.evaluate() != 0f && Random.random.nextFloat() < targetstats.getStat(Statistic.AEGIS))
 				{
 					val sourceStats = sequence.source.stats()!!
 

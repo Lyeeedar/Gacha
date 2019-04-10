@@ -8,9 +8,7 @@ import com.badlogic.gdx.utils.ObjectFloatMap
 import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
-import com.lyeeedar.Ascension
-import com.lyeeedar.EquipmentSlot
-import com.lyeeedar.EquipmentWeight
+import com.lyeeedar.*
 import com.lyeeedar.Game.ActionSequence.BuffAction
 import com.lyeeedar.Game.ActionSequence.DamageAction
 import com.lyeeedar.Game.ActionSequence.HealAction
@@ -18,7 +16,6 @@ import com.lyeeedar.Game.Buff
 import com.lyeeedar.Game.Equipment
 import com.lyeeedar.Game.Faction
 import com.lyeeedar.Renderables.Particle.ParticleEffect
-import com.lyeeedar.Statistic
 import com.lyeeedar.Util.*
 import ktx.collections.toGdxArray
 
@@ -96,6 +93,8 @@ class StatisticsComponent: AbstractComponent()
 	val equipment = FastEnumMap<EquipmentSlot, Equipment>(EquipmentSlot::class.java)
 	var equipmentWeight: EquipmentWeight = EquipmentWeight.MEDIUM
 
+	var damageDealt = 0f
+
 	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
 		Statistic.parse(xml.getChildByName("Statistics")!!, baseStats)
@@ -147,11 +146,14 @@ class StatisticsComponent: AbstractComponent()
 
 		hp -= dam
 
-		val maxHP = getStat(Statistic.MAXHP)
-		val alpha = dam / maxHP
-		val size = lerp(0.25f, 1f, clamp(alpha, 0f, 1f))
+		if (!Global.resolveInstant)
+		{
+			val maxHP = getStat(Statistic.MAXHP)
+			val alpha = dam / maxHP
+			val size = lerp(0.25f, 1f, clamp(alpha, 0f, 1f))
 
-		messagesToShow.add(MessageData(dam.ciel().toString(), Colour.RED, size))
+			messagesToShow.add(MessageData(dam.ciel().toString(), Colour.RED, size))
+		}
 
 		return dam
 	}
@@ -160,10 +162,13 @@ class StatisticsComponent: AbstractComponent()
 	{
 		hp += amount
 
-		val maxHP = getStat(Statistic.MAXHP)
-		val alpha = amount / maxHP
-		val size = lerp(0.25f, 1f, clamp(alpha, 0f, 1f))
-		messagesToShow.add(MessageData(amount.ciel().toString(), Colour.GREEN, size))
+		if (!Global.resolveInstant)
+		{
+			val maxHP = getStat(Statistic.MAXHP)
+			val alpha = amount / maxHP
+			val size = lerp(0.25f, 1f, clamp(alpha, 0f, 1f))
+			messagesToShow.add(MessageData(amount.ciel().toString(), Colour.GREEN, size))
+		}
 	}
 
 	fun regenerate(amount: Float)
