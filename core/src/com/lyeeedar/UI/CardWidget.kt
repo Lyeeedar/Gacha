@@ -18,6 +18,7 @@ import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.Colour
+import com.lyeeedar.Util.ciel
 import com.lyeeedar.Util.min
 import ktx.actors.alpha
 import ktx.actors.then
@@ -388,42 +389,78 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 			val areaWidth = dstWidget?.width ?: Global.resolution.x.toFloat()
 			val areaHeight = dstWidget?.height ?: Global.resolution.y.toFloat()
 
-			// Calculate card sizes
-			val padding = 20f
-			val cardWidth = (areaWidth - 3f * padding) / 2f
-			val cardHeight = (areaHeight - 3f * padding) / 2f
+			var cardXCount = 1
+			var cardYCount = (cardWidgets.size.toFloat() / cardXCount).ciel()
 
-			// Calculate final positions
-			if (cardWidgets.size == 1)
+			val padding = 10f
+			while (true)
 			{
-				// center
-				cardWidgets[0].setPosition(areaWidth / 2f - cardWidth / 2f + areapos.x, areaHeight / 2f - cardHeight / 2f + areapos.y)
+				val xSize = (areaWidth - (cardXCount+2)*padding) / cardXCount
+				val ySize = (areaHeight - (cardYCount+2)*padding) / cardYCount
+
+				val scaleX = xSize / cardWidgets[0].referenceWidth
+				val scaleY = ySize / cardWidgets[0].referenceHeight
+				val min = min(scaleX, scaleY)
+
+				val cardWidth = cardWidgets[0].referenceWidth * min
+				val cardHeight = cardWidgets[0].referenceHeight * min
+
+				val testXCount = cardXCount+1
+				val textYCount = (cardWidgets.size.toFloat() / testXCount).ciel()
+				val testXSize = (areaWidth - (testXCount+2)*padding) / testXCount
+				val testYSize = (areaHeight - (textYCount+2)*padding) / textYCount
+				val testScaleX = testXSize / cardWidgets[0].referenceWidth
+				val testScaleY = testYSize / cardWidgets[0].referenceHeight
+				val testMin = min(testScaleX, testScaleY)
+
+				val testCardWidth = cardWidgets[0].referenceWidth * testMin
+				val testCardHeight = cardWidgets[0].referenceHeight * testMin
+
+				if (testCardWidth > cardWidth || testCardHeight > cardHeight)
+				{
+					cardXCount = testXCount
+					cardYCount = textYCount
+				}
+				else
+				{
+					break
+				}
 			}
-			else if (cardWidgets.size == 2)
+
+			// Calculate card sizes
+			val xSize = (areaWidth - (cardXCount+2)*padding) / cardXCount
+			val ySize = (areaHeight - (cardYCount+2)*padding) / cardYCount
+
+			val normalLayout = (cardWidgets.size.toFloat() / cardXCount).toInt() * cardXCount
+			val finalRowLen = cardWidgets.size - normalLayout
+			val finalRowStep = (areaWidth - (finalRowLen+2)*padding) / finalRowLen
+
+			var x = 0
+			var y = 0
+			for (i in 0 until cardWidgets.size)
 			{
-				// vertical alignment
-				cardWidgets[0].setPosition(areaWidth / 2f - cardWidth / 2f + areapos.x, padding * 2f + cardHeight + areapos.y)
-				cardWidgets[1].setPosition(areaWidth / 2f - cardWidth / 2f + areapos.x, padding + areapos.y)
-			}
-			else if (cardWidgets.size == 3)
-			{
-				// triangle, single card at top, 2 below
-				cardWidgets[0].setPosition(areaWidth / 2f - cardWidth / 2f + areapos.x, padding * 2f + cardHeight + areapos.y)
-				cardWidgets[1].setPosition(padding + areapos.x, padding + areapos.y)
-				cardWidgets[2].setPosition(padding * 2f + cardWidth + areapos.x, padding + areapos.y)
-			}
-			else if (cardWidgets.size == 4)
-			{
-				// even grid
-				cardWidgets[0].setPosition(padding + areapos.x, padding * 2f + cardHeight + areapos.y)
-				cardWidgets[1].setPosition(padding + areapos.x, padding + areapos.y)
-				cardWidgets[2].setPosition(padding * 2f + cardWidth + areapos.x, padding + areapos.y)
-				cardWidgets[3].setPosition(padding * 2f + cardWidth + areapos.x, padding * 2f + cardHeight + areapos.y)
+				val widget = cardWidgets[i]
+
+				if (i >= normalLayout)
+				{
+					widget.setPosition(padding + finalRowStep*0.5f + x * finalRowStep + x * padding - xSize*0.5f, padding + y * ySize + y * padding)
+				}
+				else
+				{
+					widget.setPosition(padding + x * xSize + x * padding, padding + y * ySize + y * padding)
+				}
+
+				x++
+				if (x == cardXCount)
+				{
+					x = 0
+					y++
+				}
 			}
 
 			for (widget in cardWidgets)
 			{
-				widget.setSize(cardWidth, cardHeight)
+				widget.setSize(xSize, ySize)
 			}
 
 			// do animation
@@ -432,32 +469,32 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 				// calculate start position
 				val startX: Float = when (enterFrom)
 				{
-					Direction.CENTER -> areaWidth / 2f - cardWidth / 2f
-					Direction.NORTH -> areaWidth / 2f - cardWidth / 2f
-					Direction.SOUTH -> areaWidth / 2f - cardWidth / 2f
+					Direction.CENTER -> areaWidth / 2f - xSize / 2f
+					Direction.NORTH -> areaWidth / 2f - xSize / 2f
+					Direction.SOUTH -> areaWidth / 2f - xSize / 2f
 
 					Direction.EAST -> areaWidth
 					Direction.NORTHEAST -> areaWidth
 					Direction.SOUTHEAST -> areaWidth
 
-					Direction.WEST -> -cardWidth
-					Direction.NORTHWEST -> -cardWidth
-					Direction.SOUTHWEST -> -cardWidth
+					Direction.WEST -> -xSize
+					Direction.NORTHWEST -> -xSize
+					Direction.SOUTHWEST -> -xSize
 				}
 
 				val startY: Float = when (enterFrom)
 				{
-					Direction.CENTER -> areaHeight / 2f - cardHeight / 2f
-					Direction.EAST -> areaHeight / 2f - cardHeight / 2f
-					Direction.WEST -> areaHeight / 2f - cardHeight / 2f
+					Direction.CENTER -> areaHeight / 2f - ySize / 2f
+					Direction.EAST -> areaHeight / 2f - ySize / 2f
+					Direction.WEST -> areaHeight / 2f - ySize / 2f
 
 					Direction.NORTH -> areaHeight
 					Direction.NORTHWEST -> areaHeight
 					Direction.NORTHEAST -> areaHeight
 
-					Direction.SOUTH -> -cardHeight
-					Direction.SOUTHWEST -> -cardHeight
-					Direction.SOUTHEAST -> -cardHeight
+					Direction.SOUTH -> -ySize
+					Direction.SOUTHWEST -> -ySize
+					Direction.SOUTHEAST -> -ySize
 				}
 
 				var delay = 0.2f

@@ -649,7 +649,9 @@ class HeroesScreen : AbstractScreen()
 
 			factionTable.add(SpriteWidget(faction.icon, 16f, 16f)).pad(3f)
 			factionTable.add(Label(faction.name, Global.skin)).padLeft(10f)
-			factionTable.add(Label("2/6", Global.skin)).expandX().right()
+
+			val numUnlockedHeroes = faction.heroes.count { Global.data.heroPool.any { ed -> ed.factionEntity == it } }
+			factionTable.add(Label(numUnlockedHeroes.toString() + "/" + faction.heroes.size, Global.skin)).expandX().right()
 
 			factionTable.addClickListener {
 				createFactionTable(faction)

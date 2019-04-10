@@ -22,7 +22,7 @@ class ShopScreen : AbstractScreen()
 		generateEquipmentButton.addClickListener {
 
 			val equipment = Array<CardWidget>()
-			for (i in 0 until 4)
+			for (i in 0 until 22)
 			{
 				val equip = EquipmentCreator.create(EquipmentSlot.Values.random(), EquipmentWeight.values().random(), Random.random(100), Ascension.values().random(), Random.random)
 				val table = equip.createCardTable()
