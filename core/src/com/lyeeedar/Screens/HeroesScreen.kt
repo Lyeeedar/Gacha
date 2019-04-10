@@ -213,11 +213,11 @@ class HeroesScreen : AbstractScreen()
 
 				tile.addClickListener {
 
-					val card = CardWidget(equip.createCardTable(), equip.createCardTable(), equip.icon.base, null)
+					val card = CardWidget(equip.createCardTable(entity), equip.createCardTable(entity), equip.icon.base, null)
 					card.setFacing(true, false)
 
 					card.addPick("Change", {
-						createEquipmentTable(stats, entityData, slot, {
+						createEquipmentTable(entity, entityData, slot, {
 							recreateHeroesTable()
 							createHeroTable(entity, entityData, cameFromFaction)
 						})
@@ -261,7 +261,7 @@ class HeroesScreen : AbstractScreen()
 				equipmentTable.add(equipmentStack).size(48f).expandX().center()
 
 				equipmentStack.addClickListener {
-					createEquipmentTable(stats, entityData, slot, {
+					createEquipmentTable(entity, entityData, slot, {
 						recreateHeroesTable()
 						createHeroTable(entity, entityData, cameFromFaction)
 					})
@@ -309,7 +309,7 @@ class HeroesScreen : AbstractScreen()
 				{
 					if (stats.equipment[slot] != null) Global.data.equipment.add(stats.equipment[slot])
 
-					val best = valid.maxBy { it.calculatePowerRating() }
+					val best = valid.maxBy { it.calculatePowerRating(entity) }
 					stats.equipment[slot] = best
 					entityData.equipment[slot] = best
 					Global.data.equipment.removeValue(best, true)
@@ -510,8 +510,10 @@ class HeroesScreen : AbstractScreen()
 		backButtonTable.add(backButton).expandX().left().pad(5f)
 	}
 
-	fun createEquipmentTable(stats: StatisticsComponent, entityData: EntityData, slot: EquipmentSlot, refreshFunc: () -> Unit)
+	fun createEquipmentTable(entity: Entity, entityData: EntityData, slot: EquipmentSlot, refreshFunc: () -> Unit)
 	{
+		val stats = entity.stats()
+
 		val table = Table()
 		val fullscreenTable = FullscreenTable.createCloseable(table)
 
@@ -523,12 +525,12 @@ class HeroesScreen : AbstractScreen()
 
 			val equipTable = Table()
 
-			equipTable.add(MaskedTexture(equipped.fullIcon)).size(24f).pad(2f)
+			equipTable.add(equipped.createTile(24f)).size(24f).pad(2f)
 			equipTable.add(Label(equipped.fullName, Global.skin, "small")).pad(2f)
-			equipTable.add(Label(equipped.calculatePowerRating().toInt().prettyPrint(), Global.skin).tint(Color.GOLD)).expandX().right().pad(2f)
+			equipTable.add(Label(equipped.calculatePowerRating(entity).toInt().prettyPrint(), Global.skin).tint(Color.GOLD)).expandX().right().pad(2f)
 
 			equipTable.addClickListener {
-				val card = CardWidget(equipped.createCardTable(), equipped.createCardTable(), equipped.icon.base, equipped)
+				val card = CardWidget(equipped.createCardTable(entity), equipped.createCardTable(entity), equipped.icon.base, equipped)
 				card.collapseFun = {
 					card.remove()
 				}
@@ -555,14 +557,14 @@ class HeroesScreen : AbstractScreen()
 		}
 
 		var bright = true
-		val sorted = valid.sortedByDescending { it.calculatePowerRating() }
+		val sorted = valid.sortedByDescending { it.calculatePowerRating(entity) }
 		for (equip in sorted)
 		{
 			val equipTable = Table()
 
 			equipTable.add(equip.createTile(24f)).size(24f).pad(5f)
 			equipTable.add(Label(equip.fullName, Global.skin, "small")).pad(5f)
-			equipTable.add(Label(equip.calculatePowerRating().toInt().prettyPrint(), Global.skin).tint(Color.GOLD)).expandX().right().pad(5f)
+			equipTable.add(Label(equip.calculatePowerRating(entity).toInt().prettyPrint(), Global.skin).tint(Color.GOLD)).expandX().right().pad(5f)
 
 			if (bright)
 			{
@@ -570,7 +572,7 @@ class HeroesScreen : AbstractScreen()
 			}
 
 			equipTable.addClickListener {
-				val card = CardWidget(equip.createCardTable(), equip.createCardTable(), equip.icon.base, equip)
+				val card = CardWidget(equip.createCardTable(entity), equip.createCardTable(entity), equip.icon.base, equip)
 				card.addPick("Equip",
 							 {
 								 val existing = stats.equipment[slot]

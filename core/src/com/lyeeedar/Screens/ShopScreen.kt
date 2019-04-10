@@ -25,7 +25,7 @@ class ShopScreen : AbstractScreen()
 			for (i in 0 until 22)
 			{
 				val equip = EquipmentCreator.create(EquipmentSlot.Values.random(), EquipmentWeight.values().random(), Random.random(100), Ascension.values().random(), Random.random)
-				val table = equip.createCardTable()
+				val table = equip.createCardTable(Global.data.heroPool[0].getEntity("1"))
 
 				val card = CardWidget(table, table, AssetManager.loadTextureRegion("white")!!, null)
 				equipment.add(card)

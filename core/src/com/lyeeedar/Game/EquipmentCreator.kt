@@ -35,7 +35,6 @@ class EquipmentCreator
 			// load base equipment
 			val baseEquipmentName = "Equipment/" + weight.toString().neaten() + slot.toString().neaten()
 			val baseEquipment = Equipment.load(getXml(baseEquipmentName))
-			baseEquipment.level = level
 			baseEquipment.ascension = ascension
 
 			baseEquipment.material = getPart(EquipmentPart.PartType.MATERIAL, slot, weight, level, ascension, ran)

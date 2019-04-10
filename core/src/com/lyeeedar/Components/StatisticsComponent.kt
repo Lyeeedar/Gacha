@@ -11,6 +11,9 @@ import com.esotericsoftware.kryo.io.Output
 import com.lyeeedar.Ascension
 import com.lyeeedar.EquipmentSlot
 import com.lyeeedar.EquipmentWeight
+import com.lyeeedar.Game.ActionSequence.BuffAction
+import com.lyeeedar.Game.ActionSequence.DamageAction
+import com.lyeeedar.Game.ActionSequence.HealAction
 import com.lyeeedar.Game.Buff
 import com.lyeeedar.Game.Equipment
 import com.lyeeedar.Game.Faction
@@ -202,7 +205,7 @@ class StatisticsComponent: AbstractComponent()
 		for (slot in EquipmentSlot.Values)
 		{
 			val equip = equipment[slot] ?: continue
-			value += equip.getStat(statistic)
+			value += equip.getStat(statistic, level)
 		}
 
 		// apply buffs and equipment
@@ -269,23 +272,37 @@ class StatisticsComponent: AbstractComponent()
 		hp *= 1f + getStat(Statistic.AEGIS)
 		hp *= 1f + getStat(Statistic.DR)
 		hp *= 1f + getStat(Statistic.REGENERATION) * 2f
-		hp *= 1f + getStat(Statistic.LIFESTEAL)
 
 		var power = getStat(Statistic.POWER) * 10f
 		power += (power * (1f + getStat(Statistic.CRITDAMAGE))) * getStat(Statistic.CRITCHANCE)
 		power *= 1f + getStat(Statistic.HASTE)
+		power *= 1f + getStat(Statistic.LIFESTEAL)
 
 		var rating = hp + power
 		val ability = entity.ability()
 		if (ability != null)
 		{
 			var abilityModifier = 1f + (ability.abilities.size * 0.2f)
-			abilityModifier *= 1f + getStat(Statistic.BUFFPOWER)
-			abilityModifier *= 1f + getStat(Statistic.BUFFDURATION)
-			abilityModifier *= 1f + getStat(Statistic.DEBUFFPOWER)
-			abilityModifier *= 1f + getStat(Statistic.DEBUFFDURATION)
-			abilityModifier *= 1f + getStat(Statistic.ABILITYPOWER)
-			abilityModifier *= 1f + getStat(Statistic.ABILITYCOOLDOWN)
+
+			for (ability in ability.abilities)
+			{
+				if (ability.ability.actions.any{ it is DamageAction || it is HealAction })
+				{
+					abilityModifier *= 1f + getStat(Statistic.ABILITYPOWER)
+				}
+
+				if (ability.ability.actions.any{ it is BuffAction && !it.isDebuff })
+				{
+					abilityModifier *= 1f + getStat(Statistic.BUFFPOWER) + getStat(Statistic.BUFFDURATION)
+				}
+
+				if (ability.ability.actions.any{ it is BuffAction && it.isDebuff })
+				{
+					abilityModifier *= 1f + getStat(Statistic.DEBUFFPOWER) + getStat(Statistic.DEBUFFDURATION)
+				}
+
+				abilityModifier *= 1f + getStat(Statistic.ABILITYCOOLDOWN)
+			}
 
 			rating *= abilityModifier
 		}

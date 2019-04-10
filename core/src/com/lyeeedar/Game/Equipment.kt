@@ -1,5 +1,6 @@
 package com.lyeeedar.Game
 
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Stack
@@ -9,7 +10,12 @@ import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import com.lyeeedar.*
 import com.lyeeedar.Components.EventAndCondition
+import com.lyeeedar.Components.ability
 import com.lyeeedar.Components.applyAscensionAndLevel
+import com.lyeeedar.Components.stats
+import com.lyeeedar.Game.ActionSequence.BuffAction
+import com.lyeeedar.Game.ActionSequence.DamageAction
+import com.lyeeedar.Game.ActionSequence.HealAction
 import com.lyeeedar.Renderables.Sprite.MaskedTextureData
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.UI.*
@@ -55,7 +61,6 @@ class Equipment : IEquipmentStatsProvider
 	var slot: EquipmentSlot = EquipmentSlot.WEAPON
 
 	var ascension: Ascension = Ascension.MUNDANE
-	var level: Int = 1
 
 	override val stats = FastEnumMap<Statistic, Float>(Statistic::class.java)
 	override val eventHandlers = FastEnumMap<EventType, Array<EventAndCondition>>(EventType::class.java)
@@ -74,7 +79,7 @@ class Equipment : IEquipmentStatsProvider
 			}
 		}
 
-	fun getStat(statistic: Statistic): Float
+	fun getStat(statistic: Statistic, level: Int): Float
 	{
 		var value = 0f
 		for (provider in statsProviders)
@@ -87,21 +92,30 @@ class Equipment : IEquipmentStatsProvider
 		{
 			value = value.applyAscensionAndLevel(level, ascension)
 		}
+		else
+		{
+			// lerp rest by ascension
+
+			val alpha = ascension.multiplier / Ascension.Values.last().multiplier
+			value = 0f.lerp(value, alpha)
+		}
 
 		return value
 	}
 
-	fun calculatePowerRating(): Float
+	fun calculatePowerRating(entity: Entity): Float
 	{
-		var hp = 100 + getStat(Statistic.MAXHP)
-		hp *= 1f + getStat(Statistic.AEGIS)
-		hp *= 1f + getStat(Statistic.DR)
-		hp *= 1f + getStat(Statistic.REGENERATION) * 2f
-		hp *= 1f + getStat(Statistic.LIFESTEAL)
+		val stats = entity.stats()!!
 
-		var power = 100 + getStat(Statistic.POWER) * 10f
-		power += (power * (1f + getStat(Statistic.CRITDAMAGE))) * getStat(Statistic.CRITCHANCE)
-		power *= 1f + getStat(Statistic.HASTE)
+		var hp = stats.baseStats[Statistic.MAXHP] * stats.ascension.multiplier + getStat(Statistic.MAXHP, stats.level)
+		hp *= 1f + getStat(Statistic.AEGIS, stats.level)
+		hp *= 1f + getStat(Statistic.DR, stats.level)
+		hp *= 1f + getStat(Statistic.REGENERATION, stats.level) * 2f
+
+		var power = stats.baseStats[Statistic.POWER] * stats.ascension.multiplier + getStat(Statistic.POWER, stats.level) * 10f
+		power += (power * (1f + getStat(Statistic.CRITDAMAGE, stats.level))) * getStat(Statistic.CRITCHANCE, stats.level)
+		power *= 1f + getStat(Statistic.HASTE, stats.level)
+		power *= 1f + getStat(Statistic.LIFESTEAL, stats.level)
 
 		var rating = hp + power
 
@@ -111,6 +125,34 @@ class Equipment : IEquipmentStatsProvider
 			{
 				rating *= 1f + 0.2f * handlers.size
 			}
+		}
+
+		val ability = entity.ability()
+		if (ability != null)
+		{
+			var abilityModifier = 1f + (ability.abilities.size * 0.2f)
+
+			for (ability in ability.abilities)
+			{
+				if (ability.ability.actions.any { it is DamageAction || it is HealAction })
+				{
+					abilityModifier *= 1f + getStat(Statistic.ABILITYPOWER, stats.level)
+				}
+
+				if (ability.ability.actions.any { it is BuffAction && !it.isDebuff })
+				{
+					abilityModifier *= 1f + getStat(Statistic.BUFFPOWER, stats.level) + getStat(Statistic.BUFFDURATION, stats.level)
+				}
+
+				if (ability.ability.actions.any { it is BuffAction && it.isDebuff })
+				{
+					abilityModifier *= 1f + getStat(Statistic.DEBUFFPOWER, stats.level) + getStat(Statistic.DEBUFFDURATION, stats.level)
+				}
+
+				abilityModifier *= 1f + getStat(Statistic.ABILITYCOOLDOWN, stats.level)
+			}
+
+			rating *= abilityModifier
 		}
 
 		return rating
@@ -147,7 +189,7 @@ class Equipment : IEquipmentStatsProvider
 		return table
 	}
 
-	fun createCardTable(): Table
+	fun createCardTable(entity: Entity): Table
 	{
 		val table = Table()
 
@@ -187,8 +229,8 @@ class Equipment : IEquipmentStatsProvider
 
 			levelPowerTable.add(table).expandX()
 		}
-		addSubtextNumber("Level", level)
-		addSubtextNumber("Rating", calculatePowerRating().toInt())
+		addSubtextNumber("Ascension", ascension.ordinal+1)
+		addSubtextNumber("Rating", calculatePowerRating(entity).toInt())
 
 		table.add(levelPowerTable).growX().pad(5f)
 		table.row()
@@ -201,7 +243,7 @@ class Equipment : IEquipmentStatsProvider
 		{
 			val statTable = Table()
 
-			val rawValue = getStat(stat)
+			val rawValue = getStat(stat, entity.stats().level)
 			val value: Int
 			val valueStr: String
 			if (Statistic.BaseValues.contains(stat))
@@ -253,7 +295,6 @@ class Equipment : IEquipmentStatsProvider
 		weight = EquipmentWeight.valueOf(xmlData.get("Weight", "Medium")!!.toUpperCase())
 		slot = EquipmentSlot.valueOf(xmlData.get("Slot", "Weapon")!!.toUpperCase())
 
-		level = xmlData.getInt("Level", 1)
 		ascension = Ascension.valueOf(xmlData.get("Ascension", "Mundane")!!.toUpperCase())
 
 		Statistic.parse(xmlData.getChildByName("Statistics"), stats)
