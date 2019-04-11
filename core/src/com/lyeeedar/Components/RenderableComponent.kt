@@ -47,7 +47,7 @@ class RenderableComponent() : AbstractComponent()
 			{
 				"Sprite" -> AssetManager.loadSprite(renderableEl)
 				"TilingSprite" -> AssetManager.loadTilingSprite(renderableEl)
-				"ParticleEffect" -> AssetManager.loadParticleEffect(renderableEl)
+				"ParticleEffect" -> AssetManager.loadParticleEffect(renderableEl).getParticleEffect()
 				else -> throw Exception("Unknown renderable type '" + renderableEl.getAttribute("meta:RefKey") + "'!")
 			}
 

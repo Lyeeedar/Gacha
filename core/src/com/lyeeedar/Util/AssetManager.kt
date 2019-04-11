@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.ObjectMap
 import com.lyeeedar.Renderables.Animation.AbstractAnimation
 import com.lyeeedar.Renderables.Light
 import com.lyeeedar.Renderables.LightAnimation
-import com.lyeeedar.Renderables.Particle.ParticleEffect
+import com.lyeeedar.Renderables.Particle.ParticleEffectDescription
 import com.lyeeedar.Renderables.Renderable
 import com.lyeeedar.Renderables.Sprite.DirectionalSprite
 import com.lyeeedar.Renderables.Sprite.Sprite
@@ -147,15 +147,15 @@ class AssetManager
 			return region
 		}
 
-		fun loadParticleEffect(name: String): ParticleEffect
+		fun loadParticleEffect(name: String): ParticleEffectDescription
 		{
-			val effect = ParticleEffect.load(name)
+			val effect = ParticleEffectDescription(name)
 			return effect
 		}
 
-		fun loadParticleEffect(xml:XmlData): ParticleEffect
+		fun loadParticleEffect(xml:XmlData): ParticleEffectDescription
 		{
-			val effect = ParticleEffect.load(xml.get("Name"))
+			val effect = ParticleEffectDescription(xml.get("Name"))
 
 			val colourElement = xml.getChildByName("Colour")
 			var colour = Colour(1f, 1f, 1f, 1f)
@@ -401,7 +401,7 @@ class AssetManager
 
 		fun loadLayeredSprite(xml: XmlData): Sprite
 		{
-			val paths = Array<String>()
+			val paths = Array<String>(1)
 			var drawActualSize = false
 
 			val layers = xml.getChildByName("Layers")!!
@@ -460,7 +460,7 @@ class AssetManager
 			return when(type)
 			{
 				"SPRITE" -> AssetManager.loadSprite(xml)
-				"PARTICLEEFFECT", "PARTICLE" -> AssetManager.loadParticleEffect(xml)
+				"PARTICLEEFFECT", "PARTICLE" -> AssetManager.loadParticleEffect(xml).getParticleEffect()
 				"TILINGSPRITE" -> AssetManager.loadTilingSprite(xml)
 				else -> throw Exception("Unknown renderable type '$type'!")
 			};

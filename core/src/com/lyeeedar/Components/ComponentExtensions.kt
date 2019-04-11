@@ -88,6 +88,16 @@ class EntityLoader()
 
 			for (componentEl in componentsEl.children())
 			{
+				if (Global.resolveInstant)
+				{
+					if (
+						componentEl.name.toUpperCase() == "DIRECTIONALSPRITE" ||
+						componentEl.name.toUpperCase() == "RENDERABLE")
+					{
+						continue
+					}
+				}
+
 				val component = when(componentEl.name.toUpperCase())
 				{
 					"ADDITIONALRENDERABLES" -> AdditionalRenderableComponent()

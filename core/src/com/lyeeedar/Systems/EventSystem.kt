@@ -3,13 +3,13 @@ package com.lyeeedar.Systems
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.ObjectFloatMap
+import com.badlogic.gdx.utils.Pool
 import com.lyeeedar.Components.*
 import com.lyeeedar.EventType
 import com.lyeeedar.Global
 import com.lyeeedar.Util.FastEnumMap
-import com.lyeeedar.Util.ObjectFloatMap
 import com.lyeeedar.Util.Point
-import ktx.collections.gdxArrayOf
+import com.lyeeedar.Util.set
 
 class EventSystem : AbstractSystem()
 {
@@ -26,6 +26,7 @@ class EventSystem : AbstractSystem()
 		{
 			if (event.source.isScheduledForRemoval || event.source.isMarkedForDeletion())
 			{
+				event.free()
 				continue
 			}
 
@@ -56,6 +57,8 @@ class EventSystem : AbstractSystem()
 			{
 				checkHandlers(event, eventHandler.handlers)
 			}
+
+			event.free()
 		}
 	}
 
@@ -143,17 +146,55 @@ class EventSystem : AbstractSystem()
 	}
 }
 
-class EventData(val type: EventType, val source: Entity, val targets: Array<Point>, val variables: ObjectFloatMap<String>)
+class EventData()
 {
+	lateinit var type: EventType
+	lateinit var source: Entity
+	val targets = Array<Point>(1)
+	val variables = ObjectFloatMap<String>()
+
 	var targetEntity: Entity? = null
 
-	constructor(type: EventType, source: Entity, target: Entity, variables: ObjectFloatMap<String>) : this(type, source, gdxArrayOf(target.pos().position), variables)
+	fun set(type: EventType, source: Entity, target: Entity, inputVariables: Map<String, Float>? = null): EventData
 	{
+		this.type = type
+		this.source = source
+		this.targets.add(target.pos().position)
 		targetEntity = target
+
+		if (inputVariables != null)
+		{
+			for (pair in inputVariables)
+			{
+				variables[pair.key] = pair.value
+			}
+		}
 
 		source.stats().write(variables, "self")
 		target.stats().write(variables, "target")
+
+		return this
 	}
 
-	constructor(type: EventType, source: Entity, target: Entity, variables: Map<String, Float>) : this(type, source, gdxArrayOf(target.pos().position), ObjectFloatMap(variables))
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<EventData> = object : Pool<EventData>() {
+			override fun newObject(): EventData
+			{
+				return EventData()
+			}
+		}
+
+		@JvmStatic fun obtain(): EventData
+		{
+			val obj = pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	fun free() { if (obtained) { pool.free(this); obtained = false } }
 }

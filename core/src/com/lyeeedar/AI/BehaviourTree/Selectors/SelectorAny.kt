@@ -10,7 +10,7 @@ import com.lyeeedar.Util.XmlData
 
 class SelectorAny(): AbstractSelector()
 {
-	val runningList: com.badlogic.gdx.utils.Array<Int> = com.badlogic.gdx.utils.Array<Int>()
+	val runningList: com.badlogic.gdx.utils.Array<Int> = com.badlogic.gdx.utils.Array<Int>(1)
 	var reset: Boolean = false
 
 	//----------------------------------------------------------------------

@@ -22,6 +22,8 @@ class ActionGetAllVisible(): AbstractAction()
 	var type: Type = Type.TILES
 	lateinit var key: String
 
+	val temp = com.badlogic.gdx.utils.Array<Entity>(10)
+
 	override fun evaluate(entity: Entity): ExecutionState
 	{
 		val pos = Mappers.position.get(entity)
@@ -32,7 +34,7 @@ class ActionGetAllVisible(): AbstractAction()
 
 		if (type == Type.ALLIES)
 		{
-			val temp = com.badlogic.gdx.utils.Array<Entity>()
+			temp.clear()
 			for (point in points)
 			{
 				val etile = tile.level.getTile(point) ?: continue
@@ -47,12 +49,12 @@ class ActionGetAllVisible(): AbstractAction()
 				}
 			}
 
-			setData( key, temp );
-			state = if (temp.size > 0) ExecutionState.COMPLETED else ExecutionState.FAILED;
+			setData( key, temp )
+			state = if (temp.size > 0) ExecutionState.COMPLETED else ExecutionState.FAILED
 		}
 		else if (type == Type.ENEMIES)
 		{
-			val temp = com.badlogic.gdx.utils.Array<Entity>()
+			temp.clear()
 			for (point in points)
 			{
 				val etile = tile.level.getTile(point) ?: continue
@@ -68,7 +70,7 @@ class ActionGetAllVisible(): AbstractAction()
 			}
 
 			setData( key, temp )
-			state = if(temp.size > 0) ExecutionState.COMPLETED else ExecutionState.FAILED;
+			state = if(temp.size > 0) ExecutionState.COMPLETED else ExecutionState.FAILED
 		}
 		else
 		{

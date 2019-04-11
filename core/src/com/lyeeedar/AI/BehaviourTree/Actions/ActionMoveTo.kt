@@ -75,7 +75,7 @@ class ActionMoveTo(): AbstractAction()
 		}
 
 		// if next step is impassable then fail
-		if ( ! ( nextTile?.getPassable( posData.slot, entity ) ?: false ) )
+		if (nextTile?.getPassable(posData.slot, entity) != true)
 		{
 			lastPos = Point.ZERO
 			Point.freeAll(path)
@@ -98,7 +98,7 @@ class ActionMoveTo(): AbstractAction()
 			}
 
 			lastPos = tile
-			taskData.tasks.add(TaskMove(Direction.getDirection(offset)))
+			taskData.tasks.add(TaskMove.obtain().set(Direction.getDirection(offset)))
 		}
 		// if moving away then just run directly away
 		else
@@ -114,7 +114,7 @@ class ActionMoveTo(): AbstractAction()
 
 			lastPos = tile
 			val opposite = offset * -1
-			taskData.tasks.add(TaskMove(Direction.getDirection(opposite)))
+			taskData.tasks.add(TaskMove.obtain().set(Direction.getDirection(opposite)))
 			opposite.free()
 		}
 

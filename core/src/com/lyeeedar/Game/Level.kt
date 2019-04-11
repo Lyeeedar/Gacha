@@ -82,7 +82,7 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 	var destroyingLevel = false
 
 	// ----------------------------------------------------------------------
-	val screenSpaceEffects = com.badlogic.gdx.utils.Array<ParticleEffect>()
+	val screenSpaceEffects = com.badlogic.gdx.utils.Array<ParticleEffect>(1)
 
 	// ----------------------------------------------------------------------
 	val metaregions = ObjectMap<String, com.badlogic.gdx.utils.Array<Tile>>()
@@ -90,7 +90,7 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 	// ----------------------------------------------------------------------
 	class EntityTile(var tile: Tile, var entity: Entity?)
 	val playerTiles = Array<EntityTile>(5) { i -> EntityTile(Tile(-1, -1), null) }
-	var enemyTiles = com.badlogic.gdx.utils.Array<EntityTile>()
+	var enemyTiles = com.badlogic.gdx.utils.Array<EntityTile>(5)
 	var selectingEntities = true
 	var dragStart = Point.MINUS_ONE
 	var tileCurrent: EntityTile? = null
@@ -220,7 +220,7 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 					{
 						if (!metaregions.containsKey(key))
 						{
-							metaregions[key] = com.badlogic.gdx.utils.Array()
+							metaregions[key] = com.badlogic.gdx.utils.Array(1)
 						}
 
 						if (!metaregions[key].contains(tile)) metaregions[key].add(tile)
@@ -302,7 +302,7 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 	// ----------------------------------------------------------------------
 	fun applyFactionBuffs()
 	{
-		val enemies = com.badlogic.gdx.utils.Array<Entity>()
+		val enemies = com.badlogic.gdx.utils.Array<Entity>(5)
 		for (tile in enemyTiles)
 		{
 			val entity = tile.entity ?: continue
@@ -311,7 +311,7 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 
 		applyFactionBuffs(enemies)
 
-		val allies = com.badlogic.gdx.utils.Array<Entity>()
+		val allies = com.badlogic.gdx.utils.Array<Entity>(5)
 		for (tile in playerTiles)
 		{
 			val entity = tile.entity ?: continue
@@ -420,8 +420,8 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 
 			val groundSymbol = symbolsMap['#'.toInt()]
 
-			val playerTiles = com.badlogic.gdx.utils.Array<Tile>()
-			val enemyTiles = com.badlogic.gdx.utils.Array<Tile>()
+			val playerTiles = com.badlogic.gdx.utils.Array<Tile>(5)
+			val enemyTiles = com.badlogic.gdx.utils.Array<Tile>(5)
 
 			fun loadTile(tile: Tile, char: Char)
 			{

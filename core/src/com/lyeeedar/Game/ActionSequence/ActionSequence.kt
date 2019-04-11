@@ -14,12 +14,12 @@ import ktx.collections.set
 
 class ActionSequence
 {
-	val actions: Array<AbstractActionSequenceAction> = Array()
+	val actions: Array<AbstractActionSequenceAction> = Array(4)
 
 	val enteredActions: Array<AbstractActionSequenceAction> = Array(false, 4)
 	lateinit var source: Entity
-	val targets: Array<Point> = Array()
-	val lockedTargets: Array<Entity> = Array()
+	val targets: Array<Point> = Array(1)
+	val lockedTargets: Array<Entity> = Array(1)
 	lateinit var level: Level
 	lateinit var facing: Direction
 
@@ -173,7 +173,7 @@ class ActionSequence
 			val existing = loadedSequences[xmlData]
 			if (existing != null) return existing.copy()
 
-			val actions = Array<AbstractActionSequenceAction>()
+			val actions = Array<AbstractActionSequenceAction>(4)
 			val ability = ActionSequence()
 
 			for (timelineEl in xmlData.children)

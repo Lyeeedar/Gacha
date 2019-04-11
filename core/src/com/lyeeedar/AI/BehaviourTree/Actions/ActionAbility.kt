@@ -12,7 +12,6 @@ import com.lyeeedar.Statistic
 import com.lyeeedar.Util.Point
 import com.lyeeedar.Util.XmlData
 import com.lyeeedar.Util.randomOrNull
-import ktx.collections.toGdxArray
 
 class ActionAbility : AbstractAction()
 {
@@ -48,7 +47,7 @@ class ActionAbility : AbstractAction()
 
 		val dist = target.tile()!!.taxiDist(tile)
 
-		val readyAbility = ability.abilities.filter { it.remainingCooldown <= 0 && it.range >= dist && it.condition.evaluate(stats.variables()) != 0f }.toGdxArray().randomOrNull()
+		val readyAbility = ability.abilities.filter { it.remainingCooldown <= 0 && it.range >= dist && it.condition.evaluate(stats.variables()) != 0f }.randomOrNull()
 		if (readyAbility != null)
 		{
 			if (readyAbility.singleUse)
@@ -64,7 +63,7 @@ class ActionAbility : AbstractAction()
 
 			val newAb = readyAbility.ability.copy()
 			newAb.source = entity
-			taskData.tasks.add(TaskAbility(target, newAb))
+			taskData.tasks.add(TaskAbility.obtain().set(target, newAb))
 
 			state = ExecutionState.COMPLETED
 			return state

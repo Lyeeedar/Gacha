@@ -19,7 +19,9 @@ class BloodSplatter
 		{
 			if (Global.resolveInstant) return
 
-			var vector = (target-source).toVec().nor()
+			var vector = source.toVec()
+			vector.sub(target.x.toFloat(), target.y.toFloat())
+			vector.nor()
 			vector = vector.rotate(Random.random(-angle, angle))
 
 			val dist = Random.randomWeighted() * emitDist

@@ -14,19 +14,20 @@ import ktx.collections.toGdxArray
 
 class PermuteAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
-	val hitPoints = Array<Point>()
+	val hitPoints = Array<Point>(4)
 
+	val mat = Matrix3()
+	val vec = Vector3()
+	val addedset = ObjectSet<Tile>()
 	override fun enter(): Boolean
 	{
 		val current = sequence.targets.toGdxArray()
 		sequence.targets.clear()
 		sequence.lockedTargets.clear()
 
-		val mat = Matrix3()
 		mat.setToRotation(sequence.facing.angle)
-		val vec = Vector3()
 
-		val addedset = ObjectSet<Tile>()
+		addedset.clear()
 		for (tile in current)
 		{
 			for (point in hitPoints)
@@ -85,12 +86,13 @@ class SelectEntitiesAction(ability: ActionSequence) : AbstractActionSequenceActi
 	var compiledCondition: CompiledExpression? = null
 	var minimum = true
 
+	val entities = ObjectSet<Entity>()
 	override fun enter(): Boolean
 	{
 		sequence.targets.clear()
 		sequence.lockedTargets.clear()
 
-		val entities = ObjectSet<Entity>()
+		entities.clear()
 
 		for (tile in sequence.level.grid)
 		{
@@ -190,12 +192,13 @@ class SelectTilesAction(ability: ActionSequence) : AbstractActionSequenceAction(
 	lateinit var count: CompiledExpression
 	var emptyOnly = false
 
+	val tiles = Array<Tile>(4)
 	override fun enter(): Boolean
 	{
 		sequence.targets.clear()
 		sequence.lockedTargets.clear()
 
-		val tiles = Array<Tile>()
+		tiles.clear()
 
 		for (tile in sequence.level.grid)
 		{

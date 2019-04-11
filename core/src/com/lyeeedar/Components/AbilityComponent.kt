@@ -11,7 +11,7 @@ import com.lyeeedar.Util.XmlData
 
 class AbilityComponent : AbstractComponent()
 {
-	val abilities = Array<AbilityData>()
+	val abilities = Array<AbilityData>(1)
 
 	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{

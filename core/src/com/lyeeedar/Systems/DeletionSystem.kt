@@ -2,7 +2,6 @@ package com.lyeeedar.Systems
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family
-import com.badlogic.gdx.utils.ObjectFloatMap
 import com.badlogic.gdx.utils.ObjectSet
 import com.lyeeedar.Components.*
 import com.lyeeedar.EventType
@@ -44,7 +43,7 @@ class DeletionSystem : AbstractSystem(Family.all(MarkedForDeletionComponent::cla
 		val entityStats = entity.stats()
 		if (entityStats != null && entityStats.hp <= 0f && entityStats.deathEffect != null)
 		{
-			val effect = entityStats.deathEffect!!.copy()
+			val effect = entityStats.deathEffect!!.getParticleEffect()
 			effect.size[0] = pos.size
 			effect.size[1] = pos.size
 			effect.addToEngine(pos.position)
@@ -67,7 +66,7 @@ class DeletionSystem : AbstractSystem(Family.all(MarkedForDeletionComponent::cla
 					if (stats.faction != entityStats.faction && EventSystem.isEventRegistered(EventType.KILL, e))
 					{
 						// we have our killer!
-						val eventData = EventData(EventType.KILL, e, entity, ObjectFloatMap())
+						val eventData = EventData.obtain().set(EventType.KILL, e, entity)
 						engine.event().addEvent(eventData)
 					}
 				}
@@ -83,18 +82,18 @@ class DeletionSystem : AbstractSystem(Family.all(MarkedForDeletionComponent::cla
 
 					if (EventSystem.isEventRegistered(EventType.ANYDEATH, e))
 					{
-						val eventData = EventData(EventType.ANYDEATH, e, entity, ObjectFloatMap())
+						val eventData = EventData.obtain().set(EventType.ANYDEATH, e, entity)
 						engine.event().addEvent(eventData)
 					}
 
 					if (stats.faction == entityStats.faction && EventSystem.isEventRegistered(EventType.ALLYDEATH, e))
 					{
-						val eventData = EventData(EventType.ALLYDEATH, e, entity, ObjectFloatMap())
+						val eventData = EventData.obtain().set(EventType.ALLYDEATH, e, entity)
 						engine.event().addEvent(eventData)
 					}
 					else if (EventSystem.isEventRegistered(EventType.ENEMYDEATH, e))
 					{
-						val eventData = EventData(EventType.ENEMYDEATH, e, entity, ObjectFloatMap())
+						val eventData = EventData.obtain().set(EventType.ENEMYDEATH, e, entity)
 						engine.event().addEvent(eventData)
 					}
 				}

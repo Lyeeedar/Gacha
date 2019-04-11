@@ -22,6 +22,31 @@ import ktx.collections.set
  * Created by Philip on 14-Aug-16.
  */
 
+class ParticleEffectDescription(val path: String)
+{
+	var colour = Colour.WHITE.copy()
+	var flipX = false
+	var flipY = false
+	var scale = 1f
+	var useFacing = true
+	var timeMultiplier = 1f
+	var killOnAnimComplete = false
+
+	fun getParticleEffect(): ParticleEffect
+	{
+		val effect = ParticleEffect.load(path)
+		effect.colour = colour
+		effect.flipX = flipX
+		effect.flipY = flipY
+		effect.scale = scale
+		effect.useFacing = useFacing
+		effect.timeMultiplier = timeMultiplier
+		effect.killOnAnimComplete = killOnAnimComplete
+
+		return effect
+	}
+}
+
 class ParticleEffect : Renderable()
 {
 	private lateinit var loadPath: String
@@ -33,7 +58,7 @@ class ParticleEffect : Renderable()
 	var killOnAnimComplete = false
 	private var warmupTime = 0f
 	private var doneWarmup = false
-	val emitters = Array<Emitter>()
+	val emitters = Array<Emitter>(1)
 
 	// local stuff
 	val position = Vector2()

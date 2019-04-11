@@ -15,7 +15,7 @@ class Faction(val path: String)
 
 	val buffs = Array<Buff>(4) { Buff() }
 
-	val heroes = com.badlogic.gdx.utils.Array<FactionEntity>()
+	val heroes = com.badlogic.gdx.utils.Array<FactionEntity>(3)
 
 	fun parse(xmlData: XmlData)
 	{

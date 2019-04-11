@@ -12,16 +12,22 @@ import com.lyeeedar.Util.Future
 import com.lyeeedar.Util.XmlData
 import ktx.collections.set
 
-class HeroEntry(val path: String, var wins: Int = 0, var losses: Int = 0, var damage: Float = 0f, var averageDps: Float = 1f)
+class HeroEntry(val path: String, var wins: Int = 0, var losses: Int = 0, var damage: Float = 0f)
+{
+	var totalDps: Float = 0f
+	var numSamples: Int = 0
+}
 
 class RatingTest
 {
 	fun doRatingTest(heroes: ObjectMap<String, HeroEntry>)
 	{
+		Global.resolveInstant = true
+
 		val level = Level.Companion.load("Levels/Test")
 
-		val playerHeroes = Array<HeroEntry>()
-		val enemyHeroes = Array<HeroEntry>()
+		val playerHeroes = Array<HeroEntry>(5)
+		val enemyHeroes = Array<HeroEntry>(5)
 
 		for (pos in level.playerTiles)
 		{
@@ -54,7 +60,6 @@ class RatingTest
 		Global.changeLevel(level)
 		level.begin()
 
-		Global.resolveInstant = true
 		var iteration = 0
 		var winningFaction: String? = null
 		while (iteration < 1000 && winningFaction == null)
@@ -65,7 +70,6 @@ class RatingTest
 			winningFaction = level.isComplete()
 			iteration++
 		}
-		Global.resolveInstant = false
 
 		if (winningFaction != null)
 		{
@@ -100,7 +104,8 @@ class RatingTest
 			val data = playerHeroes[i]
 			val entity = level.playerTiles[i].entity!!
 
-			data.averageDps = (data.averageDps + (entity.stats().damageDealt / iteration.toFloat())) / 2f
+			data.totalDps += entity.stats().damageDealt / iteration.toFloat()
+			data.numSamples++
 		}
 
 		for (i in 0 until enemyHeroes.size)
@@ -108,8 +113,11 @@ class RatingTest
 			val data = enemyHeroes[i]
 			val entity = level.enemyTiles[i].entity!!
 
-			data.averageDps = (data.averageDps + (entity.stats().damageDealt / iteration.toFloat())) / 2f
+			data.totalDps += entity.stats().damageDealt / iteration.toFloat()
+			data.numSamples++
 		}
+
+		Global.resolveInstant = false
 	}
 
 	fun runRatingTest()
@@ -135,7 +143,7 @@ class RatingTest
 		val sorted = heroes.values().sortedByDescending { it.wins.toFloat() / it.losses.toFloat() }
 		for (entry in sorted)
 		{
-			println(entry.path + ": 			Wins: " + entry.wins + "  Losses: " + entry.losses + "   DPS: " + entry.averageDps)
+			println(entry.path + ": 			Wins: " + entry.wins + "  Losses: " + entry.losses + "   DPS: " + (entry.totalDps / entry.numSamples))
 		}
 
 		Global.engine.addSystem(renderSystem)

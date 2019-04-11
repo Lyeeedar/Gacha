@@ -10,7 +10,7 @@ import com.lyeeedar.Util.XmlData
 
 abstract class AbstractSelector(): AbstractNodeContainer()
 {
-	val nodes: com.badlogic.gdx.utils.Array<AbstractTreeNode> = com.badlogic.gdx.utils.Array<AbstractTreeNode>()
+	val nodes: com.badlogic.gdx.utils.Array<AbstractTreeNode> = com.badlogic.gdx.utils.Array<AbstractTreeNode>(1)
 
 	// ----------------------------------------------------------------------
 	override fun <T> findData(key: String): T?

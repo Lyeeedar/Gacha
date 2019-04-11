@@ -49,7 +49,7 @@ class TestScreen : AbstractScreen()
 			mainTable.add(Label(hero.path.filename(false), Global.skin))
 			mainTable.add(Label((hero.wins.toFloat() / hero.losses.toFloat()).toString(2), Global.skin))
 			mainTable.add(Label(hero.damage.toString(2), Global.skin))
-			mainTable.add(Label(hero.averageDps.toString(2), Global.skin))
+			mainTable.add(Label((hero.totalDps / hero.numSamples).toString(2), Global.skin))
 			mainTable.row()
 		}
 	}

@@ -12,7 +12,7 @@ import com.lyeeedar.EventType
 import com.lyeeedar.Game.Buff
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.Global
-import com.lyeeedar.Renderables.Particle.ParticleEffect
+import com.lyeeedar.Renderables.Particle.ParticleEffectDescription
 import com.lyeeedar.Statistic
 import com.lyeeedar.Systems.EventData
 import com.lyeeedar.Systems.EventSystem
@@ -23,9 +23,11 @@ class DamageAction(ability: ActionSequence) : AbstractActionSequenceAction(abili
 {
 	lateinit var damage: CompiledExpression
 
+	val hitEntities = ObjectSet<Entity>()
+	val map = ObjectFloatMap<String>()
 	override fun enter(): Boolean
 	{
-		val hitEntities = ObjectSet<Entity>()
+		hitEntities.clear()
 		for (point in sequence.targets)
 		{
 			val tile = sequence.level.getTile(point) ?: continue
@@ -39,7 +41,7 @@ class DamageAction(ability: ActionSequence) : AbstractActionSequenceAction(abili
 				{
 					val sourceStats = sequence.source.stats()!!
 
-					val map = ObjectFloatMap<String>()
+					map.clear()
 					sourceStats.write(map, "self")
 					targetstats.write(map, "target")
 
@@ -62,7 +64,7 @@ class DamageAction(ability: ActionSequence) : AbstractActionSequenceAction(abili
 
 						if (EventSystem.isEventRegistered(EventType.HEALED, sequence.source))
 						{
-							val healEventData = EventData(EventType.HEALED, sequence.source, sequence.source, mapOf(Pair("damage", stolenLife)))
+							val healEventData = EventData.obtain().set(EventType.HEALED, sequence.source, sequence.source, mapOf(Pair("damage", stolenLife)))
 							Global.engine.event().addEvent(healEventData)
 						}
 					}
@@ -72,14 +74,14 @@ class DamageAction(ability: ActionSequence) : AbstractActionSequenceAction(abili
 					// deal damage
 					if (EventSystem.isEventRegistered(EventType.DEALDAMAGE, sequence.source))
 					{
-						val dealEventData = EventData(EventType.DEALDAMAGE, sequence.source, entity, mapOf(Pair("damage", finalDam)))
+						val dealEventData = EventData.obtain().set(EventType.DEALDAMAGE, sequence.source, entity, mapOf(Pair("damage", finalDam)))
 						Global.engine.event().addEvent(dealEventData)
 					}
 
 					// take damage
 					if (EventSystem.isEventRegistered(EventType.TAKEDAMAGE, entity))
 					{
-						val takeEventData = EventData(EventType.TAKEDAMAGE, entity, sequence.source, mapOf(Pair("damage", finalDam)))
+						val takeEventData = EventData.obtain().set(EventType.TAKEDAMAGE, entity, sequence.source, mapOf(Pair("damage", finalDam)))
 						Global.engine.event().addEvent(takeEventData)
 					}
 				}
@@ -117,9 +119,11 @@ class HealAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 {
 	lateinit var amount: CompiledExpression
 
+	val hitEntities = ObjectSet<Entity>()
+	val map = ObjectFloatMap<String>()
 	override fun enter(): Boolean
 	{
-		val hitEntities = ObjectSet<Entity>()
+		hitEntities.clear()
 		for (point in sequence.targets)
 		{
 			val tile = sequence.level.getTile(point) ?: continue
@@ -133,7 +137,7 @@ class HealAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 				{
 					val sourceStats = sequence.source.stats()!!
 
-					val map = ObjectFloatMap<String>()
+					map.clear()
 					sourceStats.write(map, "self")
 					targetstats.write(map, "target")
 
@@ -146,7 +150,7 @@ class HealAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 
 					if (EventSystem.isEventRegistered(EventType.HEALED, entity))
 					{
-						val healEventData = EventData(EventType.HEALED, entity, sequence.source, mapOf(Pair("amount", healing)))
+						val healEventData = EventData.obtain().set(EventType.HEALED, entity, sequence.source, mapOf(Pair("amount", healing)))
 						Global.engine.event().addEvent(healEventData)
 					}
 				}
@@ -186,9 +190,11 @@ class StunAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 	lateinit var chance: CompiledExpression
 	lateinit var count: CompiledExpression
 
+	val hitEntities = ObjectSet<Entity>()
+	val map = ObjectFloatMap<String>()
 	override fun enter(): Boolean
 	{
-		val hitEntities = ObjectSet<Entity>()
+		hitEntities.clear()
 		for (point in sequence.targets)
 		{
 			val tile = sequence.level.getTile(point) ?: continue
@@ -204,7 +210,7 @@ class StunAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 				{
 					val sourceStats = sequence.source.stats()!!
 
-					val map = ObjectFloatMap<String>()
+					map.clear()
 					sourceStats.write(map, "self")
 					targetstats.write(map, "target")
 
@@ -271,11 +277,12 @@ class BuffAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 	class BuffRecord(val stats: StatisticsComponent, val buff: Buff)
 	val appliedToEntities = Array<BuffRecord>(false, 4)
 
+	val hitEntities = ObjectSet<Entity>()
 	override fun enter(): Boolean
 	{
 		val sourcestats = sequence.source.stats()!!
 
-		val hitEntities = ObjectSet<Entity>()
+		hitEntities.clear()
 		for (point in sequence.targets)
 		{
 			val tile = sequence.level.getTile(point) ?: continue
@@ -354,10 +361,10 @@ class BuffAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 class SummonAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
 	lateinit var entityPath: String
-	lateinit var summonEffect: ParticleEffect
+	lateinit var summonEffect: ParticleEffectDescription
 	var killOnExit = false
 
-	val summonedEntities = Array<Entity>()
+	val summonedEntities = Array<Entity>(1)
 
 	override fun enter(): Boolean
 	{
@@ -387,7 +394,7 @@ class SummonAction(ability: ActionSequence) : AbstractActionSequenceAction(abili
 			}
 			else
 			{
-				val validTiles = Array<Tile>()
+				val validTiles = Array<Tile>(4)
 				for (dir in Direction.Values)
 				{
 					val dirtile = sequence.level.getTile(tile, dir) ?: continue
@@ -408,7 +415,7 @@ class SummonAction(ability: ActionSequence) : AbstractActionSequenceAction(abili
 			var delay = 0f
 			if (!Global.resolveInstant)
 			{
-				val effect = summonEffect.copy()
+				val effect = summonEffect.getParticleEffect()
 				effect.addToEngine(tile)
 
 				delay = effect.lifetime * 0.3f

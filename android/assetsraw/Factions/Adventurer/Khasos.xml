@@ -77,8 +77,8 @@
 								<MoveType>Leap</MoveType>
 							</MoveSource>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.2402454</Duration>
 								<Time>0.104601227</Time>
+								<Duration LockDuration="False">0.2402454</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Stomp</Name>
 								</Renderable>
@@ -100,8 +100,8 @@
 						<Timeline>
 							<SelectSelf />
 							<Buff>
-								<Duration LockDuration="False">0.06883435</Duration>
 								<Time>0.0222699419</Time>
+								<Duration LockDuration="False">0.06883435</Duration>
 								<Buff meta:RefKey="Buff">
 									<Icon meta:RefKey="Sprite">
 										<Name>Oryx/uf_split/uf_items/weapon_axe_exotic1</Name>
@@ -117,8 +117,8 @@
 						</Timeline>
 						<Timeline>
 							<SourceRenderable>
-								<Time>0.00302017061</Time>
 								<Duration LockDuration="False">0.09984035</Duration>
+								<Time>0.00302017061</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Shout</Name>
 								</Renderable>
@@ -138,8 +138,8 @@
 								<Count>5</Count>
 							</SelectAllies>
 							<Buff>
-								<Duration LockDuration="False">0.242000014</Duration>
 								<Time>0.0240625013</Time>
+								<Duration LockDuration="False">0.242000014</Duration>
 								<Buff meta:RefKey="Buff">
 									<Icon meta:RefKey="Sprite">
 										<Name>Oryx/uf_split/uf_items/armor_blood_helm</Name>
@@ -153,8 +153,8 @@
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.261250019</Duration>
 								<Time>0.0240625013</Time>
+								<Duration LockDuration="False">0.261250019</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>LifestealBuff</Name>
 									<Colour>199,11,11,255</Colour>
@@ -174,17 +174,5 @@
 			<Name>Khasos</Name>
 			<Title>The Blood Dancer</Title>
 		</Name>
-		<EventHandler meta:RefKey="EventHandler">
-			<Events>
-				<DealDamage>
-					<EventHandler>
-						<Condition>1</Condition>
-						<ActionSequence meta:RefKey="ActionSequence">
-							<Timeline />
-						</ActionSequence>
-					</EventHandler>
-				</DealDamage>
-			</Events>
-		</EventHandler>
 	</Components>
 </Entity>

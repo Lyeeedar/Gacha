@@ -13,8 +13,8 @@ class SpriteWrapper
 	var sprite: Sprite? = null
 	var tilingSprite: TilingSprite? = null
 
-	val spriteVariants = com.badlogic.gdx.utils.Array<Pair<Float, Sprite>>()
-	val tilingSpriteVariants = com.badlogic.gdx.utils.Array<Pair<Float, TilingSprite>>()
+	val spriteVariants = com.badlogic.gdx.utils.Array<Pair<Float, Sprite>>(1)
+	val tilingSpriteVariants = com.badlogic.gdx.utils.Array<Pair<Float, TilingSprite>>(1)
 
 	var chosenSprite: Sprite? = null
 	var chosenTilingSprite: TilingSprite? = null

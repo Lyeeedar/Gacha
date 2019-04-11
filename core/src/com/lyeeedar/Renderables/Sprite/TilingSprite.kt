@@ -281,7 +281,7 @@ class TilingSprite() : Renderable()
 
 		fun getMasks(emptyDirections: EnumBitflag<Direction>): Array<String>
 		{
-			val masks = Array<String>()
+			val masks = Array<String>(8)
 
 			if (emptyDirections.bitFlag == 0)
 			{

@@ -18,8 +18,8 @@ class TrailingEntityComponent : AbstractComponent()
 	var initialised = false
 
 	var collapses = true
-	val entities = Array<Entity>()
-	val tiles = Array<Tile>()
+	val entities = Array<Entity>(1)
+	val tiles = Array<Tile>(1)
 
 	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{

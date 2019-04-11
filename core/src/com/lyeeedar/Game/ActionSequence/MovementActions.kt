@@ -16,6 +16,7 @@ import com.lyeeedar.Statistic
 import com.lyeeedar.Util.Point
 import com.lyeeedar.Util.Random
 import com.lyeeedar.Util.XmlData
+import com.lyeeedar.Util.randomOrNull
 
 enum class MovementType
 {
@@ -32,7 +33,7 @@ class MoveSourceAction(ability: ActionSequence) : AbstractActionSequenceAction(a
 	override fun enter(): Boolean
 	{
 		val srcTile = sequence.source.tile()!!
-		val dst = sequence.targets.random() ?: return false
+		val dst = sequence.targets.randomOrNull() ?: return false
 		val dstTile = sequence.level.getTile(dst) ?: return false
 
 		doMove(srcTile, dstTile, type, false)
@@ -111,10 +112,14 @@ class KnockbackAction(ability: ActionSequence) : AbstractActionSequenceAction(ab
 			val targetTile = sequence.level.getTile(target) ?: continue
 
 			val dir = Direction.getDirection(srcTile, targetTile)
-			val dstPoint = targetTile + Point(dir.x, dir.y) * dist
+			val dstPoint = Point.obtain().set(dir.x, dir.y)
+			dstPoint.timesAssign(dist)
+			dstPoint.plusAssign(targetTile)
 			val dst = sequence.level.getTileClamped(dstPoint)
 
 			doMove(targetTile, dst, type, true)
+
+			dstPoint.free()
 		}
 
 		return false
@@ -182,7 +187,7 @@ private fun doMove(src: Tile, dst: Tile, type: MovementType, interrupt: Boolean)
 	{
 		if (!pos.isValidTile(dst, entity))
 		{
-			val validTiles = com.badlogic.gdx.utils.Array<Tile>()
+			val validTiles = com.badlogic.gdx.utils.Array<Tile>(4)
 			for (dir in Direction.Values)
 			{
 				val tile = src.level.getTile(dst + dir) ?: continue

@@ -70,7 +70,7 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 				val tile = entity.tile()
 				if (tile != null)
 				{
-					val p = hitEffect.copy()
+					val p = hitEffect.getParticleEffect()
 					p.size[0] = entity.pos().size
 					p.size[1] = entity.pos().size
 
@@ -87,7 +87,7 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 
 			if (!Global.resolveInstant)
 			{
-				val p = blockBrokenEffect.copy()
+				val p = blockBrokenEffect.getParticleEffect()
 				p.size[0] = entity.pos().size
 				p.size[1] = entity.pos().size
 
@@ -102,7 +102,7 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 
 			if (!Global.resolveInstant)
 			{
-				val p = blockEffect.copy()
+				val p = blockEffect.getParticleEffect()
 				p.size[0] = entity.pos().size
 				p.size[1] = entity.pos().size
 
@@ -144,6 +144,11 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 				messageList.add(label)
 				Global.stage.addActor(label)
 			}
+		}
+
+		for (message in stats.messagesToShow)
+		{
+			message.free()
 		}
 		stats.messagesToShow.clear()
 	}

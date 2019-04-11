@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.MathUtils.clamp
 import com.badlogic.gdx.math.MathUtils.lerp
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.ObjectFloatMap
+import com.badlogic.gdx.utils.Pool
 import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
@@ -15,7 +16,7 @@ import com.lyeeedar.Game.ActionSequence.HealAction
 import com.lyeeedar.Game.Buff
 import com.lyeeedar.Game.Equipment
 import com.lyeeedar.Game.Faction
-import com.lyeeedar.Renderables.Particle.ParticleEffect
+import com.lyeeedar.Renderables.Particle.ParticleEffectDescription
 import com.lyeeedar.Util.*
 import ktx.collections.toGdxArray
 
@@ -70,7 +71,7 @@ class StatisticsComponent: AbstractComponent()
 
 	val baseStats = FastEnumMap<Statistic, Float>(Statistic::class.java)
 
-	var deathEffect: ParticleEffect? = null
+	var deathEffect: ParticleEffectDescription? = null
 
 	var blocking = false
 	var invulnerable = false
@@ -152,7 +153,7 @@ class StatisticsComponent: AbstractComponent()
 			val alpha = dam / maxHP
 			val size = lerp(0.25f, 1f, clamp(alpha, 0f, 1f))
 
-			messagesToShow.add(MessageData(dam.ciel().toString(), Colour.RED, size))
+			messagesToShow.add(MessageData.obtain().set(dam.ciel().toString(), Colour.RED, size))
 		}
 
 		return dam
@@ -167,7 +168,7 @@ class StatisticsComponent: AbstractComponent()
 			val maxHP = getStat(Statistic.MAXHP)
 			val alpha = amount / maxHP
 			val size = lerp(0.25f, 1f, clamp(alpha, 0f, 1f))
-			messagesToShow.add(MessageData(amount.ciel().toString(), Colour.GREEN, size))
+			messagesToShow.add(MessageData.obtain().set(amount.ciel().toString(), Colour.GREEN, size))
 		}
 	}
 
@@ -176,7 +177,7 @@ class StatisticsComponent: AbstractComponent()
 		hp += amount
 	}
 
-	val messagesToShow = Array<MessageData>()
+	val messagesToShow = Array<MessageData>(1)
 
 	fun get(key: String): Float
 	{
@@ -322,9 +323,10 @@ class StatisticsComponent: AbstractComponent()
 		return rating
 	}
 
+	val map = ObjectFloatMap<String>()
 	fun variables(): ObjectFloatMap<String>
 	{
-		val map = ObjectFloatMap<String>()
+		map.clear()
 		write(map)
 		return map
 	}
@@ -357,11 +359,14 @@ class StatisticsComponent: AbstractComponent()
 
 	companion object
 	{
+		val map = ObjectFloatMap<String>()
+		init
+		{
+			writeDefaultVariables(map)
+		}
+
 		fun getDefaultVariables(): ObjectFloatMap<String>
 		{
-			val map = ObjectFloatMap<String>()
-			writeDefaultVariables(map)
-
 			return map
 		}
 
@@ -381,14 +386,50 @@ class StatisticsComponent: AbstractComponent()
 	}
 }
 
-class MessageData(val text: String, val colour: Colour, val size: Float)
+class MessageData()
+{
+	lateinit var text: String
+	lateinit var colour: Colour
+	var size: Float = 0f
+
+	fun set(text: String, colour: Colour, size: Float): MessageData
+	{
+		this.text = text
+		this.colour = colour
+		this.size = size
+
+		return this
+	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<MessageData> = object : Pool<MessageData>() {
+			override fun newObject(): MessageData
+			{
+				return MessageData()
+			}
+		}
+
+		@JvmStatic fun obtain(): MessageData
+		{
+			val obj = pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	fun free() { if (obtained) { pool.free(this); obtained = false } }
+}
 
 class AttackDefinition
 {
 	var damage: Float = 1f
 	var range: Int = 1
-	var hitEffect: ParticleEffect? = null
-	var flightEffect: ParticleEffect? = null
+	var hitEffect: ParticleEffectDescription? = null
+	var flightEffect: ParticleEffectDescription? = null
 
 	fun parse(xml: XmlData)
 	{

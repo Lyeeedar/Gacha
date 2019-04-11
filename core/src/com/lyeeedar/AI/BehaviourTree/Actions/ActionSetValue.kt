@@ -28,7 +28,7 @@ class ActionSetValue(): AbstractAction()
 			val split = value.split(' ')
 			val pointKey = split[1]
 			val dir = split[2]
-			val direction = if (dir == "random") Direction.CardinalValues.asSequence().random()!! else Direction.valueOf(split[2].toUpperCase())
+			val direction = if (dir == "random") Direction.CardinalValues.random() else Direction.valueOf(split[2].toUpperCase())
 			val dist = split[3].toInt()
 
 			val point = getData(pointKey, entity.tile())!!

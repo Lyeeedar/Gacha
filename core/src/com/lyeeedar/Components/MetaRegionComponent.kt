@@ -7,7 +7,7 @@ import ktx.collections.addAll
 
 class MetaRegionComponent :  AbstractComponent()
 {
-	val keys = Array<String>()
+	val keys = Array<String>(1)
 
 	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{

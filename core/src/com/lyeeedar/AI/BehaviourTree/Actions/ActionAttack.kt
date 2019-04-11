@@ -41,7 +41,7 @@ class ActionAttack : AbstractAction()
 			return state
 		}
 
-		taskData.tasks.add(TaskAttack(targetTile, stats.attackDefinition))
+		taskData.tasks.add(TaskAttack.obtain().set(targetTile, stats.attackDefinition))
 
 		state = ExecutionState.COMPLETED
 		return state

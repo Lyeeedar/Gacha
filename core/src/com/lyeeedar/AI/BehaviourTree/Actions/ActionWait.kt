@@ -23,7 +23,7 @@ class ActionWait(): AbstractAction()
 
 		for (i in 0 until num)
 		{
-			task.tasks.add(TaskWait())
+			task.tasks.add(TaskWait.obtain())
 		}
 
 		state = ExecutionState.COMPLETED

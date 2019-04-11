@@ -13,7 +13,7 @@ class CompiledExpression(private val eqnStr: String, variableMap: ObjectFloatMap
 {
 	private val cachedValue: Float?
 	private val expression: Expression?
-	private val seededFunctions = Array<SeededFunction>()
+	private val seededFunctions = Array<SeededFunction>(3)
 
 	init
 	{

@@ -57,7 +57,7 @@ enum class SpawnWeight
 	MIDDLEEND,
 	END;
 
-	val subWeights = Array<SpawnWeight>()
+	val subWeights = Array<SpawnWeight>(3)
 
 	companion object
 	{
@@ -245,7 +245,7 @@ enum class Direction private constructor(val x: Int, val y: Int, val identifier:
 
 		fun buildCone(dir: Direction, start: Point, range: Int): Array<Point>
 		{
-			val hitTiles = Array<Point>()
+			val hitTiles = Array<Point>(8)
 
 			val anticlockwise = dir.anticlockwise
 			val clockwise = dir.clockwise
@@ -407,7 +407,7 @@ enum class EventType
 			for (eventEl in eventsEl.children)
 			{
 				val type = EventType.valueOf(eventEl.name.toUpperCase())
-				val handlers = Array<EventAndCondition>()
+				val handlers = Array<EventAndCondition>(1)
 
 				for (handlerEl in eventEl.children)
 				{

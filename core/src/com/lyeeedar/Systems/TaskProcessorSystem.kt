@@ -195,6 +195,8 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 				e.trailing()?.updatePos(e.tile()!!)
 			}
 
+			t.free()
+
 			return true
 		}
 		else

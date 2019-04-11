@@ -272,7 +272,7 @@ class ZoneTile(x: Int, y: Int) : Point(x, y), IPathfindingTile
 
 class Encounter
 {
-	val enemies = Array<EntityData>()
+	val enemies = Array<EntityData>(5)
 	lateinit var gridEl: XmlData
 
 	fun createLevel(theme: Theme): Level

@@ -160,7 +160,7 @@ class PositionComponent(): AbstractComponent()
 			ystep = 1
 		}
 
-		val tiles = com.badlogic.gdx.utils.Array<Tile>()
+		val tiles = com.badlogic.gdx.utils.Array<Tile>(1)
 		for (i in 0 until size)
 		{
 			val t = tile.level.getTile(tile, sx + xstep * i, sy + ystep * i) ?: continue

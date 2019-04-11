@@ -10,7 +10,7 @@ import com.lyeeedar.Util.XmlData
 class TaskComponent: AbstractComponent(), IDebugCommandProvider
 {
 	lateinit var ai: BehaviourTree
-	val tasks: com.badlogic.gdx.utils.Array<AbstractTask> = com.badlogic.gdx.utils.Array()
+	val tasks: com.badlogic.gdx.utils.Array<AbstractTask> = com.badlogic.gdx.utils.Array(1)
 	var speed: Float = 1f
 
 	var actionAccumulator = 0f

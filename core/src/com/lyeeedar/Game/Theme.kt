@@ -10,7 +10,7 @@ import com.lyeeedar.Util.getXml
 
 class Theme(val filepath: String)
 {
-	val symbols = Array<Symbol>()
+	val symbols = Array<Symbol>(4)
 
 	lateinit var backgroundTile: TextureRegion
 

@@ -2,6 +2,7 @@ package com.lyeeedar.AI.Tasks
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.ObjectSet
+import com.badlogic.gdx.utils.Pool
 import com.lyeeedar.*
 import com.lyeeedar.Components.*
 import com.lyeeedar.Game.Tile
@@ -15,8 +16,19 @@ import com.lyeeedar.Util.Future
 import com.lyeeedar.Util.Random
 import com.lyeeedar.Util.getRotation
 
-class TaskAttack(val tile: Tile, val attackDefinition: AttackDefinition) : AbstractTask()
+class TaskAttack() : AbstractTask()
 {
+	lateinit var tile: Tile
+	lateinit var attackDefinition: AttackDefinition
+
+	fun set(tile: Tile, attackDefinition: AttackDefinition): TaskAttack
+	{
+		this.tile = tile
+		this.attackDefinition = attackDefinition
+
+		return this
+	}
+
 	override fun execute(e: Entity)
 	{
 		e.pos().facing = Direction.getCardinalDirection(e.pos().position.x - tile.x, tile.y - e.pos().position.y)
@@ -45,7 +57,7 @@ class TaskAttack(val tile: Tile, val attackDefinition: AttackDefinition) : Abstr
 			{
 				val animDuration = 0.15f + tile.euclideanDist(e.tile()!!) * 0.015f
 
-				val effect = attackDefinition.flightEffect!!.copy()
+				val effect = attackDefinition.flightEffect!!.getParticleEffect()
 				effect.rotation = getRotation(e.tile()!!, tile)
 				effect.killOnAnimComplete = true
 				effect.animation = MoveAnimation.obtain().set(animDuration, diff)
@@ -57,7 +69,7 @@ class TaskAttack(val tile: Tile, val attackDefinition: AttackDefinition) : Abstr
 
 			if (attackDefinition.hitEffect != null)
 			{
-				val effect = attackDefinition.hitEffect!!.copy()
+				val effect = attackDefinition.hitEffect!!.getParticleEffect()
 				effect.renderDelay = delay
 				effect.rotation = getRotation(e.tile()!!, tile)
 				effect.addToEngine(tile)
@@ -91,7 +103,7 @@ class TaskAttack(val tile: Tile, val attackDefinition: AttackDefinition) : Abstr
 
 						if (EventSystem.isEventRegistered(EventType.HEALED, e))
 						{
-							val healEventData = EventData(EventType.HEALED, e, e, mapOf(Pair("amount", stolenLife)))
+							val healEventData = EventData.obtain().set(EventType.HEALED, e, e, mapOf(Pair("amount", stolenLife)))
 							Global.engine.event().addEvent(healEventData)
 						}
 					}
@@ -101,17 +113,39 @@ class TaskAttack(val tile: Tile, val attackDefinition: AttackDefinition) : Abstr
 					// deal damage
 					if (EventSystem.isEventRegistered(EventType.DEALDAMAGE, e))
 					{
-						val dealEventData = EventData(EventType.DEALDAMAGE, e, entity, mapOf(Pair("damage", finalDam)))
+						val dealEventData = EventData.obtain().set(EventType.DEALDAMAGE, e, entity, mapOf(Pair("damage", finalDam)))
 						Global.engine.event().addEvent(dealEventData)
 					}
 
 					// take damage
 					if (EventSystem.isEventRegistered(EventType.TAKEDAMAGE, entity))
 					{
-						val takeEventData = EventData(EventType.TAKEDAMAGE, entity, e, mapOf(Pair("damage", finalDam)))
+						val takeEventData = EventData.obtain().set(EventType.TAKEDAMAGE, entity, e, mapOf(Pair("damage", finalDam)))
 						Global.engine.event().addEvent(takeEventData)
 					}
 				}
 			}, delay)
 	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<TaskAttack> = object : Pool<TaskAttack>() {
+			override fun newObject(): TaskAttack
+			{
+				return TaskAttack()
+			}
+		}
+
+		@JvmStatic fun obtain(): TaskAttack
+		{
+			val anim = pool.obtain()
+
+			if (anim.obtained) throw RuntimeException()
+
+			anim.obtained = true
+			return anim
+		}
+	}
+	override fun free() { if (obtained) { pool.free(this); obtained = false } }
 }

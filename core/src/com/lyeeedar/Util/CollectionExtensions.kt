@@ -10,6 +10,10 @@ import squidpony.squidmath.LightRNG
 import kotlin.coroutines.experimental.buildSequence
 
 fun <T> kotlin.Array<T>.random(ran: LightRNG = Random.random): T = this[ran.nextInt(this.size)]
+fun <T> List<T>.Array(ran: LightRNG = Random.random): T? = if (this.isEmpty()) null else this[ran.nextInt(this.size)]
+
+fun <T> List<T>.random(ran: LightRNG = Random.random): T = this[ran.nextInt(this.size)]
+fun <T> List<T>.randomOrNull(ran: LightRNG = Random.random): T? = if (this.isEmpty()) null else this[ran.nextInt(this.size)]
 
 fun <T> com.badlogic.gdx.utils.Array<T>.tryGet(i: Int): T = this[MathUtils.clamp(i, 0, this.size-1)]
 fun <T> com.badlogic.gdx.utils.Array<T>.random(ran: LightRNG = Random.random): T = this[ran.nextInt(this.size)]
@@ -77,7 +81,7 @@ inline fun <reified T> Sequence<T>.random(num: Int): Sequence<T>
 	val array = Array<T>(this.count())
 	for (item in this) array.add(item)
 
-	val outArray = Array<T>()
+	val outArray = Array<T>(num)
 	for (i in 0 until num)
 	{
 		if (array.size == 0) break
@@ -91,7 +95,7 @@ inline fun <reified T> Sequence<T>.random(num: Int, ran: LightRNG): Sequence<T>
 	val array = Array<T>(this.count())
 	for (item in this) array.add(item)
 
-	val outArray = Array<T>()
+	val outArray = Array<T>(num)
 	for (i in 0 until num)
 	{
 		if (array.size == 0) break

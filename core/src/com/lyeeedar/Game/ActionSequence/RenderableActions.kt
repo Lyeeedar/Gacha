@@ -7,6 +7,7 @@ import com.lyeeedar.Components.*
 import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Animation.*
 import com.lyeeedar.Renderables.Particle.ParticleEffect
+import com.lyeeedar.Renderables.Particle.ParticleEffectDescription
 import com.lyeeedar.Renderables.Renderable
 import com.lyeeedar.SpaceSlot
 import com.lyeeedar.Systems.render
@@ -160,13 +161,13 @@ class SourceAnimationAction(ability: ActionSequence) : AbstractActionSequenceAct
 
 class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
-	lateinit var renderable: Renderable
+	lateinit var renderable: ParticleEffectDescription
 	lateinit var slot: SpaceSlot
 	var entityPerTile = false
 	var killOnEnd = true
 	var alignToVector = true
 
-	val entities = Array<Entity>()
+	val entities = Array<Entity>(1)
 
 	override fun enter(): Boolean
 	{
@@ -178,7 +179,7 @@ class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSeque
 			{
 				val entity = Entity()
 
-				val r = renderable.copy()
+				val r = renderable.getParticleEffect()
 				entity.add(RenderableComponent(r))
 				entity.add(PositionComponent())
 				val pos = entity.pos()!!
@@ -197,7 +198,7 @@ class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSeque
 
 			val entity = Entity()
 
-			val r = renderable.copy()
+			val r = renderable.getParticleEffect()
 			entity.add(RenderableComponent(r))
 			entity.add(PositionComponent())
 			val pos = entity.pos()!!
@@ -264,7 +265,7 @@ class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSeque
 	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
 		val out = DestinationRenderableAction(sequence)
-		out.renderable = renderable.copy()
+		out.renderable = renderable
 		out.slot = slot
 		out.killOnEnd = killOnEnd
 		out.alignToVector = alignToVector
@@ -276,7 +277,7 @@ class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSeque
 	override fun parse(xmlData: XmlData)
 	{
 		slot = SpaceSlot.valueOf(xmlData.get("Slot", "Entity")!!.toUpperCase())
-		renderable = AssetManager.loadRenderable(xmlData.getChildByName("Renderable")!!)
+		renderable = AssetManager.loadParticleEffect(xmlData.getChildByName("Renderable")!!)
 		entityPerTile = xmlData.getBoolean("RenderablePerTile", false)
 		killOnEnd = xmlData.getBoolean("KillOnEnd", false)
 		alignToVector = xmlData.getBoolean("AlignToVector", true)
@@ -285,11 +286,11 @@ class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSeque
 
 class SourceRenderableAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
-	lateinit var renderable: Renderable
+	lateinit var renderable: ParticleEffectDescription
 	lateinit var slot: SpaceSlot
 	var killOnEnd = true
 
-	val entities = Array<Entity>()
+	val entities = Array<Entity>(1)
 
 	override fun enter(): Boolean
 	{
@@ -298,7 +299,7 @@ class SourceRenderableAction(ability: ActionSequence) : AbstractActionSequenceAc
 		val tile = sequence.source.tile()!!
 		val entity = Entity()
 
-		val r = renderable.copy()
+		val r = renderable.getParticleEffect()
 		entity.add(RenderableComponent(r))
 		entity.add(PositionComponent())
 		val pos = entity.pos()!!
@@ -342,7 +343,7 @@ class SourceRenderableAction(ability: ActionSequence) : AbstractActionSequenceAc
 	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
 		val out = SourceRenderableAction(sequence)
-		out.renderable = renderable.copy()
+		out.renderable = renderable
 		out.slot = slot
 		out.killOnEnd = killOnEnd
 
@@ -352,14 +353,14 @@ class SourceRenderableAction(ability: ActionSequence) : AbstractActionSequenceAc
 	override fun parse(xmlData: XmlData)
 	{
 		slot = SpaceSlot.valueOf(xmlData.get("Slot", "Entity")!!.toUpperCase())
-		renderable = AssetManager.loadRenderable(xmlData.getChildByName("Renderable")!!)
+		renderable = AssetManager.loadParticleEffect(xmlData.getChildByName("Renderable")!!)
 		killOnEnd = xmlData.getBoolean("KillOnEnd", false)
 	}
 }
 
 class MovementRenderableAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
-	lateinit var renderable: Renderable
+	lateinit var renderable: ParticleEffectDescription
 	lateinit var slot: SpaceSlot
 	var useLeap: Boolean = false
 
@@ -371,7 +372,7 @@ class MovementRenderableAction(ability: ActionSequence) : AbstractActionSequence
 
 		entity = Entity()
 
-		val r = renderable.copy()
+		val r = renderable.getParticleEffect()
 		entity.add(RenderableComponent(r))
 		entity.add(PositionComponent())
 		val pos = entity.pos()!!
@@ -413,7 +414,7 @@ class MovementRenderableAction(ability: ActionSequence) : AbstractActionSequence
 	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
 		val out = MovementRenderableAction(sequence)
-		out.renderable = renderable.copy()
+		out.renderable = renderable
 		out.useLeap = useLeap
 		out.slot = slot
 
@@ -424,7 +425,7 @@ class MovementRenderableAction(ability: ActionSequence) : AbstractActionSequence
 	{
 		slot = SpaceSlot.valueOf(xmlData.get("Slot", "Entity")!!.toUpperCase())
 		useLeap = xmlData.getBoolean("UseLeap", false)
-		renderable = AssetManager.loadRenderable(xmlData.getChildByName("Renderable")!!)
+		renderable = AssetManager.loadParticleEffect(xmlData.getChildByName("Renderable")!!)
 	}
 }
 
