@@ -90,8 +90,8 @@
 								<RenderablePerTile>true</RenderablePerTile>
 							</DestinationRenderable>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.213698611</Duration>
 								<Time>0.2431507</Time>
+								<Duration LockDuration="False">0.213698611</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Heal</Name>
 									<Colour>0,235,71,255</Colour>
@@ -99,8 +99,8 @@
 								<RenderablePerTile>true</RenderablePerTile>
 							</DestinationRenderable>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.206849337</Duration>
 								<Time>0.495205462</Time>
+								<Duration LockDuration="False">0.206849337</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Heal</Name>
 									<Colour>0,235,71,255</Colour>
@@ -129,15 +129,14 @@
 						<Timeline>
 							<MovementRenderable>
 								<Duration LockDuration="False">0.1979452</Duration>
-								<Renderable meta:RefKey="Sprite">
-									<Name>Oryx/uf_split/uf_items/heart_red_full</Name>
-									<DrawActualSize>true</DrawActualSize>
-									<Colour>254,103,255,255</Colour>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Bolt</Name>
+									<Colour>230,34,222,255</Colour>
 								</Renderable>
 							</MovementRenderable>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.1979452</Duration>
 								<Time>0.1979452</Time>
+								<Duration LockDuration="False">0.1979452</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>HeartBurst</Name>
 								</Renderable>

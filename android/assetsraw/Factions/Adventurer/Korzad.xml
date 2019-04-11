@@ -1,0 +1,244 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Kor-zad</Name>
+			<Title>The Roaring Drunk</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>110</MaxHP>
+				<Power>9</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+				<DR>0.1</DR>
+			</Statistics>
+			<EquipmentWeight>Heavy</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack>
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>Strike</Name>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/kurzad</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/kurzad</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Down It!</Name>
+					<Description>Gulp down the rest of your drink for 3 rounds, gaining [GOLD]40%[] haste and [GOLD]30%[] damage reduction for 8 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/Custom/items/tankard</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<BlockTurn>
+								<Time>0.0153608155</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.06761305</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.112438031</Time>
+							</BlockTurn>
+							<Buff>
+								<Time>0.1524613</Time>
+								<Duration LockDuration="False">0.05438813</Duration>
+								<Buff meta:RefKey="Buff">
+									<Description>Drunken Rage</Description>
+									<Icon meta:RefKey="Sprite">
+										<Name>Oryx/Custom/items/tankard</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Haste>0.4</Haste>
+										<DR>0.3</DR>
+									</Statistics>
+									<Duration>8</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Time>0.008747132</Time>
+								<Duration LockDuration="False">0.0337084569</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Splatter</Name>
+									<Colour>232,207,50,255</Colour>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+							<DestinationRenderable>
+								<Time>0.05482958</Time>
+								<Duration LockDuration="False">0.0298682489</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Splatter</Name>
+									<Colour>232,207,50,255</Colour>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+							<DestinationRenderable>
+								<Time>0.0979252</Time>
+								<Duration LockDuration="False">0.0354152173</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Splatter</Name>
+									<Colour>232,207,50,255</Colour>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>10,17</Cooldown>
+					<Range>9999</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Drinking Problem</Name>
+					<Description>Throw the rest of your drink in your opponents face, stunning them and causing them take [GOLD]30%[] damage for 3 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>EffectSprites/Thrust/Thrust_2</Name>
+						<Colour>227,163,32,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<Stun>
+								<Time>0.193757728</Time>
+							</Stun>
+							<UnlockEntity>
+								<Time>0.23862794</Time>
+							</UnlockEntity>
+							<Damage>
+								<Time>0.268541425</Time>
+								<Amount>0.3</Amount>
+							</Damage>
+							<BlockTurn>
+								<Time>0.2916564</Time>
+							</BlockTurn>
+							<Damage>
+								<Time>0.313411623</Time>
+								<Amount>0.3</Amount>
+							</Damage>
+							<BlockTurn>
+								<Time>0.33380717</Time>
+							</BlockTurn>
+							<Damage>
+								<Time>0.354202718</Time>
+								<Amount>0.3</Amount>
+							</Damage>
+						</Timeline>
+						<Timeline>
+							<MovementRenderable>
+								<Duration LockDuration="False">0.129851669</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Tankard</Name>
+									<Scale>0.3</Scale>
+									<KillOnAnimComplete>true</KillOnAnimComplete>
+								</Renderable>
+								<UseLeap>true</UseLeap>
+							</MovementRenderable>
+							<DestinationRenderable>
+								<Time>0.129851669</Time>
+								<Duration LockDuration="False">0.108776271</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Splatter</Name>
+									<Colour>201,154,33,255</Colour>
+								</Renderable>
+							</DestinationRenderable>
+							<Debuff>
+								<Duration LockDuration="False">0.156365871</Duration>
+								<Time>0.23862794</Time>
+								<Buff meta:RefKey="Buff">
+									<Description>Dwarven Ale</Description>
+									<Icon meta:RefKey="Sprite">
+										<Name>Oryx/Custom/items/tankard</Name>
+										<Colour>191,89,89,255</Colour>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Power>-0.2</Power>
+									</Statistics>
+								</Buff>
+							</Debuff>
+						</Timeline>
+					</Ability>
+					<Cooldown>4,10</Cooldown>
+					<Range>3</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Hair of the Dog</Name>
+					<Description>Take a long draft of a healing tonic, healing [GOLD]200%[] and gaining [GOLD]2.5%[] regeneration for 10 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/flask_green</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<Heal>
+								<Time>0.0183559954</Time>
+								<Amount>2</Amount>
+							</Heal>
+							<BlockTurn>
+								<Time>0.0401112475</Time>
+							</BlockTurn>
+							<Buff>
+								<Time>0.06458591</Time>
+								<Duration LockDuration="False">0.106056854</Duration>
+								<Buff meta:RefKey="Buff">
+									<Description>Vodka Of Life</Description>
+									<Icon meta:RefKey="Sprite">
+										<Name>Oryx/uf_split/uf_items/flask_green</Name>
+										<DrawActualSize>true</DrawActualSize>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Regeneration>0.025</Regeneration>
+									</Statistics>
+									<Duration>10</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Time>0.0183559954</Time>
+								<Duration LockDuration="False">0.06662546</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Heal</Name>
+									<Colour>232,200,56,255</Colour>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<SingleUse>true</SingleUse>
+					<AvailableOnStart>true</AvailableOnStart>
+					<Condition>hp&lt;60</Condition>
+					<Range>999</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

@@ -1,33 +1,36 @@
 <Faction xmlns:meta="Editor">
 	<Name>Adventurer</Name>
-	<Description>Members of the guild of adventurers</Description>
+	<Description>Members of the guild of adventurers, brave (or foolish) souls that seek out the thrills, challenges and rewards of forgotten tombs and abandoned forts.</Description>
 	<Icon meta:RefKey="Sprite">
 		<Name>Icons/AdventurersGuild</Name>
 	</Icon>
 	<Buffs>
 		<Buff2 meta:RefKey="Buff">
-			<Description>The first concern of any adventurer is surviving the next encounter.</Description>
+			<Description>All skills serve the adventurer. The jack of all trades is the survivor of many encounters.</Description>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>0.1</MaxHP>
+				<MaxHP>0.05</MaxHP>
+				<Power>0.05</Power>
 			</Statistics>
 		</Buff2>
 		<Buff3 meta:RefKey="Buff">
-			<Description>The best defense is a strong offense. Well maintained weapons helps keep an adventurer alive.</Description>
+			<Description>A broad base of knowledge helps an adventurer survive.</Description>
 			<Statistics meta:RefKey="Statistics">
-				<Power>0.15</Power>
+				<MaxHP>0.06</MaxHP>
+				<Power>0.06</Power>
 			</Statistics>
 		</Buff3>
 		<Buff4 meta:RefKey="Buff">
-			<Description>The longest surviving adventurers are those who can take the largest beatings.</Description>
+			<Description>Those who focus too heavily in one area become blind to dangers coming from another.</Description>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>0.2</MaxHP>
+				<MaxHP>0.07</MaxHP>
+				<Power>0.07</Power>
 			</Statistics>
 		</Buff4>
 		<Buff5 meta:RefKey="Buff">
-			<Description>Studying your enemies is an core component of adventurer life.</Description>
+			<Description>The most talented adventurers are parties of themselves. They can fullfill any role.</Description>
 			<Statistics meta:RefKey="Statistics">
-				<CritChance>0.1</CritChance>
-				<CritDamage>0.5</CritDamage>
+				<MaxHP>0.1</MaxHP>
+				<Power>0.1</Power>
 			</Statistics>
 		</Buff5>
 	</Buffs>
@@ -42,6 +45,10 @@
 		</Hero>
 		<Hero>
 			<Entity>Khasos</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>Korzad</Entity>
 			<Rarity>Common</Rarity>
 		</Hero>
 	</Heroes>
