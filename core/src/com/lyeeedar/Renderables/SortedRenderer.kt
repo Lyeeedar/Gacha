@@ -146,7 +146,6 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 					   VertexAttribute(VertexAttributes.Usage.Position, 4, ShaderProgram.POSITION_ATTRIBUTE),
 					   VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 4, ShaderProgram.TEXCOORD_ATTRIBUTE),
 					   VertexAttribute(VertexAttributes.Usage.ColorPacked, 4, ShaderProgram.COLOR_ATTRIBUTE),
-					   VertexAttribute(VertexAttributes.Usage.Generic, 1, "a_alphaRef"),
 					   VertexAttribute(VertexAttributes.Usage.ColorPacked, 4, "a_additionalData")
 					  )
 
@@ -154,7 +153,6 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 							 VertexAttribute(VertexAttributes.Usage.Position, 4, ShaderProgram.POSITION_ATTRIBUTE),
 							 VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 4, ShaderProgram.TEXCOORD_ATTRIBUTE),
 							 VertexAttribute(VertexAttributes.Usage.ColorPacked, 4, ShaderProgram.COLOR_ATTRIBUTE),
-							 VertexAttribute(VertexAttributes.Usage.Generic, 1, "a_alphaRef"),
 							 VertexAttribute(VertexAttributes.Usage.ColorPacked, 4, "a_additionalData")
 					  )
 
@@ -1198,7 +1196,7 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 		private val shadowMode: ShadowMode = ShadowMode.TILE
 		private val random = LightRNG()
 
-		public const val vertexSize = 4 + 4 + 1 + 1 + 1
+		public const val vertexSize = 4 + 4 + 1 + 1
 		private const val maxSprites = 10000
 		public const val verticesASprite = vertexSize * 4
 		private const val maxVertices = maxSprites * vertexSize
@@ -1232,7 +1230,6 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 attribute vec4 ${ShaderProgram.POSITION_ATTRIBUTE};
 attribute vec4 ${ShaderProgram.TEXCOORD_ATTRIBUTE};
 attribute vec4 ${ShaderProgram.COLOR_ATTRIBUTE};
-attribute float a_alphaRef;
 attribute vec4 a_additionalData;
 
 uniform mat4 u_projTrans;
@@ -1260,7 +1257,7 @@ void main()
 	v_texCoords2 = ${ShaderProgram.TEXCOORD_ATTRIBUTE}.zw;
 	v_blendAlpha = a_additionalData.x;
 	v_isLit = float(a_additionalData.y == 0.0);
-	v_alphaRef = a_alphaRef;
+	v_alphaRef = 1.0 - a_additionalData.z;
 	gl_Position = u_projTrans * truePos;
 }
 """
@@ -1278,7 +1275,6 @@ $androidDefine
 attribute vec4 ${ShaderProgram.POSITION_ATTRIBUTE};
 attribute vec4 ${ShaderProgram.TEXCOORD_ATTRIBUTE};
 attribute LOWP vec4 ${ShaderProgram.COLOR_ATTRIBUTE};
-attribute LOWP float a_alphaRef;
 attribute LOWP vec4 a_additionalData;
 
 uniform mat4 u_projTrans;
@@ -1287,7 +1283,6 @@ uniform vec2 u_offset;
 varying LOWP vec4 v_color;
 varying vec4 v_pos;
 varying vec4 v_texCoords;
-varying LOWP float v_alphaRef;
 varying LOWP vec4 v_additionalData;
 
 void main()
@@ -1302,7 +1297,6 @@ void main()
 	v_pos.xy = worldPos;
 	v_pos.zw = ${ShaderProgram.POSITION_ATTRIBUTE}.zw;
 	v_texCoords = ${ShaderProgram.TEXCOORD_ATTRIBUTE};
-	v_alphaRef = a_alphaRef;
 	v_additionalData = a_additionalData;
 
 	gl_Position = u_projTrans * truePos;
@@ -1605,7 +1599,6 @@ $androidDefine
 varying LOWP vec4 v_color;
 varying vec4 v_pos;
 varying vec4 v_texCoords;
-varying LOWP float v_alphaRef;
 varying LOWP vec4 v_additionalData;
 
 uniform float u_tileSize;
@@ -1790,7 +1783,7 @@ void main ()
 	lightCol4.a = 1.0;
 
 	LOWP vec4 outCol = clamp(v_color * mix(texture2D(u_texture, v_texCoords.xy), texture2D(u_texture, v_texCoords.zw), v_additionalData.x) * lightCol4, 0.0, 1.0);
-	outCol *= float(outCol.a - v_alphaRef < 0.001); // apply alpharef
+	outCol *= float(outCol.a - (1.0 - v_additionalData.z) < 0.001); // apply alpharef
 
 	gl_FragColor = outCol;
 }
