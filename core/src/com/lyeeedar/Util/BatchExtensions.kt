@@ -350,7 +350,7 @@ internal inline fun doDraw(vertices: FloatArray, offset: Int, region1: TextureRe
 	//##################################################################### Vertex Calculation #######################################//
 
 	val packedCol = colour.toFloatBits()
-	val packedData = if (blendAlpha == 0f && isLit && alphaRef == 1f) 0.0f else packFloats(blendAlpha, if (isLit) 0.0f else 1.0f, 1f-alphaRef, 0f)
+	val packedData = if (blendAlpha == 0f && isLit && alphaRef == 0f) 0.0f else packFloats(blendAlpha, if (isLit) 0.0f else 1.0f, alphaRef, 0f)
 
 	var i = offset
 	vertices[i++] = x1

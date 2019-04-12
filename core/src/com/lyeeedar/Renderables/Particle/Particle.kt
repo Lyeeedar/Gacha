@@ -528,7 +528,7 @@ class Particle(val emitter: Emitter)
 			}
 			else
 			{
-				alphaRef[0, 0f] = 1f
+				alphaRef[0, 0f] = 0f
 			}
 
 			val rotationSpeedEls = xml.getChildByName("RotationSpeedKeyframes")

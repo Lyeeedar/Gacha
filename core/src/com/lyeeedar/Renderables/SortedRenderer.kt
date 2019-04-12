@@ -1783,7 +1783,7 @@ void main ()
 	lightCol4.a = 1.0;
 
 	LOWP vec4 outCol = clamp(v_color * mix(texture2D(u_texture, v_texCoords.xy), texture2D(u_texture, v_texCoords.zw), v_additionalData.x) * lightCol4, 0.0, 1.0);
-	outCol *= float(outCol.a - (1.0 - v_additionalData.z) < 0.001); // apply alpharef
+	outCol *= float(outCol.a > v_additionalData.z); // apply alpharef
 
 	gl_FragColor = outCol;
 }
@@ -1816,7 +1816,7 @@ class RenderSprite(val parentBlock: RenderSpriteBlock, val parentBlockIndex: Int
 	internal var flipY: Boolean = false
 	internal var blend: BlendMode = BlendMode.MULTIPLICATIVE
 	internal var isLit: Boolean = true
-	internal var alphaRef: Float = 1f
+	internal var alphaRef: Float = 0f
 
 	val tempColour = Colour()
 	val tlCol = Colour()
@@ -1857,7 +1857,7 @@ class RenderSprite(val parentBlock: RenderSpriteBlock, val parentBlockIndex: Int
 		this.flipY = flipY
 		this.isLit = lit
 		this.blendAlpha = 0f
-		this.alphaRef = 1f
+		this.alphaRef = 0f
 
 		nextTexture = null
 
