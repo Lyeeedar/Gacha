@@ -336,10 +336,18 @@ class StatisticsComponent: AbstractComponent()
 		val prefix = if (prefixName != null) "$prefixName." else ""
 
 		variableMap.put(prefix + "hp", hp)
+		variableMap.put(prefix + "level", level.toFloat())
+		variableMap.put(prefix + "ascension", ascension.ordinal.toFloat())
+		variableMap.put(prefix + "ascensionMultiplier", ascension.multiplier)
 
 		for (stat in Statistic.Values)
 		{
 			variableMap.put(prefix + stat.toString().toLowerCase(), getStat(stat))
+		}
+
+		for (buff in buffs)
+		{
+			variableMap.put(prefix + buff.name, 1f)
 		}
 
 		return variableMap

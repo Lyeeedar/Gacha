@@ -626,7 +626,7 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 					doDraw(vertices, offset,
 						   rs.texture!!, rs.nextTexture ?: rs.texture!!, colour,
 						   localx, localy, 0.5f, 0.5f, 1f, 1f, localw * rs.scaleX, localh * rs.scaleY, rs.rotation, rs.flipX, rs.flipY,
-						   0f, rs.blendAlpha, rs.isLit, false)
+						   0f, rs.blendAlpha, rs.alphaRef, rs.isLit, false)
 				}
 			} )
 		}
@@ -898,6 +898,7 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 						rs.nextTexture = tex2.second
 						rs.blendAlpha = alpha
 					}
+					rs.alphaRef = keyframe1.alphaRef[pdata.alphaRefStream].lerp(keyframe2.alphaRef[pdata.alphaRefStream], alpha)
 
 					storeRenderSprite(rs)
 				}
@@ -1241,6 +1242,7 @@ varying vec2 v_texCoords1;
 varying vec2 v_texCoords2;
 varying float v_blendAlpha;
 varying float v_isLit;
+varying float v_alphaRef;
 
 void main()
 {
@@ -1255,6 +1257,7 @@ void main()
 	v_texCoords2 = ${ShaderProgram.TEXCOORD_ATTRIBUTE}.zw;
 	v_blendAlpha = a_additionalData.x;
 	v_isLit = float(a_additionalData.y == 0.0);
+	v_alphaRef = 1.0 - a_additionalData.z;
 	gl_Position = u_projTrans * truePos;
 }
 """
@@ -1346,6 +1349,7 @@ varying vec2 v_texCoords1;
 varying vec2 v_texCoords2;
 varying float v_blendAlpha;
 varying float v_isLit;
+varying float v_alphaRef;
 
 uniform float u_tileSize;
 
@@ -1555,6 +1559,11 @@ void main()
 #endif
 
 	lightCol = mix(vec3(1.0, 1.0, 1.0), lightCol, v_isLit);
+
+	if (v_color.a * outCol.a < v_alphaRef)
+	{
+		outCol = vec4(0.0, 0.0, 0.0, 0.0);
+	}
 
 	vec4 finalCol = clamp(v_color * outCol * vec4(lightCol, 1.0), 0.0, 1.0);
 	gl_FragColor = finalCol;
@@ -1774,6 +1783,8 @@ void main ()
 	lightCol4.a = 1.0;
 
 	LOWP vec4 outCol = clamp(v_color * mix(texture2D(u_texture, v_texCoords.xy), texture2D(u_texture, v_texCoords.zw), v_additionalData.x) * lightCol4, 0.0, 1.0);
+	outCol *= 1.0 - float(outCol.a < 1.0 - v_additionalData.z); // apply alpharef
+
 	gl_FragColor = outCol;
 }
 				"""
@@ -1805,6 +1816,7 @@ class RenderSprite(val parentBlock: RenderSpriteBlock, val parentBlockIndex: Int
 	internal var flipY: Boolean = false
 	internal var blend: BlendMode = BlendMode.MULTIPLICATIVE
 	internal var isLit: Boolean = true
+	internal var alphaRef: Float = 1f
 
 	val tempColour = Colour()
 	val tlCol = Colour()
@@ -1844,6 +1856,8 @@ class RenderSprite(val parentBlock: RenderSpriteBlock, val parentBlockIndex: Int
 		this.flipX = flipX
 		this.flipY = flipY
 		this.isLit = lit
+		this.blendAlpha = 0f
+		this.alphaRef = 1f
 
 		nextTexture = null
 

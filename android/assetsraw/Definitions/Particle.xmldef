@@ -100,6 +100,14 @@
 								</Keyframe>
 							</Data>
 						</Data>
+						<Data Name="AlphaRefKeyframes" MinCount="1" meta:RefKey="Collection">
+							<Data Name="Stream" MinCount="1" meta:RefKey="Timeline">
+								<Keyframe Name="Keyframe" Collapse="True" Seperator="|" meta:RefKey="Keyframe">
+									<Time Name="Time" Min="0" Max="1" SkipIfDefault="False" meta:RefKey="Number" />
+									<Data Name="AlphaRef" Min="0" Max="1" Default="1" SkipIfDefault="False" meta:RefKey="Number" />
+								</Keyframe>
+							</Data>
+						</Data>
 					</Data>
 				</Data>
 				<!--Effectors-->

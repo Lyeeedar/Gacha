@@ -28,10 +28,11 @@ class ParticleKeyframe(
 		val texture: kotlin.Array<Pair<String, TextureRegion>>,
 		val colour: kotlin.Array<Colour>,
 		val alpha: kotlin.Array<Float>,
+		val alphaRef: kotlin.Array<Float>,
 		val rotationSpeed: kotlin.Array<Range>,
 		val size: kotlin.Array<Range>)
 {
-	constructor() : this(0f, emptyArray<Pair<String, TextureRegion>>(), emptyArray<Colour>(), emptyArray<Float>(), emptyArray<Range>(), emptyArray<Range>())
+	constructor() : this(0f, emptyArray<Pair<String, TextureRegion>>(), emptyArray<Colour>(), emptyArray<Float>(), emptyArray<Float>(), emptyArray<Range>(), emptyArray<Range>())
 }
 
 class Particle(val emitter: Emitter)
@@ -354,6 +355,7 @@ class Particle(val emitter: Emitter)
 				Random.random(keyframes[0].texture.size-1),
 				Random.random(keyframes[0].colour.size-1),
 				Random.random(keyframes[0].alpha.size-1),
+				Random.random(keyframes[0].alphaRef.size-1),
 				Random.random(keyframes[0].rotationSpeed.size-1),
 				Random.random(keyframes[0].size.size-1),
 				Random.random())
@@ -377,6 +379,7 @@ class Particle(val emitter: Emitter)
 		output.writeInt(keyframes[0].texture.size)
 		output.writeInt(keyframes[0].colour.size)
 		output.writeInt(keyframes[0].alpha.size)
+		output.writeInt(keyframes[0].alphaRef.size)
 		output.writeInt(keyframes[0].rotationSpeed.size)
 		output.writeInt(keyframes[0].size.size)
 
@@ -397,6 +400,11 @@ class Particle(val emitter: Emitter)
 			for (alpha in keyframe.alpha)
 			{
 				output.writeFloat(alpha)
+			}
+
+			for (alphaRef in keyframe.alphaRef)
+			{
+				output.writeFloat(alphaRef)
 			}
 
 			for (rotationSpeed in keyframe.rotationSpeed)
@@ -428,6 +436,7 @@ class Particle(val emitter: Emitter)
 		val numTextureStreams = input.readInt()
 		val numColourStreams = input.readInt()
 		val numAlphaStreams = input.readInt()
+		val numAlphaRefStreams = input.readInt()
 		val numRotationSpeedStreams = input.readInt()
 		val numSizeStreams = input.readInt()
 
@@ -439,6 +448,7 @@ class Particle(val emitter: Emitter)
 					kotlin.Array<Pair<String, TextureRegion>>(numTextureStreams) { i -> val name = input.readString(); Pair(name, AssetManager.loadTextureRegion(name)!!) },
 					kotlin.Array<Colour>(numColourStreams) { i -> kryo.readObject(input, Colour::class.java) },
 					kotlin.Array<Float>(numAlphaStreams) { i -> input.readFloat() },
+					kotlin.Array<Float>(numAlphaRefStreams) { i -> input.readFloat() },
 					kotlin.Array<Range>(numRotationSpeedStreams) { i -> Range(input.readFloat(), input.readFloat()) },
 					kotlin.Array<Range>(numSizeStreams) { i -> Range(input.readFloat(), input.readFloat()) }
 										   )
@@ -477,6 +487,7 @@ class Particle(val emitter: Emitter)
 			val texture = StepTimeline<Pair<String, TextureRegion>>()
 			val colour = ColourTimeline()
 			val alpha = LerpTimeline()
+			val alphaRef = LerpTimeline()
 			val rotationSpeed = RangeLerpTimeline()
 			val size = RangeLerpTimeline()
 
@@ -510,6 +521,16 @@ class Particle(val emitter: Emitter)
 				alpha[0, 0f] = 1f
 			}
 
+			val alphaRefEls = xml.getChildByName("AlphaRefKeyframes")
+			if (alphaRefEls != null)
+			{
+				alphaRef.parse(alphaRefEls, { it.toFloat() }, particle.lifetime.v2)
+			}
+			else
+			{
+				alphaRef[0, 0f] = 1f
+			}
+
 			val rotationSpeedEls = xml.getChildByName("RotationSpeedKeyframes")
 			if (rotationSpeedEls != null)
 			{
@@ -535,6 +556,7 @@ class Particle(val emitter: Emitter)
 			for (keyframe in texture.streams.flatMap { it }) { times.add(keyframe.first) }
 			for (keyframe in colour.streams.flatMap { it }) { times.add(keyframe.first) }
 			for (keyframe in alpha.streams.flatMap { it }) { times.add(keyframe.first) }
+			for (keyframe in alphaRef.streams.flatMap { it }) { times.add(keyframe.first) }
 			for (keyframe in rotationSpeed.streams.flatMap { it }) { times.add(keyframe.first) }
 			for (keyframe in size.streams.flatMap { it }) { times.add(keyframe.first) }
 
@@ -546,6 +568,7 @@ class Particle(val emitter: Emitter)
 				val textureArr = kotlin.Array<Pair<String, TextureRegion>>(texture.streams.size) { i -> texture.valAt(i, time) }
 				val colourArr = kotlin.Array<Colour>(colour.streams.size) { i -> colour.valAt(i, time).copy() }
 				val alphaArr = kotlin.Array<Float>(alpha.streams.size) { i -> alpha.valAt(i, time) }
+				val alphaRefArr = kotlin.Array<Float>(alphaRef.streams.size) { i -> alphaRef.valAt(i, time) }
 				val rotationSpeedArr = kotlin.Array<Range>(rotationSpeed.streams.size) { i -> rotationSpeed.valAt(i, time).copy() }
 				val sizeArr = kotlin.Array<Range>(size.streams.size) { i -> size.valAt(i, time).copy() }
 
@@ -554,6 +577,7 @@ class Particle(val emitter: Emitter)
 						textureArr,
 						colourArr,
 						alphaArr,
+						alphaRefArr,
 						rotationSpeedArr,
 						sizeArr)
 				keyframes[keyframeI++] = keyframe
@@ -568,13 +592,13 @@ class Particle(val emitter: Emitter)
 class ParticleData(val position: Vector2, val velocity: Vector2,
 						var rotation: Float, var life: Float,
 						var keyframeIndex: Int, var keyframe1: ParticleKeyframe, var keyframe2: ParticleKeyframe, var keyframeAlpha: Float,
-						var texStream: Int, var colStream: Int, var alphaStream: Int, var rotStream: Int, var sizeStream: Int,
+						var texStream: Int, var colStream: Int, var alphaStream: Int, var alphaRefStream: Int, var rotStream: Int, var sizeStream: Int,
 						var ranVal: Float,
 						val parentBlock: ParticleBlock, val parentBlockIndex: Int)
 {
-	constructor(parentBlock: ParticleBlock, parentBlockIndex: Int): this(Vector2(), Vector2(0f, 1f), 0f, 0f, 0, ParticleKeyframe(), ParticleKeyframe(), 0f, 0, 0, 0, 0, 0, 0f, parentBlock, parentBlockIndex)
+	constructor(parentBlock: ParticleBlock, parentBlockIndex: Int): this(Vector2(), Vector2(0f, 1f), 0f, 0f, 0, ParticleKeyframe(), ParticleKeyframe(), 0f, 0, 0, 0, 0, 0, 0, 0f, parentBlock, parentBlockIndex)
 
-	fun set(position: Vector2, velocity: Vector2, rotation: Float, life: Float, keyframeIndex: Int, keyframe1: ParticleKeyframe, keyframe2: ParticleKeyframe, keyframeAlpha: Float, texStream: Int, colStream: Int, alphaStream: Int, rotStream: Int, sizeStream: Int, ranVal: Float): ParticleData
+	fun set(position: Vector2, velocity: Vector2, rotation: Float, life: Float, keyframeIndex: Int, keyframe1: ParticleKeyframe, keyframe2: ParticleKeyframe, keyframeAlpha: Float, texStream: Int, colStream: Int, alphaStream: Int, alphaRefStream: Int, rotStream: Int, sizeStream: Int, ranVal: Float): ParticleData
 	{
 		this.position.set(position)
 		this.velocity.set(velocity)
@@ -587,6 +611,7 @@ class ParticleData(val position: Vector2, val velocity: Vector2,
 		this.texStream = texStream
 		this.colStream = colStream
 		this.alphaStream = alphaStream
+		this.alphaRefStream = alphaRefStream
 		this.rotStream = rotStream
 		this.sizeStream = sizeStream
 		this.ranVal = ranVal

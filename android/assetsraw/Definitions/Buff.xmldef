@@ -1,5 +1,6 @@
 <Definitions xmlns:meta="Editor">
 	<Definition Name="Buff" IsGlobal="True" meta:RefKey="StructDef">
+		<Data Name="Name" meta:RefKey="String" />
 		<Data Name="Description" meta:RefKey="String" />
 		<Data Name="Icon" Keys="Sprite" meta:RefKey="Reference" />
 		<Data Name="Statistics" Keys="Statistics" Nullable="False" meta:RefKey="Reference" />

@@ -400,7 +400,7 @@ class Sprite(val fileName: String, var animationDelay: Float, var textures: Arra
 			texAlpha = 0f
 		}
 
-		doDraw(vertices, offset, tex1, tex2, colour, x, y, width / 2.0f, height / 2.0f, width, height, scaleX, scaleY, rotation, flipX, flipY, removeAmount, texAlpha, isLit, smoothShade)
+		doDraw(vertices, offset, tex1, tex2, colour, x, y, width / 2.0f, height / 2.0f, width, height, scaleX, scaleY, rotation, flipX, flipY, removeAmount, texAlpha, 1f, isLit, smoothShade)
 
 		if (cacheVertices)
 		{

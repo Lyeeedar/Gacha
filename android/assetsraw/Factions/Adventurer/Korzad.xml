@@ -48,7 +48,7 @@
 			<Abilities>
 				<AbilityData>
 					<Name>Down It!</Name>
-					<Description>Gulp down the rest of your drink for 3 rounds, gaining [GOLD]40%[] haste and [GOLD]30%[] damage reduction for 8 rounds.</Description>
+					<Description>Gulp down the rest of your drink for 3 rounds, gaining [GOLD]80%[] haste and [GOLD]30%[] damage reduction for 8 rounds.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/Custom/items/tankard</Name>
 					</Icon>
@@ -73,7 +73,7 @@
 										<Name>Oryx/Custom/items/tankard</Name>
 									</Icon>
 									<Statistics meta:RefKey="Statistics">
-										<Haste>0.4</Haste>
+										<Haste>0.8</Haste>
 										<DR>0.3</DR>
 									</Statistics>
 									<Duration>8</Duration>

@@ -208,7 +208,7 @@ internal inline fun doDraw(batch: Batch, region: TextureRegion, packedColor: Flo
 internal inline fun doDraw(vertices: FloatArray, offset: Int, region1: TextureRegion, region2: TextureRegion, colour: Colour,
 		   x: Float, y: Float, originX: Float, originY: Float,
 		   width: Float, height: Float, scaleX: Float, scaleY: Float,
-		   rotation: Float, flipX: Boolean, flipY: Boolean, removeAmount: Float, blendAlpha: Float, isLit: Boolean, smoothShade: Boolean)
+		   rotation: Float, flipX: Boolean, flipY: Boolean, removeAmount: Float, blendAlpha: Float, alphaRef: Float, isLit: Boolean, smoothShade: Boolean)
 {
 	//##################################################################### Vertex Calculation #######################################//
 	// bottom left and top right corner points relative to origin
@@ -350,7 +350,7 @@ internal inline fun doDraw(vertices: FloatArray, offset: Int, region1: TextureRe
 	//##################################################################### Vertex Calculation #######################################//
 
 	val packedCol = colour.toFloatBits()
-	val packedData = if (blendAlpha == 0f && isLit) 0.0f else packFloats(blendAlpha, if (isLit) 0.0f else 1.0f, 0f, 0f)
+	val packedData = if (blendAlpha == 0f && isLit && alphaRef == 1f) 0.0f else packFloats(blendAlpha, if (isLit) 0.0f else 1.0f, 1f-alphaRef, 0f)
 
 	var i = offset
 	vertices[i++] = x1
