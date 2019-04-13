@@ -8,7 +8,6 @@ import com.lyeeedar.Components.ability
 import com.lyeeedar.Components.stats
 import com.lyeeedar.Components.tile
 import com.lyeeedar.Game.Tile
-import com.lyeeedar.Statistic
 import com.lyeeedar.Util.Point
 import com.lyeeedar.Util.XmlData
 import com.lyeeedar.Util.randomOrNull
@@ -38,11 +37,6 @@ class ActionAbility : AbstractAction()
 		{
 			state = ExecutionState.FAILED
 			return state
-		}
-
-		for (ab in ability.abilities)
-		{
-			ab.remainingCooldown -= (1f + stats.getStat(Statistic.ABILITYCOOLDOWN))
 		}
 
 		val dist = target.tile()!!.taxiDist(tile)

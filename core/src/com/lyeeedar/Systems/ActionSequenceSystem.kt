@@ -35,6 +35,7 @@ class ActionSequenceSystem : AbstractSystem(Family.one(ActiveActionSequenceCompo
 			activeSequence.sequence.onTurn()
 
 			val task = entity.task() ?: continue
+			task.tasks.clear()
 			task.tasks.add(TaskUseAbility())
 		}
 	}

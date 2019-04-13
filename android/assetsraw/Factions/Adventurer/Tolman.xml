@@ -11,13 +11,13 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>80</MaxHP>
+				<MaxHP>70</MaxHP>
 				<Power>15</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
 				<Haste>-0.5</Haste>
 			</Statistics>
-			<EquipmentWeight>Heavy</EquipmentWeight>
+			<EquipmentWeight>Medium</EquipmentWeight>
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
@@ -86,6 +86,165 @@
 						</Timeline>
 					</Ability>
 					<Cooldown>6,12</Cooldown>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Dragonkiller Bolt</Name>
+					<Description>Fire a great bolt, strong enough to harm even a dragon. Deals [GOLD]500%[] damage and knocks the target back.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/weapon_magic_spear_blood</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<BlockTurn />
+							<BlockTurn>
+								<Time>0.0258725341</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.04924128</Time>
+							</BlockTurn>
+							<Damage>
+								<Time>0.204476476</Time>
+								<Amount>5</Amount>
+							</Damage>
+							<Knockback>
+								<Time>0.22951442</Time>
+								<MoveType>Roll</MoveType>
+								<Dist>3</Dist>
+							</Knockback>
+						</Timeline>
+						<Timeline>
+							<MovementRenderable>
+								<Duration LockDuration="False">0.138543248</Duration>
+								<Time>0.0909711644</Time>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>FlightParticle</Name>
+										<Scale>0.7</Scale>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Oryx/uf_split/uf_items/weapon_magic_spear_blood</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+							</MovementRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>10,16</Cooldown>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Scorpion Bolt</Name>
+					<Description>Fire a bolt tipped with a rare poison. Deals [GOLD]100%[] damage and poisons the target, dealing [GOLD]20%[] damage a turn for 10 turns.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/weapon_magic_staff_venom</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<Damage>
+								<Time>0.08705621</Time>
+							</Damage>
+							<UnlockEntity>
+								<Time>0.116346151</Time>
+							</UnlockEntity>
+							<BlockTurn>
+								<Time>0.170044377</Time>
+							</BlockTurn>
+							<Damage>
+								<Time>0.18875739</Time>
+								<Amount>0.2</Amount>
+							</Damage>
+							<BlockTurn>
+								<Time>0.216685027</Time>
+							</BlockTurn>
+							<Damage>
+								<Time>0.238387585</Time>
+							</Damage>
+							<BlockTurn>
+								<Time>0.265368432</Time>
+							</BlockTurn>
+							<Damage>
+								<Time>0.28069526</Time>
+							</Damage>
+							<BlockTurn>
+								<Time>0.313197732</Time>
+							</BlockTurn>
+							<Damage>
+								<Time>0.329511821</Time>
+							</Damage>
+							<BlockTurn>
+								<Time>0.358464748</Time>
+							</BlockTurn>
+							<Damage>
+								<Time>0.370192319</Time>
+							</Damage>
+							<BlockTurn>
+								<Time>0.392628521</Time>
+							</BlockTurn>
+							<Damage>
+								<Time>0.415037125</Time>
+							</Damage>
+							<BlockTurn>
+								<Time>0.433625072</Time>
+							</BlockTurn>
+							<Damage>
+								<Time>0.451717436</Time>
+							</Damage>
+							<BlockTurn>
+								<Time>0.4788921</Time>
+							</BlockTurn>
+							<Damage>
+								<Time>0.4979932</Time>
+							</Damage>
+							<BlockTurn>
+								<Time>0.5164723</Time>
+							</BlockTurn>
+							<Damage>
+								<Time>0.5301277</Time>
+							</Damage>
+							<BlockTurn>
+								<Time>0.5472197</Time>
+							</BlockTurn>
+							<Damage>
+								<Time>0.561601937</Time>
+							</Damage>
+						</Timeline>
+						<Timeline>
+							<MovementRenderable>
+								<Duration LockDuration="False">0.152958572</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>FlightParticle</Name>
+										<Scale>0.7</Scale>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Oryx/uf_split/uf_items/weapon_magic_staff_venom</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+							</MovementRenderable>
+							<Debuff>
+								<Duration LockDuration="False">0.4219646</Duration>
+								<Time>0.160645425</Time>
+								<Buff meta:RefKey="Buff">
+									<Name>Scorpion Bolt</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Oryx/uf_split/uf_items/weapon_magic_staff_venom</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics" />
+								</Buff>
+							</Debuff>
+						</Timeline>
+					</Ability>
+					<Cooldown>11,17</Cooldown>
 					<Range>99</Range>
 				</AbilityData>
 			</Abilities>

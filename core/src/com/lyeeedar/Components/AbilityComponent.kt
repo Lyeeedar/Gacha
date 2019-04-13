@@ -42,6 +42,7 @@ class AbilityComponent : AbstractComponent()
 			data.condition = condition
 			data.range = range
 			data.remainingCooldown = if (availableOnStart) 0f else data.cooldown.getValue().toFloat()
+			data.selectedCooldown = data.remainingCooldown
 
 			abilities.add(data)
 		}

@@ -17,7 +17,7 @@
 					<Lifetime>0.3,0.3</Lifetime>
 					<SizeKeyframes>
 						<Stream>
-							<Keyframe>0|0|0</Keyframe>
+							<Keyframe>0|0.1|0.1</Keyframe>
 							<Keyframe>1|1|1</Keyframe>
 						</Stream>
 					</SizeKeyframes>
@@ -34,16 +34,16 @@
 					</ColourKeyframes>
 					<AlphaKeyframes>
 						<Stream>
-							<Keyframe>0|1</Keyframe>
-							<Keyframe>0.5967271|1</Keyframe>
-							<Keyframe>1|0</Keyframe>
+							<Keyframe>0|0</Keyframe>
+							<Keyframe>0.5967271|0.8</Keyframe>
+							<Keyframe>0.04519499|1</Keyframe>
 						</Stream>
 					</AlphaKeyframes>
 					<AlphaRefKeyframes>
 						<Stream>
 							<Keyframe>0|0</Keyframe>
-							<Keyframe>0.3975627|0</Keyframe>
-							<Keyframe>1|1</Keyframe>
+							<Keyframe>0.05438717|0</Keyframe>
+							<Keyframe>1|0.9</Keyframe>
 						</Stream>
 					</AlphaRefKeyframes>
 				</Particle>

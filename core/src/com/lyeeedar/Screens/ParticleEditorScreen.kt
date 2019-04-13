@@ -52,6 +52,7 @@ class ParticleEditorScreen : AbstractScreen()
 	val crossedTiles = ObjectSet<Point>()
 	val particlePos = Point()
 	lateinit var debugButton: CheckBox
+	var deltaMultiplier = 1f
 
 	override fun show()
 	{
@@ -78,7 +79,7 @@ class ParticleEditorScreen : AbstractScreen()
 		{
 			override fun changed(event: ChangeEvent?, actor: Actor?)
 			{
-			//	particle.speedMultiplier = playbackSpeedBox.selected
+				deltaMultiplier = playbackSpeedBox.selected
 			}
 
 		})
@@ -213,7 +214,7 @@ class ParticleEditorScreen : AbstractScreen()
 
 		Global.collisionGrid = collision
 
-		spriteRender.begin(delta, 0f, 0f, Colour.WHITE)
+		spriteRender.begin(delta * deltaMultiplier, 0f, 0f, Colour.WHITE)
 
 		for (x in 0..background.xSize-1)
 		{

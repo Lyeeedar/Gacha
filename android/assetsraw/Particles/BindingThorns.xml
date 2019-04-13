@@ -44,14 +44,13 @@
 							<Keyframe>0|0</Keyframe>
 							<Keyframe>0.1096932|1</Keyframe>
 							<Keyframe>0.6036959|1</Keyframe>
-							<Keyframe>1|0</Keyframe>
+							<Keyframe>0.6502092|0.8</Keyframe>
 						</Stream>
 					</AlphaKeyframes>
 					<AlphaRefKeyframes>
 						<Stream>
 							<Keyframe>0|1</Keyframe>
-							<Keyframe>0.3290795|0</Keyframe>
-							<Keyframe>0.496304|0</Keyframe>
+							<Keyframe>0.4257322|0</Keyframe>
 							<Keyframe>1|1</Keyframe>
 						</Stream>
 					</AlphaRefKeyframes>
