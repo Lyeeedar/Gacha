@@ -153,10 +153,18 @@
 						<Timeline>
 							<MovementRenderable>
 								<Duration LockDuration="False">0.129851669</Duration>
-								<Renderable meta:RefKey="ParticleEffect">
-									<Name>Tankard</Name>
-									<Scale>0.3</Scale>
-									<KillOnAnimComplete>true</KillOnAnimComplete>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>SpinningFlightParticle</Name>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Oryx/Custom/items/tankard</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
 								</Renderable>
 								<UseLeap>true</UseLeap>
 							</MovementRenderable>

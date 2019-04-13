@@ -163,8 +163,11 @@ private fun doMove(src: Tile, dst: Tile, type: MovementType, interrupt: Boolean)
 		val task = entity.task()
 		if (task != null)
 		{
-			task.tasks.clear()
-			task.tasks.add(TaskInterrupt())
+			if (task.tasks.size == 0 || task.tasks[0] !is TaskInterrupt)
+			{
+				task.tasks.clear()
+				task.tasks.add(TaskInterrupt())
+			}
 		}
 	}
 

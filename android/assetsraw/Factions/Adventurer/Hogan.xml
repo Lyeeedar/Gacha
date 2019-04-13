@@ -1,0 +1,206 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Hogan</Name>
+			<Title>Grizzled Veteran</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>120</MaxHP>
+				<Power>9</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+				<DR>0.1</DR>
+			</Statistics>
+			<EquipmentWeight>Heavy</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack>
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>Strike</Name>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/hogan</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/hogan</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Zealous Strike</Name>
+					<Description>Strike a foe dealing [GOLD]100%[] damage to them, knocking them flying and stunning them for 3 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/weapon_broadsword</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<Damage>
+								<Time>0.0853089541</Time>
+							</Damage>
+							<Stun>
+								<Time>0.104728878</Time>
+								<Count>3</Count>
+							</Stun>
+							<Knockback>
+								<Time>0.124148794</Time>
+								<MoveType>Leap</MoveType>
+							</Knockback>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.143568724</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>slash</Name>
+									<FlipY>true</FlipY>
+								</Renderable>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>7,13</Cooldown>
+				</AbilityData>
+				<AbilityData>
+					<Name>Blade Flurry</Name>
+					<Description>Attack 3 times in quick succession, dealing [GOLD]60%[] damage each time.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/weapon_dirk</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<Damage>
+								<Time>0.03398487</Time>
+								<Amount>0.6</Amount>
+							</Damage>
+							<Damage>
+								<Time>0.0894703642</Time>
+								<Amount>0.6</Amount>
+							</Damage>
+							<Damage>
+								<Time>0.147730142</Time>
+								<Amount>0.6</Amount>
+							</Damage>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.0534047931</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>slash</Name>
+								</Renderable>
+							</DestinationRenderable>
+							<DestinationRenderable>
+								<Time>0.0534047931</Time>
+								<Duration LockDuration="False">0.06380832</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>slash</Name>
+									<FlipY>true</FlipY>
+								</Renderable>
+							</DestinationRenderable>
+							<DestinationRenderable>
+								<Time>0.117213115</Time>
+								<Duration LockDuration="False">0.06935687</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>slash</Name>
+								</Renderable>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>4,10</Cooldown>
+				</AbilityData>
+				<AbilityData>
+					<Name>Counter Stance</Name>
+					<Description>Take on a stance for 7 rounds that lets you counter any attacks thrown your way.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/shield_iron_kite</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<BlockTurn>
+								<Time>0.0298234541</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.0464691073</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.0645019</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.08392181</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.100567468</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.118600257</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.136633039</Time>
+							</BlockTurn>
+						</Timeline>
+						<Timeline>
+							<SelectSelf />
+							<Buff>
+								<Time>0.0145649416</Time>
+								<Duration LockDuration="False">0.152585119</Duration>
+								<Buff meta:RefKey="Buff">
+									<Name>Counter Stance</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Oryx/uf_split/uf_items/shield_iron_kite</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<DR>0.3</DR>
+										<Aegis>0.4</Aegis>
+									</Statistics>
+									<EventHandlers meta:RefKey="EventHandler">
+										<Events>
+											<TakeDamage>
+												<EventHandler>
+													<Condition>dist == 1</Condition>
+													<ActionSequence meta:RefKey="ActionSequence">
+														<Timeline>
+															<Damage>
+																<Time>0.0659438744</Time>
+																<Amount>0.8</Amount>
+															</Damage>
+														</Timeline>
+														<Timeline>
+															<DestinationRenderable>
+																<Duration LockDuration="False">0.156422019</Duration>
+																<Renderable meta:RefKey="ParticleEffect">
+																	<Name>slash</Name>
+																</Renderable>
+															</DestinationRenderable>
+														</Timeline>
+													</ActionSequence>
+												</EventHandler>
+											</TakeDamage>
+										</Events>
+									</EventHandlers>
+								</Buff>
+							</Buff>
+						</Timeline>
+					</Ability>
+					<Cooldown>11,17</Cooldown>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

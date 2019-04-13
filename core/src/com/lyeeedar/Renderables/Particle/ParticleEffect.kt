@@ -32,9 +32,11 @@ class ParticleEffectDescription(val path: String)
 	var timeMultiplier = 1f
 	var killOnAnimComplete = false
 
+	val textureOverrides = Array<Pair<String, String>>()
+
 	fun getParticleEffect(): ParticleEffect
 	{
-		val effect = ParticleEffect.load(path)
+		val effect = ParticleEffect.load(path, this)
 		effect.colour = colour
 		effect.flipX = flipX
 		effect.flipY = flipY
@@ -45,9 +47,22 @@ class ParticleEffectDescription(val path: String)
 
 		return effect
 	}
+
+	fun getTexture(name: String): String
+	{
+		for (texOverride in textureOverrides)
+		{
+			if (texOverride.first == name)
+			{
+				return texOverride.second
+			}
+		}
+
+		return name
+	}
 }
 
-class ParticleEffect : Renderable()
+class ParticleEffect(val description: ParticleEffectDescription) : Renderable()
 {
 	private lateinit var loadPath: String
 
@@ -359,21 +374,7 @@ class ParticleEffect : Renderable()
 
 	override fun copy(): ParticleEffect
 	{
-		val effect = ParticleEffect.load(loadPath)
-		effect.killOnAnimComplete = killOnAnimComplete
-		effect.setPosition(position.x, position.y)
-		effect.rotation = rotation
-		effect.colour.set(colour)
-		effect.warmupTime = warmupTime
-		effect.loop = loop
-		effect.flipX = flipX
-		effect.flipY = flipY
-		effect.useFacing = useFacing
-		effect.size[0] = size[0]
-		effect.size[1] = size[1]
-		effect.scale = scale
-		effect.isShortened = isShortened
-		effect.timeMultiplier = timeMultiplier
+		val effect = description.getParticleEffect()
 		return effect
 	}
 
@@ -434,15 +435,15 @@ class ParticleEffect : Renderable()
 		}
 		val storedMap = ObjectMap<String, ByteArray>()
 
-		fun load(xml: XmlData): ParticleEffect
+		fun load(xml: XmlData, description: ParticleEffectDescription): ParticleEffect
 		{
-			val effect = ParticleEffect()
+			val effect = ParticleEffect(description)
 
 			effect.warmupTime = xml.getFloat("Warmup", 0f)
 			effect.loop = xml.getBoolean("Loop", true)
 
 			val emittersEl = xml.getChildByName("Emitters")!!
-			for (i in 0..emittersEl.childCount-1)
+			for (i in 0 until emittersEl.childCount)
 			{
 				val el = emittersEl.getChild(i)
 				val emitter = Emitter.load(el, effect) ?: continue
@@ -458,14 +459,14 @@ class ParticleEffect : Renderable()
 			return effect
 		}
 
-		fun load(path: String): ParticleEffect
+		fun load(path: String, description: ParticleEffectDescription): ParticleEffect
 		{
 			if (storedMap.containsKey(path))
 			{
 				val bytes = storedMap[path]
 				val input = Input(bytes, 0, bytes.size)
 
-				val effect = ParticleEffect()
+				val effect = ParticleEffect(description)
 				effect.restore(kryo, input)
 
 				return effect
@@ -473,14 +474,14 @@ class ParticleEffect : Renderable()
 			else
 			{
 				val xml = getXml("Particles/$path")
-				val effect = load(xml)
+				val effect = load(xml, description)
 				effect.loadPath = path
 
 				val output = Output(1024, -1)
 				effect.store(kryo, output)
 				storedMap[path] = output.buffer
 
-				return effect
+				return load(path, description)
 			}
 		}
 	}

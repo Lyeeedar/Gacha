@@ -51,5 +51,13 @@
 			<Entity>Korzad</Entity>
 			<Rarity>Common</Rarity>
 		</Hero>
+		<Hero>
+			<Entity>Hogan</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>Ruffletop</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
 	</Heroes>
 </Faction>

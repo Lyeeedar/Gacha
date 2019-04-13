@@ -155,9 +155,23 @@ class AssetManager
 
 		fun loadParticleEffect(xml:XmlData): ParticleEffectDescription
 		{
-			val effect = ParticleEffectDescription(xml.get("Name"))
+			val effectXml: XmlData
+			val overridesEl: XmlData?
+			if (xml.getChildByName("Name") == null)
+			{
+				// its a template
+				effectXml = xml.getChildByName("Base")!!
+				overridesEl = xml.getChildByName("Overrides")
+			}
+			else
+			{
+				effectXml = xml
+				overridesEl = null
+			}
 
-			val colourElement = xml.getChildByName("Colour")
+			val effect = ParticleEffectDescription(effectXml.get("Name"))
+
+			val colourElement = effectXml.getChildByName("Colour")
 			var colour = Colour(1f, 1f, 1f, 1f)
 			if (colourElement != null)
 			{
@@ -166,12 +180,23 @@ class AssetManager
 
 			effect.colour.set(colour)
 
-			effect.flipX = xml.getBoolean("FlipX", false)
-			effect.flipY = xml.getBoolean("FlipY", false)
-			effect.scale = xml.getFloat("Scale", 1f)
-			effect.useFacing = xml.getBoolean("UseFacing", true)
-			effect.timeMultiplier = xml.getFloat("TimeMultiplier", 1f)
-			effect.killOnAnimComplete = xml.getBoolean("KillOnAnimComplete", false)
+			effect.flipX = effectXml.getBoolean("FlipX", false)
+			effect.flipY = effectXml.getBoolean("FlipY", false)
+			effect.scale = effectXml.getFloat("Scale", 1f)
+			effect.useFacing = effectXml.getBoolean("UseFacing", true)
+			effect.timeMultiplier = effectXml.getFloat("TimeMultiplier", 1f)
+			effect.killOnAnimComplete = effectXml.getBoolean("KillOnAnimComplete", false)
+
+			if (overridesEl != null)
+			{
+				for (overrideEl in overridesEl.children)
+				{
+					val texName = overrideEl.get("Name")
+					val overrideName = overrideEl.getChildByName("Texture")!!.get("File")
+
+					effect.textureOverrides.add(Pair(texName, overrideName))
+				}
+			}
 
 			return effect
 		}
@@ -460,7 +485,7 @@ class AssetManager
 			return when(type)
 			{
 				"SPRITE" -> AssetManager.loadSprite(xml)
-				"PARTICLEEFFECT", "PARTICLE" -> AssetManager.loadParticleEffect(xml).getParticleEffect()
+				"PARTICLEEFFECT", "PARTICLE", "PARTICLEEFFECTTEMPLATE" -> AssetManager.loadParticleEffect(xml).getParticleEffect()
 				"TILINGSPRITE" -> AssetManager.loadTilingSprite(xml)
 				else -> throw Exception("Unknown renderable type '$type'!")
 			};

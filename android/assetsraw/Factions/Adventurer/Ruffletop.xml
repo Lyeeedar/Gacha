@@ -1,0 +1,202 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Ruffletop</Name>
+			<Title>The Curing Cassanova</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>80</MaxHP>
+				<Power>6</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<EquipmentWeight>Light</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack>
+				<Damage>1</Damage>
+				<Range>6</Range>
+				<FlightEffect meta:RefKey="ParticleEffect">
+					<Name>Bolt</Name>
+					<Colour>252,223,244,193</Colour>
+				</FlightEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/ruffletop</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/ruffletop</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Healing Breeze</Name>
+					<Description>Send a healing breeze over one ally, healing them for [GOLD]80%[] power for 5 turns.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/book_green</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<Heal>
+								<Time>0.086613</Time>
+								<Amount>0.8</Amount>
+							</Heal>
+							<Heal>
+								<Time>0.108225875</Time>
+								<Amount>0.8</Amount>
+							</Heal>
+							<Heal>
+								<Time>0.128062353</Time>
+								<Amount>0.8</Amount>
+							</Heal>
+							<Heal>
+								<Time>0.148787037</Time>
+								<Amount>0.8</Amount>
+							</Heal>
+							<Heal>
+								<Time>0.1695117</Time>
+							</Heal>
+						</Timeline>
+						<Timeline>
+							<SelectAllies />
+							<LockTargets>
+								<Time>0.02004049</Time>
+							</LockTargets>
+							<UnlockEntity>
+								<Time>0.06902834</Time>
+							</UnlockEntity>
+							<BlockTurn>
+								<Time>0.09426451</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.115047239</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.137314439</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.158097163</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.1773954</Time>
+							</BlockTurn>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.09426451</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Heal</Name>
+									<Colour>255,200,253,255</Colour>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>4,9</Cooldown>
+					<Range>999</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Mass Cure Light Wounds</Name>
+					<Description>Cure the wounds of all your allies, healing them for [GOLD]160%[].</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/heart_green_full</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectAllies>
+								<Count>10</Count>
+							</SelectAllies>
+							<Heal>
+								<Time>0.116068967</Time>
+								<Amount>1.6</Amount>
+							</Heal>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Time>0.034137927</Time>
+								<Duration LockDuration="False">0.141103446</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Heal</Name>
+									<Colour>250,200,238,255</Colour>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>7,11</Cooldown>
+					<Range>999</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Bless</Name>
+					<Description>Buff the power of all your allies by [GOLD]10%[] for 5 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/powerup</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectAllies>
+								<Count>10</Count>
+							</SelectAllies>
+							<Buff>
+								<Time>0.0141189089</Time>
+								<Duration LockDuration="False">0.00690094568</Duration>
+								<Buff meta:RefKey="Buff">
+									<Name>Bless</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Icons/powerup</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Power>0.1</Power>
+									</Statistics>
+									<Duration>5</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Time>0.009956561</Time>
+								<Duration LockDuration="False">0.0355795175</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>Buff</Name>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Icons/powerup</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>8,12</Cooldown>
+					<Range>999</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

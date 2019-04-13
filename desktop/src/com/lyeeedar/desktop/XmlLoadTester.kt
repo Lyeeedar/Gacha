@@ -1,6 +1,7 @@
 package com.lyeeedar.desktop
 
 import com.lyeeedar.Renderables.Particle.ParticleEffect
+import com.lyeeedar.Renderables.Particle.ParticleEffectDescription
 import com.lyeeedar.Util.XmlData
 
 class XmlLoadTester
@@ -16,7 +17,7 @@ class XmlLoadTester
 					val xml = XmlData.getXml(path)
 					when (xml.name.toUpperCase())
 					{
-						"EFFECT" -> ParticleEffect.load(path.split("Particles/")[1])
+						"EFFECT" -> ParticleEffect.load(path.split("Particles/")[1], ParticleEffectDescription(""))
 						//else -> throw RuntimeException("Unhandled path type '${xml.name}'!")
 					}
 

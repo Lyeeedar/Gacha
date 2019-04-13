@@ -74,14 +74,18 @@ class DamageAction(ability: ActionSequence) : AbstractActionSequenceAction(abili
 					// deal damage
 					if (EventSystem.isEventRegistered(EventType.DEALDAMAGE, sequence.source))
 					{
-						val dealEventData = EventData.obtain().set(EventType.DEALDAMAGE, sequence.source, entity, mapOf(Pair("damage", finalDam)))
+						val dealEventData = EventData.obtain().set(EventType.DEALDAMAGE, sequence.source, entity, mapOf(
+							Pair("damage", finalDam),
+							Pair("dist", sequence.source.pos().position.dist(entity.pos().position).toFloat())))
 						Global.engine.event().addEvent(dealEventData)
 					}
 
 					// take damage
 					if (EventSystem.isEventRegistered(EventType.TAKEDAMAGE, entity))
 					{
-						val takeEventData = EventData.obtain().set(EventType.TAKEDAMAGE, entity, sequence.source, mapOf(Pair("damage", finalDam)))
+						val takeEventData = EventData.obtain().set(EventType.TAKEDAMAGE, entity, sequence.source, mapOf(
+							Pair("damage", finalDam),
+							Pair("dist", sequence.source.pos().position.dist(entity.pos().position).toFloat())))
 						Global.engine.event().addEvent(takeEventData)
 					}
 				}

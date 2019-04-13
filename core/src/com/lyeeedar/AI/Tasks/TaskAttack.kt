@@ -113,14 +113,18 @@ class TaskAttack() : AbstractTask()
 					// deal damage
 					if (EventSystem.isEventRegistered(EventType.DEALDAMAGE, e))
 					{
-						val dealEventData = EventData.obtain().set(EventType.DEALDAMAGE, e, entity, mapOf(Pair("damage", finalDam)))
+						val dealEventData = EventData.obtain().set(EventType.DEALDAMAGE, e, entity, mapOf(
+							Pair("damage", finalDam),
+							Pair("dist", e.pos().position.dist(entity.pos().position).toFloat())))
 						Global.engine.event().addEvent(dealEventData)
 					}
 
 					// take damage
 					if (EventSystem.isEventRegistered(EventType.TAKEDAMAGE, entity))
 					{
-						val takeEventData = EventData.obtain().set(EventType.TAKEDAMAGE, entity, e, mapOf(Pair("damage", finalDam)))
+						val takeEventData = EventData.obtain().set(EventType.TAKEDAMAGE, entity, e, mapOf(
+							Pair("damage", finalDam),
+							Pair("dist", e.pos().position.dist(entity.pos().position).toFloat())))
 						Global.engine.event().addEvent(takeEventData)
 					}
 				}

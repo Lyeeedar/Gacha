@@ -445,7 +445,7 @@ class Particle(val emitter: Emitter)
 		{
 			keyframes[i] = ParticleKeyframe(
 					input.readFloat(),
-					kotlin.Array<Pair<String, TextureRegion>>(numTextureStreams) { i -> val name = input.readString(); Pair(name, AssetManager.loadTextureRegion(name)!!) },
+					kotlin.Array<Pair<String, TextureRegion>>(numTextureStreams) { i -> val name = emitter.particleEffect.description.getTexture(input.readString()); Pair(name, AssetManager.loadTextureRegion(name)!!) },
 					kotlin.Array<Colour>(numColourStreams) { i -> kryo.readObject(input, Colour::class.java) },
 					kotlin.Array<Float>(numAlphaStreams) { i -> input.readFloat() },
 					kotlin.Array<Float>(numAlphaRefStreams) { i -> input.readFloat() },
@@ -494,7 +494,7 @@ class Particle(val emitter: Emitter)
 			val textureEls = xml.getChildByName("TextureKeyframes")
 			if (textureEls != null)
 			{
-				texture.parse(textureEls, { Pair(it, AssetManager.loadTextureRegion(it) ?: throw RuntimeException("Failed to find texture $it!")) }, particle.lifetime.v2)
+				texture.parse(textureEls, { Pair(it, AssetManager.loadTextureRegion(it) ?: throw RuntimeException("Failed to find texture" + " $it!")) }, particle.lifetime.v2)
 			}
 			else
 			{

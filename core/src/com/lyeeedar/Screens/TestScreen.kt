@@ -54,6 +54,9 @@ class TestScreen : AbstractScreen()
 		}
 	}
 
+	var count = 0
+	var offAccumulator = 0f
+
 	var accumulator = 0f
 	override fun doRender(delta: Float)
 	{
@@ -64,9 +67,29 @@ class TestScreen : AbstractScreen()
 			accumulator = 0f
 		}
 
-		for (i in 0 until 20)
+		if (offAccumulator > 0f)
 		{
-			ratingTest.doRatingTest(heroes)
+			offAccumulator += delta
+			if (offAccumulator > 1f)
+			{
+				offAccumulator = -1f
+			}
 		}
+		else
+		{
+			for (i in 0 until 20)
+			{
+				ratingTest.doRatingTest(heroes)
+			}
+
+			count++
+			if (count == 5)
+			{
+				count = 0
+				offAccumulator = delta
+			}
+		}
+
+		System.gc()
 	}
 }

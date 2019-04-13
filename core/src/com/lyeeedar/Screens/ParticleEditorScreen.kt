@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.ObjectSet
 import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Animation.MoveAnimation
 import com.lyeeedar.Renderables.Particle.ParticleEffect
+import com.lyeeedar.Renderables.Particle.ParticleEffectDescription
 import com.lyeeedar.Renderables.Renderable
 import com.lyeeedar.Renderables.SortedRenderer
 import com.lyeeedar.Renderables.Sprite.Sprite
@@ -101,7 +102,7 @@ class ParticleEditorScreen : AbstractScreen()
 			val rawxml = getRawXml(currentPath!!)
 			val xmlData = XmlData.loadFromElement(rawxml)
 
-			val nparticle = ParticleEffect.Companion.load(xmlData)
+			val nparticle = ParticleEffect.Companion.load(xmlData, ParticleEffectDescription(currentPath!!))
 			nparticle.killOnAnimComplete = false
 			nparticle.setPosition(particle.position.x, particle.position.y)
 			nparticle.rotation = particle.rotation
@@ -115,7 +116,7 @@ class ParticleEditorScreen : AbstractScreen()
 			val rawxml = getRawXml(currentPath!!)
 			val xmlData = XmlData.loadFromElement(rawxml)
 
-			val nparticle = ParticleEffect.Companion.load(xmlData)
+			val nparticle = ParticleEffect.Companion.load(xmlData, ParticleEffectDescription(currentPath!!))
 
 			nparticle.killOnAnimComplete = false
 			nparticle.setPosition(particle.position.x, particle.position.y)
@@ -137,7 +138,7 @@ class ParticleEditorScreen : AbstractScreen()
 		mainTable.add(buttonsTable).growX()
 		mainTable.row()
 
-		particle = ParticleEffect()
+		particle = ParticleEffect(ParticleEffectDescription(""))
 
 		loadLevel()
 
