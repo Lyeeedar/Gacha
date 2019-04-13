@@ -166,6 +166,7 @@ class HeroesScreen : AbstractScreen()
 				val tileSprite = AssetManager.loadSprite("Icons/Active")
 				imageStack.add(SpriteWidget(tileSprite, 32f, 32f))
 				imageStack.add(SpriteWidget(ability.icon.copy(), 32f, 32f))
+				imageStack.add(SpriteWidget(AssetManager.loadSprite("GUI/PortraitFrameBorder"), 32f, 32f))
 
 				imageStack.addTapToolTip(ability.name + "\n\n" + ability.description)
 

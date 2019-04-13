@@ -16,18 +16,18 @@
 			<Particles>
 				<Particle>
 					<Lifetime>9999999,9999999</Lifetime>
-					<BlendMode>Multiplicative</BlendMode>
 					<VelocityAligned>true</VelocityAligned>
+					<SizeKeyframes>
+						<Stream>
+							<Keyframe>0|0.4|0.6</Keyframe>
+						</Stream>
+					</SizeKeyframes>
+					<BlendMode>Multiplicative</BlendMode>
 					<TextureKeyframes>
 						<Stream>
 							<Keyframe>0|EffectSprites/Bolt/Bolt_0</Keyframe>
 						</Stream>
 					</TextureKeyframes>
-					<SizeKeyframes>
-						<Stream>
-							<Keyframe>0|1|1</Keyframe>
-						</Stream>
-					</SizeKeyframes>
 					<ColourKeyframes>
 						<Stream>
 							<Keyframe>0|255,255,255,255</Keyframe>
@@ -38,6 +38,62 @@
 							<Keyframe>0|1</Keyframe>
 						</Stream>
 					</AlphaKeyframes>
+					<AlphaRefKeyframes>
+						<Stream>
+							<Keyframe>0|0</Keyframe>
+						</Stream>
+					</AlphaRefKeyframes>
+				</Particle>
+			</Particles>
+		</Emitter>
+		<Emitter>
+			<Name>Trail</Name>
+			<IsBlockingEmitter>false</IsBlockingEmitter>
+			<Type>Accumulated</Type>
+			<Shape>Cone</Shape>
+			<Width>90</Width>
+			<Rotation>180</Rotation>
+			<Direction>Random</Direction>
+			<ParticleSpeed>0.1,0.3</ParticleSpeed>
+			<ParticleRotation>0,360</ParticleRotation>
+			<RateKeyframes>
+				<Keyframe>0|10</Keyframe>
+			</RateKeyframes>
+			<Particles>
+				<Particle>
+					<Lifetime>0.3,0.7</Lifetime>
+					<Brownian>10</Brownian>
+					<AllowResize>false</AllowResize>
+					<SizeKeyframes>
+						<Stream>
+							<Keyframe>0|0.05|0.1</Keyframe>
+						</Stream>
+					</SizeKeyframes>
+					<BlendMode>Additive</BlendMode>
+					<TextureKeyframes>
+						<Stream>
+							<Keyframe>0|Particle/glow</Keyframe>
+						</Stream>
+					</TextureKeyframes>
+					<ColourKeyframes>
+						<Stream>
+							<Keyframe>0|255,255,255,255</Keyframe>
+						</Stream>
+					</ColourKeyframes>
+					<AlphaKeyframes>
+						<Stream>
+							<Keyframe>0|1</Keyframe>
+							<Keyframe>0.6859637|1</Keyframe>
+							<Keyframe>1|0</Keyframe>
+						</Stream>
+					</AlphaKeyframes>
+					<AlphaRefKeyframes>
+						<Stream>
+							<Keyframe>0|0</Keyframe>
+							<Keyframe>0.7443436|0</Keyframe>
+							<Keyframe>1|0.5</Keyframe>
+						</Stream>
+					</AlphaRefKeyframes>
 				</Particle>
 			</Particles>
 		</Emitter>

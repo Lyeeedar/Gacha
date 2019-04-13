@@ -248,7 +248,7 @@ private fun doMove(src: Tile, dst: Tile, type: MovementType, interrupt: Boolean)
 		}
 		else if (type == MovementType.LEAP)
 		{
-			entity.renderable().renderable.animation = LeapAnimation.obtain().setRelative(animSpeed, src, dst, 2f)
+			entity.renderable().renderable.animation = LeapAnimation.obtain().setRelative(animSpeed, src, dst, 3f)
 
 			if (entity.renderable().renderable is Sprite)
 			{

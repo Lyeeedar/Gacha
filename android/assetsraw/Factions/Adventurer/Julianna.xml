@@ -1,0 +1,215 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Julianna</Name>
+			<Title>Rose of the Academy</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>50</MaxHP>
+				<Power>10</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<EquipmentWeight>Light</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack>
+				<Damage>1</Damage>
+				<Range>9</Range>
+				<FlightEffect meta:RefKey="ParticleEffectTemplate">
+					<Base meta:RefKey="ParticleEffect">
+						<Name>Bolt</Name>
+						<Colour>169,219,230,255</Colour>
+					</Base>
+					<Overrides>
+						<OverrideTexture>
+							<Name>EffectSprites/Bolt/Bolt_0</Name>
+							<Texture meta:RefKey="Texture">
+								<File>EffectSprites/IceShard/IceShard_0</File>
+							</Texture>
+						</OverrideTexture>
+					</Overrides>
+				</FlightEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/juliana_staff</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/juliana_staff</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Ice Spear</Name>
+					<Description>Fire a spear of ice at an opponent, dealing [GOLD]120%[] damage and slowing them by [GOLD]20%[] for 4 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/weapon_mystic_greatspear</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<Damage>
+								<Time>0.109133922</Time>
+							</Damage>
+							<Debuff>
+								<Duration LockDuration="False">0.124084324</Duration>
+								<Time>0.127365947</Time>
+								<Buff meta:RefKey="Buff">
+									<Name>Ice Spear</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Icons/hastedown</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Haste>-0.2</Haste>
+									</Statistics>
+									<Duration>4</Duration>
+								</Buff>
+							</Debuff>
+						</Timeline>
+						<Timeline>
+							<MovementRenderable>
+								<Duration LockDuration="False">0.07570851</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>Bolt</Name>
+										<Colour>169,219,230,255</Colour>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>EffectSprites/Bolt/Bolt_0</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Oryx/uf_split/uf_items/weapon_mystic_greatspear</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+							</MovementRenderable>
+							<DestinationRenderable>
+								<Time>0.07570851</Time>
+								<Duration LockDuration="False">0.07292817</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>IceBurst</Name>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+							</DestinationRenderable>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Time>0.127365947</Time>
+								<Duration LockDuration="False">0.0790055245</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>Debuff</Name>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Icons/hastedown</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>6,13</Cooldown>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Rising Thorns</Name>
+					<Description>Cover the inside of your enemies armour in thorns, causing them to take [GOLD]20%[] more damage for 5 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/Custom/terrain/thorns</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<Debuff>
+								<Duration LockDuration="False">0.154972374</Duration>
+								<Time>0.06912983</Time>
+								<Buff meta:RefKey="Buff">
+									<Name>Rising Thorns</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Icons/defensedown</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<DR>-0.2</DR>
+									</Statistics>
+									<Duration>5</Duration>
+								</Buff>
+							</Debuff>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.202831492</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>RisingThorns</Name>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>7,12</Cooldown>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Binding Thorns</Name>
+					<Description>Bind the first enemy that gets close to you, causing them to take [GOLD]30%[] more damage and stunning them for 4 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/Custom/terrain/thorns</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<Stun>
+								<Count>4</Count>
+							</Stun>
+							<Debuff>
+								<Duration LockDuration="False">0.127665311</Duration>
+								<Time>0.0244939253</Time>
+								<Buff meta:RefKey="Buff">
+									<Name>Binding Thorns</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Icons/defensedown</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<DR>-0.3</DR>
+									</Statistics>
+									<Duration>4</Duration>
+								</Buff>
+							</Debuff>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.08758435</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>BindingThorns</Name>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<SingleUse>true</SingleUse>
+					<AvailableOnStart>true</AvailableOnStart>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

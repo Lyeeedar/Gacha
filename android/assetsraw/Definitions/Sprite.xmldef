@@ -56,11 +56,11 @@
 		<Data Name="KillOnAnimComplete" meta:RefKey="Boolean" />
 	</Definition>
 	<Definition Name="ParticleEffectTemplate" IsGlobal="True" meta:RefKey="StructDef">
-		<Data Name="Base" Keys="ParticleEffect" meta:RefKey="Reference" />
+		<Data Name="Base" Keys="ParticleEffect" Nullable="False" meta:RefKey="Reference" />
 		<Data Name="Overrides" meta:RefKey="Collection">
 			<Data Name="OverrideTexture" meta:RefKey="Struct">
 				<Data Name="Name" meta:RefKey="String" />
-				<Data Name="Texture" Keys="Texture" meta:RefKey="Reference" />
+				<Data Name="Texture" Keys="Texture" Nullable="False" meta:RefKey="Reference" />
 			</Data>
 		</Data>
 	</Definition>

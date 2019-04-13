@@ -12,7 +12,7 @@
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
 				<MaxHP>110</MaxHP>
-				<Power>9</Power>
+				<Power>8.5</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
 				<DR>0.1</DR>
