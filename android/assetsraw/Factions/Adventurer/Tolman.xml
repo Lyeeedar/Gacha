@@ -1,0 +1,94 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Tolman</Name>
+			<Title>Shires Fury</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>80</MaxHP>
+				<Power>15</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+				<Haste>-0.5</Haste>
+			</Statistics>
+			<EquipmentWeight>Heavy</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack>
+				<Damage>1</Damage>
+				<Range>9</Range>
+				<FlightEffect meta:RefKey="ParticleEffect">
+					<Name>Arrow</Name>
+					<Scale>0.7</Scale>
+				</FlightEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/tolman</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/tolman</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Explosive Bolt</Name>
+					<Description>Fire a bolt that explodes on impact, dealing [GOLD]150%[] damage to a 1 tile radius.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>EffectSprites/Explosion/Explosion_4</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<Permute>
+								<Time>0.0886834338</Time>
+								<HitPoints>
+									<Line>###</Line>
+									<Line>###</Line>
+									<Line>###</Line>
+								</HitPoints>
+							</Permute>
+							<Damage>
+								<Time>0.15865384</Time>
+								<Amount>1.5</Amount>
+							</Damage>
+						</Timeline>
+						<Timeline>
+							<MovementRenderable>
+								<Duration LockDuration="False">0.069970414</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Arrow</Name>
+								</Renderable>
+							</MovementRenderable>
+							<DestinationRenderable>
+								<Time>0.117973372</Time>
+								<Duration LockDuration="False">0.08298817</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Explosion</Name>
+								</Renderable>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>6,12</Cooldown>
+					<Range>99</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

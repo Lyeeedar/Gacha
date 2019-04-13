@@ -31,7 +31,7 @@ class TaskAttack() : AbstractTask()
 
 	override fun execute(e: Entity)
 	{
-		e.pos().facing = Direction.getCardinalDirection(e.pos().position.x - tile.x, tile.y - e.pos().position.y)
+		e.pos().facing = Direction.getCardinalDirection(tile, e.tile()!!)
 
 		if (!Global.resolveInstant)
 		{

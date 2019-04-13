@@ -5,8 +5,8 @@
 		<Data Name="MaxHP" meta:RefKey="Number" />
 		<Data Name="Power" meta:RefKey="Number" />
 		<!--Offense-->
-		<Data Name="CritChance" Min="0" meta:RefKey="Number" />
-		<Data Name="CritDamage" Min="0" meta:RefKey="Number" />
+		<Data Name="CritChance" meta:RefKey="Number" />
+		<Data Name="CritDamage" meta:RefKey="Number" />
 		<Data Name="Haste" meta:RefKey="Number" />
 		<Data Name="AbilityCooldown" meta:RefKey="Number" />
 		<Data Name="AbilityPower" meta:RefKey="Number" />
@@ -19,7 +19,7 @@
 		<Data Name="BuffPower" Min="0" meta:RefKey="Number" />
 		<Data Name="DebuffPower" Min="0" meta:RefKey="Number" />
 	</Definition>
-	<Definition Name="Rarities" IsGlobal="True" meta:RefKey="EnumDef">Common,Uncommon,Rare</Definition>
+	<Definition Name="Rarities" IsGlobal="True" meta:RefKey="EnumDef">Common,Uncommon,Rare,SuperRare,UltraRare</Definition>
 	<Definition Name="Ascensions" IsGlobal="True" meta:RefKey="EnumDef">Mundane,Exceptional,Extraordinary,Fabled,Legendary,Mythical,Divine</Definition>
 	<Definition Name="EquipmentWeight" IsGlobal="True" meta:RefKey="EnumDef">Heavy,Medium,Light</Definition>
 	<Definition Name="EquipmentSlot" IsGlobal="True" meta:RefKey="EnumDef">Head,Weapon,Body,Feet</Definition>

@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Pool
 import com.lyeeedar.Components.AbilityData
 import com.lyeeedar.Components.ActiveActionSequenceComponent
+import com.lyeeedar.Components.pos
 import com.lyeeedar.Components.tile
 import com.lyeeedar.Direction
 import com.lyeeedar.Global
@@ -24,6 +25,8 @@ class TaskAbility() : AbstractTask()
 
 	override fun execute(e: Entity)
 	{
+		e.pos().facing = Direction.getCardinalDirection(target.tile()!!, e.tile()!!)
+
 		if (ability.singleUse)
 		{
 			ability.remainingCooldown = Float.MAX_VALUE

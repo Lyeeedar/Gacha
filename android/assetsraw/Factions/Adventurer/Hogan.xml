@@ -25,7 +25,7 @@
 				<Damage>1</Damage>
 				<Range>1</Range>
 				<HitEffect meta:RefKey="ParticleEffect">
-					<Name>Strike</Name>
+					<Name>slash</Name>
 				</HitEffect>
 			</Attack>
 		</Statistics>

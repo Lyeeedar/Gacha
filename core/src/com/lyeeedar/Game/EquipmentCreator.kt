@@ -72,7 +72,7 @@ class EquipmentCreator
 
 					if (part != null)
 					{
-						for (i in 0 until ep.rarity.weight)
+						for (i in 0 until ep.rarity.dropRate)
 						{
 							validParts.add(part)
 						}

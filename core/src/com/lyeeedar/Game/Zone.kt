@@ -5,6 +5,7 @@ import com.lyeeedar.Ascension
 import com.lyeeedar.Components.pos
 import com.lyeeedar.Pathfinding.BresenhamLine
 import com.lyeeedar.Pathfinding.IPathfindingTile
+import com.lyeeedar.Rarity
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Renderables.Sprite.SpriteWrapper
 import com.lyeeedar.SpaceSlot
@@ -138,7 +139,7 @@ class Zone(val seed: Long)
 			val alpha = progression.toFloat() / numEncounters.toFloat()
 			val level = levelRange.min.lerp(levelRange.max, alpha).toInt()
 
-			current.encounter = createEncounter(level)
+			current.encounter = createEncounter(level, progression)
 
 			if (current.nextTile == null)
 			{
@@ -159,14 +160,18 @@ class Zone(val seed: Long)
 		}
 	}
 
-	fun createEncounter(level: Int): Encounter
+	fun createEncounter(level: Int, progression: Int): Encounter
 	{
 		val entities = Array<FactionEntity>()
 		for (faction in factions)
 		{
 			for (entity in faction.heroes)
 			{
-				for (i in 0 until entity.rarity.weight)
+				if (entity.rarity.ordinal >= Rarity.RARE.ordinal && progression < numEncounters*0.4) continue
+				if (entity.rarity.ordinal >= Rarity.SUPERRARE.ordinal && progression < numEncounters*0.6) continue
+				if (entity.rarity.ordinal >= Rarity.ULTRARARE.ordinal && progression < numEncounters*0.8) continue
+
+				for (i in 0 until entity.rarity.spawnWeight)
 				{
 					entities.add(entity)
 				}

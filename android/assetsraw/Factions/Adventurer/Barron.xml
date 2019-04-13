@@ -1,0 +1,174 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Barron</Name>
+			<Title>Unshakeable Guardian</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>130</MaxHP>
+				<Power>5.5</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+				<Aegis>0.2</Aegis>
+			</Statistics>
+			<EquipmentWeight>Heavy</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack>
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/barron</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/barron</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Distracting Blow</Name>
+					<Description>Strike an enemy and distract them, causing their power to drop by [GOLD]20%[] for 5 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/powerdown</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<Debuff>
+								<Duration LockDuration="False">0.149127528</Duration>
+								<Buff meta:RefKey="Buff">
+									<Name>Distracting Blow</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Icons/powerdown</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Power>-0.2</Power>
+									</Statistics>
+									<Duration>5</Duration>
+								</Buff>
+							</Debuff>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Time>0.00147651008</Time>
+								<Duration LockDuration="False">0.1247651</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>Debuff</Name>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Icons/powerdown</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>4,10</Cooldown>
+				</AbilityData>
+				<AbilityData>
+					<Name>Entangling Strike</Name>
+					<Description>Slip your weapon into the enemies guard, entangling them and causing them to have [GOLD]10%[] less crit chance for 5 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/critdown</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<Debuff>
+								<Duration LockDuration="False">0.149127528</Duration>
+								<Buff meta:RefKey="Buff">
+									<Name>Entangling Strike</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Icons/critdown</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<CritChance>-0.1</CritChance>
+										<CritDamage>-0.5</CritDamage>
+									</Statistics>
+									<Duration>5</Duration>
+								</Buff>
+							</Debuff>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Time>0.00147651008</Time>
+								<Duration LockDuration="False">0.1247651</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>Debuff</Name>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Icons/critdown</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>5,15</Cooldown>
+				</AbilityData>
+				<AbilityData>
+					<Name>Shield Slam</Name>
+					<Description>Slam your shield into the enemy, causing [GOLD]200%[] damage and stunning them for 1 round.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/shield_iron_heater</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<Damage>
+								<Time>0.0677040145</Time>
+							</Damage>
+							<Stun>
+								<Time>0.0928077549</Time>
+							</Stun>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.117150769</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>BlockBroken</Name>
+									<Colour>120,130,150,255</Colour>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>6,10</Cooldown>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

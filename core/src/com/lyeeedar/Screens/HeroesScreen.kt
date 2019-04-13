@@ -761,7 +761,7 @@ class HeroesScreen : AbstractScreen()
 			else
 			{
 				val heroWidget = SpriteWidget(AssetManager.loadSprite("Icons/Unknown"), 32f, 32f)
-				heroWidget.addTapToolTip("Unknown hero. Rarity [GOLD]${factionHero.rarity.toString().neaten()}[].")
+				heroWidget.addTapToolTip("Unknown hero. Rarity [GOLD]${factionHero.rarity.niceName}[].")
 
 				heroesTable.add(heroWidget).size((Global.resolution.x - (heroesARow * 2f) - 10f) / heroesARow.toFloat()).pad(2f)
 				x++

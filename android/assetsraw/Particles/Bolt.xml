@@ -50,14 +50,13 @@
 			<Name>Trail</Name>
 			<IsBlockingEmitter>false</IsBlockingEmitter>
 			<Type>Accumulated</Type>
-			<Shape>Cone</Shape>
-			<Width>90</Width>
-			<Rotation>180</Rotation>
+			<Width>0.01</Width>
+			<Height>0.01</Height>
 			<Direction>Random</Direction>
-			<ParticleSpeed>0.1,0.3</ParticleSpeed>
+			<ParticleSpeed>0.05,0.2</ParticleSpeed>
 			<ParticleRotation>0,360</ParticleRotation>
 			<RateKeyframes>
-				<Keyframe>0|10</Keyframe>
+				<Keyframe>0|100</Keyframe>
 			</RateKeyframes>
 			<Particles>
 				<Particle>
@@ -66,7 +65,7 @@
 					<AllowResize>false</AllowResize>
 					<SizeKeyframes>
 						<Stream>
-							<Keyframe>0|0.05|0.1</Keyframe>
+							<Keyframe>0|0.02|0.05</Keyframe>
 						</Stream>
 					</SizeKeyframes>
 					<BlendMode>Additive</BlendMode>
@@ -82,15 +81,15 @@
 					</ColourKeyframes>
 					<AlphaKeyframes>
 						<Stream>
-							<Keyframe>0|1</Keyframe>
-							<Keyframe>0.6859637|1</Keyframe>
+							<Keyframe>0|0.7</Keyframe>
+							<Keyframe>0.6859637|0.7</Keyframe>
 							<Keyframe>1|0</Keyframe>
 						</Stream>
 					</AlphaKeyframes>
 					<AlphaRefKeyframes>
 						<Stream>
 							<Keyframe>0|0</Keyframe>
-							<Keyframe>0.7443436|0</Keyframe>
+							<Keyframe>0.5965824|0</Keyframe>
 							<Keyframe>1|0.5</Keyframe>
 						</Stream>
 					</AlphaRefKeyframes>
