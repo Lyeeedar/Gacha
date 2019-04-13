@@ -11,7 +11,7 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>70</MaxHP>
+				<MaxHP>75</MaxHP>
 				<Power>15</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>

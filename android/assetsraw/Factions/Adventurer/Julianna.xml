@@ -11,8 +11,8 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>40</MaxHP>
-				<Power>10</Power>
+				<MaxHP>50</MaxHP>
+				<Power>11</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
 			</Statistics>
@@ -27,12 +27,13 @@
 					<Base meta:RefKey="ParticleEffect">
 						<Name>Bolt</Name>
 						<Colour>169,219,230,255</Colour>
+						<Scale>0.5</Scale>
 					</Base>
 					<Overrides>
 						<OverrideTexture>
 							<Name>EffectSprites/Bolt/Bolt_0</Name>
 							<Texture meta:RefKey="Texture">
-								<File>EffectSprites/IceShard/IceShard_0</File>
+								<File>Oryx/Custom/items/thorn_spear</File>
 							</Texture>
 						</OverrideTexture>
 					</Overrides>
@@ -57,10 +58,10 @@
 		<Ability>
 			<Abilities>
 				<AbilityData>
-					<Name>Ice Spear</Name>
-					<Description>Fire a spear of ice at an opponent, dealing [GOLD]120%[] damage and slowing them by [GOLD]20%[] for 4 rounds.</Description>
+					<Name>Thorn Spear</Name>
+					<Description>Fire a razor thorn at an opponent, dealing [GOLD]120%[] damage and slowing them by [GOLD]20%[] for 4 rounds.</Description>
 					<Icon meta:RefKey="Sprite">
-						<Name>Oryx/uf_split/uf_items/weapon_mystic_greatspear</Name>
+						<Name>Oryx/Custom/items/thorn_spear</Name>
 					</Icon>
 					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
@@ -68,10 +69,10 @@
 								<Time>0.109133922</Time>
 							</Damage>
 							<Debuff>
-								<Duration LockDuration="False">0.124084324</Duration>
 								<Time>0.127365947</Time>
+								<Duration LockDuration="False">0.124084324</Duration>
 								<Buff meta:RefKey="Buff">
-									<Name>Ice Spear</Name>
+									<Name>Thorn Spear</Name>
 									<Icon meta:RefKey="Sprite">
 										<Name>Icons/hastedown</Name>
 									</Icon>
@@ -94,25 +95,26 @@
 										<OverrideTexture>
 											<Name>EffectSprites/Bolt/Bolt_0</Name>
 											<Texture meta:RefKey="Texture">
-												<File>Oryx/uf_split/uf_items/weapon_mystic_greatspear</File>
+												<File>Oryx/Custom/items/thorn_spear</File>
 											</Texture>
 										</OverrideTexture>
 									</Overrides>
 								</Renderable>
 							</MovementRenderable>
 							<DestinationRenderable>
-								<Time>0.07570851</Time>
 								<Duration LockDuration="False">0.07292817</Duration>
+								<Time>0.07570851</Time>
 								<Renderable meta:RefKey="ParticleEffect">
-									<Name>IceBurst</Name>
+									<Name>BindingThorns</Name>
 								</Renderable>
 								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Time>0.127365947</Time>
 								<Duration LockDuration="False">0.0790055245</Duration>
+								<Time>0.127365947</Time>
 								<Renderable meta:RefKey="ParticleEffectTemplate">
 									<Base meta:RefKey="ParticleEffect">
 										<Name>Debuff</Name>
@@ -134,22 +136,22 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Rising Thorns</Name>
-					<Description>Cover the inside of your enemies armour in thorns, causing them to take [GOLD]20%[] more damage for 5 rounds.</Description>
+					<Description>Cover the inside of your enemies armour in thorns, causing them to take [GOLD]30%[] more damage for 5 rounds.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/Custom/terrain/thorns</Name>
 					</Icon>
 					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
 							<Debuff>
-								<Duration LockDuration="False">0.154972374</Duration>
 								<Time>0.06912983</Time>
+								<Duration LockDuration="False">0.154972374</Duration>
 								<Buff meta:RefKey="Buff">
 									<Name>Rising Thorns</Name>
 									<Icon meta:RefKey="Sprite">
 										<Name>Icons/defensedown</Name>
 									</Icon>
 									<Statistics meta:RefKey="Statistics">
-										<DR>-0.2</DR>
+										<DR>-0.3</DR>
 									</Statistics>
 									<Duration>5</Duration>
 								</Buff>
@@ -181,8 +183,8 @@
 								<Count>4</Count>
 							</Stun>
 							<Debuff>
-								<Duration LockDuration="False">0.127665311</Duration>
 								<Time>0.0244939253</Time>
+								<Duration LockDuration="False">0.127665311</Duration>
 								<Buff meta:RefKey="Buff">
 									<Name>Binding Thorns</Name>
 									<Icon meta:RefKey="Sprite">
@@ -208,6 +210,83 @@
 					</Ability>
 					<SingleUse>true</SingleUse>
 					<AvailableOnStart>true</AvailableOnStart>
+				</AbilityData>
+				<AbilityData>
+					<Name>Field of Thorns</Name>
+					<Description>Sprout deadly thorns over a large area, dealing [GOLD]70%[] damage a turn to trespassers for 3 turns.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/Custom/terrain/thorn_field</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<BlockTurn />
+							<Permute>
+								<Time>0.0280392151</Time>
+								<HitPoints>
+									<Line>..#..</Line>
+									<Line>.###.</Line>
+									<Line>#####</Line>
+									<Line>.###.</Line>
+									<Line>..#..</Line>
+								</HitPoints>
+							</Permute>
+							<Damage>
+								<Time>0.10712418</Time>
+								<Amount>0.7</Amount>
+							</Damage>
+							<BlockTurn>
+								<Time>0.156957537</Time>
+							</BlockTurn>
+							<Damage>
+								<Time>0.214215368</Time>
+								<Amount>0.7</Amount>
+							</Damage>
+							<BlockTurn>
+								<Time>0.240206271</Time>
+							</BlockTurn>
+							<Damage>
+								<Time>0.279192626</Time>
+								<Amount>0.7</Amount>
+							</Damage>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.09633987</Duration>
+								<Time>0.0496078432</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>ThornField</Name>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+								<SpawnBehaviour>Random</SpawnBehaviour>
+								<SpawnDuration>0.2</SpawnDuration>
+							</DestinationRenderable>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.0617283881</Duration>
+								<Time>0.172386274</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>ThornField</Name>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+								<SpawnBehaviour>Random</SpawnBehaviour>
+								<SpawnDuration>0.2</SpawnDuration>
+							</DestinationRenderable>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.0377680361</Duration>
+								<Time>0.254013956</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>ThornField</Name>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+								<SpawnBehaviour>Random</SpawnBehaviour>
+								<SpawnDuration>0.2</SpawnDuration>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>11,20</Cooldown>
+					<Range>99</Range>
 				</AbilityData>
 			</Abilities>
 		</Ability>

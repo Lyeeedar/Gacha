@@ -37,10 +37,10 @@ enum class Ascension(val multiplier: Float, val colour: Colour, val shardsRequir
 // ----------------------------------------------------------------------
 enum class Rarity private constructor(val niceName: String, val spawnWeight: Int, val dropRate: Int)
 {
-	COMMON("Common", 5, 9),
-	UNCOMMON("Uncommon", 3, 7),
-	RARE("Rare", 1, 5),
-	SUPERRARE("Super Rare", 1, 3),
+	COMMON("Common", 4, 7),
+	UNCOMMON("Uncommon", 3, 5),
+	RARE("Rare", 1, 3),
+	SUPERRARE("Super Rare", 1, 2),
 	ULTRARARE("Ultra Rare", 1, 1);
 
 	companion object

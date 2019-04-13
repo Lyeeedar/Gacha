@@ -161,11 +161,22 @@ class SourceAnimationAction(ability: ActionSequence) : AbstractActionSequenceAct
 
 class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
 {
+	enum class SpawnBehaviour
+	{
+		IMMEDIATE,
+		FROMSOURCE,
+		FROMCENTER,
+		RANDOM
+	}
+
 	lateinit var renderable: ParticleEffectDescription
 	lateinit var slot: SpaceSlot
 	var entityPerTile = false
 	var killOnEnd = true
 	var alignToVector = true
+
+	var spawnBehaviour: SpawnBehaviour = SpawnBehaviour.IMMEDIATE
+	var spawnDuration = 0f
 
 	val entities = Array<Entity>(1)
 
@@ -173,13 +184,53 @@ class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSeque
 	{
 		if (Global.resolveInstant) return false
 
+		val min = sequence.targets.minBy(Point::hashCode)!!
+		val max = sequence.targets.maxBy(Point::hashCode)!!
+
 		if (entityPerTile)
 		{
+			val furthest = sequence.targets.maxBy { it.taxiDist(sequence.source.tile()!!) }!!
+
 			for (tile in sequence.targets)
 			{
 				val entity = Entity()
 
 				val r = renderable.getParticleEffect()
+				if (spawnBehaviour == SpawnBehaviour.IMMEDIATE)
+				{
+					// do nothing
+				}
+				else if (spawnBehaviour == SpawnBehaviour.FROMSOURCE)
+				{
+					val maxDist = furthest.euclideanDist(sequence.source.tile()!!)
+					val dist = tile.euclideanDist(sequence.source.tile()!!)
+					val alpha = dist / maxDist
+					val delay = spawnDuration * alpha
+
+					r.renderDelay = delay
+				}
+				else if (spawnBehaviour == SpawnBehaviour.FROMCENTER)
+				{
+					val center = min.lerp(max, 0.5f)
+					val maxDist = center.euclideanDist(max)
+					val dist = center.euclideanDist(tile)
+					val alpha = dist / maxDist
+					val delay = spawnDuration * alpha
+
+					r.renderDelay = delay
+				}
+				else if (spawnBehaviour == SpawnBehaviour.RANDOM)
+				{
+					val alpha = Random.random()
+					val delay = spawnDuration * alpha
+
+					r.renderDelay = delay
+				}
+				else
+				{
+					throw Exception("Unhandled spawn behaviour")
+				}
+
 				entity.add(RenderableComponent(r))
 				entity.add(PositionComponent())
 				val pos = entity.pos()!!
@@ -203,8 +254,8 @@ class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSeque
 			entity.add(PositionComponent())
 			val pos = entity.pos()!!
 
-			pos.min = sequence.targets.minBy(Point::hashCode)!!
-			pos.max = sequence.targets.maxBy(Point::hashCode)!!
+			pos.min = min
+			pos.max = max
 			pos.slot = slot
 
 			if (alignToVector)
@@ -270,6 +321,8 @@ class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSeque
 		out.killOnEnd = killOnEnd
 		out.alignToVector = alignToVector
 		out.entityPerTile = entityPerTile
+		out.spawnBehaviour = spawnBehaviour
+		out.spawnDuration = spawnDuration
 
 		return out
 	}
@@ -281,6 +334,8 @@ class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSeque
 		entityPerTile = xmlData.getBoolean("RenderablePerTile", false)
 		killOnEnd = xmlData.getBoolean("KillOnEnd", false)
 		alignToVector = xmlData.getBoolean("AlignToVector", true)
+		spawnBehaviour = SpawnBehaviour.valueOf(xmlData.get("SpawnBehaviour", "Immediate")!!.toUpperCase())
+		spawnDuration = xmlData.getFloat("SpawnDuration", 0f)
 	}
 }
 

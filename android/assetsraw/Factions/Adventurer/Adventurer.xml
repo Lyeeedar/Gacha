@@ -36,19 +36,7 @@
 	</Buffs>
 	<Heroes>
 		<Hero>
-			<Entity>Korzad</Entity>
-			<Rarity>Uncommon</Rarity>
-		</Hero>
-		<Hero>
 			<Entity>Hogan</Entity>
-			<Rarity>Common</Rarity>
-		</Hero>
-		<Hero>
-			<Entity>Ruffletop</Entity>
-			<Rarity>Common</Rarity>
-		</Hero>
-		<Hero>
-			<Entity>Julianna</Entity>
 			<Rarity>Common</Rarity>
 		</Hero>
 		<Hero>
@@ -56,8 +44,20 @@
 			<Rarity>Common</Rarity>
 		</Hero>
 		<Hero>
+			<Entity>Ruffletop</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>Korzad</Entity>
+			<Rarity>Uncommon</Rarity>
+		</Hero>
+		<Hero>
 			<Entity>Tolman</Entity>
 			<Rarity>Uncommon</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>Julianna</Entity>
+			<Rarity>Rare</Rarity>
 		</Hero>
 	</Heroes>
 </Faction>
