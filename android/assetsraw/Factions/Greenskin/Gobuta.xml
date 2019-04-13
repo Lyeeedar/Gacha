@@ -8,6 +8,7 @@
 				<CritChance>0.1</CritChance>
 				<CritDamage>2</CritDamage>
 			</Statistics>
+			<EquipmentWeight>Medium</EquipmentWeight>
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
@@ -57,7 +58,7 @@
 							</SelectEnemies>
 							<Stun>
 								<Time>0.134025663</Time>
-								<Count>3+rnd(3)</Count>
+								<Count>2</Count>
 							</Stun>
 							<MoveSource>
 								<Time>0.138235524</Time>

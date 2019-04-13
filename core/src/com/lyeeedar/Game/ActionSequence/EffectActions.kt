@@ -210,7 +210,7 @@ class StunAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 				val targetstats = entity.stats() ?: continue
 				val task = entity.task() ?: continue
 
-				if (entity.isEnemies(sequence.source) && chance.evaluate() != 0f && Random.random.nextFloat() < targetstats.getStat(Statistic.AEGIS))
+				if (entity.isEnemies(sequence.source) && Random.random.nextFloat() > targetstats.getStat(Statistic.AEGIS))
 				{
 					val sourceStats = sequence.source.stats()!!
 

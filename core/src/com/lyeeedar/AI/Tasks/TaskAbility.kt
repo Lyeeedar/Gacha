@@ -2,19 +2,19 @@ package com.lyeeedar.AI.Tasks
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Pool
+import com.lyeeedar.Components.AbilityData
 import com.lyeeedar.Components.ActiveActionSequenceComponent
 import com.lyeeedar.Components.tile
 import com.lyeeedar.Direction
-import com.lyeeedar.Game.ActionSequence.ActionSequence
 import com.lyeeedar.Global
 import com.lyeeedar.Systems.level
 
 class TaskAbility() : AbstractTask()
 {
 	lateinit var target: Entity
-	lateinit var ability: ActionSequence
+	lateinit var ability: AbilityData
 
-	fun set(target: Entity, ability: ActionSequence): TaskAbility
+	fun set(target: Entity, ability: AbilityData): TaskAbility
 	{
 		this.target = target
 		this.ability = ability
@@ -24,14 +24,28 @@ class TaskAbility() : AbstractTask()
 
 	override fun execute(e: Entity)
 	{
-		ability.begin(e, Global.engine.level!!)
-		ability.targets.clear()
-		ability.targets.add(target.tile()!!)
-		ability.lockedTargets.add(target)
-		ability.facing = Direction.Companion.getDirection(e.tile()!!, target.tile()!!)
+		if (ability.singleUse)
+		{
+			ability.remainingCooldown = Float.MAX_VALUE
+		}
+		else
+		{
+			ability.remainingCooldown = ability.cooldown.getValue().toFloat()
+		}
+		ability.selectedCooldown = ability.remainingCooldown
+		ability.justUsed = true
+
+		val newAb = ability.ability.copy()
+		newAb.source = e
+
+		newAb.begin(e, Global.engine.level!!)
+		newAb.targets.clear()
+		newAb.targets.add(target.tile()!!)
+		newAb.lockedTargets.add(target)
+		newAb.facing = Direction.Companion.getDirection(e.tile()!!, target.tile()!!)
 
 		val component = ActiveActionSequenceComponent()
-		component.sequence = ability
+		component.sequence = newAb
 
 		e.add(component)
 	}

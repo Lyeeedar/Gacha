@@ -50,20 +50,7 @@ class ActionAbility : AbstractAction()
 		val readyAbility = ability.abilities.filter { it.remainingCooldown <= 0 && it.range >= dist && it.condition.evaluate(stats.variables()) != 0f }.randomOrNull()
 		if (readyAbility != null)
 		{
-			if (readyAbility.singleUse)
-			{
-				readyAbility.remainingCooldown = Float.MAX_VALUE
-			}
-			else
-			{
-				readyAbility.remainingCooldown = readyAbility.cooldown.getValue().toFloat()
-			}
-			readyAbility.selectedCooldown = readyAbility.remainingCooldown
-			readyAbility.justUsed = true
-
-			val newAb = readyAbility.ability.copy()
-			newAb.source = entity
-			taskData.tasks.add(TaskAbility.obtain().set(target, newAb))
+			taskData.tasks.add(TaskAbility.obtain().set(target, readyAbility))
 
 			state = ExecutionState.COMPLETED
 			return state

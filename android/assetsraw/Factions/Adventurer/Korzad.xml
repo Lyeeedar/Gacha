@@ -200,7 +200,6 @@
 					<Description>Take a long draft of a healing tonic, healing [GOLD]200%[] and gaining [GOLD]2.5%[] regeneration for 10 rounds.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_items/flask_green</Name>
-						<DrawActualSize>true</DrawActualSize>
 					</Icon>
 					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
