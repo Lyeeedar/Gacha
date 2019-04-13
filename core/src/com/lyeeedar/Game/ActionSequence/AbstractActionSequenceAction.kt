@@ -60,6 +60,9 @@ abstract class AbstractActionSequenceAction(val sequence: ActionSequence)
 				"MOVEMENTRENDERABLE" -> MovementRenderableAction(sequence)
 				"SCREENSHAKE" -> ScreenShakeAction(sequence)
 
+				"REPEATBEGIN" -> RepeatBegin(sequence)
+				"REPEATEND" -> RepeatEnd(sequence)
+
 				else -> throw Exception("Unhandled sequence action type " + xmlData.getAttribute("meta:RefKey") + "!")
 			}
 

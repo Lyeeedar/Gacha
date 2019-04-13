@@ -221,7 +221,7 @@
 						<Timeline>
 							<BlockTurn />
 							<Permute>
-								<Time>0.0280392151</Time>
+								<Time>0.009757468</Time>
 								<HitPoints>
 									<Line>..#..</Line>
 									<Line>.###.</Line>
@@ -230,51 +230,25 @@
 									<Line>..#..</Line>
 								</HitPoints>
 							</Permute>
+							<RepeatBegin>
+								<Time>0.02674552</Time>
+								<Count>3</Count>
+							</RepeatBegin>
 							<Damage>
+								<Time>0.09561345</Time>
+								<Amount>0.7</Amount>
+							</Damage>
+							<BlockTurn>
 								<Time>0.10712418</Time>
-								<Amount>0.7</Amount>
-							</Damage>
-							<BlockTurn>
-								<Time>0.156957537</Time>
 							</BlockTurn>
-							<Damage>
-								<Time>0.214215368</Time>
-								<Amount>0.7</Amount>
-							</Damage>
-							<BlockTurn>
-								<Time>0.240206271</Time>
-							</BlockTurn>
-							<Damage>
-								<Time>0.279192626</Time>
-								<Amount>0.7</Amount>
-							</Damage>
+							<RepeatEnd>
+								<Time>0.118154258</Time>
+							</RepeatEnd>
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.09633987</Duration>
+								<Duration LockDuration="False">0.0575163364</Duration>
 								<Time>0.0496078432</Time>
-								<Renderable meta:RefKey="ParticleEffect">
-									<Name>ThornField</Name>
-								</Renderable>
-								<RenderablePerTile>true</RenderablePerTile>
-								<AlignToVector>false</AlignToVector>
-								<SpawnBehaviour>Random</SpawnBehaviour>
-								<SpawnDuration>0.2</SpawnDuration>
-							</DestinationRenderable>
-							<DestinationRenderable>
-								<Duration LockDuration="False">0.0617283881</Duration>
-								<Time>0.172386274</Time>
-								<Renderable meta:RefKey="ParticleEffect">
-									<Name>ThornField</Name>
-								</Renderable>
-								<RenderablePerTile>true</RenderablePerTile>
-								<AlignToVector>false</AlignToVector>
-								<SpawnBehaviour>Random</SpawnBehaviour>
-								<SpawnDuration>0.2</SpawnDuration>
-							</DestinationRenderable>
-							<DestinationRenderable>
-								<Duration LockDuration="False">0.0377680361</Duration>
-								<Time>0.254013956</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>ThornField</Name>
 								</Renderable>

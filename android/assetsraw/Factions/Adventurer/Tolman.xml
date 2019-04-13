@@ -76,8 +76,8 @@
 								</Renderable>
 							</MovementRenderable>
 							<DestinationRenderable>
-								<Time>0.117973372</Time>
 								<Duration LockDuration="False">0.08298817</Duration>
+								<Time>0.117973372</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Explosion</Name>
 								</Renderable>
@@ -115,8 +115,8 @@
 						</Timeline>
 						<Timeline>
 							<MovementRenderable>
-								<Duration LockDuration="False">0.138543248</Duration>
 								<Time>0.0909711644</Time>
+								<Duration LockDuration="False">0.138543248</Duration>
 								<Renderable meta:RefKey="ParticleEffectTemplate">
 									<Base meta:RefKey="ParticleEffect">
 										<Name>FlightParticle</Name>
@@ -151,67 +151,20 @@
 							<UnlockEntity>
 								<Time>0.116346151</Time>
 							</UnlockEntity>
+							<RepeatBegin>
+								<Time>0.179133937</Time>
+								<Count>10</Count>
+							</RepeatBegin>
 							<BlockTurn>
-								<Time>0.170044377</Time>
+								<Time>0.193746582</Time>
 							</BlockTurn>
 							<Damage>
-								<Time>0.18875739</Time>
+								<Time>0.206989855</Time>
 								<Amount>0.2</Amount>
 							</Damage>
-							<BlockTurn>
-								<Time>0.216685027</Time>
-							</BlockTurn>
-							<Damage>
-								<Time>0.238387585</Time>
-							</Damage>
-							<BlockTurn>
-								<Time>0.265368432</Time>
-							</BlockTurn>
-							<Damage>
-								<Time>0.28069526</Time>
-							</Damage>
-							<BlockTurn>
-								<Time>0.313197732</Time>
-							</BlockTurn>
-							<Damage>
-								<Time>0.329511821</Time>
-							</Damage>
-							<BlockTurn>
-								<Time>0.358464748</Time>
-							</BlockTurn>
-							<Damage>
-								<Time>0.370192319</Time>
-							</Damage>
-							<BlockTurn>
-								<Time>0.392628521</Time>
-							</BlockTurn>
-							<Damage>
-								<Time>0.415037125</Time>
-							</Damage>
-							<BlockTurn>
-								<Time>0.433625072</Time>
-							</BlockTurn>
-							<Damage>
-								<Time>0.451717436</Time>
-							</Damage>
-							<BlockTurn>
-								<Time>0.4788921</Time>
-							</BlockTurn>
-							<Damage>
-								<Time>0.4979932</Time>
-							</Damage>
-							<BlockTurn>
-								<Time>0.5164723</Time>
-							</BlockTurn>
-							<Damage>
-								<Time>0.5301277</Time>
-							</Damage>
-							<BlockTurn>
-								<Time>0.5472197</Time>
-							</BlockTurn>
-							<Damage>
-								<Time>0.561601937</Time>
-							</Damage>
+							<RepeatEnd>
+								<Time>0.221068591</Time>
+							</RepeatEnd>
 						</Timeline>
 						<Timeline>
 							<MovementRenderable>
@@ -232,8 +185,8 @@
 								</Renderable>
 							</MovementRenderable>
 							<Debuff>
-								<Duration LockDuration="False">0.4219646</Duration>
 								<Time>0.160645425</Time>
+								<Duration LockDuration="False">0.08230212</Duration>
 								<Buff meta:RefKey="Buff">
 									<Name>Scorpion Bolt</Name>
 									<Icon meta:RefKey="Sprite">
