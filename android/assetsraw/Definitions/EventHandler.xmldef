@@ -37,7 +37,13 @@
 					<Data Name="ActionSequence" Keys="ActionSequence" Nullable="False" meta:RefKey="Reference" />
 				</Data>
 			</Data>
-			<Data Name="HealedDeath" meta:RefKey="Collection">
+			<Data Name="Healed" meta:RefKey="Collection">
+				<Data Name="EventHandler" Nullable="False" meta:RefKey="Struct">
+					<Data Name="Condition" Default="1" SkipIfDefault="False" meta:RefKey="String" />
+					<Data Name="ActionSequence" Keys="ActionSequence" Nullable="False" meta:RefKey="Reference" />
+				</Data>
+			</Data>
+			<Data Name="Crit" meta:RefKey="Collection">
 				<Data Name="EventHandler" Nullable="False" meta:RefKey="Struct">
 					<Data Name="Condition" Default="1" SkipIfDefault="False" meta:RefKey="String" />
 					<Data Name="ActionSequence" Keys="ActionSequence" Nullable="False" meta:RefKey="Reference" />

@@ -55,6 +55,7 @@ abstract class AbstractActionSequenceAction(val sequence: ActionSequence)
 
 				"SOURCERENDERABLE" -> SourceRenderableAction(sequence)
 				"REPLACESOURCERENDERABLE" -> ReplaceSourceRenderableAction(sequence)
+				"ATTACHTOENTITYRENDERABLE" -> AttachToEntityRenderableAction(sequence)
 				"SOURCEANIMATION" -> SourceAnimationAction(sequence)
 				"DESTINATIONRENDERABLE" -> DestinationRenderableAction(sequence)
 				"MOVEMENTRENDERABLE" -> MovementRenderableAction(sequence)

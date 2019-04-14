@@ -59,5 +59,9 @@
 			<Entity>Julianna</Entity>
 			<Rarity>Rare</Rarity>
 		</Hero>
+		<Hero>
+			<Entity>Daniel</Entity>
+			<Rarity>SuperRare</Rarity>
+		</Hero>
 	</Heroes>
 </Faction>

@@ -12,8 +12,16 @@ import com.lyeeedar.Renderables.Renderable
 import com.lyeeedar.SpaceSlot
 import com.lyeeedar.Systems.render
 import com.lyeeedar.Util.*
+import ktx.collections.set
 
-class ReplaceSourceRenderableAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
+enum class OnEndBehaviour
+{
+	NOTHING,
+	KILL,
+	STOP
+}
+
+class ReplaceSourceRenderableAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
 {
 	lateinit var renderable: Renderable
 
@@ -78,7 +86,7 @@ class ReplaceSourceRenderableAction(ability: ActionSequence) : AbstractActionSeq
 	}
 }
 
-class SourceAnimationAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
+class SourceAnimationAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
 {
 	enum class Animation
 	{
@@ -159,7 +167,7 @@ class SourceAnimationAction(ability: ActionSequence) : AbstractActionSequenceAct
 
 }
 
-class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
+class DestinationRenderableAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
 {
 	enum class SpawnBehaviour
 	{
@@ -172,7 +180,7 @@ class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSeque
 	lateinit var renderable: ParticleEffectDescription
 	lateinit var slot: SpaceSlot
 	var entityPerTile = false
-	var killOnEnd = true
+	lateinit var onEnd: OnEndBehaviour
 	var alignToVector = true
 
 	var spawnBehaviour: SpawnBehaviour = SpawnBehaviour.IMMEDIATE
@@ -182,17 +190,21 @@ class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSeque
 
 	override fun enter(): Boolean
 	{
-		if (Global.resolveInstant) return false
+		if (Global.resolveInstant || sequence.targets.size == 0) return false
 
 		val min = sequence.targets.minBy(Point::hashCode)!!
 		val max = sequence.targets.maxBy(Point::hashCode)!!
 
 		if (entityPerTile)
 		{
-			val furthest = sequence.targets.maxBy { it.taxiDist(sequence.source.tile()!!) }!!
+			val sourceTile = sequence.source.tile()!!
 
-			for (tile in sequence.targets)
+			val furthest = sequence.targets.maxBy { it.taxiDist(sourceTile) }!!
+
+			for (point in sequence.targets)
 			{
+				val tile = sequence.level.getTile(point) ?: continue
+
 				val entity = Entity()
 
 				val r = renderable.getParticleEffect()
@@ -202,8 +214,8 @@ class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSeque
 				}
 				else if (spawnBehaviour == SpawnBehaviour.FROMSOURCE)
 				{
-					val maxDist = furthest.euclideanDist(sequence.source.tile()!!)
-					val dist = tile.euclideanDist(sequence.source.tile()!!)
+					val maxDist = furthest.euclideanDist(sourceTile)
+					val dist = tile.euclideanDist(sourceTile)
 					val alpha = dist / maxDist
 					val delay = spawnDuration * alpha
 
@@ -237,6 +249,11 @@ class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSeque
 
 				pos.position = tile
 				pos.slot = slot
+
+				if (alignToVector)
+				{
+					pos.facing = sequence.facing
+				}
 
 				Global.engine.addEntity(entity)
 
@@ -296,11 +313,11 @@ class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSeque
 			val renderable = entity.renderable()!!.renderable
 			if (renderable is ParticleEffect)
 			{
-				if (killOnEnd)
+				if (onEnd == OnEndBehaviour.KILL)
 				{
 					Global.engine.removeEntity(entity)
 				}
-				else
+				else if (onEnd == OnEndBehaviour.STOP)
 				{
 					renderable.stop()
 				}
@@ -318,7 +335,7 @@ class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSeque
 		val out = DestinationRenderableAction(sequence)
 		out.renderable = renderable
 		out.slot = slot
-		out.killOnEnd = killOnEnd
+		out.onEnd = onEnd
 		out.alignToVector = alignToVector
 		out.entityPerTile = entityPerTile
 		out.spawnBehaviour = spawnBehaviour
@@ -332,18 +349,156 @@ class DestinationRenderableAction(ability: ActionSequence) : AbstractActionSeque
 		slot = SpaceSlot.valueOf(xmlData.get("Slot", "Entity")!!.toUpperCase())
 		renderable = AssetManager.loadParticleEffect(xmlData.getChildByName("Renderable")!!)
 		entityPerTile = xmlData.getBoolean("RenderablePerTile", false)
-		killOnEnd = xmlData.getBoolean("KillOnEnd", false)
+		onEnd = OnEndBehaviour.valueOf(xmlData.get("OnEnd", "Stop")!!.toUpperCase())
 		alignToVector = xmlData.getBoolean("AlignToVector", true)
 		spawnBehaviour = SpawnBehaviour.valueOf(xmlData.get("SpawnBehaviour", "Immediate")!!.toUpperCase())
 		spawnDuration = xmlData.getFloat("SpawnDuration", 0f)
 	}
 }
 
-class SourceRenderableAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
+class AttachToEntityRenderableAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
+{
+	enum class SpawnBehaviour
+	{
+		IMMEDIATE,
+		FROMSOURCE,
+		FROMCENTER,
+		RANDOM
+	}
+
+	lateinit var renderable: ParticleEffectDescription
+	var above = true
+
+	var spawnBehaviour: SpawnBehaviour = SpawnBehaviour.IMMEDIATE
+	var spawnDuration = 0f
+
+	val attachGuid = this.hashCode().toString()
+	val entities = Array<Entity>(1)
+
+	override fun enter(): Boolean
+	{
+		if (Global.resolveInstant || sequence.targets.size == 0) return false
+
+		val min = sequence.targets.minBy(Point::hashCode)!!
+		val max = sequence.targets.maxBy(Point::hashCode)!!
+
+		val furthest = sequence.targets.maxBy { it.taxiDist(sequence.source.tile()!!) }!!
+
+		for (point in sequence.targets)
+		{
+			val tile = sequence.level.getTile(point) ?: continue
+			val entity = tile.firstEntity() ?: continue
+
+			val r = renderable.getParticleEffect()
+			if (spawnBehaviour == SpawnBehaviour.IMMEDIATE)
+			{
+				// do nothing
+			}
+			else if (spawnBehaviour == SpawnBehaviour.FROMSOURCE)
+			{
+				val maxDist = furthest.euclideanDist(sequence.source.tile()!!)
+				val dist = tile.euclideanDist(sequence.source.tile()!!)
+				val alpha = dist / maxDist
+				val delay = spawnDuration * alpha
+
+				r.renderDelay = delay
+			}
+			else if (spawnBehaviour == SpawnBehaviour.FROMCENTER)
+			{
+				val center = min.lerp(max, 0.5f)
+				val maxDist = center.euclideanDist(max)
+				val dist = center.euclideanDist(tile)
+				val alpha = dist / maxDist
+				val delay = spawnDuration * alpha
+
+				r.renderDelay = delay
+			}
+			else if (spawnBehaviour == SpawnBehaviour.RANDOM)
+			{
+				val alpha = Random.random()
+				val delay = spawnDuration * alpha
+
+				r.renderDelay = delay
+			}
+			else
+			{
+				throw Exception("Unhandled spawn behaviour")
+			}
+
+			var additionalRenderableComponent = entity.additionalRenderable()
+			if (additionalRenderableComponent == null)
+			{
+				additionalRenderableComponent = AdditionalRenderableComponent()
+				entity.add(additionalRenderableComponent)
+			}
+
+			if (above)
+			{
+				additionalRenderableComponent.above[attachGuid] = r
+			}
+			else
+			{
+				additionalRenderableComponent.below[attachGuid] = r
+			}
+
+			entities.add(entity)
+		}
+
+		return false
+	}
+
+	override fun exit()
+	{
+		if (Global.resolveInstant) return
+
+		for (entity in entities)
+		{
+			val additionalRenderableComponent = entity.additionalRenderable() ?: continue
+			if (above)
+			{
+				val r = additionalRenderableComponent.above[attachGuid] as ParticleEffect
+				additionalRenderableComponent.above.remove(attachGuid)
+
+				r.stop()
+				r.addToEngine(entity.pos().position)
+			}
+			else
+			{
+				val r = additionalRenderableComponent.below[attachGuid] as ParticleEffect
+				additionalRenderableComponent.below.remove(attachGuid)
+
+				r.stop()
+				r.addToEngine(entity.pos().position)
+			}
+		}
+		entities.clear()
+	}
+
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	{
+		val out = AttachToEntityRenderableAction(sequence)
+		out.renderable = renderable
+		out.above = above
+		out.spawnBehaviour = spawnBehaviour
+		out.spawnDuration = spawnDuration
+
+		return out
+	}
+
+	override fun parse(xmlData: XmlData)
+	{
+		renderable = AssetManager.loadParticleEffect(xmlData.getChildByName("Renderable")!!)
+		above = xmlData.getBoolean("Above", true)
+		spawnBehaviour = SpawnBehaviour.valueOf(xmlData.get("SpawnBehaviour", "Immediate")!!.toUpperCase())
+		spawnDuration = xmlData.getFloat("SpawnDuration", 0f)
+	}
+}
+
+class SourceRenderableAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
 {
 	lateinit var renderable: ParticleEffectDescription
 	lateinit var slot: SpaceSlot
-	var killOnEnd = true
+	lateinit var onEnd: OnEndBehaviour
 
 	val entities = Array<Entity>(1)
 
@@ -378,11 +533,11 @@ class SourceRenderableAction(ability: ActionSequence) : AbstractActionSequenceAc
 			val renderable = entity.renderable()!!.renderable
 			if (renderable is ParticleEffect)
 			{
-				if (killOnEnd)
+				if (onEnd == OnEndBehaviour.KILL)
 				{
 					Global.engine.removeEntity(entity)
 				}
-				else
+				else if (onEnd == OnEndBehaviour.STOP)
 				{
 					renderable.stop()
 				}
@@ -400,7 +555,7 @@ class SourceRenderableAction(ability: ActionSequence) : AbstractActionSequenceAc
 		val out = SourceRenderableAction(sequence)
 		out.renderable = renderable
 		out.slot = slot
-		out.killOnEnd = killOnEnd
+		out.onEnd = onEnd
 
 		return out
 	}
@@ -409,11 +564,11 @@ class SourceRenderableAction(ability: ActionSequence) : AbstractActionSequenceAc
 	{
 		slot = SpaceSlot.valueOf(xmlData.get("Slot", "Entity")!!.toUpperCase())
 		renderable = AssetManager.loadParticleEffect(xmlData.getChildByName("Renderable")!!)
-		killOnEnd = xmlData.getBoolean("KillOnEnd", false)
+		onEnd = OnEndBehaviour.valueOf(xmlData.get("OnEnd", "Stop")!!.toUpperCase())
 	}
 }
 
-class MovementRenderableAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
+class MovementRenderableAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
 {
 	lateinit var renderable: ParticleEffectDescription
 	lateinit var slot: SpaceSlot
@@ -484,7 +639,7 @@ class MovementRenderableAction(ability: ActionSequence) : AbstractActionSequence
 	}
 }
 
-class ScreenShakeAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
+class ScreenShakeAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
 {
 	var speed: Float = 0f
 	var amount: Float = 0f

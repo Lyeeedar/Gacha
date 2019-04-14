@@ -397,7 +397,8 @@ enum class EventType
 	ALLYDEATH,
 	ENEMYDEATH,
 	ANYDEATH,
-	HEALED;
+	HEALED,
+	CRIT;
 
 	companion object
 	{

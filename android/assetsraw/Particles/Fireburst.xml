@@ -1,5 +1,5 @@
-<Effect>
-	<MoveSpeed>0</MoveSpeed>
+<Effect xmlns:meta="Editor">
+	<Loop>false</Loop>
 	<Emitters>
 		<Emitter>
 			<Name>Fire</Name>
@@ -15,19 +15,7 @@
 			<Particles>
 				<Particle>
 					<Lifetime>0.6,0.7</Lifetime>
-					<BlendMode>Multiplicative</BlendMode>
 					<Collision>Slide</Collision>
-					<TextureKeyframes>
-						<Stream>
-							<Keyframe>0|Particle/ember_2</Keyframe>
-						</Stream>
-						<Stream>
-							<Keyframe>0|Particle/glow</Keyframe>
-						</Stream>
-						<Stream>
-							<Keyframe>0|Particle/plasma_1</Keyframe>
-						</Stream>
-					</TextureKeyframes>
 					<SizeKeyframes>
 						<Stream>
 							<Keyframe>0|0|0</Keyframe>
@@ -40,6 +28,18 @@
 							<Keyframe>0|-100|100</Keyframe>
 						</Stream>
 					</RotationSpeedKeyframes>
+					<BlendMode>Multiplicative</BlendMode>
+					<TextureKeyframes>
+						<Stream>
+							<Keyframe>0|Particle/ember_2</Keyframe>
+						</Stream>
+						<Stream>
+							<Keyframe>0|Particle/glow</Keyframe>
+						</Stream>
+						<Stream>
+							<Keyframe>0|Particle/plasma_1</Keyframe>
+						</Stream>
+					</TextureKeyframes>
 					<ColourKeyframes>
 						<Stream>
 							<Keyframe>0|255,250,133,255</Keyframe>
@@ -57,6 +57,11 @@
 							<Keyframe>1|0</Keyframe>
 						</Stream>
 					</AlphaKeyframes>
+					<AlphaRefKeyframes>
+						<Stream>
+							<Keyframe>0|0</Keyframe>
+						</Stream>
+					</AlphaRefKeyframes>
 				</Particle>
 			</Particles>
 		</Emitter>

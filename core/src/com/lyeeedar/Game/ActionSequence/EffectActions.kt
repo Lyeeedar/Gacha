@@ -49,7 +49,7 @@ class DamageAction(ability: ActionSequence) : AbstractActionSequenceAction(abili
 					damModifier += damModifier * sourceStats.getStat(Statistic.ABILITYPOWER)
 
 					val attackDam = sourceStats.getAttackDam(damModifier)
-					val finalDam = targetstats.dealDamage(attackDam)
+					val finalDam = targetstats.dealDamage(attackDam.first)
 
 					sourceStats.damageDealt += finalDam
 
@@ -70,6 +70,18 @@ class DamageAction(ability: ActionSequence) : AbstractActionSequenceAction(abili
 					}
 
 					// do damage events
+
+					// crit
+					if (attackDam.second)
+					{
+						if (EventSystem.isEventRegistered(EventType.CRIT, sequence.source))
+						{
+							val dealEventData = EventData.obtain().set(EventType.CRIT, sequence.source, entity, mapOf(
+								Pair("damage", finalDam),
+								Pair("dist", sequence.source.pos().position.dist(entity.pos().position).toFloat())))
+							Global.engine.event().addEvent(dealEventData)
+						}
+					}
 
 					// deal damage
 					if (EventSystem.isEventRegistered(EventType.DEALDAMAGE, sequence.source))

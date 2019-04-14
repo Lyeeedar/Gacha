@@ -85,7 +85,7 @@ class TaskAttack() : AbstractTask()
 					val attackerStats = e.stats()!!
 					val defenderStats = entity.stats()!!
 					val dam = attackerStats.getAttackDam(attackerStats.attackDefinition.damage)
-					val finalDam = defenderStats.dealDamage(dam)
+					val finalDam = defenderStats.dealDamage(dam.first)
 
 					attackerStats.damageDealt += finalDam
 
@@ -109,6 +109,18 @@ class TaskAttack() : AbstractTask()
 					}
 
 					// do damage events
+
+					// crit
+					if (dam.second)
+					{
+						if (EventSystem.isEventRegistered(EventType.CRIT, e))
+						{
+							val dealEventData = EventData.obtain().set(EventType.CRIT, e, entity, mapOf(
+								Pair("damage", finalDam),
+								Pair("dist", e.pos().position.dist(entity.pos().position).toFloat())))
+							Global.engine.event().addEvent(dealEventData)
+						}
+					}
 
 					// deal damage
 					if (EventSystem.isEventRegistered(EventType.DEALDAMAGE, e))

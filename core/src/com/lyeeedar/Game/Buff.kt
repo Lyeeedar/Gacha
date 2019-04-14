@@ -29,6 +29,7 @@ class Buff
 		buff.duration = duration
 		buff.icon = icon
 		buff.statistics.addAll(statistics)
+		buff.eventHandlers.addAll(eventHandlers)
 
 		return buff
 	}

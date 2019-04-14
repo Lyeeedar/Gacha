@@ -69,8 +69,8 @@
 								<Time>0.109133922</Time>
 							</Damage>
 							<Debuff>
-								<Time>0.127365947</Time>
 								<Duration LockDuration="False">0.124084324</Duration>
+								<Time>0.127365947</Time>
 								<Buff meta:RefKey="Buff">
 									<Name>Thorn Spear</Name>
 									<Icon meta:RefKey="Sprite">
@@ -102,8 +102,8 @@
 								</Renderable>
 							</MovementRenderable>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.07292817</Duration>
 								<Time>0.07570851</Time>
+								<Duration LockDuration="False">0.07292817</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>BindingThorns</Name>
 								</Renderable>
@@ -113,8 +113,8 @@
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.0790055245</Duration>
 								<Time>0.127365947</Time>
+								<Duration LockDuration="False">0.0790055245</Duration>
 								<Renderable meta:RefKey="ParticleEffectTemplate">
 									<Base meta:RefKey="ParticleEffect">
 										<Name>Debuff</Name>
@@ -143,8 +143,8 @@
 					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
 							<Debuff>
-								<Time>0.06912983</Time>
 								<Duration LockDuration="False">0.154972374</Duration>
+								<Time>0.06912983</Time>
 								<Buff meta:RefKey="Buff">
 									<Name>Rising Thorns</Name>
 									<Icon meta:RefKey="Sprite">
@@ -183,8 +183,8 @@
 								<Count>4</Count>
 							</Stun>
 							<Debuff>
-								<Time>0.0244939253</Time>
 								<Duration LockDuration="False">0.127665311</Duration>
+								<Time>0.0244939253</Time>
 								<Buff meta:RefKey="Buff">
 									<Name>Binding Thorns</Name>
 									<Icon meta:RefKey="Sprite">
@@ -247,12 +247,13 @@
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.0575163364</Duration>
 								<Time>0.0496078432</Time>
+								<Duration LockDuration="False">0.0575163364</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>ThornField</Name>
 								</Renderable>
 								<RenderablePerTile>true</RenderablePerTile>
+								<OnEnd>Nothing</OnEnd>
 								<AlignToVector>false</AlignToVector>
 								<SpawnBehaviour>Random</SpawnBehaviour>
 								<SpawnDuration>0.2</SpawnDuration>

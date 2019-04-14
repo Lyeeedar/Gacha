@@ -247,7 +247,7 @@ class ActionSequence
 
 					i = endI+1
 
-					val totalOffset = currentTime - start
+					val totalOffset = currentTime - end
 
 					// move all remaining actions along
 					for (i in 0 until sorted.size)

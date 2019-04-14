@@ -73,7 +73,8 @@ class EventSystem : AbstractSystem()
 				if (handler.condition.evaluate(eventData.variables) != 0f)
 				{
 					val sequence = handler.sequence.copy()
-					sequence.source = eventData.source
+
+					sequence.begin(eventData.source,level!!)
 					sequence.targets.clear()
 					sequence.targets.addAll(eventData.targets)
 

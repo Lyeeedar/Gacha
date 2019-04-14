@@ -242,19 +242,19 @@ class StatisticsComponent: AbstractComponent()
 		return clamp(value, statistic.min, statistic.max)
 	}
 
-	fun getCritMultiplier(): Float
+	fun getCritMultiplier(): Pair<Float, Boolean>
 	{
 		val critChance = getStat(Statistic.CRITCHANCE)
 		if (Random.random() <= critChance)
 		{
 			val mult = getStat(Statistic.CRITDAMAGE)
-			return mult
+			return Pair(mult, true)
 		}
 
-		return 1f
+		return Pair(1f, false)
 	}
 
-	fun getAttackDam(multiplier: Float): Float
+	fun getAttackDam(multiplier: Float): Pair<Float, Boolean>
 	{
 		val baseAttack = getStat(Statistic.POWER)
 
@@ -265,9 +265,9 @@ class StatisticsComponent: AbstractComponent()
 
 		val attack = baseAttack + baseAttack * modifier
 
-		val critAttack = attack * getCritMultiplier()
+		val critMult = getCritMultiplier()
 
-		return critAttack * multiplier
+		return Pair(attack * critMult.first * multiplier, critMult.second)
 	}
 
 	fun calculatePowerRating(entity: Entity): Float
