@@ -134,6 +134,8 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 	var needsStaticRender = true
 	override fun onLevelChanged()
 	{
+		if (Global.resolveInstant) return
+
 		if (level != null)
 		{
 			renderer = SortedRenderer(tileSize, level!!.width.toFloat(), level!!.height.toFloat(), SpaceSlot.Values.size, true)
@@ -149,6 +151,8 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 
 	fun doRender(batch: Batch, renderArea: Widget)
 	{
+		if (Global.resolveInstant) return
+
 		val level = level ?: return
 
 		batch.end()

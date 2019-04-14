@@ -1,0 +1,203 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Haruna</Name>
+			<Title>Voluptuous Goblina</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>70</MaxHP>
+				<Power>7</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<EquipmentWeight>Light</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack>
+				<Damage>1</Damage>
+				<Range>9</Range>
+				<FlightEffect meta:RefKey="ParticleEffectTemplate">
+					<Base meta:RefKey="ParticleEffect">
+						<Name>FlightParticle</Name>
+						<Scale>0.6</Scale>
+					</Base>
+					<Overrides>
+						<OverrideTexture>
+							<Name>white</Name>
+							<Texture meta:RefKey="Texture">
+								<File>EffectSprites/Arrow/Arrow_0</File>
+							</Texture>
+						</OverrideTexture>
+					</Overrides>
+				</FlightEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/haruna</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/haruna</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Charge!</Name>
+					<Description>As soon as the battle begins, give all allies [GOLD]30%[] haste for 5 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/hasteup</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectAllies>
+								<Count>10</Count>
+							</SelectAllies>
+							<Buff>
+								<Time>0.09093916</Time>
+								<Duration LockDuration="False">0.14113757</Duration>
+								<Buff meta:RefKey="Buff">
+									<Name>Charge!</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Icons/hasteup</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Haste>0.3</Haste>
+									</Statistics>
+									<Duration>5</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Time>0.028373016</Time>
+								<Duration LockDuration="False">0.107671961</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>Buff</Name>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Icons/hasteup</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<SingleUse>true</SingleUse>
+					<AvailableOnStart>true</AvailableOnStart>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Fragility</Name>
+					<Description>Each hit of Haruna's arrows increase the damage the enemy takes by [GOLD]2%[] for 3 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/defensedown</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<Buff>
+								<Time>0.0203703716</Time>
+								<Duration LockDuration="False">0.168783069</Duration>
+								<Buff meta:RefKey="Buff">
+									<Statistics meta:RefKey="Statistics" />
+									<EventHandlers meta:RefKey="EventHandler">
+										<Events>
+											<DealDamage>
+												<EventHandler>
+													<Condition>1</Condition>
+													<ActionSequence meta:RefKey="ActionSequence">
+														<Timeline>
+															<Debuff>
+																<Duration LockDuration="False">0.226897687</Duration>
+																<Buff meta:RefKey="Buff">
+																	<Name>Fragility</Name>
+																	<Icon meta:RefKey="Sprite">
+																		<Name>Icons/defensedown</Name>
+																	</Icon>
+																	<Statistics meta:RefKey="Statistics">
+																		<DR>-0.02</DR>
+																	</Statistics>
+																	<Duration>3</Duration>
+																</Buff>
+															</Debuff>
+														</Timeline>
+													</ActionSequence>
+												</EventHandler>
+											</DealDamage>
+										</Events>
+									</EventHandlers>
+									<Duration>9999</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+					</Ability>
+					<SingleUse>true</SingleUse>
+					<AvailableOnStart>true</AvailableOnStart>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Triple Shot</Name>
+					<Description>Shoot 3 arrows at your target, each dealing [GOLD]30%[] damage.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>EffectSprites/Arrow/Arrow_0</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<RepeatBegin>
+								<Count>3</Count>
+							</RepeatBegin>
+							<MovementRenderable>
+								<Duration LockDuration="False">0.118667677</Duration>
+								<Time>0.0213877819</Time>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>FlightParticle</Name>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>EffectSprites/Arrow/Arrow_0</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+							</MovementRenderable>
+							<Damage>
+								<Time>0.140055463</Time>
+								<Amount>0.3</Amount>
+							</Damage>
+							<RepeatEnd>
+								<Time>0.160753325</Time>
+							</RepeatEnd>
+						</Timeline>
+					</Ability>
+					<Cooldown>4,12</Cooldown>
+					<Range>9</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

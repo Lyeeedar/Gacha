@@ -3,8 +3,8 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>110</MaxHP>
-				<Power>8</Power>
+				<MaxHP>80</MaxHP>
+				<Power>10</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
 			</Statistics>
@@ -123,7 +123,7 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Speed of Hellet</Name>
-					<Description>Summon the speed of Hellet, granting a random ally [GOLD]30%[] haste for 5 rounds.</Description>
+					<Description>Summon the speed of Hellet, granting a random ally [GOLD]50%[] haste for 5 rounds.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_heroes/halfling_thief_1</Name>
 						<Colour>120,89,120,193</Colour>
@@ -151,7 +151,7 @@
 										<Colour>120,89,120,193</Colour>
 									</Icon>
 									<Statistics meta:RefKey="Statistics">
-										<Haste>0.3</Haste>
+										<Haste>0.5</Haste>
 									</Statistics>
 									<Duration>5</Duration>
 								</Buff>
@@ -162,62 +162,38 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Wrath of the Ancestors</Name>
-					<Description>Unleash the wrath of the ancestors, smiting all foes for [GOLD]60%[] damage 3 times.</Description>
+					<Description>Unleash the wrath of the ancestors, smiting all foes for [GOLD]70%[] damage 3 times.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_heroes/banshee_1</Name>
 						<Colour>135,91,129,255</Colour>
 					</Icon>
 					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
-							<BlockTurn />
 							<SelectEnemies>
-								<Time>0.008365531</Time>
 								<Count>10</Count>
 							</SelectEnemies>
 							<LockTargets>
-								<Time>0.0156593751</Time>
+								<Time>0.005929514</Time>
 							</LockTargets>
-							<Damage>
-								<Time>0.09609666</Time>
-								<Amount>0.6</Amount>
-							</Damage>
+							<RepeatBegin>
+								<Time>0.0142385839</Time>
+								<Count>3</Count>
+							</RepeatBegin>
 							<BlockTurn>
-								<Time>0.10875462</Time>
+								<Time>0.0357806571</Time>
 							</BlockTurn>
 							<Damage>
-								<Time>0.155045122</Time>
-								<Amount>0.6</Amount>
+								<Time>0.0430246852</Time>
+								<Amount>0.7</Amount>
 							</Damage>
-							<BlockTurn>
-								<Time>0.182122171</Time>
-							</BlockTurn>
-							<Damage>
-								<Time>0.242256552</Time>
-								<Amount>0.6</Amount>
-							</Damage>
+							<RepeatEnd>
+								<Time>0.0798207447</Time>
+							</RepeatEnd>
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
 								<Time>0.0275065769</Time>
-								<Duration LockDuration="False">0.081248045</Duration>
-								<Renderable meta:RefKey="ParticleEffect">
-									<Name>Stomp</Name>
-								</Renderable>
-								<RenderablePerTile>true</RenderablePerTile>
-								<AlignToVector>false</AlignToVector>
-							</DestinationRenderable>
-							<DestinationRenderable>
-								<Time>0.115858264</Time>
-								<Duration LockDuration="False">0.0662639</Duration>
-								<Renderable meta:RefKey="ParticleEffect">
-									<Name>Stomp</Name>
-								</Renderable>
-								<RenderablePerTile>true</RenderablePerTile>
-								<AlignToVector>false</AlignToVector>
-							</DestinationRenderable>
-							<DestinationRenderable>
-								<Time>0.186948851</Time>
-								<Duration LockDuration="False">0.0804213</Duration>
+								<Duration LockDuration="False">0.0489625931</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Stomp</Name>
 								</Renderable>

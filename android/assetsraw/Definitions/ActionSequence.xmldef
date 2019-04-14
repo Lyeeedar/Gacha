@@ -143,11 +143,11 @@
 			</Keyframe>
 			<!--Meta-->
 			<Keyframe Name="RepeatBegin" Background="255,0,0,255" meta:RefKey="Keyframe">
-				<Time Name="Time" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Data Name="Count" Type="Int" Min="1" Default="1" SkipIfDefault="False" meta:RefKey="Number" />
 			</Keyframe>
 			<Keyframe Name="RepeatEnd" Background="255,0,0,255" meta:RefKey="Keyframe">
-				<Time Name="Time" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
 			</Keyframe>
 		</Data>
 	</Definition>

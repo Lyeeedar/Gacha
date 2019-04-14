@@ -11,9 +11,9 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>115</MaxHP>
+				<MaxHP>120</MaxHP>
 				<Power>11</Power>
-				<CritChance>0.1</CritChance>
+				<CritChance>0.15</CritChance>
 				<CritDamage>2</CritDamage>
 			</Statistics>
 			<EquipmentWeight>Medium</EquipmentWeight>
@@ -59,8 +59,6 @@
 								<HitPoints>
 									<Line>###</Line>
 									<Line>###</Line>
-									<Line>###</Line>
-									<Line>.#.</Line>
 									<Line>.@.</Line>
 								</HitPoints>
 							</Permute>
@@ -75,6 +73,9 @@
 								<Time>0.123954117</Time>
 								<Count>3</Count>
 							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.140014365</Time>
+							</BlockTurn>
 							<Damage>
 								<Time>0.1477058</Time>
 								<Amount>0.2</Amount>
@@ -82,9 +83,9 @@
 							<RepeatEnd>
 								<Time>0.175910935</Time>
 							</RepeatEnd>
-							<BlockTurn>
-								<Time>0.140014365</Time>
-							</BlockTurn>
+							<LockTargets>
+								<Time>0.0131876487</Time>
+							</LockTargets>
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
@@ -92,7 +93,7 @@
 								<Duration LockDuration="False">0.0757085</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Fireburst</Name>
-									<Scale>0.6</Scale>
+									<Scale>0.4</Scale>
 								</Renderable>
 								<RenderablePerTile>true</RenderablePerTile>
 								<OnEnd>Nothing</OnEnd>

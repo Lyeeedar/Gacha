@@ -47,5 +47,9 @@
 			<Entity>TheBoneSpeaker</Entity>
 			<Rarity>Rare</Rarity>
 		</Hero>
+		<Hero>
+			<Entity>Haruna</Entity>
+			<Rarity>Uncommon</Rarity>
+		</Hero>
 	</Heroes>
 </Faction>

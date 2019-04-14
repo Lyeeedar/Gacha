@@ -92,7 +92,7 @@ class MainGame : Game()
 			screens.put(ScreenEnum.HEROES, HeroesScreen())
 			screens.put(ScreenEnum.SETTINGS, SettingsScreen())
 
-			switchScreen(ScreenEnum.ZONE)
+			switchScreen(ScreenEnum.TEST)
 		}
 
 	}
