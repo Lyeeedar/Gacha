@@ -19,7 +19,7 @@ import com.lyeeedar.Systems.EventSystem
 import com.lyeeedar.Systems.event
 import com.lyeeedar.Util.*
 
-class DamageAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
+class DamageAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
 {
 	lateinit var damage: CompiledExpression
 
@@ -131,7 +131,7 @@ class DamageAction(ability: ActionSequence) : AbstractActionSequenceAction(abili
 	}
 }
 
-class HealAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
+class HealAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
 {
 	lateinit var amount: CompiledExpression
 
@@ -201,7 +201,7 @@ class HealAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 	}
 }
 
-class StunAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
+class StunAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
 {
 	lateinit var chance: CompiledExpression
 	lateinit var count: CompiledExpression
@@ -285,7 +285,7 @@ class StunAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 
 }
 
-class BuffAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
+class BuffAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
 {
 	var isDebuff = false
 	lateinit var buff: Buff
@@ -374,7 +374,7 @@ class BuffAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 	}
 }
 
-class SummonAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
+class SummonAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
 {
 	lateinit var entityPath: String
 	lateinit var summonEffect: ParticleEffectDescription
@@ -478,4 +478,56 @@ class SummonAction(ability: ActionSequence) : AbstractActionSequenceAction(abili
 		killOnExit = xmlData.getBoolean("KillOnExit", false)
 	}
 
+}
+
+class ReplaceAttackAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
+{
+	val replacedAttacks = Array<Pair<Entity, AttackDefinition>>()
+	lateinit var attackDefinition: AttackDefinition
+
+	val hitEntities = ObjectSet<Entity>()
+	override fun enter(): Boolean
+	{
+		hitEntities.clear()
+		for (point in sequence.targets)
+		{
+			val tile = sequence.level.getTile(point) ?: continue
+			for (entity in tile.contents)
+			{
+				if (hitEntities.contains(entity)) continue
+				hitEntities.add(entity)
+
+				val targetstats = entity.stats() ?: continue
+
+				replacedAttacks.add(Pair(entity, targetstats.attackDefinition))
+				targetstats.attackDefinition = attackDefinition
+			}
+		}
+
+		return false
+	}
+
+	override fun exit()
+	{
+		for (entity in replacedAttacks)
+		{
+			entity.first.stats().attackDefinition = entity.second
+		}
+		replacedAttacks.clear()
+	}
+
+	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	{
+		val action = ReplaceAttackAction(sequence)
+		action.attackDefinition = attackDefinition
+
+		return action
+	}
+
+	override fun parse(xmlData: XmlData)
+	{
+		val attackDefEl = xmlData.getChildByName("Attack")!!
+		attackDefinition = AttackDefinition()
+		attackDefinition.parse(attackDefEl)
+	}
 }

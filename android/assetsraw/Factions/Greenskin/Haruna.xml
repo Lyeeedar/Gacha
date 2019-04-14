@@ -12,7 +12,7 @@
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
 				<MaxHP>70</MaxHP>
-				<Power>7</Power>
+				<Power>5</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
 			</Statistics>
@@ -20,7 +20,7 @@
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
-			<Attack>
+			<Attack meta:RefKey="AttackDescription">
 				<Damage>1</Damage>
 				<Range>9</Range>
 				<FlightEffect meta:RefKey="ParticleEffectTemplate">
@@ -68,8 +68,8 @@
 								<Count>10</Count>
 							</SelectAllies>
 							<Buff>
-								<Time>0.09093916</Time>
 								<Duration LockDuration="False">0.14113757</Duration>
+								<Time>0.09093916</Time>
 								<Buff meta:RefKey="Buff">
 									<Name>Charge!</Name>
 									<Icon meta:RefKey="Sprite">
@@ -84,8 +84,8 @@
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Time>0.028373016</Time>
 								<Duration LockDuration="False">0.107671961</Duration>
+								<Time>0.028373016</Time>
 								<Renderable meta:RefKey="ParticleEffectTemplate">
 									<Base meta:RefKey="ParticleEffect">
 										<Name>Buff</Name>
@@ -118,8 +118,8 @@
 						<Timeline>
 							<SelectSelf />
 							<Buff>
-								<Time>0.0203703716</Time>
 								<Duration LockDuration="False">0.168783069</Duration>
+								<Time>0.0203703716</Time>
 								<Buff meta:RefKey="Buff">
 									<Statistics meta:RefKey="Statistics" />
 									<EventHandlers meta:RefKey="EventHandler">
@@ -169,8 +169,8 @@
 								<Count>3</Count>
 							</RepeatBegin>
 							<MovementRenderable>
-								<Duration LockDuration="False">0.118667677</Duration>
 								<Time>0.0213877819</Time>
+								<Duration LockDuration="False">0.118667677</Duration>
 								<Renderable meta:RefKey="ParticleEffectTemplate">
 									<Base meta:RefKey="ParticleEffect">
 										<Name>FlightParticle</Name>

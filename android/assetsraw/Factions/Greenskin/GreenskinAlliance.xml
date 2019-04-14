@@ -51,5 +51,9 @@
 			<Entity>Haruna</Entity>
 			<Rarity>Uncommon</Rarity>
 		</Hero>
+		<Hero>
+			<Entity>Ranga</Entity>
+			<Rarity>Uncommon</Rarity>
+		</Hero>
 	</Heroes>
 </Faction>

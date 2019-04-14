@@ -1,0 +1,270 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Ranga</Name>
+			<Title>Stormclaw Wolf</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>130</MaxHP>
+				<Power>11</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+				<Haste>0.1</Haste>
+			</Statistics>
+			<EquipmentWeight>Medium</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>Bite</Name>
+					<Colour>209,186,212,255</Colour>
+					<Scale>0.8</Scale>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/ranga</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/ranga</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Stormsurge</Name>
+					<Description>Call on the power of the storm for 10 turns, empowering your attacks by [GOLD]50%[] and allowing use of your storm abilities.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Particle/lightningbolt2_6</Name>
+						<Colour>201,41,219,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<LockTargets>
+								<Time>0.0165236052</Time>
+							</LockTargets>
+							<UnlockEntity>
+								<Time>0.0354077257</Time>
+							</UnlockEntity>
+							<RepeatBegin>
+								<Time>0.09678111</Time>
+								<Count>10</Count>
+							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.129828319</Time>
+							</BlockTurn>
+							<RepeatEnd>
+								<Time>0.164449215</Time>
+							</RepeatEnd>
+						</Timeline>
+						<Timeline>
+							<AttachToEntityRenderable>
+								<Time>0.07317597</Time>
+								<Duration LockDuration="False">0.121428415</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>RangaPowered</Name>
+								</Renderable>
+								<Above>true</Above>
+							</AttachToEntityRenderable>
+						</Timeline>
+						<Timeline>
+							<Buff>
+								<Duration LockDuration="False">0.121428415</Duration>
+								<Time>0.07317597</Time>
+								<Buff meta:RefKey="Buff">
+									<Name>Stormsurge</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Particle/lightningbolt2_6</Name>
+										<Colour>242,70,202,255</Colour>
+									</Icon>
+									<Statistics meta:RefKey="Statistics" />
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<ReplaceAttack>
+								<Duration LockDuration="False">0.121428415</Duration>
+								<Time>0.07317597</Time>
+								<Attack meta:RefKey="AttackDescription">
+									<Damage>1.5</Damage>
+									<Range>1</Range>
+									<HitEffect meta:RefKey="ParticleEffect">
+										<Name>Bite</Name>
+										<Colour>238,114,252,255</Colour>
+									</HitEffect>
+								</Attack>
+							</ReplaceAttack>
+						</Timeline>
+					</Ability>
+					<Cooldown>8,15</Cooldown>
+					<Condition>Stormsurge==0</Condition>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Storm Bolt</Name>
+					<Description>Call of bolts of energy from the storm, dealing [GOLD]200%[] damage to 3 foes.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Particle/lightningbolt2_7</Name>
+						<Colour>220,166,255,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectEnemies>
+								<Count>3</Count>
+							</SelectEnemies>
+							<Damage>
+								<Time>0.08104435</Time>
+								<Amount>2</Amount>
+							</Damage>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.09284693</Duration>
+								<Time>0.0259656645</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>RangaLightning</Name>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<OnEnd>Nothing</OnEnd>
+								<AlignToVector>false</AlignToVector>
+								<SpawnBehaviour>Random</SpawnBehaviour>
+								<SpawnDuration>0.3</SpawnDuration>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>2,3</Cooldown>
+					<Condition>Stormsurge==1</Condition>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Charged Bite</Name>
+					<Description>Bite an enemy and release the power of the storm into their body, causing them to take [GOLD]10%[] damage a turn and increasing the damage they take by [GOLD]15%[] for 5 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>EffectSprites/Jaws/Jaws_2</Name>
+						<Colour>227,117,255,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.0896995738</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Bite</Name>
+									<Colour>226,144,252,255</Colour>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+							</DestinationRenderable>
+							<AttachToEntityRenderable>
+								<Time>0.0896995738</Time>
+								<Duration LockDuration="False">0.189628035</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>RangaPowered</Name>
+								</Renderable>
+								<Above>true</Above>
+							</AttachToEntityRenderable>
+						</Timeline>
+						<Timeline>
+							<UnlockEntity>
+								<Time>0.02989986</Time>
+							</UnlockEntity>
+							<RepeatBegin>
+								<Time>0.10937053</Time>
+								<Count>5</Count>
+							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.136123031</Time>
+							</BlockTurn>
+							<RepeatEnd>
+								<Time>0.2462804</Time>
+							</RepeatEnd>
+							<Damage>
+								<Time>0.173891261</Time>
+								<Amount>0.2</Amount>
+							</Damage>
+						</Timeline>
+						<Timeline>
+							<Debuff>
+								<Time>0.0896995738</Time>
+								<Duration LockDuration="False">0.189628035</Duration>
+								<Buff meta:RefKey="Buff">
+									<Name>Shocked</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Particle/lightning_5</Name>
+										<Colour>194,133,219,255</Colour>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<DR>-0.15</DR>
+									</Statistics>
+								</Buff>
+							</Debuff>
+						</Timeline>
+					</Ability>
+					<Cooldown>8,12</Cooldown>
+				</AbilityData>
+				<AbilityData>
+					<Name>Storm Call</Name>
+					<Description>Mark a foe to be targetted by the storm, dealing [GOLD]100%[] damage to them 5 times.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>EffectSprites/LightningBurst/LightningBurst_2</Name>
+						<Colour>237,56,247,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectEnemies />
+							<UnlockEntity>
+								<Time>0.02753934</Time>
+							</UnlockEntity>
+							<RepeatBegin>
+								<Time>0.04327611</Time>
+								<Count>5</Count>
+							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.112517886</Time>
+							</BlockTurn>
+							<Damage>
+								<Time>0.140844062</Time>
+							</Damage>
+							<RepeatEnd>
+								<Time>0.222675249</Time>
+							</RepeatEnd>
+							<LockTargets>
+								<Time>0.01638348</Time>
+							</LockTargets>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.13061516</Duration>
+								<Time>0.06688126</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>RangaLightning</Name>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<OnEnd>Nothing</OnEnd>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Condition>Stormsurge==1</Condition>
+					<Range>99</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

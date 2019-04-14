@@ -42,6 +42,7 @@ abstract class AbstractActionSequenceAction(val sequence: ActionSequence)
 				"HEAL" -> HealAction(sequence)
 				"BUFF", "DEBUFF" -> BuffAction(sequence)
 				"SUMMON" -> SummonAction(sequence)
+				"REPLACEATTACK" -> ReplaceAttackAction(sequence)
 
 				"MOVESOURCE" -> MoveSourceAction(sequence)
 				"PULL" -> PullAction(sequence)

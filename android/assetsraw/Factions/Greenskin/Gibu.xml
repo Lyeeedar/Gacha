@@ -3,7 +3,7 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>90</MaxHP>
+				<MaxHP>110</MaxHP>
 				<Power>9</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
@@ -57,8 +57,8 @@
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.155616254</Duration>
 								<Time>0.0387318246</Time>
+								<Duration LockDuration="False">0.155616254</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Thrust</Name>
 								</Renderable>
@@ -66,51 +66,6 @@
 						</Timeline>
 					</Ability>
 					<Cooldown>3,8</Cooldown>
-				</AbilityData>
-				<AbilityData>
-					<Name>Cower</Name>
-					<Icon meta:RefKey="Sprite">
-						<Name>Particle/blurrylines</Name>
-					</Icon>
-					<Ability meta:RefKey="ActionSequence">
-						<Timeline>
-							<SelectSelf />
-							<Buff>
-								<Duration LockDuration="False">0.177648589</Duration>
-								<Time>0.022028422</Time>
-								<Buff meta:RefKey="Buff">
-									<Description>Cower down to avoid damage.</Description>
-									<Icon meta:RefKey="Sprite">
-										<Name>Particle/blurrylines</Name>
-									</Icon>
-									<Statistics meta:RefKey="Statistics">
-										<DR>0.6</DR>
-									</Statistics>
-								</Buff>
-							</Buff>
-						</Timeline>
-						<Timeline>
-							<BlockTurn>
-								<Time>0.05897933</Time>
-							</BlockTurn>
-							<BlockTurn>
-								<Time>0.07887597</Time>
-							</BlockTurn>
-							<BlockTurn>
-								<Time>0.0987726152</Time>
-							</BlockTurn>
-							<BlockTurn>
-								<Time>0.118669249</Time>
-							</BlockTurn>
-							<BlockTurn>
-								<Time>0.1385659</Time>
-							</BlockTurn>
-						</Timeline>
-					</Ability>
-					<SingleUse>true</SingleUse>
-					<AvailableOnStart>true</AvailableOnStart>
-					<Condition>hp&lt;maxhp*0.5</Condition>
-					<Range>99999</Range>
 				</AbilityData>
 			</Abilities>
 		</Ability>

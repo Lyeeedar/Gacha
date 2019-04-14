@@ -93,6 +93,7 @@ class Emitter(val particleEffect: ParticleEffect)
 	var isCollisionEmitter: Boolean = false
 	var isBlockingEmitter: Boolean = true
 	var killParticlesOnStop: Boolean = false
+	var emissionStart = 0f
 
 	var time: Float = 0f
 
@@ -181,7 +182,7 @@ class Emitter(val particleEffect: ParticleEffect)
 				{
 					if (singleBurst)
 					{
-						if (!emitted && time >= keyframes[0].time)
+						if (!emitted && time >= emissionStart)
 						{
 							emitted = true
 
@@ -445,6 +446,7 @@ class Emitter(val particleEffect: ParticleEffect)
 		output.writeBoolean(isCollisionEmitter)
 		output.writeBoolean(isBlockingEmitter)
 		output.writeBoolean(killParticlesOnStop)
+		output.writeFloat(emissionStart)
 
 		output.writeInt(keyframes.size)
 		for (keyframe in keyframes)
@@ -488,6 +490,7 @@ class Emitter(val particleEffect: ParticleEffect)
 		isCollisionEmitter = input.readBoolean()
 		isBlockingEmitter = input.readBoolean()
 		killParticlesOnStop = input.readBoolean()
+		emissionStart = input.readFloat()
 
 		val numKeyframes = input.readInt()
 		keyframes = kotlin.Array<EmitterKeyframe>(numKeyframes) { i -> EmitterKeyframe() }
@@ -573,6 +576,8 @@ class Emitter(val particleEffect: ParticleEffect)
 			val emissionRate = LerpTimeline()
 			val rateEls = xml.getChildByName("RateKeyframes")!!
 			emissionRate.parse(rateEls, { it.toFloat() })
+
+			emitter.emissionStart = emissionRate.streams[0][0].first
 
 			// Make map of times
 			val times = ObjectSet<Float>()

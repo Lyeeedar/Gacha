@@ -4,8 +4,8 @@
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
 				<MaxHP>120</MaxHP>
-				<Power>12</Power>
-				<CritChance>0.1</CritChance>
+				<Power>11</Power>
+				<CritChance>0.075</CritChance>
 				<CritDamage>2</CritDamage>
 			</Statistics>
 			<EquipmentWeight>Medium</EquipmentWeight>
@@ -39,7 +39,8 @@
 		<Ability>
 			<Abilities>
 				<AbilityData>
-					<Name>Teleport</Name>
+					<Name>Shadowstep</Name>
+					<Description>At the start of battle, shadowstep to the opponent with the least health and stun them for 2 rounds.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_terrain/rune_4</Name>
 					</Icon>
@@ -102,6 +103,7 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Summon</Name>
+					<Description>Summon a giant wolf from the shadows to fight by your side.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_heroes/wolf_black_1</Name>
 					</Icon>
@@ -124,93 +126,60 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Wolf Rush</Name>
+					<Description>Summon a pack of shadow wolves. They will attack a random foe dealing [GOLD]70%[] damage for 6 rounds.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>EffectSprites/Jaws/Jaws_3</Name>
 						<Colour>99,77,94,255</Colour>
 					</Icon>
 					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
-							<BlockTurn />
-							<SelectEnemies>
-								<Time>0.0243624151</Time>
-							</SelectEnemies>
-							<Damage>
-								<Time>0.09405579</Time>
-								<Amount>1.5</Amount>
-							</Damage>
-							<SelectEnemies>
-								<Time>0.13395761</Time>
-							</SelectEnemies>
-							<Damage>
-								<Time>0.224397242</Time>
-								<Amount>1.5</Amount>
-							</Damage>
+							<RepeatBegin>
+								<Count>6</Count>
+							</RepeatBegin>
 							<BlockTurn>
-								<Time>0.276001453</Time>
+								<Time>0.0160604212</Time>
 							</BlockTurn>
 							<SelectEnemies>
-								<Time>0.296414256</Time>
+								<Time>0.02232267</Time>
 							</SelectEnemies>
 							<Damage>
-								<Time>0.369577318</Time>
-								<Amount>1.5</Amount>
+								<Time>0.0960316</Time>
+								<Amount>0.7</Amount>
 							</Damage>
-							<SelectEnemies>
-								<Time>0.396415949</Time>
-							</SelectEnemies>
-							<Damage>
-								<Time>0.478619784</Time>
-								<Amount>1.5</Amount>
-							</Damage>
+							<RepeatEnd>
+								<Time>0.125662476</Time>
+							</RepeatEnd>
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Time>0.0435570329</Time>
-								<Duration LockDuration="False">0.09040058</Duration>
+								<Time>0.0333145931</Time>
+								<Duration LockDuration="False">0.0353279635</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
-									<Name>Bite</Name>
-									<Colour>51,43,51,255</Colour>
+									<Name>Shadowstep</Name>
+									<Scale>0.7</Scale>
 								</Renderable>
 								<RenderablePerTile>true</RenderablePerTile>
 								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 							<DestinationRenderable>
-								<Time>0.165335327</Time>
-								<Duration LockDuration="False">0.08882195</Duration>
+								<Time>0.06864256</Time>
+								<Duration LockDuration="False">0.05290491</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Bite</Name>
-									<Colour>51,43,51,255</Colour>
-								</Renderable>
-								<RenderablePerTile>true</RenderablePerTile>
-								<AlignToVector>false</AlignToVector>
-							</DestinationRenderable>
-							<DestinationRenderable>
-								<Time>0.3222179</Time>
-								<Duration LockDuration="False">0.07419804</Duration>
-								<Renderable meta:RefKey="ParticleEffect">
-									<Name>Bite</Name>
-									<Colour>51,43,51,255</Colour>
-								</Renderable>
-								<RenderablePerTile>true</RenderablePerTile>
-								<AlignToVector>false</AlignToVector>
-							</DestinationRenderable>
-							<DestinationRenderable>
-								<Time>0.421035856</Time>
-								<Duration LockDuration="False">0.109261692</Duration>
-								<Renderable meta:RefKey="ParticleEffect">
-									<Name>Bite</Name>
-									<Colour>51,43,51,255</Colour>
+									<Colour>176,116,176,255</Colour>
+									<Scale>0.7</Scale>
 								</Renderable>
 								<RenderablePerTile>true</RenderablePerTile>
 								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 						</Timeline>
 					</Ability>
-					<Cooldown>6,10</Cooldown>
+					<Cooldown>9,16</Cooldown>
 					<Range>999</Range>
 				</AbilityData>
 				<AbilityData>
 					<Name>Phase Out</Name>
+					<Description>Step partially into the shadows, causing attacks to have a [GOLD]30%[] chance to miss you for 5 rounds.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/Custom/heroes/gobuta_1</Name>
 						<Colour>51,51,51,255</Colour>
@@ -220,7 +189,7 @@
 							<SelectSelf />
 							<ReplaceSourceRenderable>
 								<Time>0.019087404</Time>
-								<Duration LockDuration="False">0.183804631</Duration>
+								<Duration LockDuration="False">0.0311860666</Duration>
 								<Renderable meta:RefKey="Sprite">
 									<Name>Oryx/Custom/heroes/gobuta</Name>
 									<DrawActualSize>true</DrawActualSize>
@@ -231,7 +200,7 @@
 						<Timeline>
 							<Buff>
 								<Time>0.019087404</Time>
-								<Duration LockDuration="False">0.183804631</Duration>
+								<Duration LockDuration="False">0.0311860666</Duration>
 								<Buff meta:RefKey="Buff">
 									<Description>Phased</Description>
 									<Icon meta:RefKey="Sprite">
@@ -239,30 +208,22 @@
 										<Colour>43,43,43,255</Colour>
 									</Icon>
 									<Statistics meta:RefKey="Statistics">
-										<Aegis>0.5</Aegis>
+										<Aegis>0.3</Aegis>
 									</Statistics>
 								</Buff>
 							</Buff>
 						</Timeline>
 						<Timeline>
+							<RepeatBegin>
+								<Time>0.02304335</Time>
+								<Count>5</Count>
+							</RepeatBegin>
 							<UnlockEntity>
-								<Time>0.019087404</Time>
+								<Time>0.03227389</Time>
 							</UnlockEntity>
-							<BlockTurn>
-								<Time>0.05470245</Time>
-							</BlockTurn>
-							<BlockTurn>
-								<Time>0.09260926</Time>
-							</BlockTurn>
-							<BlockTurn>
-								<Time>0.129370183</Time>
-							</BlockTurn>
-							<BlockTurn>
-								<Time>0.167544991</Time>
-							</BlockTurn>
-							<BlockTurn>
-								<Time>0.182953119</Time>
-							</BlockTurn>
+							<RepeatEnd>
+								<Time>0.0397242829</Time>
+							</RepeatEnd>
 						</Timeline>
 					</Ability>
 					<Cooldown>5,9</Cooldown>

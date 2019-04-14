@@ -52,6 +52,7 @@ class ParticleEditorScreen : AbstractScreen()
 	val crossedTiles = ObjectSet<Point>()
 	val particlePos = Point()
 	lateinit var debugButton: CheckBox
+	lateinit var alignUpButton: CheckBox
 	var deltaMultiplier = 1f
 
 	override fun show()
@@ -128,13 +129,16 @@ class ParticleEditorScreen : AbstractScreen()
 		}
 
 		debugButton = CheckBox("Debug", Global.skin)
+		alignUpButton = CheckBox("AlignUp", Global.skin)
 
 		val buttonsTable = Table()
 		buttonsTable.add(browseButton).expandY().top()
 		buttonsTable.add(updateButton).expandY().top()
 		buttonsTable.add(playbackSpeedBox).expandY().top()
 		buttonsTable.add(colourButton).expandY().top()
+		buttonsTable.row()
 		buttonsTable.add(debugButton).expandY().top()
+		buttonsTable.add(alignUpButton).expandY().top()
 
 		mainTable.add(buttonsTable).growX()
 		mainTable.row()
@@ -210,6 +214,11 @@ class ParticleEditorScreen : AbstractScreen()
 	val tempPoint = Point()
 	override fun doRender(delta: Float)
 	{
+		if (alignUpButton.isChecked)
+		{
+			particle.rotation = 0f
+		}
+
 		batch.projectionMatrix = stage.camera.combined
 
 		Global.collisionGrid = collision

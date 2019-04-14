@@ -66,12 +66,7 @@
 				<Data Name="EquipmentWeight" Key="EquipmentWeight" Default="Medium" SkipIfDefault="False" meta:RefKey="Enum" />
 				<Data Name="Equipment" Keys="EquipmentMap" meta:RefKey="Reference" />
 				<Data Name="Death" Keys="ParticleEffect,ParticleEffectTemplate" meta:RefKey="Reference" />
-				<Data Name="Attack" Nullable="False" meta:RefKey="Struct">
-					<Data Name="Damage" Min="0" Default="1" SkipIfDefault="False" meta:RefKey="Number" />
-					<Data Name="Range" Type="Int" Min="1" Default="1" SkipIfDefault="False" meta:RefKey="Number" />
-					<Data Name="HitEffect" Keys="ParticleEffect,ParticleEffectTemplate" meta:RefKey="Reference" />
-					<Data Name="FlightEffect" Keys="ParticleEffect,ParticleEffectTemplate" VisibleIf="Range &gt; 1" meta:RefKey="Reference" />
-				</Data>
+				<Data Name="Attack" Keys="AttackDescription" Nullable="False" meta:RefKey="Reference" />
 			</Data>
 			<Data Name="Trailing" meta:RefKey="Struct">
 				<Data Name="Collapses" Default="True" meta:RefKey="Boolean" />
@@ -80,5 +75,11 @@
 				</Data>
 			</Data>
 		</Data>
+	</Definition>
+	<Definition Name="AttackDescription" IsGlobal="True" meta:RefKey="StructDef">
+		<Data Name="Damage" Min="0" Default="1" SkipIfDefault="False" meta:RefKey="Number" />
+		<Data Name="Range" Type="Int" Min="1" Default="1" SkipIfDefault="False" meta:RefKey="Number" />
+		<Data Name="HitEffect" Keys="ParticleEffect,ParticleEffectTemplate" meta:RefKey="Reference" />
+		<Data Name="FlightEffect" Keys="ParticleEffect,ParticleEffectTemplate" VisibleIf="Range &gt; 1" meta:RefKey="Reference" />
 	</Definition>
 </Definitions>
