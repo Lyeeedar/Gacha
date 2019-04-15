@@ -10,6 +10,7 @@
 		<Data Name="Haste" meta:RefKey="Number" />
 		<Data Name="AbilityCooldown" meta:RefKey="Number" />
 		<Data Name="AbilityPower" meta:RefKey="Number" />
+		<Data Name="AllyBoost" meta:RefKey="Number" />
 		<!--Defense-->
 		<Data Name="DR" Min="-1" Max="1" meta:RefKey="Number" />
 		<Data Name="Regeneration" Min="-1" Max="1" meta:RefKey="Number" />

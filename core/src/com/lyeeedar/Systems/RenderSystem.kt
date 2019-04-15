@@ -12,7 +12,9 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
+import com.badlogic.gdx.utils.ObjectMap
 import com.lyeeedar.Components.*
+import com.lyeeedar.Game.Buff
 import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Particle.ParticleEffect
 import com.lyeeedar.Renderables.SortedRenderer
@@ -23,6 +25,7 @@ import com.lyeeedar.UI.DebugConsole
 import com.lyeeedar.UI.RenderSystemWidget
 import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.Colour
+import ktx.collections.set
 import ktx.math.plus
 import ktx.math.times
 
@@ -69,6 +72,9 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 	val screenSpaceRenderer = SortedRenderer(Global.resolution[0].toFloat(), 1f, 1f, 1, true)
 
 	lateinit var statsEntities: ImmutableArray<Entity>
+
+	class BuffCounter(val buff: Buff, var count: Int)
+	private val buffCounterMap = ObjectMap<String, BuffCounter>()
 
 	override fun addedToEngine(engine: Engine?)
 	{
@@ -331,12 +337,27 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 					renderer.queueTexture(hp_border, ax+i*spacePerPip, ay+overhead, pos.slot.ordinal, 4, colour = tileCol, width = solid, height = 0.1f, sortX = ax, sortY = ay)
 				}
 
+				buffCounterMap.clear()
 				for (i in 0 until stats.buffs.size)
 				{
 					val buff = stats.buffs[i]
 
 					val icon = buff.icon ?: continue
-					renderer.queueTexture(icon.currentTexture, ax+i*spacePerPip*3, ay+overhead+0.1f+spacePerPip, pos.slot.ordinal, 4, width = spacePerPip*3, height = spacePerPip*3, sortX = ax, sortY = ay)
+
+					var existing = buffCounterMap[buff.name]
+					if (existing == null)
+					{
+						existing = BuffCounter(buff, 0)
+						buffCounterMap[buff.name] = existing
+					}
+					existing.count++
+				}
+
+				var i = 0
+				for (buffCounter in buffCounterMap.values())
+				{
+					renderer.queueTexture(buffCounter.buff.icon!!.currentTexture, ax+i*spacePerPip*3, ay+overhead+0.1f+spacePerPip, pos.slot.ordinal, 4, width = spacePerPip*3, height = spacePerPip*3, sortX = ax, sortY = ay)
+					i++
 				}
 			}
 		}

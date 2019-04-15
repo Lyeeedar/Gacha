@@ -12,10 +12,9 @@
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
 				<MaxHP>130</MaxHP>
-				<Power>11</Power>
+				<Power>10.5</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
-				<Haste>0.1</Haste>
 			</Statistics>
 			<EquipmentWeight>Medium</EquipmentWeight>
 			<Death meta:RefKey="ParticleEffect">
@@ -120,16 +119,14 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Storm Bolt</Name>
-					<Description>Call of bolts of energy from the storm, dealing [GOLD]200%[] damage to 3 foes.</Description>
+					<Description>Call of bolts of energy from the storm, dealing [GOLD]200%[] damage to a foe.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Particle/lightningbolt2_7</Name>
 						<Colour>220,166,255,255</Colour>
 					</Icon>
 					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
-							<SelectEnemies>
-								<Count>3</Count>
-							</SelectEnemies>
+							<SelectEnemies />
 							<Damage>
 								<Time>0.08104435</Time>
 								<Amount>2</Amount>
@@ -220,7 +217,7 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Storm Call</Name>
-					<Description>Mark a foe to be targetted by the storm, dealing [GOLD]100%[] damage to them 5 times.</Description>
+					<Description>Mark a foe to be targetted by the storm, dealing [GOLD]50%[] damage to them 5 times.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>EffectSprites/LightningBurst/LightningBurst_2</Name>
 						<Colour>237,56,247,255</Colour>
@@ -240,6 +237,7 @@
 							</BlockTurn>
 							<Damage>
 								<Time>0.140844062</Time>
+								<Amount>0.5</Amount>
 							</Damage>
 							<RepeatEnd>
 								<Time>0.222675249</Time>

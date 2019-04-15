@@ -159,7 +159,7 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Triple Shot</Name>
-					<Description>Shoot 3 arrows at your target, each dealing [GOLD]30%[] damage.</Description>
+					<Description>Shoot 3 arrows at your target, each dealing [GOLD]20%[] damage.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>EffectSprites/Arrow/Arrow_0</Name>
 					</Icon>
@@ -187,7 +187,7 @@
 							</MovementRenderable>
 							<Damage>
 								<Time>0.140055463</Time>
-								<Amount>0.3</Amount>
+								<Amount>0.2</Amount>
 							</Damage>
 							<RepeatEnd>
 								<Time>0.160753325</Time>

@@ -318,6 +318,8 @@ enum class Statistic private constructor(val min: Float, val max: Float, val mod
 	LIFESTEAL(0f, 1f, true, "Life Steal", "The portion of your damage dealt you absorb as life."),
 	AEGIS(0f, 1f, true, "Aegis", "The chance to avoid completely block damage when hit."),
 
+	ALLYBOOST(-1f, 1f, true, "Ally Boost", "The percentage your power is increased by for each surviving ally."),
+
 	BUFFPOWER(0f, Float.MAX_VALUE, true, "Buff Power", "The bonus to the power of buffs you create."),
 	DEBUFFPOWER(0f, Float.MAX_VALUE, true, "Debuff Power", "The bonus to the power of debuffs you create."),
 	ABILITYCOOLDOWN(-Float.MAX_VALUE, Float.MAX_VALUE, true, "Ability Cooldown", "The rate at which your abilities come off cooldown."),

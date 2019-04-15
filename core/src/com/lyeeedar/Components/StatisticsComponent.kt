@@ -84,6 +84,8 @@ class StatisticsComponent: AbstractComponent()
 	var ascension: Ascension = Ascension.MUNDANE
 	var level: Int = 1
 
+	var survivingAllies = 0
+
 	lateinit var attackDefinition: AttackDefinition
 
 	val buffs = Array<Buff>(false, 4)
@@ -94,7 +96,11 @@ class StatisticsComponent: AbstractComponent()
 	val equipment = FastEnumMap<EquipmentSlot, Equipment>(EquipmentSlot::class.java)
 	var equipmentWeight: EquipmentWeight = EquipmentWeight.MEDIUM
 
-	var damageDealt = 0f
+	var attackDamageDealt = 0f
+	var abilityDamageDealt = 0f
+
+	val damageDealt: Float
+		get() = attackDamageDealt + abilityDamageDealt
 
 	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
@@ -228,6 +234,12 @@ class StatisticsComponent: AbstractComponent()
 		for (buff in factionBuffs)
 		{
 			modifier += buff.statistics[statistic] ?: 0f
+		}
+
+		if (statistic == Statistic.POWER)
+		{
+			val allyBoost = getStat(Statistic.ALLYBOOST)
+			modifier += allyBoost * survivingAllies
 		}
 
 		if (statistic.modifiersAreAdded)

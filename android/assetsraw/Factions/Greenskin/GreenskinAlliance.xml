@@ -8,25 +8,25 @@
 		<Buff2 meta:RefKey="Buff">
 			<Description>Greenskins are tougher in groups.</Description>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>0.1</MaxHP>
+				<AllyBoost>0.01</AllyBoost>
 			</Statistics>
 		</Buff2>
 		<Buff3 meta:RefKey="Buff">
 			<Description>Greenskins are tougher in groups.</Description>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>0.1</MaxHP>
+				<AllyBoost>0.01</AllyBoost>
 			</Statistics>
 		</Buff3>
 		<Buff4 meta:RefKey="Buff">
 			<Description>Greenskins are tougher in groups.</Description>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>0.1</MaxHP>
+				<AllyBoost>0.02</AllyBoost>
 			</Statistics>
 		</Buff4>
 		<Buff5 meta:RefKey="Buff">
 			<Description>Greenskins are tougher in groups.</Description>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>0.1</MaxHP>
+				<AllyBoost>0.02</AllyBoost>
 			</Statistics>
 		</Buff5>
 	</Buffs>

@@ -3,9 +3,12 @@ package com.lyeeedar.UI
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.ui.Widget
+import com.badlogic.gdx.utils.ObjectMap
 import com.lyeeedar.Components.ability
 import com.lyeeedar.Components.renderable
 import com.lyeeedar.Components.stats
+import com.lyeeedar.Game.Buff
+import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Statistic
 import com.lyeeedar.Systems.RenderSystem
@@ -13,6 +16,7 @@ import com.lyeeedar.Systems.RenderSystem.Companion.numHpPips
 import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.Colour
 import com.lyeeedar.Util.max
+import ktx.collections.set
 
 class EntityWidget(var entity: Entity?) : Widget()
 {
@@ -30,6 +34,11 @@ class EntityWidget(var entity: Entity?) : Widget()
 	val lightGray = Colour.LIGHT_GRAY
 	val darkGray = Colour.DARK_GRAY
 	val gold = Colour.GOLD
+
+	class BuffCounter(val buff: Buff, var count: Int)
+	private val buffCounterMap = ObjectMap<String, BuffCounter>()
+
+	val font = Global.skin.getFont("small")
 
 	override fun draw(batch: Batch, parentAlpha: Float)
 	{
@@ -82,12 +91,31 @@ class EntityWidget(var entity: Entity?) : Widget()
 				batch.draw(hp_border, x+5f+i*spacePerPip, y+5f, solid, 5f)
 			}
 
-			for (i in 0 until stats.buffs.size)
+			if (stats.hp > 0)
 			{
-				val buff = stats.buffs[i]
+				buffCounterMap.clear()
+				for (i in 0 until stats.buffs.size)
+				{
+					val buff = stats.buffs[i]
 
-				val icon = buff.icon ?: continue
-				batch.draw(icon.currentTexture, x+5f+i*solid*4, y+10f, solid*4, solid*4)
+					val icon = buff.icon ?: continue
+
+					var existing = buffCounterMap[buff.name]
+					if (existing == null)
+					{
+						existing = BuffCounter(buff, 0)
+						buffCounterMap[buff.name] = existing
+					}
+					existing.count++
+				}
+
+				var i = 0
+				for (buffCounter in buffCounterMap.values())
+				{
+					batch.draw(buffCounter.buff.icon!!.currentTexture, x + 5f + i * solid * 3, y + 10f, solid * 3, solid * 3)
+					font.draw(batch, buffCounter.count.toString(), x + 5f + i * solid * 3 + solid * 2, y + 20f)
+					i++
+				}
 			}
 
 			val ability = entity!!.ability()

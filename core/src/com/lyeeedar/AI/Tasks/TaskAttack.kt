@@ -87,7 +87,7 @@ class TaskAttack() : AbstractTask()
 					val dam = attackerStats.getAttackDam(attackerStats.attackDefinition.damage)
 					val finalDam = defenderStats.dealDamage(dam.first)
 
-					attackerStats.damageDealt += finalDam
+					attackerStats.attackDamageDealt += finalDam
 
 					if (Random.random() < 0.5f)
 					{

@@ -51,7 +51,7 @@ class DamageAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequ
 					val attackDam = sourceStats.getAttackDam(damModifier)
 					val finalDam = targetstats.dealDamage(attackDam.first)
 
-					sourceStats.damageDealt += finalDam
+					sourceStats.abilityDamageDealt += finalDam
 
 					BloodSplatter.splatter(sequence.source.tile()!!, entity.tile()!!, 1f)
 					targetstats.lastHitSource = sequence.source.tile()!!

@@ -12,7 +12,7 @@
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
 				<MaxHP>75</MaxHP>
-				<Power>15</Power>
+				<Power>20</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
 				<Haste>-0.5</Haste>
@@ -21,7 +21,7 @@
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
-			<Attack>
+			<Attack meta:RefKey="AttackDescription">
 				<Damage>1</Damage>
 				<Range>9</Range>
 				<FlightEffect meta:RefKey="ParticleEffect">
