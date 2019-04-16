@@ -6,10 +6,9 @@ import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Scaling
 import com.lyeeedar.Renderables.Sprite.Sprite
 
-class SpriteWidget(private val drawable: Sprite, val originalWidth: Float, val originalHeight: Float, val fixHeight: Boolean = false) : Widget()
+class SpriteWidget(private val drawable: Sprite, val originalWidth: Float, val originalHeight: Float, val fixHeight: Boolean = false, val align: Int = Align.center) : Widget()
 {
 	private val scaling = Scaling.fit
-	private val align = Align.center
 	private var imageX: Float = 0f
 	private var imageY: Float = 0f
 	private var imageWidth: Float = 0f

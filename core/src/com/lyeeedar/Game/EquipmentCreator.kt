@@ -33,8 +33,8 @@ class EquipmentCreator
 			val slot = EquipmentSlot.Values.random(ran)
 			val weight = EquipmentWeight.Values.random(ran)
 
-			val validAscensions = Array<Ascension>(12)
-			var weightCounter = 100
+			val validAscensions = Array<Ascension>(2000)
+			var weightCounter = 1000
 			for (i in 0 until 4)
 			{
 				val ascension = Ascension.Values[i]
@@ -43,7 +43,7 @@ class EquipmentCreator
 					validAscensions.add(ascension)
 				}
 
-				weightCounter /= 3
+				weightCounter /= 4
 			}
 			val ascension = validAscensions.random(ran)
 

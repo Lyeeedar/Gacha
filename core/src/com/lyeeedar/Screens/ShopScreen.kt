@@ -6,14 +6,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable
+import com.lyeeedar.EquipmentWeight
 import com.lyeeedar.Game.EquipmentCreator
 import com.lyeeedar.Global
 import com.lyeeedar.MainGame
 import com.lyeeedar.UI.*
-import com.lyeeedar.Util.Array2D
-import com.lyeeedar.Util.AssetManager
-import com.lyeeedar.Util.ciel
-import com.lyeeedar.Util.prettyPrint
+import com.lyeeedar.Util.*
 
 class ShopScreen : AbstractScreen()
 {
@@ -22,6 +20,8 @@ class ShopScreen : AbstractScreen()
 	val counter_papers = AssetManager.loadSprite("Oryx/Custom/terrain/table_papers", drawActualSize = true)
 	val counter_large = AssetManager.loadSprite("Oryx/uf_split/uf_terrain/table", drawActualSize = true)
 	val counter_large_sold = AssetManager.loadSprite("Oryx/Custom/terrain/table_large_sold", drawActualSize = true)
+	val equipmentChest = AssetManager.loadSprite("Oryx/Custom/items/chest_equipment", drawActualSize = true)
+	val heroesChest = AssetManager.loadSprite("Oryx/Custom/items/chest_heroes", drawActualSize = true)
 
 	class ShopWare(val wareTable: Table, val cost: Int, val previewTable: Table, val purchaseAction: ()->Unit, val singlePurchase: Boolean)
 	val itemsToBuy = Array2D<ShopWare?>(4, 3) { x,y -> null }
@@ -66,7 +66,7 @@ class ShopScreen : AbstractScreen()
 		createWares()
 		fillPurchasesTable()
 
-		shopTable.add(purchasesTable).grow().pad(20f)
+		shopTable.add(purchasesTable).grow().padTop(20f).padBottom(20f)
 
 		mainTable.add(shopTable).grow()
 		mainTable.row()
@@ -78,9 +78,68 @@ class ShopScreen : AbstractScreen()
 		for (i in 0 until 4)
 		{
 			val equip = EquipmentCreator.createRandom(10)
-			val ware = ShopWare(equip.createTile(48f), (1000 * equip.ascension.multiplier).ciel(), equip.createCardTable(), {}, true)
+			val tileTable = Table()
+			tileTable.add(equip.createTile(48f)).size(48f).padBottom(42f)
+
+			val ware = ShopWare(tileTable, (1000 * equip.ascension.multiplier).ciel(), equip.createCardTable(), {
+				Global.data.equipment.add(equip)
+			}, true)
 			itemsToBuy[i, 0] = ware
 		}
+
+		// 10 equipment
+		val ranEquipTile = Table()
+		ranEquipTile.add(SpriteWidget(equipmentChest, 48f, 48f))
+
+		val ranEquipFocus = Table()
+
+		val ranEquip = ShopWare(ranEquipTile, 3000, ranEquipFocus, {
+
+		}, false)
+		itemsToBuy[0, 2] = ranEquip
+
+		// 10 equipment of weight
+		val weightChosen = EquipmentWeight.Values.random()
+		val ranEquipWeightTile = Table()
+		val ranEquipWeightStack = Stack()
+		ranEquipWeightTile.add(ranEquipWeightStack).grow()
+
+		ranEquipWeightStack.add(SpriteWidget(equipmentChest, 48f, 48f))
+		ranEquipWeightStack.addTable(SpriteWidget(weightChosen.icon, 24f, 24f)).size(24f).padBottom(16f)
+
+		val ranEquipWeightFocus = Table()
+
+		val ranEquipWeight = ShopWare(ranEquipWeightTile, 4000, ranEquipWeightFocus, {
+
+		}, false)
+		itemsToBuy[1, 2] = ranEquipWeight
+
+		// 10 heroes
+		val ranHeroTile = Table()
+		ranHeroTile.add(SpriteWidget(heroesChest, 48f, 48f))
+
+		val ranHeroFocus = Table()
+
+		val ranHero = ShopWare(ranHeroTile, 3000, ranHeroFocus, {
+
+		}, false)
+		itemsToBuy[2, 2] = ranHero
+
+		// 10 heroes from faction
+		val faction = Global.data.unlockedFactions.random()
+		val ranHeroWeightTile = Table()
+		val ranHeroWeightStack = Stack()
+		ranHeroWeightTile.add(ranHeroWeightStack).grow()
+
+		ranHeroWeightStack.add(SpriteWidget(heroesChest, 48f, 48f))
+		ranHeroWeightStack.addTable(SpriteWidget(faction.icon, 24f, 24f)).size(24f).padBottom(16f)
+
+		val ranHeroWeightFocus = Table()
+
+		val ranHeroWeight = ShopWare(ranHeroWeightTile, 4000, ranHeroWeightFocus, {
+
+		}, false)
+		itemsToBuy[3, 2] = ranHeroWeight
 	}
 
 	fun fillPurchasesTable()
@@ -97,18 +156,24 @@ class ShopScreen : AbstractScreen()
 				if (ware == null)
 				{
 					purchaseStack.addTable(SpriteWidget(counter_large_sold, 48f, 48f)).size(48f).expand().bottom()
-					purchaseStack.addTable(Table()).size(48f).padBottom(32f)
+					purchaseStack.addTable(Table()).size(48f).padBottom(18f).expand().bottom()
 				}
 				else
 				{
 					purchaseStack.addTable(SpriteWidget(counter_large, 48f, 48f)).size(48f).expand().bottom()
-					purchaseStack.addTable(ware.wareTable).size(48f).padBottom(32f)
-					purchaseStack.addTable(Label(ware.cost.prettyPrint(), Global.skin)).expand().bottom().padBottom(24f)
+					purchaseStack.addTable(ware.wareTable).size(48f).padBottom(18f).expand().bottom()
+
+					val costLabel = Label(ware.cost.prettyPrint(), Global.skin)
+					if (ware.cost > Global.data.gold)
+					{
+						costLabel.setColor(0.85f, 0f, 0f, 1f)
+					}
+					purchaseStack.addTable(costLabel).expand().bottom().padBottom(24f)
 
 					purchaseStack.addClickListener {
 						val card = CardWidget(ware.previewTable, ware.previewTable, AssetManager.loadTextureRegion("GUI/MoneyCardback")!!)
 						card.setFacing(true, false)
-						card.setPosition(purchaseStack.x, purchaseStack.y)
+						card.setPosition(purchaseStack.x + purchaseStack.width / 2f, purchaseStack.y + purchaseStack.height)
 						card.setSize(48f, 48f)
 
 						if (Global.data.gold >= ware.cost)
@@ -139,7 +204,7 @@ class ShopScreen : AbstractScreen()
 					}
 				}
 
-				purchasesTable.add(purchaseStack).expand().pad(5f)
+				purchasesTable.add(purchaseStack).expand()
 			}
 
 			purchasesTable.row()
