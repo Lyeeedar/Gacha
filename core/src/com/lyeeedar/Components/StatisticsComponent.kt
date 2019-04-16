@@ -403,6 +403,28 @@ class StatisticsComponent: AbstractComponent()
 
 			return variableMap
 		}
+
+		fun createSample(): StatisticsComponent
+		{
+			val comp = StatisticsComponent()
+			for (stat in Statistic.Values)
+			{
+				if (stat == Statistic.MAXHP)
+				{
+					comp.baseStats[stat] = 100f
+				}
+				else if (stat == Statistic.POWER)
+				{
+					comp.baseStats[stat] = 10f
+				}
+				else
+				{
+					comp.baseStats[stat] = 0.1f
+				}
+			}
+
+			return comp
+		}
 	}
 }
 

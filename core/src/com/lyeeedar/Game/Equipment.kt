@@ -9,10 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import com.lyeeedar.*
-import com.lyeeedar.Components.EventAndCondition
-import com.lyeeedar.Components.ability
-import com.lyeeedar.Components.applyAscensionAndLevel
-import com.lyeeedar.Components.stats
+import com.lyeeedar.Components.*
 import com.lyeeedar.Game.ActionSequence.BuffAction
 import com.lyeeedar.Game.ActionSequence.DamageAction
 import com.lyeeedar.Game.ActionSequence.HealAction
@@ -105,9 +102,9 @@ class Equipment : IEquipmentStatsProvider
 		return value
 	}
 
-	fun calculatePowerRating(entity: Entity): Float
+	fun calculatePowerRating(entity: Entity? = null): Float
 	{
-		val stats = entity.stats()!!
+		val stats = entity?.stats() ?: StatisticsComponent.createSample()
 
 		var hp = stats.baseStats[Statistic.MAXHP].applyAscensionAndLevel(stats.level, stats.ascension) + getStat(Statistic.MAXHP, stats.level)
 		hp = max(hp, 1f)
@@ -135,7 +132,7 @@ class Equipment : IEquipmentStatsProvider
 			}
 		}
 
-		val ability = entity.ability()
+		val ability = entity?.ability()
 		if (ability != null)
 		{
 			var abilityModifier = 0f
@@ -197,7 +194,7 @@ class Equipment : IEquipmentStatsProvider
 		return table
 	}
 
-	fun createCardTable(entity: Entity): Table
+	fun createCardTable(entity: Entity? = null): Table
 	{
 		val table = Table()
 
@@ -251,7 +248,7 @@ class Equipment : IEquipmentStatsProvider
 		{
 			val statTable = Table()
 
-			val rawValue = getStat(stat, entity.stats().level)
+			val rawValue = getStat(stat, entity?.stats()?.level ?: 1)
 			val value: Int
 			val valueStr: String
 			if (Statistic.BaseValues.contains(stat))

@@ -22,16 +22,17 @@ import com.lyeeedar.Util.ciel
 import com.lyeeedar.Util.min
 import ktx.actors.alpha
 import ktx.actors.then
+import ktx.collections.gdxArrayOf
 
 data class Pick(val string: String, var pickFun: (card: CardWidget) -> Unit)
 
-class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backImage: TextureRegion, var data: Any?, val colour: Colour = Colour.WHITE, val border: Colour = Colour.TRANSPARENT) : WidgetGroup()
+class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backImage: TextureRegion, var data: Any? = null, val colour: Colour = Colour.WHITE, val border: Colour = Colour.TRANSPARENT) : WidgetGroup()
 {
 	val referenceWidth = Global.resolution.x - 100f
 	val referenceHeight = Global.resolution.y - 200f
 
-	val contentTable = Table()
-	val backTable: Table
+	private val contentTable = Table()
+	private val backTable: Table
 
 	var canZoom = true
 	var canPickFaceDown = false
@@ -45,8 +46,8 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 
 	var clickable = true
 
-	val back = NinePatch(AssetManager.loadTextureRegion("GUI/CardBackground"), 30, 30, 30, 30)
-	val backborder = NinePatch(AssetManager.loadTextureRegion("GUI/CardBackgroundBorder"), 30, 30, 30, 30)
+	private val back = NinePatch(AssetManager.loadTextureRegion("GUI/CardBackground"), 30, 30, 30, 30)
+	private val backborder = NinePatch(AssetManager.loadTextureRegion("GUI/CardBackgroundBorder"), 30, 30, 30, 30)
 
 	init
 	{
@@ -103,8 +104,8 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 		pickFuns.add(Pick(string, pickFun))
 	}
 
-	data class Bounds(val x: Float, val y: Float, val width: Float, val height: Float)
-	fun getTableBounds(): Bounds
+	private data class Bounds(val x: Float, val y: Float, val width: Float, val height: Float)
+	private fun getTableBounds(): Bounds
 	{
 		val actualMidX = contentTable.x + contentTable.width / 2f
 		val drawX = actualMidX - (contentTable.width * contentTable.scaleX) / 2f
@@ -221,7 +222,7 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 		}
 	}
 
-	var animating = false
+	private var animating = false
 	fun flip(animate: Boolean = true)
 	{
 		if (flipping) return
@@ -397,6 +398,11 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 
 	companion object
 	{
+		fun layoutCard(card: CardWidget, enterFrom: Direction, dstWidget: Table? = null, animate: Boolean = true)
+		{
+			layoutCards(gdxArrayOf(card), enterFrom, dstWidget, animate)
+		}
+
 		fun layoutCards(cardWidgets: Array<CardWidget>, enterFrom: Direction, dstWidget: Table? = null, animate: Boolean = true)
 		{
 			val areapos = dstWidget?.localToStageCoordinates(Vector2()) ?: Vector2()

@@ -350,7 +350,12 @@ enum class EquipmentWeight(val icon: Sprite, val niceName: String)
 {
 	HEAVY(AssetManager.loadSprite("Icons/EquipmentHeavy"), "Heavy"),
 	MEDIUM(AssetManager.loadSprite("Icons/EquipmentMedium"), "Medium"),
-	LIGHT(AssetManager.loadSprite("Icons/EquipmentLight"), "Light")
+	LIGHT(AssetManager.loadSprite("Icons/EquipmentLight"), "Light");
+
+	companion object
+	{
+		val Values = EquipmentWeight.values()
+	}
 }
 
 // ----------------------------------------------------------------------

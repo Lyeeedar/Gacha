@@ -35,7 +35,7 @@ class MapScreen : AbstractScreen()
 	var zone: Zone? = null
 
 	class TimeMultiplier(val name: String, val multiplier: Float)
-	val multipliers = arrayOf(TimeMultiplier("x0.5", 0.5f), TimeMultiplier("x1", 1f), TimeMultiplier("x2", 2f))
+	val multipliers = arrayOf(TimeMultiplier("x0.5", 0.5f), TimeMultiplier("x1", 0.8f), TimeMultiplier("x2", 1.6f))
 	var multiplierIndex = 1
 	var paused = false
 

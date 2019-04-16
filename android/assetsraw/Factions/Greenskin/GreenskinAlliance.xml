@@ -26,7 +26,7 @@
 		<Buff5 meta:RefKey="Buff">
 			<Description>Greenskins are tougher in groups.</Description>
 			<Statistics meta:RefKey="Statistics">
-				<AllyBoost>0.02</AllyBoost>
+				<AllyBoost>0.035</AllyBoost>
 			</Statistics>
 		</Buff5>
 	</Buffs>

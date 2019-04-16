@@ -4,7 +4,10 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.scenes.scene2d.ui.Stack
+import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.lyeeedar.Global
 import com.lyeeedar.Util.AssetManager
@@ -66,4 +69,12 @@ fun Label.align(alignment: Int): Label
 {
 	this.setAlignment(alignment)
 	return this
+}
+
+fun <T : Actor> Stack.addTable(actor: T): Cell<T>
+{
+	val holderTable = Table()
+	val cell = holderTable.add(actor)
+	this.add(holderTable)
+	return cell
 }
