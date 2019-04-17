@@ -3,10 +3,10 @@
 	<Emitters>
 		<Emitter>
 			<Name>Coins</Name>
-			<Gravity>0.3</Gravity>
+			<Gravity>0.1</Gravity>
 			<Shape>Cone</Shape>
 			<Width>90</Width>
-			<ParticleSpeed>0.4,1</ParticleSpeed>
+			<ParticleSpeed>3,6</ParticleSpeed>
 			<ParticleRotation>0,360</ParticleRotation>
 			<RateKeyframes>
 				<Keyframe>0|50</Keyframe>
