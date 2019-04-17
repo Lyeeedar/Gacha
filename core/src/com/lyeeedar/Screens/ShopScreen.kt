@@ -337,6 +337,12 @@ class ShopScreen : AbstractScreen()
 		chestClosed.addAction(WobbleAction(0f, 25f, 0.1f, 1.5f))
 		stage.addActor(chestClosed)
 
+		val effect = AssetManager.loadParticleEffect("ChestOpen").getParticleEffect()
+		val particleActor = ParticleEffectActor(effect, true)
+		particleActor.setSize(128f, 128f)
+		particleActor.setPosition(stage.width / 2f - 64f, stage.height / 2f - 64f)
+		stage.addActor(particleActor)
+
 		Future.call(
 			{
 				chestClosed.remove()

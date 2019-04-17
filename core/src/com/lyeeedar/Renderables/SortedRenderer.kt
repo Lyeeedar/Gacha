@@ -19,7 +19,6 @@ import com.badlogic.gdx.utils.Pool
 import com.lyeeedar.BlendMode
 import com.lyeeedar.Direction
 import com.lyeeedar.Global
-import com.lyeeedar.Renderables.Particle.Emitter
 import com.lyeeedar.Renderables.Particle.Particle
 import com.lyeeedar.Renderables.Particle.ParticleEffect
 import com.lyeeedar.Renderables.Sprite.Sprite
@@ -724,7 +723,7 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 	}
 
 	// ----------------------------------------------------------------------
-	private fun getComparisonVal(x: Float, y: Float, layer: Int, index: Int, blend: BlendMode) : Float
+	fun getComparisonVal(x: Float, y: Float, layer: Int, index: Int, blend: BlendMode) : Float
 	{
 		if (index > MAX_INDEX-1) throw RuntimeException("Index too high! $index >= $MAX_INDEX!")
 		if (layer > MAX_LAYER-1) throw RuntimeException("Layer too high! $layer >= $MAX_LAYER!")
@@ -755,7 +754,7 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 	}
 
 	// ----------------------------------------------------------------------
-	private fun storeRenderSprite(renderSprite: RenderSprite)
+	fun storeRenderSprite(renderSprite: RenderSprite)
 	{
 		if (queuedSprites == spriteArray.size-1)
 		{
@@ -799,8 +798,6 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 					ly = iy + effect.size[1].toFloat() * 0.5f
 				}
 			}
-
-			effect.setPosition(lx, ly)
 		}
 
 		update(effect)
@@ -815,95 +812,12 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 		lx += (posOffset?.get(0) ?: 0f)
 		ly += (posOffset?.get(1) ?: 0f)
 
-		if (effect.faceInMoveDirection)
-		{
-			val angle = getRotation(effect.lastPos, tempVec.set(lx, ly))
-			effect.rotation = angle
-			effect.lastPos.set(lx, ly)
-		}
-
 		if (effect.light != null)
 		{
 			addLight(effect.light!!, lx + 0.5f, ly + 0.5f)
 		}
 
-		//val scale = effect.animation?.renderScale()?.get(0) ?: 1f
-		val animCol = effect.animation?.renderColour() ?: Colour.WHITE
-
-		for (emitter in effect.emitters)
-		{
-			val emitterOffset = emitter.keyframe1.offset.lerp(emitter.keyframe2.offset, emitter.keyframeAlpha)
-
-			for (particle in emitter.particles)
-			{
-				var px = 0f
-				var py = 0f
-
-				if (emitter.simulationSpace == Emitter.SimulationSpace.LOCAL)
-				{
-					tempVec.set(emitterOffset)
-					tempVec.scl(emitter.size)
-					tempVec.rotate(emitter.rotation)
-
-					px += (emitter.position.x + tempVec.x)
-					py += (emitter.position.y + tempVec.y)
-				}
-
-				for (pdata in particle.particles)
-				{
-					val keyframe1 = pdata.keyframe1
-					val keyframe2 = pdata.keyframe2
-					val alpha = pdata.keyframeAlpha
-
-					val tex1 = keyframe1.texture[pdata.texStream]
-					val tex2 = keyframe2.texture[pdata.texStream]
-
-					val col = tempCol.set(keyframe1.colour[pdata.colStream]).lerp(keyframe2.colour[pdata.colStream], alpha)
-					col.a = keyframe1.alpha[pdata.alphaStream].lerp(keyframe2.alpha[pdata.alphaStream], alpha)
-
-					val size = keyframe1.size[pdata.sizeStream].lerp(keyframe2.size[pdata.sizeStream], alpha, pdata.ranVal)
-					var sizex = size * width
-					var sizey = size * height
-
-					if (particle.allowResize)
-					{
-						sizex *= emitter.size.x
-						sizey *= emitter.size.y
-					}
-
-					val rotation = if (emitter.simulationSpace == Emitter.SimulationSpace.LOCAL) pdata.rotation + emitter.rotation + emitter.emitterRotation else pdata.rotation
-
-					col.mul(colour).mul(animCol).mul(effect.colour)
-
-					tempVec.set(pdata.position)
-
-					if (emitter.simulationSpace == Emitter.SimulationSpace.LOCAL) tempVec.scl(emitter.size).rotate(emitter.rotation + emitter.emitterRotation)
-
-					val drawx = tempVec.x + px
-					val drawy = tempVec.y + py
-
-					val localx = drawx * tileSize + offsetx
-					val localy = drawy * tileSize + offsety
-					val localw = sizex * tileSize
-					val localh = sizey * tileSize
-
-					if (localx + localw < 0 || localx > Global.stage.width || localy + localh < 0 || localy > Global.stage.height) continue
-
-					val comparisonVal = getComparisonVal((drawx-sizex*0.5f-1f).floor().toFloat(), (drawy-sizey*0.5f-1f).floor().toFloat(), layer, index, particle.blend)
-
-					val rs = RenderSprite.obtain().set( null, null, tex1.second, drawx * tileSize, drawy * tileSize, tempVec.x, tempVec.y, col, sizex, sizey, rotation, 1f, 1f, effect.flipX, effect.flipY, particle.blend, lit, comparisonVal )
-
-					if (particle.blendKeyframes)
-					{
-						rs.nextTexture = tex2.second
-						rs.blendAlpha = alpha
-					}
-					rs.alphaRef = keyframe1.alphaRef[pdata.alphaRefStream].lerp(keyframe2.alphaRef[pdata.alphaRefStream], alpha)
-
-					storeRenderSprite(rs)
-				}
-			}
-		}
+		effect.render(this, ix, iy, tileSize, colour, width, height, offsetx, offsety, layer, index, lit)
 	}
 
 	// ----------------------------------------------------------------------

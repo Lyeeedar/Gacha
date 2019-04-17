@@ -12,8 +12,11 @@ import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
 import com.lyeeedar.Direction
+import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Light
+import com.lyeeedar.Renderables.RenderSprite
 import com.lyeeedar.Renderables.Renderable
+import com.lyeeedar.Renderables.SortedRenderer
 import com.lyeeedar.Util.*
 import ktx.collections.set
 
@@ -210,6 +213,145 @@ class ParticleEffect(val description: ParticleEffectDescription) : Renderable()
 	override fun doRender(batch: Batch, x: Float, y: Float, tileSize: Float)
 	{
 
+	}
+
+	val tempVec = Vector2()
+	val tempCol = Colour()
+	fun render(renderer: Any, ix: Float, iy: Float, tileSize: Float, colour: Colour = Colour.WHITE, width: Float = 1f, height: Float = 1f, offsetx: Float = 0f, offsety: Float = 0f, layer: Int = 0, index: Int = 0, lit: Boolean = false)
+	{
+		var lx = ix
+		var ly = iy
+
+		if (lockPosition)
+		{
+
+		}
+		else
+		{
+			if (facing.x != 0)
+			{
+				lx = ix + size[1].toFloat() * 0.5f
+				ly = iy + size[0].toFloat() * 0.5f
+			}
+			else
+			{
+				if (isCentered)
+				{
+					lx = ix + 0.5f
+					ly = iy + 0.5f
+				}
+				else
+				{
+					lx = ix + size[0].toFloat() * 0.5f
+					ly = iy + size[1].toFloat() * 0.5f
+				}
+			}
+
+			setPosition(lx, ly)
+		}
+
+		if (!visible) return
+		if (renderDelay > 0 && !showBeforeRender)
+		{
+			return
+		}
+
+		val posOffset = animation?.renderOffset(false)
+		lx += (posOffset?.get(0) ?: 0f)
+		ly += (posOffset?.get(1) ?: 0f)
+
+		if (faceInMoveDirection)
+		{
+			val angle = getRotation(lastPos, tempVec.set(lx, ly))
+			rotation = angle
+			lastPos.set(lx, ly)
+		}
+
+		//val scale = effect.animation?.renderScale()?.get(0) ?: 1f
+		val animCol = animation?.renderColour() ?: Colour.WHITE
+
+		for (emitter in emitters)
+		{
+			val emitterOffset = emitter.keyframe1.offset.lerp(emitter.keyframe2.offset, emitter.keyframeAlpha)
+
+			for (particle in emitter.particles)
+			{
+				var px = 0f
+				var py = 0f
+
+				if (emitter.simulationSpace == Emitter.SimulationSpace.LOCAL)
+				{
+					tempVec.set(emitterOffset)
+					tempVec.scl(emitter.size)
+					tempVec.rotate(emitter.rotation)
+
+					px += (emitter.position.x + tempVec.x)
+					py += (emitter.position.y + tempVec.y)
+				}
+
+				for (pdata in particle.particles)
+				{
+					val keyframe1 = pdata.keyframe1
+					val keyframe2 = pdata.keyframe2
+					val alpha = pdata.keyframeAlpha
+
+					val tex1 = keyframe1.texture[pdata.texStream]
+					val tex2 = keyframe2.texture[pdata.texStream]
+
+					val col = tempCol.set(keyframe1.colour[pdata.colStream]).lerp(keyframe2.colour[pdata.colStream], alpha)
+					col.a = keyframe1.alpha[pdata.alphaStream].lerp(keyframe2.alpha[pdata.alphaStream], alpha)
+
+					val size = keyframe1.size[pdata.sizeStream].lerp(keyframe2.size[pdata.sizeStream], alpha, pdata.ranVal)
+					var sizex = size * width
+					var sizey = size * height
+
+					if (particle.allowResize)
+					{
+						sizex *= emitter.size.x
+						sizey *= emitter.size.y
+					}
+
+					val rotation = if (emitter.simulationSpace == Emitter.SimulationSpace.LOCAL) pdata.rotation + emitter.rotation + emitter.emitterRotation else pdata.rotation
+
+					col.mul(colour).mul(animCol).mul(colour)
+
+					tempVec.set(pdata.position)
+
+					if (emitter.simulationSpace == Emitter.SimulationSpace.LOCAL) tempVec.scl(emitter.size).rotate(emitter.rotation + emitter.emitterRotation)
+
+					val drawx = tempVec.x + px
+					val drawy = tempVec.y + py
+
+					val localx = drawx * tileSize + offsetx
+					val localy = drawy * tileSize + offsety
+					val localw = sizex * tileSize
+					val localh = sizey * tileSize
+
+					if (localx + localw < 0 || localx > Global.stage.width || localy + localh < 0 || localy > Global.stage.height) continue
+
+					if (renderer is SortedRenderer)
+					{
+						val comparisonVal = renderer.getComparisonVal((drawx - sizex * 0.5f - 1f).floor().toFloat(), (drawy - sizey * 0.5f - 1f).floor().toFloat(), layer, index, particle.blend)
+
+						val rs = RenderSprite.obtain().set(null, null, tex1.second, drawx * tileSize, drawy * tileSize, tempVec.x, tempVec.y, col, sizex, sizey, rotation, 1f, 1f, flipX, flipY, particle.blend, lit, comparisonVal)
+
+						if (particle.blendKeyframes)
+						{
+							rs.nextTexture = tex2.second
+							rs.blendAlpha = alpha
+						}
+						rs.alphaRef = keyframe1.alphaRef[pdata.alphaRefStream].lerp(keyframe2.alphaRef[pdata.alphaRefStream], alpha)
+
+						renderer.storeRenderSprite(rs)
+					}
+					else if (renderer is Batch)
+					{
+						renderer.setColor(col.color().toFloatBits())
+						renderer.draw(tex1.second, drawx * tileSize, drawy * tileSize, sizex*0.5f, sizey*0.5f, sizex, sizey, 1f, 1f, rotation)
+					}
+				}
+			}
+		}
 	}
 
 	fun debug(shape: ShapeRenderer, offsetx: Float, offsety: Float, tileSize: Float, drawEmitter: Boolean, drawParticles: Boolean, drawEffectors: Boolean)
