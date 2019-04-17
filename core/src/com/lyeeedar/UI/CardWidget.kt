@@ -463,11 +463,11 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 
 				if (i >= normalLayout)
 				{
-					widget.setPosition(padding + finalRowStep*0.5f + x * finalRowStep + x * padding - xSize*0.5f, padding + y * ySize + y * padding)
+					widget.setPosition(areapos.x + padding + finalRowStep*0.5f + x * finalRowStep + x * padding - xSize*0.5f, areapos.y + padding + y * ySize + y * padding)
 				}
 				else
 				{
-					widget.setPosition(padding + x * xSize + x * padding, padding + y * ySize + y * padding)
+					widget.setPosition(areapos.x + padding + x * xSize + x * padding, areapos.y + padding + y * ySize + y * padding)
 				}
 
 				x++

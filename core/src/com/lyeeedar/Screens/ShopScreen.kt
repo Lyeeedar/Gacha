@@ -1,14 +1,15 @@
 package com.lyeeedar.Screens
 
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.math.Bezier
 import com.badlogic.gdx.math.Interpolation
-import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.Touchable
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Stack
 import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable
 import com.badlogic.gdx.utils.Array
@@ -17,6 +18,8 @@ import com.lyeeedar.Game.EquipmentCreator
 import com.lyeeedar.Game.FactionEntity
 import com.lyeeedar.UI.*
 import com.lyeeedar.Util.*
+import ktx.actors.alpha
+import ktx.actors.then
 
 class ShopScreen : AbstractScreen()
 {
@@ -95,18 +98,10 @@ class ShopScreen : AbstractScreen()
 				val dstTable = navigationBar.screenMap[MainGame.ScreenEnum.HEROES]
 				val dst = dstTable.localToStageCoordinates(Vector2())
 
-				val dir = Vector2().setToRandomDirection()
-				val p0 = src.cpy()
-				val p1 = Vector2().set(dir).scl(50f + MathUtils.random(125).toFloat()).add(src)
-				val p2 = Vector2().set(src).lerp(dst, 0.8f)
-				val p3 = dst.cpy()
-
-				val path = Bezier(p0, p1, p2, p3)
-
 				val widget = MaskedTexture(equip.fullIcon)
 				widget.setSize(48f, 48f)
-				widget.setPosition(p0.x, p0.y)
-				widget.addAction(MoteAction(path, 0.75f, Interpolation.exp5))
+				val sequence = mote(src, dst, 1f, Interpolation.exp5, false) then removeActor()
+				widget.addAction(sequence)
 
 				stage.addActor(widget)
 			}, true)
@@ -131,7 +126,14 @@ class ShopScreen : AbstractScreen()
 			}
 
 			val hero = possibleDrops.random()
-			val ascension = Ascension.getWeightedAscension()
+			val heroData = Global.data.heroPool.first { it.factionEntity == hero }
+
+			var ascension = Ascension.getWeightedAscension()
+			if (ascension.ordinal >= heroData.ascension.ordinal)
+			{
+				val newOrdinal = max(0, heroData.ascension.ordinal-1)
+				ascension = Ascension.Values[newOrdinal]
+			}
 
 			val tileTable = Table()
 
@@ -140,13 +142,30 @@ class ShopScreen : AbstractScreen()
 			val detailsTable = hero.createCardTable(ascension)
 
 			val ware = ShopWare(tileTable, (1000 * ascension.multiplier).ciel(), detailsTable, {
-				val heroData = Global.data.heroPool.first { it.factionEntity == hero }
-				heroData.ascensionShards += ascension.shardsRequired / 3
+
+				val droppedShards = max(1, ascension.shardsRequired / 3)
+				heroData.ascensionShards += droppedShards
+
+				val src = it.localToStageCoordinates(Vector2(24f, 24f))
+
+				val dstTable = navigationBar.screenMap[MainGame.ScreenEnum.HEROES]
+				val dst = dstTable.localToStageCoordinates(Vector2())
+
+				for (i in 0 until droppedShards)
+				{
+					val widget = SpriteWidget(AssetManager.loadSprite("Oryx/Custom/items/shard"), 48f, 48f)
+					widget.setSize(48f, 48f)
+					val sequence = mote(src, dst, 1f, Interpolation.exp5, true) then removeActor()
+					widget.addAction(sequence)
+
+					stage.addActor(widget)
+				}
+
 			}, true)
 			itemsToBuy[i, 1] = ware
 		}
 
-		// 10 equipment
+		// 9 equipment
 		val ranEquipTile = Table()
 		ranEquipTile.add(SpriteWidget(equipmentChest, 48f, 48f))
 
@@ -155,20 +174,35 @@ class ShopScreen : AbstractScreen()
 		val ranEquip = ShopWare(ranEquipTile, 3000, ranEquipFocus, {
 			val cards = Array<CardWidget>()
 
-			for (i in 0 until 10)
+			for (i in 0 until 9)
 			{
 				val equip = EquipmentCreator.createRandom(1)
 				val card = CardWidget(equip.createCardTable(), equip.createCardTable(), AssetManager.loadTextureRegion("GUI/EquipmentCardback")!!)
-				cards.add(card)
+				card.canZoom = false
+				card.addPick("", {
 
-				Global.stage.addActor(card)
+					Global.data.equipment.add(equip)
+
+					val src = it.localToStageCoordinates(Vector2(24f, 24f))
+
+					val dstTable = navigationBar.screenMap[MainGame.ScreenEnum.HEROES]
+					val dst = dstTable.localToStageCoordinates(Vector2())
+
+					val widget = MaskedTexture(equip.fullIcon)
+					widget.setSize(48f, 48f)
+					val sequence = mote(src, dst, 1f, Interpolation.exp5, false) then removeActor()
+					widget.addAction(sequence)
+
+					stage.addActor(widget)
+				})
+				cards.add(card)
 			}
 
-			CardWidget.layoutCards(cards, Direction.CENTER, flip = false)
+			displayLoot(cards)
 		}, false)
 		itemsToBuy[0, 2] = ranEquip
 
-		// 10 equipment of weight
+		// 9 equipment of weight
 		val weightChosen = EquipmentWeight.Values.random()
 		val ranEquipWeightTile = Table()
 		val ranEquipWeightStack = Stack()
@@ -182,20 +216,35 @@ class ShopScreen : AbstractScreen()
 		val ranEquipWeight = ShopWare(ranEquipWeightTile, 4000, ranEquipWeightFocus, {
 			val cards = Array<CardWidget>()
 
-			for (i in 0 until 10)
+			for (i in 0 until 9)
 			{
 				val equip = EquipmentCreator.createRandom(1, weight = weightChosen)
 				val card = CardWidget(equip.createCardTable(), equip.createCardTable(), AssetManager.loadTextureRegion("GUI/EquipmentCardback")!!)
-				cards.add(card)
+				card.canZoom = false
+				card.addPick("", {
 
-				Global.stage.addActor(card)
+					Global.data.equipment.add(equip)
+
+					val src = it.localToStageCoordinates(Vector2(24f, 24f))
+
+					val dstTable = navigationBar.screenMap[MainGame.ScreenEnum.HEROES]
+					val dst = dstTable.localToStageCoordinates(Vector2())
+
+					val widget = MaskedTexture(equip.fullIcon)
+					widget.setSize(48f, 48f)
+					val sequence = mote(src, dst, 1f, Interpolation.exp5, false) then removeActor()
+					widget.addAction(sequence)
+
+					stage.addActor(widget)
+				})
+				cards.add(card)
 			}
 
-			CardWidget.layoutCards(cards, Direction.CENTER, flip = false)
+			displayLoot(cards)
 		}, false)
 		itemsToBuy[1, 2] = ranEquipWeight
 
-		// 10 heroes
+		// 9 heroes
 		val ranHeroTile = Table()
 		ranHeroTile.add(SpriteWidget(heroesChest, 48f, 48f))
 
@@ -206,7 +255,7 @@ class ShopScreen : AbstractScreen()
 		}, false)
 		itemsToBuy[2, 2] = ranHero
 
-		// 10 heroes from faction
+		// 9 heroes from faction
 		val faction = Global.data.unlockedFactions.random()
 		val ranHeroWeightTile = Table()
 		val ranHeroWeightStack = Stack()
@@ -221,6 +270,90 @@ class ShopScreen : AbstractScreen()
 
 		}, false)
 		itemsToBuy[3, 2] = ranHeroWeight
+	}
+
+	fun displayLoot(cards: Array<CardWidget>)
+	{
+		val greyoutTable = Table()
+		greyoutTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(0f, 0f, 0f, 0.9f))
+		greyoutTable.touchable = Touchable.enabled
+		greyoutTable.setFillParent(true)
+
+		stage.addActor(greyoutTable)
+
+		val cardsTable = Table()
+		greyoutTable.add(cardsTable).grow()
+		greyoutTable.row()
+
+		val buttonTable = Table()
+		greyoutTable.add(buttonTable).growX()
+
+		val flipAllButton = TextButton("Flip All", Global.skin)
+		flipAllButton.addClickListener {
+			for (card in cards)
+			{
+				card.flip(true)
+			}
+
+			buttonTable.clear()
+
+			val takeAllButton = TextButton("Take All", Global.skin)
+			takeAllButton.addClickListener {
+				for (card in cards)
+				{
+					card.pickFuns[0].pickFun(card)
+				}
+			}
+			buttonTable.add(takeAllButton).pad(10f).expandX().right()
+		}
+		buttonTable.add(flipAllButton).pad(10f).expandX().right()
+		flipAllButton.alpha = 0f
+
+		var gatheredLoot = 0
+		for (card in cards)
+		{
+			val oldPick = card.pickFuns[0]
+			card.pickFuns.clear()
+			card.addPick("", {
+				oldPick.pickFun(card)
+
+				card.remove()
+
+				gatheredLoot++
+				if (gatheredLoot == cards.size)
+				{
+					greyoutTable.remove()
+				}
+			})
+
+			stage.addActor(card)
+		}
+
+		val chestClosed = SpriteWidget(AssetManager.loadSprite("Oryx/uf_split/uf_items/chest_gold"), 128f, 128f)
+		val chestOpen = SpriteWidget(AssetManager.loadSprite("Oryx/uf_split/uf_items/chest_gold_open"), 128f, 128f)
+
+		chestClosed.setPosition(stage.width / 2f - 64f, stage.height / 2f - 64f)
+		chestClosed.setSize(128f, 128f)
+		chestClosed.addAction(WobbleAction(0f, 25f, 0.1f, 1.5f))
+		stage.addActor(chestClosed)
+
+		Future.call(
+			{
+				chestClosed.remove()
+
+				chestOpen.setPosition(stage.width / 2f - 64f, stage.height / 2f - 64f)
+				chestOpen.setSize(128f, 128f)
+				stage.addActor(chestOpen)
+
+				Future.call(
+					{
+						val sequence = delay(0.2f) then fadeOut(0.3f) then removeActor()
+						chestOpen.addAction(sequence)
+
+						CardWidget.layoutCards(cards, Direction.CENTER, cardsTable)
+						flipAllButton.alpha = 1f
+					}, 0.2f)
+			}, 1.5f)
 	}
 
 	fun fillPurchasesTable()

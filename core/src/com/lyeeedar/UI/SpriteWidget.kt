@@ -56,7 +56,7 @@ class SpriteWidget(private val drawable: Sprite, val originalWidth: Float, val o
 		val scaleX = scaleX
 		val scaleY = scaleY
 
-		drawable.render(batch, x + imageX, y + imageY, imageWidth * scaleX, imageHeight * scaleY)
+		drawable.render(batch, x + imageX, y + imageY, imageWidth * scaleX, imageHeight * scaleY, 1f, 1f, rotation)
 	}
 
 	override fun getPrefWidth(): Float

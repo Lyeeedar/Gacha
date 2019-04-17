@@ -1,11 +1,10 @@
 package com.lyeeedar.UI
 
-import com.badlogic.gdx.math.Interpolation
-import com.badlogic.gdx.math.Path
-import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.math.*
 import com.badlogic.gdx.scenes.scene2d.Action
 import com.lyeeedar.Util.Random
 import com.lyeeedar.Util.getRotation
+import com.lyeeedar.Util.lerp
 
 class ShakeAction(val amount: Float, val speed: Float, val duration: Float) : Action()
 {
@@ -53,8 +52,21 @@ class LambdaAction(val lambda: ()->Unit) : Action()
 
 fun lambda(lambda: ()->Unit): LambdaAction = LambdaAction(lambda)
 
-class MoteAction(val path: Path<Vector2>, val duration: Float, val interpolation: Interpolation) : Action()
+class MoteAction(val path: Path<Vector2>, val duration: Float, val interpolation: Interpolation, val alignToMovement: Boolean) : Action()
 {
+	constructor(src: Vector2, dst: Vector2, duration: Float, interpolation: Interpolation, alignToMovement: Boolean) : this(Bezier<Vector2>(), duration, interpolation, alignToMovement)
+	{
+		val bezier = path as Bezier<Vector2>
+
+		val dir = Vector2().setToRandomDirection()
+		val p0 = src.cpy()
+		val p1 = Vector2().set(dir).scl(50f + MathUtils.random(125).toFloat()).add(src)
+		val p2 = Vector2().set(src).lerp(dst, 0.8f)
+		val p3 = dst.cpy()
+
+		bezier.set(p0, p1, p2, p3)
+	}
+
 	var time: Float = 0f
 
 	val newPos = Vector2()
@@ -69,10 +81,54 @@ class MoteAction(val path: Path<Vector2>, val duration: Float, val interpolation
 		path.valueAt(newPos, interpAlpha)
 
 		target.setPosition(newPos.x, newPos.y)
-		target.rotation = getRotation(currentPos, newPos)
+
+		if (alignToMovement)
+		{
+			target.rotation = getRotation(currentPos, newPos)
+		}
 
 		return time >= duration
 	}
 }
 
-fun mote(path: Path<Vector2>, duration: Float, interpolation: Interpolation = Interpolation.linear): MoteAction = MoteAction(path, duration, interpolation)
+fun mote(path: Path<Vector2>, duration: Float, interpolation: Interpolation = Interpolation.linear, alignToMovement: Boolean = true): MoteAction
+{
+	return MoteAction(path, duration, interpolation, alignToMovement)
+}
+
+fun mote(src: Vector2, dst: Vector2, duration: Float, interpolation: Interpolation = Interpolation.linear, alignToMovement: Boolean = true): MoteAction
+{
+	return MoteAction(src, dst, duration, interpolation, alignToMovement)
+}
+
+class WobbleAction(val angleStart: Float, val angleEnd: Float, val period: Float, val duration: Float) : Action()
+{
+	var positive = true
+	var currentProgression = 0f
+	var time: Float = 0f
+
+	override fun act(delta: Float): Boolean
+	{
+		time += delta
+
+		currentProgression += delta
+		while (currentProgression >= period)
+		{
+			currentProgression -= period
+			positive = !positive
+		}
+
+		val angle = angleStart.lerp(angleEnd, time / duration)
+
+		target.rotation = if (positive) (-angle).lerp(angle, currentProgression / period) else angle.lerp(-angle, currentProgression / period)
+
+		if (time >= duration)
+		{
+			target.rotation = 0f
+		}
+
+		return time >= duration
+	}
+}
+
+fun wobble(angleStart: Float, angleEnd: Float, period: Float, duration: Float) = WobbleAction(angleStart, angleEnd, period, duration)
