@@ -1,15 +1,20 @@
 package com.lyeeedar.Screens
 
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.math.Bezier
+import com.badlogic.gdx.math.Interpolation
+import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Stack
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable
-import com.lyeeedar.EquipmentWeight
+import com.badlogic.gdx.utils.Array
+import com.lyeeedar.*
 import com.lyeeedar.Game.EquipmentCreator
-import com.lyeeedar.Global
-import com.lyeeedar.MainGame
+import com.lyeeedar.Game.FactionEntity
 import com.lyeeedar.UI.*
 import com.lyeeedar.Util.*
 
@@ -23,9 +28,10 @@ class ShopScreen : AbstractScreen()
 	val equipmentChest = AssetManager.loadSprite("Oryx/Custom/items/chest_equipment", drawActualSize = true)
 	val heroesChest = AssetManager.loadSprite("Oryx/Custom/items/chest_heroes", drawActualSize = true)
 
-	class ShopWare(val wareTable: Table, val cost: Int, val previewTable: Table, val purchaseAction: ()->Unit, val singlePurchase: Boolean)
+	class ShopWare(val wareTable: Table, val cost: Int, val previewTable: Table, val purchaseAction: (Actor)->Unit, val singlePurchase: Boolean)
 	val itemsToBuy = Array2D<ShopWare?>(4, 3) { x,y -> null }
 	val purchasesTable = Table()
+	val navigationBar = NavigationBar(MainGame.ScreenEnum.SHOP)
 
 	override fun create()
 	{
@@ -70,7 +76,7 @@ class ShopScreen : AbstractScreen()
 
 		mainTable.add(shopTable).grow()
 		mainTable.row()
-		mainTable.add(NavigationBar(MainGame.ScreenEnum.SHOP)).growX()
+		mainTable.add(navigationBar).growX()
 	}
 
 	fun createWares()
@@ -83,8 +89,61 @@ class ShopScreen : AbstractScreen()
 
 			val ware = ShopWare(tileTable, (1000 * equip.ascension.multiplier).ciel(), equip.createCardTable(), {
 				Global.data.equipment.add(equip)
+
+				val src = it.localToStageCoordinates(Vector2(24f, 24f))
+
+				val dstTable = navigationBar.screenMap[MainGame.ScreenEnum.HEROES]
+				val dst = dstTable.localToStageCoordinates(Vector2())
+
+				val dir = Vector2().setToRandomDirection()
+				val p0 = src.cpy()
+				val p1 = Vector2().set(dir).scl(50f + MathUtils.random(125).toFloat()).add(src)
+				val p2 = Vector2().set(src).lerp(dst, 0.8f)
+				val p3 = dst.cpy()
+
+				val path = Bezier(p0, p1, p2, p3)
+
+				val widget = MaskedTexture(equip.fullIcon)
+				widget.setSize(48f, 48f)
+				widget.setPosition(p0.x, p0.y)
+				widget.addAction(MoteAction(path, 0.75f, Interpolation.exp5))
+
+				stage.addActor(widget)
 			}, true)
 			itemsToBuy[i, 0] = ware
+		}
+
+		for (i in 0 until 4)
+		{
+			val possibleDrops = Array<FactionEntity>()
+			for (faction in Global.data.unlockedFactions)
+			{
+				for (hero in faction.heroes)
+				{
+					if (Global.data.heroPool.any{ it.factionEntity == hero})
+					{
+						for (i in 0 until hero.rarity.dropRate)
+						{
+							possibleDrops.add(hero)
+						}
+					}
+				}
+			}
+
+			val hero = possibleDrops.random()
+			val ascension = Ascension.getWeightedAscension()
+
+			val tileTable = Table()
+
+			tileTable.add(hero.createTile(48f, ascension)).size(48f).padBottom(42f)
+
+			val detailsTable = hero.createCardTable(ascension)
+
+			val ware = ShopWare(tileTable, (1000 * ascension.multiplier).ciel(), detailsTable, {
+				val heroData = Global.data.heroPool.first { it.factionEntity == hero }
+				heroData.ascensionShards += ascension.shardsRequired / 3
+			}, true)
+			itemsToBuy[i, 1] = ware
 		}
 
 		// 10 equipment
@@ -94,7 +153,18 @@ class ShopScreen : AbstractScreen()
 		val ranEquipFocus = Table()
 
 		val ranEquip = ShopWare(ranEquipTile, 3000, ranEquipFocus, {
+			val cards = Array<CardWidget>()
 
+			for (i in 0 until 10)
+			{
+				val equip = EquipmentCreator.createRandom(1)
+				val card = CardWidget(equip.createCardTable(), equip.createCardTable(), AssetManager.loadTextureRegion("GUI/EquipmentCardback")!!)
+				cards.add(card)
+
+				Global.stage.addActor(card)
+			}
+
+			CardWidget.layoutCards(cards, Direction.CENTER, flip = false)
 		}, false)
 		itemsToBuy[0, 2] = ranEquip
 
@@ -110,7 +180,18 @@ class ShopScreen : AbstractScreen()
 		val ranEquipWeightFocus = Table()
 
 		val ranEquipWeight = ShopWare(ranEquipWeightTile, 4000, ranEquipWeightFocus, {
+			val cards = Array<CardWidget>()
 
+			for (i in 0 until 10)
+			{
+				val equip = EquipmentCreator.createRandom(1, weight = weightChosen)
+				val card = CardWidget(equip.createCardTable(), equip.createCardTable(), AssetManager.loadTextureRegion("GUI/EquipmentCardback")!!)
+				cards.add(card)
+
+				Global.stage.addActor(card)
+			}
+
+			CardWidget.layoutCards(cards, Direction.CENTER, flip = false)
 		}, false)
 		itemsToBuy[1, 2] = ranEquipWeight
 
@@ -181,7 +262,7 @@ class ShopScreen : AbstractScreen()
 							card.addPick("Buy (" + ware.cost.prettyPrint() + " gold)", {
 
 								Global.data.gold -= ware.cost
-								ware.purchaseAction()
+								ware.purchaseAction(purchaseStack)
 
 								if (ware.singlePurchase)
 								{

@@ -9,6 +9,7 @@ import com.lyeeedar.Components.EventAndCondition
 import com.lyeeedar.Game.ActionSequence.ActionSequence
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Util.*
+import squidpony.squidmath.LightRNG
 
 // ----------------------------------------------------------------------
 enum class BlendMode constructor(val src: Int, val dst: Int)
@@ -31,6 +32,24 @@ enum class Ascension(val multiplier: Float, val colour: Colour, val shardsRequir
 	companion object
 	{
 		val Values = Ascension.values()
+
+		fun getWeightedAscension(ran: LightRNG = Random.random): Ascension
+		{
+			val validAscensions = Array<Ascension>(2000)
+			var weightCounter = 1000
+			for (i in 0 until 4)
+			{
+				val ascension = Ascension.Values[i]
+				for (ii in 0 until weightCounter)
+				{
+					validAscensions.add(ascension)
+				}
+
+				weightCounter /= 4
+			}
+			val ascension = validAscensions.random(ran)
+			return ascension
+		}
 	}
 }
 

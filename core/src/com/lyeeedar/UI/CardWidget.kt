@@ -403,7 +403,7 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 			layoutCards(gdxArrayOf(card), enterFrom, dstWidget, animate)
 		}
 
-		fun layoutCards(cardWidgets: Array<CardWidget>, enterFrom: Direction, dstWidget: Table? = null, animate: Boolean = true)
+		fun layoutCards(cardWidgets: Array<CardWidget>, enterFrom: Direction, dstWidget: Table? = null, animate: Boolean = true, flip: Boolean = false)
 		{
 			val areapos = dstWidget?.localToStageCoordinates(Vector2()) ?: Vector2()
 			val areaWidth = dstWidget?.width ?: Global.resolution.x.toFloat()
@@ -529,7 +529,12 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 
 					val delayVal = delay
 					delay += 0.04f
-					val sequence = delay(delayVal) then moveTo(x, y, 0.2f) then delay(0.1f) then lambda { widget.setFacing(true, true); widget.clickable = true }
+					val sequence = delay(delayVal) then moveTo(x, y, 0.2f) then delay(0.1f) then lambda {
+
+						if (flip) widget.setFacing(true, true)
+						widget.clickable = true
+					}
+
 					widget.addAction(sequence)
 				}
 			}
