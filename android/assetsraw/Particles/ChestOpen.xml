@@ -18,12 +18,16 @@
 			<Particles>
 				<Particle>
 					<Lifetime>0.4,1</Lifetime>
-					<VelocityAligned>true</VelocityAligned>
 					<SizeKeyframes>
 						<Stream>
 							<Keyframe>0|0.1|0.3</Keyframe>
 						</Stream>
 					</SizeKeyframes>
+					<RotationSpeedKeyframes>
+						<Stream>
+							<Keyframe>0|-20|20</Keyframe>
+						</Stream>
+					</RotationSpeedKeyframes>
 					<BlendMode>Multiplicative</BlendMode>
 					<TextureKeyframes>
 						<Stream>

@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable
 import com.badlogic.gdx.utils.Array
 import com.lyeeedar.*
+import com.lyeeedar.Game.EntityData
 import com.lyeeedar.Game.EquipmentCreator
 import com.lyeeedar.Game.FactionEntity
 import com.lyeeedar.UI.*
@@ -100,7 +101,18 @@ class ShopScreen : AbstractScreen()
 
 				val widget = MaskedTexture(equip.fullIcon)
 				widget.setSize(48f, 48f)
-				val sequence = parallel(mote(src, dst, 1f, Interpolation.exp5, false), delay(0.8f) then fadeOut(0.2f)) then removeActor()
+
+				val sparkleParticle = ParticleEffectActor(AssetManager.loadParticleEffect("GetEquipment", timeMultiplier = 1.2f).getParticleEffect(), true)
+				sparkleParticle.color = Color.WHITE.cpy().lerp(equip.ascension.colour.color(), 0.3f)
+				sparkleParticle.setSize(dstTable.height, dstTable.height)
+				sparkleParticle.setPosition(dstTable.x + dstTable.width*0.5f - dstTable.height * 0.5f, dstTable.y)
+
+				val sequence =
+					parallel(
+						mote(src, dst, 1f, Interpolation.exp5, false),
+						scaleTo(0.7f, 0.7f, 1f),
+					delay(0.9f) then lambda { stage.addActor(sparkleParticle) } then fadeOut(0.1f)) then
+						removeActor()
 				widget.addAction(sequence)
 
 				stage.addActor(widget)
@@ -153,9 +165,23 @@ class ShopScreen : AbstractScreen()
 
 				for (i in 0 until droppedShards)
 				{
-					val widget = SpriteWidget(AssetManager.loadSprite("Oryx/Custom/items/shard"), 48f, 48f)
-					widget.setSize(48f, 48f)
-					val sequence = mote(src, dst, 1f, Interpolation.exp5, true) then removeActor()
+					val widget = SpriteWidget(AssetManager.loadSprite("Particle/shard"), 16f, 16f)
+					widget.setSize(16f, 16f)
+
+					val chosenDst = dst.cpy()
+					chosenDst.x += dstTable.width * 0.5f * Random.random()
+					chosenDst.y += dstTable.height * 0.5f * Random.random()
+
+					val sparkleParticle = ParticleEffectActor(AssetManager.loadParticleEffect("GetShard", timeMultiplier = 1.2f).getParticleEffect(), true)
+					sparkleParticle.setSize(dstTable.height, dstTable.height)
+					sparkleParticle.setPosition(chosenDst.x - 16f, chosenDst.y - 16f)
+
+					val sequence =
+						parallel(
+							mote(src, chosenDst, 1f + i*0.02f, Interpolation.exp5, true),
+							scaleTo(0.7f, 0.7f, 1f),
+							delay(0.8f + i*0.02f) then lambda { stage.addActor(sparkleParticle) } then fadeOut(0.1f)) then
+							removeActor()
 					widget.addAction(sequence)
 
 					stage.addActor(widget)
@@ -190,7 +216,18 @@ class ShopScreen : AbstractScreen()
 
 					val widget = MaskedTexture(equip.fullIcon)
 					widget.setSize(48f, 48f)
-					val sequence = mote(src, dst, 1f, Interpolation.exp5, false) then removeActor()
+
+					val sparkleParticle = ParticleEffectActor(AssetManager.loadParticleEffect("GetEquipment", timeMultiplier = 1.2f).getParticleEffect(), true)
+					sparkleParticle.color = Color.WHITE.cpy().lerp(equip.ascension.colour.color(), 0.3f)
+					sparkleParticle.setSize(dstTable.height, dstTable.height)
+					sparkleParticle.setPosition(dstTable.x + dstTable.width*0.5f - dstTable.height * 0.5f, dstTable.y)
+
+					val sequence =
+						parallel(
+							mote(src, dst, 1f, Interpolation.exp5, false),
+							scaleTo(0.7f, 0.7f, 1f),
+							delay(0.9f) then lambda { stage.addActor(sparkleParticle) } then fadeOut(0.1f)) then
+							removeActor()
 					widget.addAction(sequence)
 
 					stage.addActor(widget)
@@ -232,7 +269,18 @@ class ShopScreen : AbstractScreen()
 
 					val widget = MaskedTexture(equip.fullIcon)
 					widget.setSize(48f, 48f)
-					val sequence = mote(src, dst, 1f, Interpolation.exp5, false) then removeActor()
+
+					val sparkleParticle = ParticleEffectActor(AssetManager.loadParticleEffect("GetEquipment", timeMultiplier = 1.2f).getParticleEffect(), true)
+					sparkleParticle.color = Color.WHITE.cpy().lerp(equip.ascension.colour.color(), 0.3f)
+					sparkleParticle.setSize(dstTable.height, dstTable.height)
+					sparkleParticle.setPosition(dstTable.x + dstTable.width*0.5f - dstTable.height * 0.5f, dstTable.y)
+
+					val sequence =
+						parallel(
+							mote(src, dst, 1f, Interpolation.exp5, false),
+							scaleTo(0.7f, 0.7f, 1f),
+							delay(0.9f) then lambda { stage.addActor(sparkleParticle) } then fadeOut(0.1f)) then
+							removeActor()
 					widget.addAction(sequence)
 
 					stage.addActor(widget)
@@ -251,7 +299,78 @@ class ShopScreen : AbstractScreen()
 		val ranHeroFocus = Table()
 
 		val ranHero = ShopWare(ranHeroTile, 3000, ranHeroFocus, {
+			val cards = Array<CardWidget>()
 
+			for (i in 0 until 9)
+			{
+				val possibleDrops = Array<FactionEntity>()
+				for (faction in Global.data.unlockedFactions)
+				{
+					for (hero in faction.heroes)
+					{
+						for (i in 0 until hero.rarity.dropRate)
+						{
+							possibleDrops.add(hero)
+						}
+					}
+				}
+
+				val hero = possibleDrops.random()
+				var heroData = Global.data.heroPool.firstOrNull { it.factionEntity == hero }
+
+				var ascension = Ascension.getWeightedAscension()
+				if (heroData == null)
+				{
+					ascension = Ascension.MUNDANE
+					heroData = EntityData(hero, ascension, 1)
+					Global.data.heroPool.add(heroData)
+				}
+				else if (ascension.ordinal >= heroData.ascension.ordinal)
+				{
+					val newOrdinal = max(0, heroData.ascension.ordinal-1)
+					ascension = Ascension.Values[newOrdinal]
+				}
+
+				val card = CardWidget(hero.createCardTable(ascension), hero.createCardTable(ascension), AssetManager.loadTextureRegion("GUI/EquipmentCardback")!!)
+				card.canZoom = false
+				card.addPick("", {
+
+					val droppedShards = max(1, ascension.shardsRequired / 3)
+					heroData!!.ascensionShards += droppedShards
+
+					val src = it.localToStageCoordinates(Vector2(24f, 24f))
+
+					val dstTable = navigationBar.screenMap[MainGame.ScreenEnum.HEROES]
+					val dst = dstTable.localToStageCoordinates(Vector2())
+
+					for (i in 0 until droppedShards)
+					{
+						val widget = SpriteWidget(AssetManager.loadSprite("Particle/shard"), 16f, 16f)
+						widget.setSize(16f, 16f)
+
+						val chosenDst = dst.cpy()
+						chosenDst.x += dstTable.width * 0.5f * Random.random()
+						chosenDst.y += dstTable.height * 0.5f * Random.random()
+
+						val sparkleParticle = ParticleEffectActor(AssetManager.loadParticleEffect("GetShard", timeMultiplier = 1.2f).getParticleEffect(), true)
+						sparkleParticle.setSize(dstTable.height, dstTable.height)
+						sparkleParticle.setPosition(chosenDst.x - 16f, chosenDst.y - 16f)
+
+						val sequence =
+							parallel(
+								mote(src, chosenDst, 1f + i*0.02f, Interpolation.exp5, true),
+								scaleTo(0.7f, 0.7f, 1f),
+								delay(0.8f + i*0.02f) then lambda { stage.addActor(sparkleParticle) } then fadeOut(0.1f)) then
+								removeActor()
+						widget.addAction(sequence)
+
+						stage.addActor(widget)
+					}
+				})
+				cards.add(card)
+			}
+
+			displayLoot(cards)
 		}, false)
 		itemsToBuy[2, 2] = ranHero
 
@@ -267,7 +386,75 @@ class ShopScreen : AbstractScreen()
 		val ranHeroWeightFocus = Table()
 
 		val ranHeroWeight = ShopWare(ranHeroWeightTile, 4000, ranHeroWeightFocus, {
+			val cards = Array<CardWidget>()
 
+			for (i in 0 until 9)
+			{
+				val possibleDrops = Array<FactionEntity>()
+				for (hero in faction.heroes)
+				{
+					for (i in 0 until hero.rarity.dropRate)
+					{
+						possibleDrops.add(hero)
+					}
+				}
+
+				val hero = possibleDrops.random()
+				var heroData = Global.data.heroPool.firstOrNull { it.factionEntity == hero }
+
+				var ascension = Ascension.getWeightedAscension()
+				if (heroData == null)
+				{
+					ascension = Ascension.MUNDANE
+					heroData = EntityData(hero, ascension, 1)
+					Global.data.heroPool.add(heroData)
+				}
+				else if (ascension.ordinal >= heroData!!.ascension.ordinal)
+				{
+					val newOrdinal = max(0, heroData!!.ascension.ordinal-1)
+					ascension = Ascension.Values[newOrdinal]
+				}
+
+				val card = CardWidget(hero.createCardTable(ascension), hero.createCardTable(ascension), AssetManager.loadTextureRegion("GUI/EquipmentCardback")!!)
+				card.canZoom = false
+				card.addPick("", {
+
+					val droppedShards = max(1, ascension.shardsRequired / 3)
+					heroData!!.ascensionShards += droppedShards
+
+					val src = it.localToStageCoordinates(Vector2(24f, 24f))
+
+					val dstTable = navigationBar.screenMap[MainGame.ScreenEnum.HEROES]
+					val dst = dstTable.localToStageCoordinates(Vector2())
+
+					for (i in 0 until droppedShards)
+					{
+						val widget = SpriteWidget(AssetManager.loadSprite("Particle/shard"), 16f, 16f)
+						widget.setSize(16f, 16f)
+
+						val chosenDst = dst.cpy()
+						chosenDst.x += dstTable.width * 0.5f * Random.random()
+						chosenDst.y += dstTable.height * 0.5f * Random.random()
+
+						val sparkleParticle = ParticleEffectActor(AssetManager.loadParticleEffect("GetShard", timeMultiplier = 1.2f).getParticleEffect(), true)
+						sparkleParticle.setSize(dstTable.height, dstTable.height)
+						sparkleParticle.setPosition(chosenDst.x - 16f, chosenDst.y - 16f)
+
+						val sequence =
+							parallel(
+								mote(src, chosenDst, 1f + i*0.02f, Interpolation.exp5, true),
+								scaleTo(0.7f, 0.7f, 1f),
+								delay(0.8f + i*0.02f) then lambda { stage.addActor(sparkleParticle) } then fadeOut(0.1f)) then
+								removeActor()
+						widget.addAction(sequence)
+
+						stage.addActor(widget)
+					}
+				})
+				cards.add(card)
+			}
+
+			displayLoot(cards)
 		}, false)
 		itemsToBuy[3, 2] = ranHeroWeight
 	}
@@ -290,18 +477,24 @@ class ShopScreen : AbstractScreen()
 
 		val flipAllButton = TextButton("Flip All", Global.skin)
 		flipAllButton.addClickListener {
+
+			var i = 0
 			for (card in cards)
 			{
-				card.flip(true)
+				Future.call({card.flip(true)}, i * 0.05f)
+				i++
 			}
 
 			buttonTable.clear()
 
 			val takeAllButton = TextButton("Take All", Global.skin)
 			takeAllButton.addClickListener {
+
+				var i = 0
 				for (card in cards)
 				{
-					card.pickFuns[0].pickFun(card)
+					Future.call({card.pickFuns[0].pickFun(card)}, i * 0.05f)
+					i++
 				}
 			}
 			buttonTable.add(takeAllButton).pad(10f).expandX().right()
