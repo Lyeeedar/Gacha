@@ -11,8 +11,6 @@ import com.lyeeedar.Util.lerp
 
 class ParticleEffectActor(val effect: ParticleEffect, val removeOnCompletion: Boolean) : Widget()
 {
-	val shape: ShapeRenderer by lazy { ShapeRenderer() }
-
 	var acted = false
 	override fun act(delta: Float)
 	{
@@ -153,17 +151,13 @@ class ParticleEffectActor(val effect: ParticleEffect, val removeOnCompletion: Bo
 			}
 		}
 
-		if (debug)
-		{
-			shape.projectionMatrix = stage.camera.combined
-			shape.setAutoShapeType(true)
-			shape.begin()
-
-			effect.debug(shape, 0f, 0f, width, true, true, true)
-
-			shape.end()
-		}
-
 		super.draw(batch, parentAlpha)
+	}
+
+	override fun drawDebug(shapes: ShapeRenderer)
+	{
+		effect.debug(shapes, 0f, 0f, width, true, true, true)
+
+		super.drawDebug(shapes)
 	}
 }

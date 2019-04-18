@@ -147,9 +147,10 @@ class AssetManager
 			return region
 		}
 
-		fun loadParticleEffect(name: String, flipX: Boolean = false, flipY: Boolean = false, scale: Float = 1f, useFacing: Boolean = true, timeMultiplier: Float = 1f, killOnAnimComplete: Boolean = false): ParticleEffectDescription
+		fun loadParticleEffect(name: String, colour: Colour = Colour.WHITE, flipX: Boolean = false, flipY: Boolean = false, scale: Float = 1f, useFacing: Boolean = true, timeMultiplier: Float = 1f, killOnAnimComplete: Boolean = false): ParticleEffectDescription
 		{
 			val effect = ParticleEffectDescription(name)
+			effect.colour.set(colour)
 			effect.flipX = flipX
 			effect.flipY = flipY
 			effect.scale = scale

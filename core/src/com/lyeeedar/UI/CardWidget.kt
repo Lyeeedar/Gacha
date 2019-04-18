@@ -39,10 +39,15 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 
 	val pickFuns = Array<Pick>()
 	var collapseFun: (() -> Unit)? = null
+	var flipFun: (() -> Unit)? = null
 
-	private var faceup = false
+	var flipEffect: ParticleEffectActor? = null
+	var flipDelay = 0f
+
+	var faceup = false
 	private var flipping = false
 	private var fullscreen = false
+	var isPicked = false
 
 	var clickable = true
 
@@ -232,6 +237,8 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 
 		val nextTable = if (faceup) backTable else frontTable
 		val flipFun = fun () {
+			this.flipFun?.invoke()
+
 			contentTable.clearChildren()
 			contentTable.add(nextTable).grow()
 			flipping = false
@@ -248,10 +255,18 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 
 		if (animate)
 		{
+			if (flipEffect != null)
+			{
+				flipEffect!!.setSize(width, height)
+				flipEffect!!.setPosition(x, y)
+				stage.addActor(flipEffect)
+				toFront()
+			}
+
 			val scale = contentTable.scaleX
-			val speed = 0.2f
+			val duration = 0.2f
 			animating = true
-			val sequence = scaleTo(0f, scale, speed) then lambda { flipFun() } then scaleTo(scale, scale, speed) then lambda{ animating = false }
+			val sequence = delay(flipDelay) then scaleTo(0f, scale, duration) then lambda { flipFun() } then scaleTo(scale, scale, duration) then lambda{ animating = false }
 			contentTable.addAction(sequence)
 		}
 		else

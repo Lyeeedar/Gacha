@@ -32,7 +32,7 @@ class ShopScreen : AbstractScreen()
 	val equipmentChest = AssetManager.loadSprite("Oryx/Custom/items/chest_equipment", drawActualSize = true)
 	val heroesChest = AssetManager.loadSprite("Oryx/Custom/items/chest_heroes", drawActualSize = true)
 
-	class ShopWare(val wareTable: Table, val cost: Int, val previewTable: Table, val purchaseAction: (Actor)->Unit, val singlePurchase: Boolean)
+	class ShopWare(val wareTable: Table, val cost: Int, val previewTable: Table, val ascension: Ascension, val purchaseAction: (Actor)->Unit, val singlePurchase: Boolean)
 	val itemsToBuy = Array2D<ShopWare?>(4, 3) { x,y -> null }
 	val purchasesTable = Table()
 	val navigationBar = NavigationBar(MainGame.ScreenEnum.SHOP)
@@ -91,7 +91,7 @@ class ShopScreen : AbstractScreen()
 			val tileTable = Table()
 			tileTable.add(equip.createTile(48f)).size(48f).padBottom(42f)
 
-			val ware = ShopWare(tileTable, (1000 * equip.ascension.multiplier).ciel(), equip.createCardTable(), {
+			val ware = ShopWare(tileTable, (1000 * equip.ascension.multiplier).ciel(), equip.createCardTable(), equip.ascension, {
 				Global.data.equipment.add(equip)
 
 				val src = it.localToStageCoordinates(Vector2(24f, 24f))
@@ -153,7 +153,7 @@ class ShopScreen : AbstractScreen()
 
 			val detailsTable = hero.createCardTable(ascension)
 
-			val ware = ShopWare(tileTable, (1000 * ascension.multiplier).ciel(), detailsTable, {
+			val ware = ShopWare(tileTable, (1000 * ascension.multiplier).ciel(), detailsTable, ascension, {
 
 				val droppedShards = max(1, ascension.shardsRequired / 3)
 				heroData.ascensionShards += droppedShards
@@ -197,13 +197,13 @@ class ShopScreen : AbstractScreen()
 
 		val ranEquipFocus = Table()
 
-		val ranEquip = ShopWare(ranEquipTile, 3000, ranEquipFocus, {
+		val ranEquip = ShopWare(ranEquipTile, 3000, ranEquipFocus, Ascension.EXTRAORDINARY, {
 			val cards = Array<CardWidget>()
 
 			for (i in 0 until 9)
 			{
 				val equip = EquipmentCreator.createRandom(1)
-				val card = CardWidget(equip.createCardTable(), equip.createCardTable(), AssetManager.loadTextureRegion("GUI/EquipmentCardback")!!)
+				val card = CardWidget(equip.createCardTable(), equip.createCardTable(), AssetManager.loadTextureRegion("GUI/EquipmentCardback")!!, border = equip.ascension.colour)
 				card.canZoom = false
 				card.addPick("", {
 
@@ -233,6 +233,15 @@ class ShopScreen : AbstractScreen()
 					stage.addActor(widget)
 				})
 				cards.add(card)
+
+				if (equip.ascension != Ascension.MUNDANE)
+				{
+					val highestAscension = Ascension.FABLED
+					val alpha = equip.ascension.ordinal.toFloat() / highestAscension.ordinal.toFloat()
+
+					card.flipEffect = ParticleEffectActor(AssetManager.loadParticleEffect("FlipCard", colour = equip.ascension.colour.copy().a(0.5f + 0.5f * alpha), scale = (0.8f + 0.2f * alpha), timeMultiplier = (1f / (2f * alpha))).getParticleEffect(), true)
+					card.flipDelay = 2f * alpha
+				}
 			}
 
 			displayLoot(cards)
@@ -250,13 +259,13 @@ class ShopScreen : AbstractScreen()
 
 		val ranEquipWeightFocus = Table()
 
-		val ranEquipWeight = ShopWare(ranEquipWeightTile, 4000, ranEquipWeightFocus, {
+		val ranEquipWeight = ShopWare(ranEquipWeightTile, 4000, ranEquipWeightFocus, Ascension.LEGENDARY, {
 			val cards = Array<CardWidget>()
 
 			for (i in 0 until 9)
 			{
 				val equip = EquipmentCreator.createRandom(1, weight = weightChosen)
-				val card = CardWidget(equip.createCardTable(), equip.createCardTable(), AssetManager.loadTextureRegion("GUI/EquipmentCardback")!!)
+				val card = CardWidget(equip.createCardTable(), equip.createCardTable(), AssetManager.loadTextureRegion("GUI/EquipmentCardback")!!, border = equip.ascension.colour)
 				card.canZoom = false
 				card.addPick("", {
 
@@ -286,6 +295,15 @@ class ShopScreen : AbstractScreen()
 					stage.addActor(widget)
 				})
 				cards.add(card)
+
+				if (equip.ascension != Ascension.MUNDANE)
+				{
+					val highestAscension = Ascension.FABLED
+					val alpha = equip.ascension.ordinal.toFloat() / highestAscension.ordinal.toFloat()
+
+					card.flipEffect = ParticleEffectActor(AssetManager.loadParticleEffect("FlipCard", colour = equip.ascension.colour.copy().a(0.5f + 0.5f * alpha), scale = (0.8f + 0.2f * alpha), timeMultiplier = (1f / (2f * alpha))).getParticleEffect(), true)
+					card.flipDelay = 2f * alpha
+				}
 			}
 
 			displayLoot(cards)
@@ -298,7 +316,7 @@ class ShopScreen : AbstractScreen()
 
 		val ranHeroFocus = Table()
 
-		val ranHero = ShopWare(ranHeroTile, 3000, ranHeroFocus, {
+		val ranHero = ShopWare(ranHeroTile, 3000, ranHeroFocus, Ascension.EXTRAORDINARY, {
 			val cards = Array<CardWidget>()
 
 			for (i in 0 until 9)
@@ -308,7 +326,8 @@ class ShopScreen : AbstractScreen()
 				{
 					for (hero in faction.heroes)
 					{
-						for (i in 0 until hero.rarity.dropRate)
+						val extraWeight = if (Global.data.heroPool.any{ it.factionEntity == hero}) 2 else 1
+						for (i in 0 until hero.rarity.dropRate * extraWeight)
 						{
 							possibleDrops.add(hero)
 						}
@@ -331,7 +350,7 @@ class ShopScreen : AbstractScreen()
 					ascension = Ascension.Values[newOrdinal]
 				}
 
-				val card = CardWidget(hero.createCardTable(ascension), hero.createCardTable(ascension), AssetManager.loadTextureRegion("GUI/EquipmentCardback")!!)
+				val card = CardWidget(hero.createCardTable(ascension), hero.createCardTable(ascension), AssetManager.loadTextureRegion("GUI/CharacterCardback")!!, border = ascension.colour)
 				card.canZoom = false
 				card.addPick("", {
 
@@ -368,6 +387,15 @@ class ShopScreen : AbstractScreen()
 					}
 				})
 				cards.add(card)
+
+				if (ascension != Ascension.MUNDANE)
+				{
+					val highestAscension = Ascension.FABLED
+					val alpha = ascension.ordinal.toFloat() / highestAscension.ordinal.toFloat()
+
+					card.flipEffect = ParticleEffectActor(AssetManager.loadParticleEffect("FlipCard", colour = ascension.colour.copy().a(0.5f + 0.5f * alpha), scale = (0.8f + 0.2f * alpha), timeMultiplier = (1f / (2f * alpha))).getParticleEffect(), true)
+					card.flipDelay = 2f * alpha
+				}
 			}
 
 			displayLoot(cards)
@@ -385,7 +413,7 @@ class ShopScreen : AbstractScreen()
 
 		val ranHeroWeightFocus = Table()
 
-		val ranHeroWeight = ShopWare(ranHeroWeightTile, 4000, ranHeroWeightFocus, {
+		val ranHeroWeight = ShopWare(ranHeroWeightTile, 4000, ranHeroWeightFocus, Ascension.LEGENDARY, {
 			val cards = Array<CardWidget>()
 
 			for (i in 0 until 9)
@@ -393,7 +421,8 @@ class ShopScreen : AbstractScreen()
 				val possibleDrops = Array<FactionEntity>()
 				for (hero in faction.heroes)
 				{
-					for (i in 0 until hero.rarity.dropRate)
+					val extraWeight = if (Global.data.heroPool.any{ it.factionEntity == hero}) 2 else 1
+					for (i in 0 until hero.rarity.dropRate * extraWeight)
 					{
 						possibleDrops.add(hero)
 					}
@@ -415,7 +444,7 @@ class ShopScreen : AbstractScreen()
 					ascension = Ascension.Values[newOrdinal]
 				}
 
-				val card = CardWidget(hero.createCardTable(ascension), hero.createCardTable(ascension), AssetManager.loadTextureRegion("GUI/EquipmentCardback")!!)
+				val card = CardWidget(hero.createCardTable(ascension), hero.createCardTable(ascension), AssetManager.loadTextureRegion("GUI/CharacterCardback")!!, border = ascension.colour)
 				card.canZoom = false
 				card.addPick("", {
 
@@ -452,6 +481,15 @@ class ShopScreen : AbstractScreen()
 					}
 				})
 				cards.add(card)
+
+				if (ascension != Ascension.MUNDANE)
+				{
+					val highestAscension = Ascension.FABLED
+					val alpha = ascension.ordinal.toFloat() / highestAscension.ordinal.toFloat()
+
+					card.flipEffect = ParticleEffectActor(AssetManager.loadParticleEffect("FlipCard", colour = ascension.colour.copy().a(0.5f + 0.5f * alpha), scale = (0.8f + 0.2f * alpha), timeMultiplier = (1f / (2f * alpha))).getParticleEffect(), true)
+					card.flipDelay = 2f * alpha
+				}
 			}
 
 			displayLoot(cards)
@@ -481,26 +519,43 @@ class ShopScreen : AbstractScreen()
 			var i = 0
 			for (card in cards)
 			{
-				Future.call({card.flip(true)}, i * 0.05f)
-				i++
-			}
-
-			buttonTable.clear()
-
-			val takeAllButton = TextButton("Take All", Global.skin)
-			takeAllButton.addClickListener {
-
-				var i = 0
-				for (card in cards)
+				if (!card.faceup)
 				{
-					Future.call({card.pickFuns[0].pickFun(card)}, i * 0.05f)
+					Future.call({ card.flip(true) }, i * 0.05f)
 					i++
 				}
 			}
-			buttonTable.add(takeAllButton).pad(10f).expandX().right()
 		}
 		buttonTable.add(flipAllButton).pad(10f).expandX().right()
 		flipAllButton.alpha = 0f
+
+		var flippedCards = 0
+		for (card in cards)
+		{
+			card.flipFun = {
+				flippedCards++
+				if (flippedCards == cards.size)
+				{
+					buttonTable.clear()
+
+					val takeAllButton = TextButton("Take All", Global.skin)
+					takeAllButton.addClickListener {
+
+						var i = 0
+						for (card in cards)
+						{
+							if (!card.isPicked)
+							{
+								Future.call({ card.pickFuns[0].pickFun(card) }, i * 0.05f)
+								i++
+							}
+							card.isPicked = true
+						}
+					}
+					buttonTable.add(takeAllButton).pad(10f).expandX().right()
+				}
+			}
+		}
 
 		var gatheredLoot = 0
 		for (card in cards)
@@ -508,6 +563,7 @@ class ShopScreen : AbstractScreen()
 			val oldPick = card.pickFuns[0]
 			card.pickFuns.clear()
 			card.addPick("", {
+				card.isPicked = true
 				oldPick.pickFun(card)
 
 				card.remove()
@@ -587,7 +643,7 @@ class ShopScreen : AbstractScreen()
 					purchaseStack.addTable(costLabel).expand().bottom().padBottom(24f)
 
 					purchaseStack.addClickListener {
-						val card = CardWidget(ware.previewTable, ware.previewTable, AssetManager.loadTextureRegion("GUI/MoneyCardback")!!)
+						val card = CardWidget(ware.previewTable, ware.previewTable, AssetManager.loadTextureRegion("GUI/MoneyCardback")!!, border = ware.ascension.colour)
 						card.setFacing(true, false)
 						card.setPosition(purchaseStack.x + purchaseStack.width / 2f, purchaseStack.y + purchaseStack.height)
 						card.setSize(48f, 48f)

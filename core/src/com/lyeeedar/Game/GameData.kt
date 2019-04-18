@@ -19,7 +19,7 @@ class GameData
 
 	val lastSelectedHeroes = kotlin.Array<String?>(5) { null }
 
-	var experience = 100000
+	var experience = 0
 	var gold = 350000
 }
 
@@ -31,7 +31,7 @@ class EntityData()
 
 	val equipment = FastEnumMap<EquipmentSlot, Equipment>(EquipmentSlot::class.java)
 
-	var ascensionShards = 10
+	var ascensionShards = 0
 
 	constructor(entity: FactionEntity, ascension: Ascension, level: Int) : this()
 	{
