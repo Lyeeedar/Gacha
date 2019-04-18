@@ -244,8 +244,8 @@ class ParticleEffect(val description: ParticleEffectDescription) : Renderable()
 			val ex = emitterx + temp.x * tileSize
 			val ey = emittery + temp.y * tileSize
 
-			val w = emitter.width * tileSize * emitter.size.x
-			val h = emitter.height * tileSize * emitter.size.y
+			val w = emitter.width * tileSize * emitter.size.x * emitter.currentSize
+			val h = emitter.height * tileSize * emitter.size.y * emitter.currentSize
 
 			val w2 = w * 0.5f
 			val h2 = h * 0.5f

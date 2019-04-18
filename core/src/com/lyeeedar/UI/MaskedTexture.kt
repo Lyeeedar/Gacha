@@ -38,7 +38,7 @@ class MaskedTexture(val base: TextureRegion, val mask: TextureRegion, val layer1
 	override fun draw(batch: Batch, parentAlpha: Float)
 	{
 		batch.shader = shader
-		batch.color = Color(1f, 1f, 1f, parentAlpha)
+		batch.color = Color(color.r, color.g, color.b, color.a * parentAlpha)
 
 		batch.draw(base, x + imageX, y + imageY, imageWidth/2f, imageHeight/2f, imageWidth, imageHeight, 1f, 1f, rotation)
 

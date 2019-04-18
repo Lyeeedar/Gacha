@@ -137,9 +137,14 @@ class Zone(val seed: Long)
 		while (true)
 		{
 			val alpha = progression.toFloat() / numEncounters.toFloat()
-			val level = levelRange.min.lerp(levelRange.max, alpha).toInt()
+			val level = levelRange.min.lerp(levelRange.max, alpha)
 
 			current.encounter = createEncounter(level, progression)
+
+			if (((progression+1) % 10) == 0)
+			{
+				current.isBoss = true
+			}
 
 			if (current.nextTile == null)
 			{
@@ -160,7 +165,7 @@ class Zone(val seed: Long)
 		}
 	}
 
-	fun createEncounter(level: Int, progression: Int): Encounter
+	fun createEncounter(level: Float, progression: Int): Encounter
 	{
 		val entities = Array<FactionEntity>()
 		for (faction in factions)
@@ -181,9 +186,18 @@ class Zone(val seed: Long)
 		val encounter = Encounter()
 		encounter.gridEl = possibleLevels.random(ran)
 
+		val levels = kotlin.Array<Int>(5) { level.toInt() }
+		val levelRaisedPool = (0..4).toGdxArray()
+		var remainder = level - levels[0]
+		while (remainder >= 0.2f)
+		{
+			remainder -= 0.2f
+			levels[levelRaisedPool.removeRandom(ran)]++
+		}
+
 		for (i in 0 until 5)
 		{
-			val level = max(1, level + ran.nextInt(-3, 3))
+			val level = levels[i]
 			val heroData = entities.removeRandom(ran)
 			val entityData = EntityData(heroData, Ascension.MUNDANE, level)
 
@@ -244,6 +258,7 @@ class ZoneTile(x: Int, y: Int) : Point(x, y), IPathfindingTile
 	var isEncounter = false
 	var isComplete = false
 	var isCurrent = false
+	var isBoss = false
 
 	var nextTile: ZoneTile? = null
 	var encounter: Encounter? = null
@@ -270,6 +285,18 @@ class ZoneTile(x: Int, y: Int) : Point(x, y), IPathfindingTile
 			{
 				flagSprite = AssetManager.loadSprite("Oryx/Custom/terrain/flag_enemy", drawActualSize = true)
 				flagSprite!!.randomiseAnimation()
+			}
+
+			if (isBoss)
+			{
+				flagSprite!!.baseScale[0] = 1.5f
+				flagSprite!!.baseScale[1] = 1.5f
+				flagSprite!!.colour = Colour(1f, 0.9f, 0.9f, 1f)
+			}
+			else
+			{
+				//flagSprite!!.baseScale[0] = 0.8f
+				//flagSprite!!.baseScale[1] = 0.8f
 			}
 		}
 	}

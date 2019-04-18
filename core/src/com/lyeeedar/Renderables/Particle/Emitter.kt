@@ -16,7 +16,8 @@ import com.lyeeedar.Util.lerp
 class EmitterKeyframe(
 	val time: Float = 0f,
 	val offset: Vector2 = Vector2(),
-	val emissionRate: Float = 0f)
+	val emissionRate: Float = 0f,
+	val size: Float = 1f)
 {
 
 }
@@ -102,6 +103,7 @@ class Emitter(val particleEffect: ParticleEffect)
 	var emitted = false
 	var stopped = false
 
+	var currentSize = 1f
 	val currentOffset = Vector2()
 	val tempOffset = Vector2()
 
@@ -170,6 +172,7 @@ class Emitter(val particleEffect: ParticleEffect)
 		keyframeAlpha = alpha
 
 		currentOffset.set(keyframe1.offset).lerp(keyframe2.offset, keyframeAlpha)
+		currentSize = keyframe1.size.lerp(keyframe2.size, keyframeAlpha)
 
 		if (!stopped || (singleBurst && !emitted))
 		{
@@ -325,6 +328,9 @@ class Emitter(val particleEffect: ParticleEffect)
 
 	fun spawnCone(): Vector2
 	{
+		val width = width * currentSize
+		val height = height * currentSize
+
 		if (area == EmissionArea.INTERIOR)
 		{
 			val angle = -width*0.5f + Random.random() * width
@@ -348,6 +354,9 @@ class Emitter(val particleEffect: ParticleEffect)
 
 	fun spawnCircle(): Vector2
 	{
+		val width = width * currentSize
+		val height = height * currentSize
+
 		if (area == EmissionArea.INTERIOR)
 		{
 			val ranVal = Random.random()
@@ -373,6 +382,9 @@ class Emitter(val particleEffect: ParticleEffect)
 
 	fun spawnBox(): Vector2
 	{
+		val width = width * currentSize
+		val height = height * currentSize
+
 		if (area == EmissionArea.BORDER)
 		{
 			val w2 = width/2f
@@ -457,6 +469,8 @@ class Emitter(val particleEffect: ParticleEffect)
 			output.writeFloat(keyframe.offset.y)
 
 			output.writeFloat(keyframe.emissionRate)
+
+			output.writeFloat(keyframe.size)
 		}
 
 		output.writeBoolean(singleBurst)
@@ -501,8 +515,9 @@ class Emitter(val particleEffect: ParticleEffect)
 			val offsetx = input.readFloat()
 			val offsety = input.readFloat()
 			val rate = input.readFloat()
+			val size = input.readFloat()
 
-			keyframes[i] = EmitterKeyframe(time, Vector2(offsetx, offsety), rate)
+			keyframes[i] = EmitterKeyframe(time, Vector2(offsetx, offsety), rate, size)
 		}
 
 		singleBurst = input.readBoolean()
@@ -577,12 +592,25 @@ class Emitter(val particleEffect: ParticleEffect)
 			val rateEls = xml.getChildByName("RateKeyframes")!!
 			emissionRate.parse(rateEls, { it.toFloat() })
 
+			val sizeMultiplier = LerpTimeline()
+			val sizeEls = xml.getChildByName("SizeMultiplier")
+			if (sizeEls != null)
+			{
+				sizeMultiplier.parse(sizeEls, { it.toFloat() })
+			}
+			else
+			{
+				sizeMultiplier.streams.add(Array())
+				sizeMultiplier.streams[0].add(Pair(0f, 1f))
+			}
+
 			emitter.emissionStart = emissionRate.streams[0][0].first
 
 			// Make map of times
 			val times = ObjectSet<Float>()
 			for (keyframe in offset.streams.flatMap { it }) { times.add(keyframe.first) }
 			for (keyframe in emissionRate.streams.flatMap { it }) { times.add(keyframe.first) }
+			for (keyframe in sizeMultiplier.streams.flatMap { it }) { times.add(keyframe.first) }
 
 			val keyframes = kotlin.Array<EmitterKeyframe>(times.size) { i -> EmitterKeyframe() }
 			var keyframeI = 0
@@ -591,7 +619,8 @@ class Emitter(val particleEffect: ParticleEffect)
 				val keyframe = EmitterKeyframe(
 					time,
 					offset.valAt(0, time),
-					emissionRate.valAt(0, time))
+					emissionRate.valAt(0, time),
+					sizeMultiplier.valAt(0, time))
 				keyframes[keyframeI++] = keyframe
 			}
 			emitter.keyframes = keyframes

@@ -100,7 +100,7 @@ class ShopScreen : AbstractScreen()
 
 				val widget = MaskedTexture(equip.fullIcon)
 				widget.setSize(48f, 48f)
-				val sequence = mote(src, dst, 1f, Interpolation.exp5, false) then removeActor()
+				val sequence = parallel(mote(src, dst, 1f, Interpolation.exp5, false), delay(0.8f) then fadeOut(0.2f)) then removeActor()
 				widget.addAction(sequence)
 
 				stage.addActor(widget)
@@ -325,8 +325,6 @@ class ShopScreen : AbstractScreen()
 					greyoutTable.remove()
 				}
 			})
-
-			stage.addActor(card)
 		}
 
 		val chestClosed = SpriteWidget(AssetManager.loadSprite("Oryx/uf_split/uf_items/chest_gold"), 128f, 128f)
@@ -334,14 +332,8 @@ class ShopScreen : AbstractScreen()
 
 		chestClosed.setPosition(stage.width / 2f - 64f, stage.height / 2f - 64f)
 		chestClosed.setSize(128f, 128f)
-		chestClosed.addAction(WobbleAction(0f, 25f, 0.1f, 1.5f))
+		chestClosed.addAction(WobbleAction(0f, 35f, 0.1f, 2f))
 		stage.addActor(chestClosed)
-
-		val effect = AssetManager.loadParticleEffect("ChestOpen").getParticleEffect()
-		val particleActor = ParticleEffectActor(effect, true)
-		particleActor.setSize(128f, 128f)
-		particleActor.setPosition(stage.width / 2f - 64f, stage.height / 2f - 64f)
-		stage.addActor(particleActor)
 
 		Future.call(
 			{
@@ -351,15 +343,26 @@ class ShopScreen : AbstractScreen()
 				chestOpen.setSize(128f, 128f)
 				stage.addActor(chestOpen)
 
+				val effect = AssetManager.loadParticleEffect("ChestOpen").getParticleEffect()
+				val particleActor = ParticleEffectActor(effect, true)
+				particleActor.setSize(128f, 128f)
+				particleActor.setPosition(stage.width / 2f - 64f, stage.height / 2f - 64f)
+				stage.addActor(particleActor)
+
 				Future.call(
 					{
 						val sequence = delay(0.2f) then fadeOut(0.3f) then removeActor()
 						chestOpen.addAction(sequence)
 
-						CardWidget.layoutCards(cards, Direction.CENTER, cardsTable)
+						for (card in cards)
+						{
+							stage.addActor(card)
+						}
+
+						CardWidget.layoutCards(cards, Direction.CENTER, cardsTable, startScale = 0.3f)
 						flipAllButton.alpha = 1f
-					}, 0.2f)
-			}, 1.5f)
+					}, 0.4f)
+			}, 2f)
 	}
 
 	fun fillPurchasesTable()

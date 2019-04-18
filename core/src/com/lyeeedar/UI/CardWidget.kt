@@ -403,7 +403,7 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 			layoutCards(gdxArrayOf(card), enterFrom, dstWidget, animate)
 		}
 
-		fun layoutCards(cardWidgets: Array<CardWidget>, enterFrom: Direction, dstWidget: Table? = null, animate: Boolean = true, flip: Boolean = false)
+		fun layoutCards(cardWidgets: Array<CardWidget>, enterFrom: Direction, dstWidget: Table? = null, animate: Boolean = true, flip: Boolean = false, startScale: Float = 1f)
 		{
 			val areapos = dstWidget?.localToStageCoordinates(Vector2()) ?: Vector2()
 			val areaWidth = dstWidget?.width ?: Global.resolution.x.toFloat()
@@ -486,35 +486,43 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 			// do animation
 			if (animate)
 			{
+				val startXSize = xSize * startScale
+				val startYSize = ySize * startScale
+
 				// calculate start position
 				val startX: Float = when (enterFrom)
 				{
-					Direction.CENTER -> areaWidth / 2f - xSize / 2f
-					Direction.NORTH -> areaWidth / 2f - xSize / 2f
-					Direction.SOUTH -> areaWidth / 2f - xSize / 2f
+					Direction.CENTER -> areaWidth / 2f - startXSize / 2f
+					Direction.NORTH -> areaWidth / 2f - startXSize / 2f
+					Direction.SOUTH -> areaWidth / 2f - startXSize / 2f
 
 					Direction.EAST -> areaWidth
 					Direction.NORTHEAST -> areaWidth
 					Direction.SOUTHEAST -> areaWidth
 
-					Direction.WEST -> -xSize
-					Direction.NORTHWEST -> -xSize
-					Direction.SOUTHWEST -> -xSize
+					Direction.WEST -> -startXSize
+					Direction.NORTHWEST -> -startXSize
+					Direction.SOUTHWEST -> -startXSize
 				}
 
 				val startY: Float = when (enterFrom)
 				{
-					Direction.CENTER -> areaHeight / 2f - ySize / 2f
-					Direction.EAST -> areaHeight / 2f - ySize / 2f
-					Direction.WEST -> areaHeight / 2f - ySize / 2f
+					Direction.CENTER -> areaHeight / 2f - startYSize / 2f
+					Direction.EAST -> areaHeight / 2f - startYSize / 2f
+					Direction.WEST -> areaHeight / 2f - startYSize / 2f
 
 					Direction.NORTH -> areaHeight
 					Direction.NORTHWEST -> areaHeight
 					Direction.NORTHEAST -> areaHeight
 
-					Direction.SOUTH -> -ySize
-					Direction.SOUTHWEST -> -ySize
-					Direction.SOUTHEAST -> -ySize
+					Direction.SOUTH -> -startYSize
+					Direction.SOUTHWEST -> -startYSize
+					Direction.SOUTHEAST -> -startYSize
+				}
+
+				for (widget in cardWidgets)
+				{
+					widget.setSize(startXSize, startYSize)
 				}
 
 				var delay = 0.2f
@@ -529,7 +537,7 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 
 					val delayVal = delay
 					delay += 0.04f
-					val sequence = delay(delayVal) then moveTo(x, y, 0.2f) then delay(0.1f) then lambda {
+					val sequence = delay(delayVal) then parallel(moveTo(x, y, 0.2f), sizeTo(xSize, ySize, 0.2f)) then delay(0.1f) then lambda {
 
 						if (flip) widget.setFacing(true, true)
 						widget.clickable = true

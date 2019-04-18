@@ -18,6 +18,12 @@
 				<Data Name="Shape" EnumValues="Box,Circle,Cone" meta:RefKey="Enum" />
 				<Data Name="Width" Min="0" Default="1" meta:RefKey="Number" />
 				<Data Name="Height" Min="0" Default="1" meta:RefKey="Number" />
+				<Data Name="SizeMultiplier" MinCount="1" meta:RefKey="Timeline">
+					<Keyframe Name="Keyframe" Collapse="True" Seperator="|" meta:RefKey="Keyframe">
+						<Time Name="Time" Min="0" SkipIfDefault="False" meta:RefKey="Number" />
+						<Data Name="Size" Min="0" Default="1" SkipIfDefault="False" meta:RefKey="Number" />
+					</Keyframe>
+				</Data>
 				<Data Name="Rotation" Min="-360" Max="360" meta:RefKey="Number" />
 				<Data Name="Area" EnumValues="Interior,Border" meta:RefKey="Enum" />
 				<Data Name="Offset" meta:RefKey="Timeline">

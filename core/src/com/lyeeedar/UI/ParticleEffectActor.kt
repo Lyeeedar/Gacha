@@ -1,6 +1,7 @@
 package com.lyeeedar.UI
 
 import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import com.lyeeedar.Renderables.Particle.Emitter
@@ -10,8 +11,44 @@ import com.lyeeedar.Util.lerp
 
 class ParticleEffectActor(val effect: ParticleEffect, val removeOnCompletion: Boolean) : Widget()
 {
+	val shape: ShapeRenderer by lazy { ShapeRenderer() }
+
+	var acted = false
 	override fun act(delta: Float)
 	{
+		acted = true
+
+		var lx = x + width / 2
+		var ly = y + height / 2
+
+		if (effect.lockPosition)
+		{
+
+		}
+		else
+		{
+			if (effect.facing.x != 0)
+			{
+				lx = x + effect.size[1].toFloat() * 0.5f * width
+				ly = y + effect.size[0].toFloat() * 0.5f * height
+			}
+			else
+			{
+				if (effect.isCentered)
+				{
+					lx = x + 0.5f * width
+					ly = y + 0.5f * height
+				}
+				else
+				{
+					lx = x + effect.size[0].toFloat() * 0.5f * width
+					ly = y + effect.size[1].toFloat() * 0.5f * height
+				}
+			}
+
+			effect.setPosition(lx / width, ly / height)
+		}
+
 		effect.update(delta)
 
 		if (effect.completed && effect.complete())
@@ -26,56 +63,6 @@ class ParticleEffectActor(val effect: ParticleEffect, val removeOnCompletion: Bo
 			}
 		}
 
-		super.act(delta)
-	}
-
-	val tempVec = Vector2()
-	val tempCol = Colour()
-	val tempCol2 = Colour()
-	override fun draw(batch: Batch?, parentAlpha: Float)
-	{
-		tempCol2.set(color.r, color.g, color.b, color.a * parentAlpha)
-		var lx = x
-		var ly = y
-
-		if (effect.lockPosition)
-		{
-
-		}
-		else
-		{
-			if (effect.facing.x != 0)
-			{
-				lx = x + effect.size[1].toFloat() * 0.5f
-				ly = y + effect.size[0].toFloat() * 0.5f
-			}
-			else
-			{
-				if (effect.isCentered)
-				{
-					lx = x + 0.5f
-					ly = y + 0.5f
-				}
-				else
-				{
-					lx = x + effect.size[0].toFloat() * 0.5f
-					ly = y + effect.size[1].toFloat() * 0.5f
-				}
-			}
-
-			effect.setPosition(lx, ly)
-		}
-
-		if (!effect.visible) return
-		if (effect.renderDelay > 0 && !effect.showBeforeRender)
-		{
-			return
-		}
-
-		val posOffset = effect.animation?.renderOffset(false)
-		lx += (posOffset?.get(0) ?: 0f)
-		ly += (posOffset?.get(1) ?: 0f)
-
 		if (effect.faceInMoveDirection)
 		{
 			val angle = com.lyeeedar.Util.getRotation(effect.lastPos, tempVec.set(lx, ly))
@@ -87,6 +74,26 @@ class ParticleEffectActor(val effect: ParticleEffect, val removeOnCompletion: Bo
 			effect.rotation = rotation
 		}
 
+		super.act(delta)
+	}
+
+	val tempVec = Vector2()
+	val tempCol = Colour()
+	val tempCol2 = Colour()
+	override fun draw(batch: Batch, parentAlpha: Float)
+	{
+		if (!acted)
+		{
+			act(0f)
+		}
+
+		if (!effect.visible) return
+		if (effect.renderDelay > 0 && !effect.showBeforeRender)
+		{
+			return
+		}
+
+		val actorCol = tempCol2.set(color.r, color.g, color.b, color.a * parentAlpha)
 		val animCol = effect.animation?.renderColour() ?: Colour.WHITE
 
 		for (emitter in effect.emitters)
@@ -131,7 +138,7 @@ class ParticleEffectActor(val effect: ParticleEffect, val removeOnCompletion: Bo
 
 					val rotation = if (emitter.simulationSpace == Emitter.SimulationSpace.LOCAL) pdata.rotation + emitter.rotation + emitter.emitterRotation else pdata.rotation
 
-					col.mul(tempCol2).mul(animCol).mul(effect.colour)
+					col.mul(actorCol).mul(animCol).mul(effect.colour)
 
 					tempVec.set(pdata.position)
 
@@ -140,9 +147,21 @@ class ParticleEffectActor(val effect: ParticleEffect, val removeOnCompletion: Bo
 					val drawx = tempVec.x + px
 					val drawy = tempVec.y + py
 
-					batch!!.draw(tex1.second, drawx, drawy, sizex*0.5f, sizey*0.5f, sizex, sizey, 1f, 1f, rotation)
+					batch.setColor(col.toFloatBits())
+					batch.draw(tex1.second, drawx * width - sizex*0.5f, drawy * height - sizey*0.5f, sizex*0.5f, sizey*0.5f, sizex, sizey, 1f, 1f, rotation)
 				}
 			}
+		}
+
+		if (debug)
+		{
+			shape.projectionMatrix = stage.camera.combined
+			shape.setAutoShapeType(true)
+			shape.begin()
+
+			effect.debug(shape, 0f, 0f, width, true, true, true)
+
+			shape.end()
 		}
 
 		super.draw(batch, parentAlpha)

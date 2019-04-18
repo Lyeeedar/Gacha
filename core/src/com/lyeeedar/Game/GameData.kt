@@ -20,7 +20,7 @@ class GameData
 	val lastSelectedHeroes = kotlin.Array<String?>(5) { null }
 
 	var experience = 100000
-	var gold = 3500
+	var gold = 350000
 }
 
 class EntityData()
