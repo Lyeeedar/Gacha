@@ -187,7 +187,6 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 	{
 		mesh.dispose()
 		staticMesh.dispose()
-		shader.dispose()
 	}
 
 	// ----------------------------------------------------------------------
@@ -471,7 +470,6 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 
 		if (rebuildShader)
 		{
-			shader.dispose()
 			shader = createShader(shaderLightNum, shaderShadowLightNum, shaderRegionsPerLight)
 		}
 

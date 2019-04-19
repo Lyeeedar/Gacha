@@ -198,6 +198,9 @@ class ShopScreen : AbstractScreen()
 		ranEquipTile.add(SpriteWidget(equipmentChest, 48f, 48f))
 
 		val ranEquipFocus = Table()
+		ranEquipFocus.add(Label("Equipment Chest", Global.skin, "cardtitle")).expandX().center()
+		ranEquipFocus.row()
+		ranEquipFocus.add(Label("A chest filled with 9 random pieces of equipment.", Global.skin, "card").wrap()).growX().pad(20f)
 
 		val ranEquip = ShopWare(ranEquipTile, 3000, ranEquipFocus, Ascension.EXTRAORDINARY, {
 			val cards = Array<CardWidget>()
@@ -260,6 +263,9 @@ class ShopScreen : AbstractScreen()
 		ranEquipWeightStack.addTable(SpriteWidget(weightChosen.icon, 24f, 24f)).size(24f).padBottom(16f)
 
 		val ranEquipWeightFocus = Table()
+		ranEquipWeightFocus.add(Label(weightChosen.niceName + " Equipment Chest", Global.skin, "cardtitle")).expandX().center()
+		ranEquipWeightFocus.row()
+		ranEquipWeightFocus.add(Label("A chest filled with 9 random pieces of ${weightChosen.niceName} equipment.", Global.skin, "card").wrap()).growX().pad(20f)
 
 		val ranEquipWeight = ShopWare(ranEquipWeightTile, 4000, ranEquipWeightFocus, Ascension.LEGENDARY, {
 			val cards = Array<CardWidget>()
@@ -317,6 +323,9 @@ class ShopScreen : AbstractScreen()
 		ranHeroTile.add(SpriteWidget(heroesChest, 48f, 48f))
 
 		val ranHeroFocus = Table()
+		ranHeroFocus.add(Label("Hero Chest", Global.skin, "cardtitle")).expandX().center()
+		ranHeroFocus.row()
+		ranHeroFocus.add(Label("A chest filled with 9 random heroes from any of your unlocked factions.", Global.skin, "card").wrap()).growX().pad(20f)
 
 		val ranHero = ShopWare(ranHeroTile, 3000, ranHeroFocus, Ascension.EXTRAORDINARY, {
 			val cards = Array<CardWidget>()
@@ -406,16 +415,19 @@ class ShopScreen : AbstractScreen()
 
 		// 9 heroes from faction
 		val faction = Global.data.unlockedFactions.random()
-		val ranHeroWeightTile = Table()
-		val ranHeroWeightStack = Stack()
-		ranHeroWeightTile.add(ranHeroWeightStack).grow()
+		val ranHeroFactionTile = Table()
+		val ranHeroFactionStack = Stack()
+		ranHeroFactionTile.add(ranHeroFactionStack).grow()
 
-		ranHeroWeightStack.add(SpriteWidget(heroesChest, 48f, 48f))
-		ranHeroWeightStack.addTable(SpriteWidget(faction.icon, 24f, 24f)).size(24f).padBottom(16f)
+		ranHeroFactionStack.add(SpriteWidget(heroesChest, 48f, 48f))
+		ranHeroFactionStack.addTable(SpriteWidget(faction.icon, 24f, 24f)).size(24f).padBottom(16f)
 
-		val ranHeroWeightFocus = Table()
+		val ranHeroFactionFocus = Table()
+		ranHeroFactionFocus.add(Label(faction.name + " Hero Chest", Global.skin, "cardtitle")).expandX().center()
+		ranHeroFactionFocus.row()
+		ranHeroFactionFocus.add(Label("A chest filled with 9 random heroes from the ${faction.name} faction.", Global.skin, "card").wrap()).growX().pad(20f)
 
-		val ranHeroWeight = ShopWare(ranHeroWeightTile, 4000, ranHeroWeightFocus, Ascension.LEGENDARY, {
+		val ranHeroWeight = ShopWare(ranHeroFactionTile, 4000, ranHeroFactionFocus, Ascension.LEGENDARY, {
 			val cards = Array<CardWidget>()
 
 			for (i in 0 until 9)

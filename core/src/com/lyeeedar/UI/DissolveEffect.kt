@@ -170,11 +170,11 @@ float smoothNoise()
 {
 	float total = noise(v_pos);
 
-	total = total * 0.6 + noiseCardinal(v_pos, 2.0) * 0.4;
-	total = total * 0.7 + noiseDiamond(v_pos, 2.0) * 0.3;
+	//total = total * 0.6 + noiseCardinal(v_pos, 2.0) * 0.4;
+	//total = total * 0.7 + noiseDiamond(v_pos, 2.0) * 0.3;
 
-	total = total * 0.8 + noiseCardinal(v_pos, 4.0) * 0.2;
-	total = total * 0.9 + noiseDiamond(v_pos, 4.0) * 0.1;
+	//total = total * 0.8 + noiseCardinal(v_pos, 4.0) * 0.2;
+	//total = total * 0.9 + noiseDiamond(v_pos, 4.0) * 0.1;
 
 	return (total + 1.0) * 0.5;
 }
