@@ -865,8 +865,17 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 					col.a = keyframe1.alpha[pdata.alphaStream].lerp(keyframe2.alpha[pdata.alphaStream], alpha)
 
 					val size = keyframe1.size[pdata.sizeStream].lerp(keyframe2.size[pdata.sizeStream], alpha, pdata.ranVal)
-					var sizex = size * width
-					var sizey = size * height
+
+					var w = width
+					var h = height
+					if (particle.maintainAspectRatio)
+					{
+						w = min(width, height)
+						h = w
+					}
+
+					var sizex = size * w
+					var sizey = size * h
 
 					if (particle.allowResize)
 					{

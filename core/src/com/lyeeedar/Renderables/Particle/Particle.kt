@@ -56,6 +56,7 @@ class Particle(val emitter: Emitter)
 	val particles = Array<ParticleData>(false, 16)
 
 	var allowResize: Boolean = true
+	var maintainAspectRatio: Boolean = false
 	lateinit var lifetime: Range
 	lateinit var blend: BlendMode
 	var drag = 0f
@@ -372,6 +373,7 @@ class Particle(val emitter: Emitter)
 		output.writeFloat(drag)
 		output.writeBoolean(velocityAligned)
 		output.writeBoolean(allowResize)
+		output.writeBoolean(maintainAspectRatio)
 		output.writeFloat(brownian)
 		output.writeBoolean(blendKeyframes)
 
@@ -429,6 +431,7 @@ class Particle(val emitter: Emitter)
 		drag = input.readFloat()
 		velocityAligned = input.readBoolean()
 		allowResize = input.readBoolean()
+		maintainAspectRatio = input.readBoolean()
 		brownian = input.readFloat()
 		blendKeyframes = input.readBoolean()
 
@@ -479,6 +482,7 @@ class Particle(val emitter: Emitter)
 			particle.drag = xml.getFloat("Drag", 0f)
 			particle.velocityAligned = xml.getBoolean("VelocityAligned", false)
 			particle.allowResize = xml.getBoolean("AllowResize", true)
+			particle.maintainAspectRatio = xml.getBoolean("MainAspectRatio", false)
 			particle.brownian = xml.getFloat("Brownian", 0f)
 
 			particle.blendKeyframes = xml.getBoolean("BlendKeyframes", false)

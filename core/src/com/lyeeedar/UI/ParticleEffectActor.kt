@@ -9,6 +9,7 @@ import com.lyeeedar.Renderables.Particle.Emitter
 import com.lyeeedar.Renderables.Particle.ParticleEffect
 import com.lyeeedar.Util.Colour
 import com.lyeeedar.Util.lerp
+import com.lyeeedar.Util.min
 
 class ParticleEffectActor(val effect: ParticleEffect, val removeOnCompletion: Boolean) : Widget()
 {
@@ -131,8 +132,17 @@ class ParticleEffectActor(val effect: ParticleEffect, val removeOnCompletion: Bo
 					col.a = keyframe1.alpha[pdata.alphaStream].lerp(keyframe2.alpha[pdata.alphaStream], alpha)
 
 					val size = keyframe1.size[pdata.sizeStream].lerp(keyframe2.size[pdata.sizeStream], alpha, pdata.ranVal)
-					var sizex = size * width
-					var sizey = size * height
+
+					var w = width
+					var h = height
+					if (particle.maintainAspectRatio)
+					{
+						w = min(width, height)
+						h = w
+					}
+
+					var sizex = size * w
+					var sizey = size * h
 
 					if (particle.allowResize)
 					{
