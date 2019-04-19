@@ -16,6 +16,7 @@ import com.lyeeedar.Systems.directionSprite
 import com.lyeeedar.UI.SpriteWidget
 import com.lyeeedar.UI.addTapToolTip
 import com.lyeeedar.UI.tint
+import com.lyeeedar.UI.wrap
 import com.lyeeedar.Util.*
 
 class Faction(val path: String)
@@ -104,7 +105,7 @@ class FactionEntity(val faction: Faction)
 		return tileTable
 	}
 
-	fun createCardTable(ascension: Ascension): Table
+	fun createCardTable(ascension: Ascension, unlock: Boolean): Table
 	{
 		val entity = EntityLoader.load(entityPath)
 		//entity.stats().ascension = ascension
@@ -132,23 +133,18 @@ class FactionEntity(val faction: Faction)
 		table.add(SpriteWidget(sprite, 96f, 96f)).size(96f).expandX().center()
 		table.row()
 
-		val levelPowerTable = Table()
-		fun addSubtextNumber(text: String, value: Int)
+		if (unlock)
 		{
-			val table = Table()
-			table.add(Label(value.prettyPrint(), Global.skin, "card")).expandX().center()
+			table.add(Label("Unlock the hero '" + entity.name().name + ", " + entity.name().title + "'.", Global.skin, "card").wrap()).growX().padTop(30f)
 			table.row()
-			val textLabel = Label(text, Global.skin, "cardsmall")
-			textLabel.color = Color.GRAY
-			table.add(textLabel).expandX().center()
-
-			levelPowerTable.add(table).expandX()
 		}
-		addSubtextNumber("Ascension", ascension.ordinal+1)
-		addSubtextNumber("Rating", entity.stats().calculatePowerRating(entity).toInt())
-
-		table.add(levelPowerTable).growX().pad(3f)
-		table.row()
+		else
+		{
+			val droppedShards = max(ascension.ordinal + 1, ascension.shardsRequired / 3)
+			val shardWord = if (droppedShards == 1) "shard" else "shards"
+			table.add(Label("Gain [GREEN]$droppedShards[] ascension $shardWord for this hero.", Global.skin, "card").wrap()).growX().padTop(30f)
+			table.row()
+		}
 
 		table.add(Table()).grow()
 		table.row()

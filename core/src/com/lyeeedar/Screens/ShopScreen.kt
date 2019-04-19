@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable
+import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import com.lyeeedar.*
 import com.lyeeedar.Components.EntityLoader
@@ -158,7 +159,7 @@ class ShopScreen : AbstractScreen()
 
 			tileTable.add(hero.createTile(48f, ascension)).size(48f).padBottom(42f)
 
-			val detailsTable = hero.createCardTable(ascension)
+			val detailsTable = hero.createCardTable(ascension, false)
 
 			val ware = ShopWare(tileTable, (1000 * ascension.multiplier).ciel(), detailsTable, ascension, {
 
@@ -203,7 +204,7 @@ class ShopScreen : AbstractScreen()
 		ranEquipTile.add(SpriteWidget(equipmentChest, 48f, 48f))
 
 		val ranEquipFocus = Table()
-		ranEquipFocus.add(Label("Equipment Chest", Global.skin, "cardtitle")).expandX().center()
+		ranEquipFocus.add(Label("Equipment Chest", Global.skin, "cardtitle").wrap().align(Align.center)).growX().center()
 		ranEquipFocus.row()
 		ranEquipFocus.add(Label("A chest filled with 9 random pieces of equipment.", Global.skin, "card").wrap()).growX().pad(20f)
 
@@ -226,6 +227,8 @@ class ShopScreen : AbstractScreen()
 
 					val widget = MaskedTexture(equip.fullIcon)
 					widget.setSize(48f, 48f)
+					widget.setPosition(src.x, src.y)
+					widget.toFront()
 
 					val sparkleParticle = ParticleEffectActor(AssetManager.loadParticleEffect("GetEquipment", timeMultiplier = 1.2f).getParticleEffect(), true)
 					sparkleParticle.color = Color.WHITE.cpy().lerp(equip.ascension.colour.color(), 0.3f)
@@ -268,7 +271,7 @@ class ShopScreen : AbstractScreen()
 		ranEquipWeightStack.addTable(SpriteWidget(weightChosen.icon, 24f, 24f)).size(24f).padBottom(16f)
 
 		val ranEquipWeightFocus = Table()
-		ranEquipWeightFocus.add(Label(weightChosen.niceName + " Equipment Chest", Global.skin, "cardtitle")).expandX().center()
+		ranEquipWeightFocus.add(Label(weightChosen.niceName + " Equipment Chest", Global.skin, "cardtitle").wrap().align(Align.center)).growX().center()
 		ranEquipWeightFocus.row()
 		ranEquipWeightFocus.add(Label("A chest filled with 9 random pieces of ${weightChosen.niceName} equipment.", Global.skin, "card").wrap()).growX().pad(20f)
 
@@ -291,6 +294,8 @@ class ShopScreen : AbstractScreen()
 
 					val widget = MaskedTexture(equip.fullIcon)
 					widget.setSize(48f, 48f)
+					widget.setPosition(src.x, src.y)
+					widget.toFront()
 
 					val sparkleParticle = ParticleEffectActor(AssetManager.loadParticleEffect("GetEquipment", timeMultiplier = 1.2f).getParticleEffect(), true)
 					sparkleParticle.color = Color.WHITE.cpy().lerp(equip.ascension.colour.color(), 0.3f)
@@ -328,7 +333,7 @@ class ShopScreen : AbstractScreen()
 		ranHeroTile.add(SpriteWidget(heroesChest, 48f, 48f))
 
 		val ranHeroFocus = Table()
-		ranHeroFocus.add(Label("Hero Chest", Global.skin, "cardtitle")).expandX().center()
+		ranHeroFocus.add(Label("Hero Chest", Global.skin, "cardtitle").wrap().align(Align.center)).growX().center()
 		ranHeroFocus.row()
 		ranHeroFocus.add(Label("A chest filled with 9 random heroes from any of your unlocked factions.", Global.skin, "card").wrap()).growX().pad(20f)
 
@@ -368,7 +373,7 @@ class ShopScreen : AbstractScreen()
 					ascension = Ascension.Values[newOrdinal]
 				}
 
-				val card = CardWidget(hero.createCardTable(ascension), hero.createCardTable(ascension), AssetManager.loadTextureRegion("GUI/CharacterCardback")!!, border = ascension.colour)
+				val card = CardWidget(hero.createCardTable(ascension, isNewHero), hero.createCardTable(ascension, isNewHero), AssetManager.loadTextureRegion("GUI/CharacterCardback")!!, border = ascension.colour)
 				card.canZoom = false
 				card.addPick("", {
 
@@ -389,6 +394,8 @@ class ShopScreen : AbstractScreen()
 
 						val widget = SpriteWidget(sprite, 48f, 48f)
 						widget.setSize(48f, 48f)
+						widget.setPosition(src.x, src.y)
+						widget.toFront()
 
 						val chosenDst = dst.cpy()
 						chosenDst.x += dstTable.width * 0.5f * Random.random()
@@ -422,6 +429,8 @@ class ShopScreen : AbstractScreen()
 						{
 							val widget = SpriteWidget(AssetManager.loadSprite("Particle/shard"), 16f, 16f)
 							widget.setSize(16f, 16f)
+							widget.setPosition(src.x, src.y)
+							widget.toFront()
 
 							val chosenDst = dst.cpy()
 							chosenDst.x += dstTable.width * 0.5f * Random.random()
@@ -474,7 +483,7 @@ class ShopScreen : AbstractScreen()
 		ranHeroFactionStack.addTable(SpriteWidget(faction.icon, 24f, 24f)).size(24f).padBottom(16f)
 
 		val ranHeroFactionFocus = Table()
-		ranHeroFactionFocus.add(Label(faction.name + " Hero Chest", Global.skin, "cardtitle")).expandX().center()
+		ranHeroFactionFocus.add(Label(faction.name + " Hero Chest", Global.skin, "cardtitle").wrap().align(Align.center)).growX().center()
 		ranHeroFactionFocus.row()
 		ranHeroFactionFocus.add(Label("A chest filled with 9 random heroes from the ${faction.name} faction.", Global.skin, "card").wrap()).growX().pad(20f)
 
@@ -511,7 +520,7 @@ class ShopScreen : AbstractScreen()
 					ascension = Ascension.Values[newOrdinal]
 				}
 
-				val card = CardWidget(hero.createCardTable(ascension), hero.createCardTable(ascension), AssetManager.loadTextureRegion("GUI/CharacterCardback")!!, border = ascension.colour)
+				val card = CardWidget(hero.createCardTable(ascension, isNewHero), hero.createCardTable(ascension, isNewHero), AssetManager.loadTextureRegion("GUI/CharacterCardback")!!, border = ascension.colour)
 				card.canZoom = false
 				card.addPick("", {
 
@@ -532,6 +541,8 @@ class ShopScreen : AbstractScreen()
 
 						val widget = SpriteWidget(sprite, 48f, 48f)
 						widget.setSize(48f, 48f)
+						widget.setPosition(src.x, src.y)
+						widget.toFront()
 
 						val chosenDst = dst.cpy()
 						chosenDst.x += dstTable.width * 0.5f * Random.random()
@@ -565,6 +576,8 @@ class ShopScreen : AbstractScreen()
 						{
 							val widget = SpriteWidget(AssetManager.loadSprite("Particle/shard"), 16f, 16f)
 							widget.setSize(16f, 16f)
+							widget.setPosition(src.x, src.y)
+							widget.toFront()
 
 							val chosenDst = dst.cpy()
 							chosenDst.x += dstTable.width * 0.5f * Random.random()
