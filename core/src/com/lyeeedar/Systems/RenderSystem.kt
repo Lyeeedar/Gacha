@@ -48,7 +48,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 			if (field != value)
 			{
 				field = value
-				renderer.tileSize = value
+				renderer!!.tileSize = value
 				needsStaticRender = true
 			}
 		}
@@ -68,7 +68,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 	val layout = GlyphLayout()
 	val font = Global.skin.getFont("small")
 
-	lateinit var renderer: SortedRenderer
+	var renderer: SortedRenderer? = null
 	val screenSpaceRenderer = SortedRenderer(Global.resolution[0].toFloat(), 1f, 1f, 1, true)
 
 	lateinit var statsEntities: ImmutableArray<Entity>
@@ -144,6 +144,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 
 		if (level != null)
 		{
+			renderer?.dispose()
 			renderer = SortedRenderer(tileSize, level!!.width.toFloat(), level!!.height.toFloat(), SpaceSlot.Values.size, true)
 		}
 		needsStaticRender = true
@@ -160,6 +161,8 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 		if (Global.resolveInstant) return
 
 		val level = level ?: return
+
+		val renderer = renderer!!
 
 		batch.end()
 

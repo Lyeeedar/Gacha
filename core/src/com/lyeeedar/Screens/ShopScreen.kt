@@ -1,6 +1,7 @@
 package com.lyeeedar.Screens
 
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.g2d.NinePatch
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Actor
@@ -10,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Stack
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable
 import com.badlogic.gdx.utils.Array
@@ -573,6 +575,13 @@ class ShopScreen : AbstractScreen()
 				{
 					greyoutTable.remove()
 				}
+
+				val cardDissolve = DissolveEffect(NinePatchDrawable(NinePatch(AssetManager.loadTextureRegion("GUI/CardBackground"), 30, 30, 30, 30)), 1f)
+				cardDissolve.setPosition(card.x, card.y)
+				cardDissolve.setSize(card.width, card.height)
+				cardDissolve.setScale(card.contentTable.scaleX)
+
+				stage.addActor(cardDissolve)
 			})
 		}
 

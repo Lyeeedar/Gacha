@@ -646,15 +646,19 @@ class ScreenShakeAction(sequence: ActionSequence) : AbstractActionSequenceAction
 
 	override fun enter(): Boolean
 	{
-		Global.engine.render().renderer.setScreenShake(amount, speed)
-		Global.engine.render().renderer.lockScreenShake()
+		if (Global.resolveInstant) return false
+
+		Global.engine.render()?.renderer?.setScreenShake(amount, speed)
+		Global.engine.render()?.renderer?.lockScreenShake()
 
 		return false
 	}
 
 	override fun exit()
 	{
-		Global.engine.render().renderer.unlockScreenShake()
+		if (Global.resolveInstant) return
+
+		Global.engine.render()?.renderer?.unlockScreenShake()
 	}
 
 	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction

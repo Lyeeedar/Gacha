@@ -31,7 +31,7 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 	val referenceWidth = Global.resolution.x - 100f
 	val referenceHeight = Global.resolution.y - 200f
 
-	private val contentTable = Table()
+	val contentTable = Table()
 	private val backTable: Table
 
 	var canZoom = true

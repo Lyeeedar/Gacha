@@ -12,10 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
-import com.badlogic.gdx.utils.IntMap
-import com.badlogic.gdx.utils.ObjectMap
-import com.badlogic.gdx.utils.ObjectSet
-import com.badlogic.gdx.utils.Pool
+import com.badlogic.gdx.utils.*
 import com.lyeeedar.BlendMode
 import com.lyeeedar.Direction
 import com.lyeeedar.Global
@@ -35,7 +32,7 @@ import squidpony.squidmath.LightRNG
  */
 
 // ----------------------------------------------------------------------
-class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, val layers: Int, val alwaysOnscreen: Boolean)
+class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, val layers: Int, val alwaysOnscreen: Boolean) : Disposable
 {
 	private var batchID: Int = random.nextInt()
 
@@ -140,6 +137,7 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 		}
 	}
 
+	// ----------------------------------------------------------------------
 	init
 	{
 		mesh = BigMesh(false, maxSprites * 4, maxSprites * 6,
@@ -183,6 +181,13 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 		lightShadowColourBrightness = FloatArray(0)
 		lightShadowRegions = FloatArray(0)
 		shader = createShader(shaderLightNum, shaderShadowLightNum, IntArray(0))
+	}
+
+	override fun dispose()
+	{
+		mesh.dispose()
+		staticMesh.dispose()
+		shader.dispose()
 	}
 
 	// ----------------------------------------------------------------------
@@ -466,7 +471,7 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 
 		if (rebuildShader)
 		{
-			//shader.dispose()
+			shader.dispose()
 			shader = createShader(shaderLightNum, shaderShadowLightNum, shaderRegionsPerLight)
 		}
 

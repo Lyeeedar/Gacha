@@ -22,6 +22,12 @@ class MaskedTexture(val base: TextureRegion, val mask: TextureRegion, val layer1
 	private var imageWidth: Float = 0f
 	private var imageHeight: Float = 0f
 
+	override fun remove(): Boolean
+	{
+		shader.dispose()
+		return super.remove()
+	}
+
 	override fun layout()
 	{
 		val regionWidth = base.regionWidth.toFloat()
