@@ -574,10 +574,10 @@ class ShopScreen : AbstractScreen()
 				gatheredLoot++
 				if (gatheredLoot == cards.size)
 				{
-					greyoutTable.addAction(fadeOut(0.3f) then removeActor())
+					greyoutTable.addAction(fadeOut(0.6f) then removeActor())
 				}
 
-				val cardDissolve = DissolveEffect(NinePatchDrawable(NinePatch(AssetManager.loadTextureRegion("GUI/CardBackground"), 30, 30, 30, 30)), 3f)
+				val cardDissolve = DissolveEffect(NinePatchDrawable(NinePatch(AssetManager.loadTextureRegion("GUI/CardBackground"), 30, 30, 30, 30)), 2f, AssetManager.loadTextureRegion("GUI/holygradient")!!)
 				cardDissolve.setPosition(card.x, card.y)
 				cardDissolve.setSize(card.width, card.height)
 				cardDissolve.setScale(card.contentTable.scaleX)
