@@ -505,6 +505,7 @@ class ShopScreen : AbstractScreen()
 		greyoutTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(0f, 0f, 0f, 0.9f))
 		greyoutTable.touchable = Touchable.enabled
 		greyoutTable.setFillParent(true)
+		greyoutTable.addAction(fadeIn(0.1f))
 
 		stage.addActor(greyoutTable)
 
@@ -573,10 +574,10 @@ class ShopScreen : AbstractScreen()
 				gatheredLoot++
 				if (gatheredLoot == cards.size)
 				{
-					greyoutTable.remove()
+					greyoutTable.addAction(fadeOut(0.3f) then removeActor())
 				}
 
-				val cardDissolve = DissolveEffect(NinePatchDrawable(NinePatch(AssetManager.loadTextureRegion("GUI/CardBackground"), 30, 30, 30, 30)), 1f)
+				val cardDissolve = DissolveEffect(NinePatchDrawable(NinePatch(AssetManager.loadTextureRegion("GUI/CardBackground"), 30, 30, 30, 30)), 3f)
 				cardDissolve.setPosition(card.x, card.y)
 				cardDissolve.setSize(card.width, card.height)
 				cardDissolve.setScale(card.contentTable.scaleX)

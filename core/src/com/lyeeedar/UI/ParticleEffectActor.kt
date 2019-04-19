@@ -3,6 +3,7 @@ package com.lyeeedar.UI
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import com.lyeeedar.Renderables.Particle.Emitter
 import com.lyeeedar.Renderables.Particle.ParticleEffect
@@ -11,6 +12,11 @@ import com.lyeeedar.Util.lerp
 
 class ParticleEffectActor(val effect: ParticleEffect, val removeOnCompletion: Boolean) : Widget()
 {
+	init
+	{
+		touchable = Touchable.disabled
+	}
+
 	var acted = false
 	override fun act(delta: Float)
 	{
