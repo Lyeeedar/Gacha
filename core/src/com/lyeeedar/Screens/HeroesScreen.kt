@@ -476,7 +476,7 @@ class HeroesScreen : AbstractScreen()
 			}
 			else
 			{
-				ascensionTable.add(Label("[RED]${nextAscension.shardsRequired}[] / ${entityData.ascensionShards}", Global.skin, "small")).expandX().center().pad(2f)
+				ascensionTable.add(Label("[RED]${entityData.ascensionShards}[] / ${nextAscension.shardsRequired}", Global.skin, "small")).expandX().center().pad(2f)
 				ascensionTable.row()
 
 				val ascendButton = TextButton("Ascend", Global.skin)

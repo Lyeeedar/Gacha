@@ -5,11 +5,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Actor
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable
+import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.utils.ObjectMap
 import com.lyeeedar.Util.Random
 import com.lyeeedar.Util.max
+import ktx.collections.set
 
-class DissolveEffect(val drawable: Drawable, val duration: Float, val gradient: TextureRegion) : Actor()
+class DissolveEffect(val drawable: Table, val duration: Float, val gradient: TextureRegion, val smoothness: Float) : Actor()
 {
 	var time = 0f
 	var dissolvePoint: Vector2? = null
@@ -22,12 +24,6 @@ class DissolveEffect(val drawable: Drawable, val duration: Float, val gradient: 
 		{
 			remove()
 		}
-	}
-
-	override fun remove(): Boolean
-	{
-		shader.dispose()
-		return super.remove()
 	}
 
 	override fun draw(batch: Batch, parentAlpha: Float)
@@ -47,17 +43,21 @@ class DissolveEffect(val drawable: Drawable, val duration: Float, val gradient: 
 		shader.setUniformf("u_timeAlpha", 1f - (time / duration))
 		shader.setUniformf("u_dissolvePoint", dissolvePoint!!)
 		shader.setUniformf("u_maxDissolveRange", maxDissolveDist)
+		shader.setUniformf("u_tableScale", drawable.scaleX)
 		batch.setColor(color.r, color.g, color.b, color.a * parentAlpha)
-		drawable.draw(batch, x, y, width, height)
+		drawable.draw(batch, color.a * parentAlpha)
 
 		batch.shader = null
 	}
 
-	val shader = createShader()
+	val shader = createShader(smoothness, gradient)
 
-	fun createShader(): ShaderProgram
+	companion object
 	{
-		val vertexShader = """
+		val shaders = ObjectMap<String, ShaderProgram>()
+		fun createShader(smoothness: Float, gradient: TextureRegion): ShaderProgram
+		{
+			val vertexShader = """
 
 attribute vec4 ${ShaderProgram.POSITION_ATTRIBUTE};
 attribute vec4 ${ShaderProgram.COLOR_ATTRIBUTE};
@@ -79,7 +79,7 @@ void main()
 	gl_Position = u_projTrans * ${ShaderProgram.POSITION_ATTRIBUTE};
 }
 """
-		val fragmentShader = """
+			val fragmentShader = """
 
 #ifdef GL_ES
 #define LOWP lowp
@@ -91,6 +91,7 @@ precision mediump float;
 uniform float u_timeAlpha;
 uniform vec2 u_dissolvePoint;
 uniform float u_maxDissolveRange;
+uniform float u_tableScale;
 
 varying LOWP vec4 v_color;
 varying vec2 v_texCoords;
@@ -129,7 +130,16 @@ float snoise(vec2 v)
 
 float noise(vec2 pos)
 {
-	return snoise(pos / 30.0) * 0.6 + snoise(pos / 10.0) * 0.3 + snoise(pos / 5.0) * 0.1;
+	float factor1 = 0.1 / $smoothness;
+	float factor3 = 0.3 / $smoothness;
+	float factor10 = 0.05 * $smoothness;
+	float factor6 = 1.0 - (factor10 + factor3 + factor1);
+
+	return
+		snoise(pos / (70.0 / u_tableScale)) * factor10 +
+		snoise(pos / (30.0 / u_tableScale)) * factor6 +
+		snoise(pos / (10.0 / u_tableScale)) * factor3 +
+		snoise(pos / (5.0 / u_tableScale)) * factor1;
 }
 
 float noiseCardinal(vec2 pos, float offset)
@@ -174,12 +184,11 @@ void main()
 	vec4 diffuseSample = texture2D(u_texture, v_texCoords);
 
 	float noiseVal = smoothNoise();
-	float distFactor = length(v_pos - u_dissolvePoint) / u_maxDissolveRange;
 
-	float toPoint = (length(v_pos - u_dissolvePoint) / ((1.0001 - u_timeAlpha) * u_maxDissolveRange));
+	float toPoint = ((length(v_pos - u_dissolvePoint) * u_tableScale) / ((1.0001 - u_timeAlpha) * u_maxDissolveRange));
 	float diff = ((u_timeAlpha + noiseVal) * toPoint) - 1.0;
 
-	float overOne = saturate(diff * 1.0);
+	float overOne = clamp(diff * 1.0, 0.0, 1.0);
 
 	if (diff < 0.0)
 	{
@@ -200,8 +209,18 @@ void main()
 
 """
 
-		val shader = ShaderProgram(vertexShader, fragmentShader)
-		if (!shader.isCompiled) throw IllegalArgumentException("Error compiling shader: " + shader.log)
-		return shader
+			val key = vertexShader + fragmentShader
+			if (shaders.containsKey(key))
+			{
+				return shaders[key]
+			}
+
+			val shader = ShaderProgram(vertexShader, fragmentShader)
+			if (!shader.isCompiled) throw IllegalArgumentException("Error compiling shader: " + shader.log)
+
+			shaders[key] = shader
+
+			return shader
+		}
 	}
 }

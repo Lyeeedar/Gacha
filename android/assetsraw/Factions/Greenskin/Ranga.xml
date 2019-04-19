@@ -147,13 +147,13 @@
 							</DestinationRenderable>
 						</Timeline>
 					</Ability>
-					<Cooldown>2,3</Cooldown>
+					<Cooldown>1,3</Cooldown>
 					<Condition>Stormsurge==1</Condition>
 					<Range>99</Range>
 				</AbilityData>
 				<AbilityData>
-					<Name>Charged Bite</Name>
-					<Description>Bite an enemy and release the power of the storm into their body, causing them to take [GOLD]10%[] damage a turn and increasing the damage they take by [GOLD]15%[] for 5 rounds.</Description>
+					<Name>Storm Bite</Name>
+					<Description>Bite an enemy and release the power of the storm into their body, causing them to take [GOLD]20%[] damage a turn and increasing the damage they take by [GOLD]15%[] for 5 rounds.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>EffectSprites/Jaws/Jaws_2</Name>
 						<Colour>227,117,255,255</Colour>
@@ -213,53 +213,44 @@
 							</Debuff>
 						</Timeline>
 					</Ability>
-					<Cooldown>8,12</Cooldown>
+					<Cooldown>3,6</Cooldown>
+					<Condition>Stormsurge==1</Condition>
 				</AbilityData>
 				<AbilityData>
-					<Name>Storm Call</Name>
-					<Description>Mark a foe to be targetted by the storm, dealing [GOLD]50%[] damage to them 5 times.</Description>
+					<Name>Intimidating Roar</Name>
+					<Description>Roar at the enemy, causing them lose [GOLD]20%[] power and [GOLD]30%[] ability power for 4 rounds.</Description>
 					<Icon meta:RefKey="Sprite">
-						<Name>EffectSprites/LightningBurst/LightningBurst_2</Name>
+						<Name>EffectSprites/Shout/Shout_3</Name>
 						<Colour>237,56,247,255</Colour>
 					</Icon>
 					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
-							<SelectEnemies />
-							<UnlockEntity>
-								<Time>0.02753934</Time>
-							</UnlockEntity>
-							<RepeatBegin>
-								<Time>0.04327611</Time>
-								<Count>5</Count>
-							</RepeatBegin>
-							<BlockTurn>
-								<Time>0.112517886</Time>
-							</BlockTurn>
-							<Damage>
-								<Time>0.140844062</Time>
-								<Amount>0.5</Amount>
-							</Damage>
-							<RepeatEnd>
-								<Time>0.222675249</Time>
-							</RepeatEnd>
-							<LockTargets>
-								<Time>0.01638348</Time>
-							</LockTargets>
+							<Debuff>
+								<Duration LockDuration="False">0.243269235</Duration>
+								<Buff meta:RefKey="Buff">
+									<Name>Intimidated</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Icons/powerdown</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Power>-0.2</Power>
+										<AbilityPower>-0.3</AbilityPower>
+									</Statistics>
+									<Duration>4</Duration>
+								</Buff>
+							</Debuff>
 						</Timeline>
 						<Timeline>
-							<DestinationRenderable>
-								<Duration LockDuration="False">0.13061516</Duration>
-								<Time>0.06688126</Time>
+							<SourceRenderable>
+								<Duration LockDuration="False">0.1918956</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
-									<Name>RangaLightning</Name>
+									<Name>Shout</Name>
 								</Renderable>
-								<RenderablePerTile>true</RenderablePerTile>
 								<OnEnd>Nothing</OnEnd>
-								<AlignToVector>false</AlignToVector>
-							</DestinationRenderable>
+							</SourceRenderable>
 						</Timeline>
 					</Ability>
-					<Condition>Stormsurge==1</Condition>
+					<Cooldown>4,10</Cooldown>
 					<Range>99</Range>
 				</AbilityData>
 			</Abilities>

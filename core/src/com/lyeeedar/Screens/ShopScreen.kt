@@ -157,7 +157,7 @@ class ShopScreen : AbstractScreen()
 
 			val ware = ShopWare(tileTable, (1000 * ascension.multiplier).ciel(), detailsTable, ascension, {
 
-				val droppedShards = max(1, ascension.shardsRequired / 3)
+				val droppedShards = max(ascension.ordinal+1, ascension.shardsRequired / 3)
 				heroData.ascensionShards += droppedShards
 
 				val src = it.localToStageCoordinates(Vector2(24f, 24f))
@@ -356,7 +356,7 @@ class ShopScreen : AbstractScreen()
 				card.canZoom = false
 				card.addPick("", {
 
-					val droppedShards = max(1, ascension.shardsRequired / 3)
+					val droppedShards = max(ascension.ordinal+1, ascension.shardsRequired / 3)
 					heroData!!.ascensionShards += droppedShards
 
 					val src = it.localToStageCoordinates(Vector2(24f, 24f))
@@ -450,7 +450,7 @@ class ShopScreen : AbstractScreen()
 				card.canZoom = false
 				card.addPick("", {
 
-					val droppedShards = max(1, ascension.shardsRequired / 3)
+					val droppedShards = max(ascension.ordinal+1, ascension.shardsRequired / 3)
 					heroData!!.ascensionShards += droppedShards
 
 					val src = it.localToStageCoordinates(Vector2(24f, 24f))
@@ -577,10 +577,18 @@ class ShopScreen : AbstractScreen()
 					greyoutTable.addAction(fadeOut(0.6f) then removeActor())
 				}
 
-				val cardDissolve = DissolveEffect(NinePatchDrawable(NinePatch(AssetManager.loadTextureRegion("GUI/CardBackground"), 30, 30, 30, 30)), 2f, AssetManager.loadTextureRegion("GUI/holygradient")!!)
+				val table = Table()
+				table.isTransform = true
+				table.originX = card.referenceWidth / 2
+				table.originY = card.referenceHeight / 2
+				table.background = NinePatchDrawable(NinePatch(AssetManager.loadTextureRegion("GUI/CardBackground"), 30, 30, 30, 30))
+				table.setSize(card.referenceWidth, card.referenceHeight)
+				table.setScale(card.contentTable.scaleX)
+				table.setPosition(card.x + card.contentTable.x, card.y + card.contentTable.y)
+
+				val cardDissolve = DissolveEffect(table, 1.5f, AssetManager.loadTextureRegion("GUI/holygradient")!!, 6f)
 				cardDissolve.setPosition(card.x, card.y)
 				cardDissolve.setSize(card.width, card.height)
-				cardDissolve.setScale(card.contentTable.scaleX)
 
 				stage.addActor(cardDissolve)
 			})
