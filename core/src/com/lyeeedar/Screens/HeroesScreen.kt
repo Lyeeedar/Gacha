@@ -32,6 +32,31 @@ class HeroesScreen : AbstractScreen()
 		recreateFactionsTable()
 		recreateHeroesTable()
 		createHeroesTable()
+
+		debugConsole.register("addhero", "", fun (args, console): Boolean {
+
+			if (args.size != 1)
+			{
+				console.error("must provide a hero name!")
+				return false
+			}
+
+			for (faction in Global.data.unlockedFactions)
+			{
+				for (hero in faction.heroes)
+				{
+					val entity = EntityLoader.load(hero.entityPath)
+					if (entity.name().name.toLowerCase() == args[0].toLowerCase())
+					{
+						Global.data.heroPool.add(EntityData(hero, Ascension.MUNDANE, 1))
+
+						return true
+					}
+				}
+			}
+
+			return false
+		})
 	}
 
 	override fun show()

@@ -440,7 +440,7 @@ enum class EventType
 
 				for (handlerEl in eventEl.children)
 				{
-					val rawcondition = handlerEl.get("Condition")
+					val rawcondition = handlerEl.get("Condition").toLowerCase()
 					val condition = CompiledExpression(rawcondition)
 
 					val sequence = ActionSequence.load(handlerEl.getChildByName("ActionSequence")!!)

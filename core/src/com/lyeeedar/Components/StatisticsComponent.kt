@@ -345,7 +345,7 @@ class StatisticsComponent: AbstractComponent()
 
 	fun write(variableMap: ObjectFloatMap<String>, prefixName: String? = null): ObjectFloatMap<String>
 	{
-		val prefix = if (prefixName != null) "$prefixName." else ""
+		val prefix = if (prefixName != null) "$prefixName.".toLowerCase() else ""
 
 		variableMap.put(prefix + "hp", hp)
 		variableMap.put(prefix + "level", level.toFloat())
@@ -359,7 +359,13 @@ class StatisticsComponent: AbstractComponent()
 
 		for (buff in buffs)
 		{
-			variableMap.put(prefix + buff.name, 1f)
+			variableMap.put(prefix + buff.name.toLowerCase(), 1f)
+
+			if (buff.name.contains(':'))
+			{
+				val firstBit = buff.name.split(':')[0]
+				variableMap.put(prefix + firstBit.toLowerCase(), 1f)
+			}
 		}
 
 		return variableMap

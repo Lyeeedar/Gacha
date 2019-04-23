@@ -63,5 +63,9 @@
 			<Entity>Daniel</Entity>
 			<Rarity>SuperRare</Rarity>
 		</Hero>
+		<Hero>
+			<Entity>Titania</Entity>
+			<Rarity>UltraRare</Rarity>
+		</Hero>
 	</Heroes>
 </Faction>

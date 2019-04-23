@@ -27,7 +27,7 @@ class AbilityComponent : AbstractComponent()
 			val cooldown = com.lyeeedar.Util.IntRange(el.getPoint("Cooldown", Point(5, 10)))
 			val singleUse = el.getBoolean("SingleUse", false)
 			val availableOnStart = el.getBoolean("AvailableOnStart", false)
-			val conditionStr = el.get("Condition", "1")!!
+			val conditionStr = el.get("Condition", "1")!!.toLowerCase()
 			val condition = CompiledExpression(conditionStr, StatisticsComponent.getDefaultVariables())
 			val range = el.getInt("Range", 1)
 

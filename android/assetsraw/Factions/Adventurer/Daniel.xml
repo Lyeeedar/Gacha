@@ -11,7 +11,7 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>120</MaxHP>
+				<MaxHP>125</MaxHP>
 				<Power>11</Power>
 				<CritChance>0.15</CritChance>
 				<CritDamage>2</CritDamage>
@@ -20,7 +20,7 @@
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
-			<Attack>
+			<Attack meta:RefKey="AttackDescription">
 				<Damage>1</Damage>
 				<Range>1</Range>
 				<HitEffect meta:RefKey="ParticleEffect">

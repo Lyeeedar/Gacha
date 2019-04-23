@@ -12,8 +12,8 @@
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
 				<MaxHP>125</MaxHP>
-				<Power>11.5</Power>
-				<CritChance>0.1</CritChance>
+				<Power>11</Power>
+				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
 			</Statistics>
 			<EquipmentWeight>Heavy</EquipmentWeight>
@@ -49,7 +49,7 @@
 					<Name>Requip: Heaven's Wheel</Name>
 					<Description>Equip the armour 'Heaven's Wheel', instantly leaping to a target and striking them for [GOLD]200%[]. Gain [GOLD]100%[] haste for the next 5 turns.</Description>
 					<Icon meta:RefKey="Sprite">
-						<Name>Oryx/Custom/heroes/titania_heaven_1</Name>
+						<Name>Oryx/Custom/items/heavens_rapiers</Name>
 					</Icon>
 					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
@@ -94,7 +94,7 @@
 								<Buff meta:RefKey="Buff">
 									<Name>Requip: Heaven's Wheel</Name>
 									<Icon meta:RefKey="Sprite">
-										<Name>Oryx/Custom/heroes/titania_heaven_1</Name>
+										<Name>Oryx/Custom/items/heavens_rapiers</Name>
 									</Icon>
 									<Statistics meta:RefKey="Statistics">
 										<Haste>1</Haste>
@@ -118,10 +118,10 @@
 					<Range>99</Range>
 				</AbilityData>
 				<AbilityData>
-					<Name>Requip: Dancing Blades</Name>
-					<Description>Equip the armour 'dancing blades', instantly striking all enemies for [GOLD]50%[]. For the next 5 rounds each time you attack there is a [GOLD]30%[] chance to strike a random enemy for [GOLD]50%[].</Description>
+					<Name>Requip: Dancing Blade</Name>
+					<Description>Equip the armour 'Dancing Blade', instantly striking all enemies for [GOLD]50%[]. For the next 5 rounds each time you attack there is a [GOLD]30%[] chance to strike a random enemy for [GOLD]40%[].</Description>
 					<Icon meta:RefKey="Sprite">
-						<Name>Oryx/Custom/heroes/titania_ataraxia_1</Name>
+						<Name>Oryx/Custom/items/ataraxia_blade</Name>
 					</Icon>
 					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
@@ -155,7 +155,7 @@
 								<Buff meta:RefKey="Buff">
 									<Name>Requip: Dancing Blades</Name>
 									<Icon meta:RefKey="Sprite">
-										<Name>Oryx/Custom/heroes/titania_ataraxia_1</Name>
+										<Name>Oryx/Custom/items/ataraxia_blade</Name>
 									</Icon>
 									<Statistics meta:RefKey="Statistics" />
 									<EventHandlers meta:RefKey="EventHandler">
@@ -168,7 +168,7 @@
 															<SelectEnemies />
 															<Damage>
 																<Time>0.08695238</Time>
-																<Amount>0.5</Amount>
+																<Amount>0.4</Amount>
 															</Damage>
 														</Timeline>
 														<Timeline>
@@ -197,6 +197,143 @@
 									<DrawActualSize>true</DrawActualSize>
 								</Renderable>
 							</ReplaceSourceRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>3,10</Cooldown>
+					<Condition>requip==0</Condition>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Requip: Starlight Spear</Name>
+					<Description>Equip the armour 'Starlight Spear', knocking your opponent back and stunning them for 4 rounds. For the next 5 rounds you gain [GOLD]30%[] more crit chance.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/Custom/items/nakagami_spear</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<SelectEnemies>
+								<Time>0.113328524</Time>
+								<Condition>dist</Condition>
+							</SelectEnemies>
+							<Stun>
+								<Time>0.125275046</Time>
+								<Count>4</Count>
+							</Stun>
+							<Knockback>
+								<Time>0.138745487</Time>
+								<MoveType>Leap</MoveType>
+								<Dist>2</Dist>
+							</Knockback>
+							<UnlockEntity>
+								<Time>0.338400573</Time>
+							</UnlockEntity>
+							<RepeatBegin>
+								<Time>0.368515849</Time>
+								<Count>5</Count>
+							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.393876076</Time>
+							</BlockTurn>
+							<RepeatEnd>
+								<Time>0.4208213</Time>
+							</RepeatEnd>
+							<MoveSource>
+								<Time>0.153113961</Time>
+								<MoveType>Leap</MoveType>
+							</MoveSource>
+						</Timeline>
+						<Timeline>
+							<Buff>
+								<Time>0.030059088</Time>
+								<Duration LockDuration="False">0.46957162</Duration>
+								<Buff meta:RefKey="Buff">
+									<Name>Requip: Starlight Spear</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Oryx/Custom/items/nakagami_spear</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<CritChance>0.3</CritChance>
+									</Statistics>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<ReplaceSourceRenderable>
+								<Time>0.030059088</Time>
+								<Duration LockDuration="False">0.46957162</Duration>
+								<Renderable meta:RefKey="Sprite">
+									<Name>Oryx/Custom/heroes/titania_nakagami</Name>
+									<DrawActualSize>true</DrawActualSize>
+								</Renderable>
+							</ReplaceSourceRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>3,10</Cooldown>
+					<Condition>requip==0</Condition>
+				</AbilityData>
+				<AbilityData>
+					<Name>Requip: Metal Fairy</Name>
+					<Description>Equip the armour 'Metal Fairy', instantly healing for [GOLD]300%[] power. For the next 5 rounds gain [GOLD]20%[] lifesteal.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/Custom/items/armadura_blades</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<UnlockEntity>
+								<Time>0.338400573</Time>
+							</UnlockEntity>
+							<RepeatBegin>
+								<Time>0.368515849</Time>
+								<Count>5</Count>
+							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.393876076</Time>
+							</BlockTurn>
+							<RepeatEnd>
+								<Time>0.4208213</Time>
+							</RepeatEnd>
+							<Heal>
+								<Time>0.125275046</Time>
+								<Amount>3</Amount>
+							</Heal>
+						</Timeline>
+						<Timeline>
+							<Buff>
+								<Time>0.030059088</Time>
+								<Duration LockDuration="False">0.46957162</Duration>
+								<Buff meta:RefKey="Buff">
+									<Name>Requip: Metal Fairy</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Oryx/Custom/items/armadura_blades</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<LifeSteal>0.2</LifeSteal>
+									</Statistics>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<ReplaceSourceRenderable>
+								<Time>0.030059088</Time>
+								<Duration LockDuration="False">0.46957162</Duration>
+								<Renderable meta:RefKey="Sprite">
+									<Name>Oryx/Custom/heroes/titania_armadura</Name>
+									<DrawActualSize>true</DrawActualSize>
+								</Renderable>
+							</ReplaceSourceRenderable>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Time>0.07820134</Time>
+								<Duration LockDuration="False">0.103977196</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Heal</Name>
+									<Colour>20,240,34,255</Colour>
+								</Renderable>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
 						</Timeline>
 					</Ability>
 					<Cooldown>3,10</Cooldown>
