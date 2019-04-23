@@ -3,6 +3,7 @@ package com.lyeeedar.Game.ActionSequence
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.ObjectMap
+import com.badlogic.gdx.utils.Pool
 import com.lyeeedar.Components.pos
 import com.lyeeedar.Direction
 import com.lyeeedar.Game.Level
@@ -156,7 +157,7 @@ class ActionSequence
 
 	fun copy(): ActionSequence
 	{
-		val sequence = ActionSequence()
+		val sequence = ActionSequence.obtain()
 		for (action in actions)
 		{
 			val copy = action.copy(sequence)
@@ -167,6 +168,7 @@ class ActionSequence
 		return sequence
 	}
 
+	var obtained: Boolean = false
 	companion object
 	{
 		val loadedSequences = ObjectMap<XmlData, ActionSequence>()
@@ -176,7 +178,7 @@ class ActionSequence
 			if (existing != null) return existing.copy()
 
 			val actions = Array<AbstractActionSequenceAction>(4)
-			val sequence = ActionSequence()
+			val sequence = ActionSequence.obtain()
 
 			for (timelineEl in xmlData.children)
 			{
@@ -279,6 +281,40 @@ class ActionSequence
 			loadedSequences[xmlData] = existing
 
 			return sequence
+		}
+
+		private val pool: Pool<ActionSequence> = object : Pool<ActionSequence>() {
+			override fun newObject(): ActionSequence
+			{
+				return ActionSequence()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): ActionSequence
+		{
+			val obj = ActionSequence.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	fun free()
+	{
+		cancel()
+
+		for (action in actions)
+		{
+			action.free()
+		}
+		actions.clear()
+
+		if (obtained)
+		{
+			ActionSequence.pool.free(this);
+			obtained = false
 		}
 	}
 }

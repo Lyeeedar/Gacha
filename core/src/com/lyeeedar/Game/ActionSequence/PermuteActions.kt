@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Matrix3
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.ObjectSet
+import com.badlogic.gdx.utils.Pool
 import com.exp4j.Helpers.CompiledExpression
 import com.lyeeedar.Components.*
 import com.lyeeedar.Game.Tile
@@ -12,7 +13,7 @@ import com.lyeeedar.SpaceSlot
 import com.lyeeedar.Util.*
 import ktx.collections.toGdxArray
 
-class PermuteAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
+class PermuteAction() : AbstractActionSequenceAction()
 {
 	val hitPoints = Array<Point>(4)
 
@@ -55,9 +56,9 @@ class PermuteAction(ability: ActionSequence) : AbstractActionSequenceAction(abil
 
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val action = PermuteAction(sequence)
+		val action = PermuteAction.obtain()
 		action.hitPoints.addAll(hitPoints)
 
 		return action
@@ -69,9 +70,32 @@ class PermuteAction(ability: ActionSequence) : AbstractActionSequenceAction(abil
 		if (hitPointsEl != null) hitPoints.addAll(hitPointsEl.toHitPointArray())
 		else hitPoints.add(Point(0, 0))
 	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<PermuteAction> = object : Pool<PermuteAction>() {
+			override fun newObject(): PermuteAction
+			{
+				return PermuteAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): PermuteAction
+		{
+			val obj = PermuteAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { PermuteAction.pool.free(this); obtained = false } }
 }
 
-class SelectEntitiesAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
+class SelectEntitiesAction() : AbstractActionSequenceAction()
 {
 	enum class Mode
 	{
@@ -144,9 +168,9 @@ class SelectEntitiesAction(ability: ActionSequence) : AbstractActionSequenceActi
 
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val action = SelectEntitiesAction(sequence)
+		val action = SelectEntitiesAction.obtain()
 		action.mode = mode
 		action.count = count
 		action.conditionString = conditionString
@@ -185,9 +209,32 @@ class SelectEntitiesAction(ability: ActionSequence) : AbstractActionSequenceActi
 		}
 		minimum = xmlData.getBoolean("Minimum", true)
 	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<SelectEntitiesAction> = object : Pool<SelectEntitiesAction>() {
+			override fun newObject(): SelectEntitiesAction
+			{
+				return SelectEntitiesAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): SelectEntitiesAction
+		{
+			val obj = SelectEntitiesAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { SelectEntitiesAction.pool.free(this); obtained = false } }
 }
 
-class SelectTilesAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
+class SelectTilesAction() : AbstractActionSequenceAction()
 {
 	lateinit var count: CompiledExpression
 	var emptyOnly = false
@@ -227,9 +274,9 @@ class SelectTilesAction(ability: ActionSequence) : AbstractActionSequenceAction(
 
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val action = SelectTilesAction(sequence)
+		val action = SelectTilesAction.obtain()
 		action.count = count
 		action.emptyOnly = emptyOnly
 
@@ -243,9 +290,32 @@ class SelectTilesAction(ability: ActionSequence) : AbstractActionSequenceAction(
 
 		emptyOnly = xmlData.getBoolean("EmptyOnly", false)
 	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<SelectTilesAction> = object : Pool<SelectTilesAction>() {
+			override fun newObject(): SelectTilesAction
+			{
+				return SelectTilesAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): SelectTilesAction
+		{
+			val obj = SelectTilesAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { SelectTilesAction.pool.free(this); obtained = false } }
 }
 
-class SelectSelfAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
+class SelectSelfAction() : AbstractActionSequenceAction()
 {
 	override fun enter(): Boolean
 	{
@@ -262,9 +332,9 @@ class SelectSelfAction(ability: ActionSequence) : AbstractActionSequenceAction(a
 
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val action = SelectSelfAction(sequence)
+		val action = SelectSelfAction.obtain()
 		return action
 	}
 
@@ -272,10 +342,33 @@ class SelectSelfAction(ability: ActionSequence) : AbstractActionSequenceAction(a
 	{
 
 	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<SelectSelfAction> = object : Pool<SelectSelfAction>() {
+			override fun newObject(): SelectSelfAction
+			{
+				return SelectSelfAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): SelectSelfAction
+		{
+			val obj = SelectSelfAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { SelectSelfAction.pool.free(this); obtained = false } }
 }
 
-class LockTargetsAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
-{
+class LockTargetsAction() : AbstractActionSequenceAction()
+	{
 	override fun enter(): Boolean
 	{
 		sequence.lockedTargets.clear()
@@ -298,9 +391,9 @@ class LockTargetsAction(sequence: ActionSequence) : AbstractActionSequenceAction
 
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val action = LockTargetsAction(sequence)
+		val action = LockTargetsAction.obtain()
 		return action
 	}
 
@@ -308,4 +401,27 @@ class LockTargetsAction(sequence: ActionSequence) : AbstractActionSequenceAction
 	{
 
 	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<LockTargetsAction> = object : Pool<LockTargetsAction>() {
+			override fun newObject(): LockTargetsAction
+			{
+				return LockTargetsAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): LockTargetsAction
+		{
+			val obj = LockTargetsAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { LockTargetsAction.pool.free(this); obtained = false } }
 }

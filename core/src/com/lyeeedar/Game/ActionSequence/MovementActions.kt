@@ -1,5 +1,6 @@
 package com.lyeeedar.Game.ActionSequence
 
+import com.badlogic.gdx.utils.Pool
 import com.lyeeedar.AI.Tasks.TaskInterrupt
 import com.lyeeedar.Components.*
 import com.lyeeedar.Direction
@@ -26,7 +27,7 @@ enum class MovementType
 	TELEPORT
 }
 
-class MoveSourceAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
+class MoveSourceAction() : AbstractActionSequenceAction()
 {
 	lateinit var type: MovementType
 
@@ -49,9 +50,9 @@ class MoveSourceAction(ability: ActionSequence) : AbstractActionSequenceAction(a
 
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val action = MoveSourceAction(sequence)
+		val action = MoveSourceAction.obtain()
 		action.type = type
 
 		return action
@@ -61,9 +62,32 @@ class MoveSourceAction(ability: ActionSequence) : AbstractActionSequenceAction(a
 	{
 		type = MovementType.valueOf(xmlData.get("MoveType", "Move")!!.toUpperCase())
 	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<MoveSourceAction> = object : Pool<MoveSourceAction>() {
+			override fun newObject(): MoveSourceAction
+			{
+				return MoveSourceAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): MoveSourceAction
+		{
+			val obj = MoveSourceAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { MoveSourceAction.pool.free(this); obtained = false } }
 }
 
-class PullAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
+class PullAction() : AbstractActionSequenceAction()
 {
 	lateinit var type: MovementType
 
@@ -85,9 +109,9 @@ class PullAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val action = PullAction(sequence)
+		val action = PullAction.obtain()
 		action.type = type
 
 		return action
@@ -97,9 +121,32 @@ class PullAction(ability: ActionSequence) : AbstractActionSequenceAction(ability
 	{
 		type = MovementType.valueOf(xmlData.get("MoveType", "Move")!!.toUpperCase())
 	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<PullAction> = object : Pool<PullAction>() {
+			override fun newObject(): PullAction
+			{
+				return PullAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): PullAction
+		{
+			val obj = PullAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { PullAction.pool.free(this); obtained = false } }
 }
 
-class KnockbackAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
+class KnockbackAction() : AbstractActionSequenceAction()
 {
 	lateinit var type: MovementType
 	var dist: Int = 1
@@ -130,9 +177,9 @@ class KnockbackAction(ability: ActionSequence) : AbstractActionSequenceAction(ab
 
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val action = KnockbackAction(sequence)
+		val action = KnockbackAction.obtain()
 		action.type = type
 		action.dist = dist
 
@@ -144,6 +191,29 @@ class KnockbackAction(ability: ActionSequence) : AbstractActionSequenceAction(ab
 		type = MovementType.valueOf(xmlData.get("MoveType", "Move")!!.toUpperCase())
 		dist = xmlData.getInt("Dist", 1)
 	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<KnockbackAction> = object : Pool<KnockbackAction>() {
+			override fun newObject(): KnockbackAction
+			{
+				return KnockbackAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): KnockbackAction
+		{
+			val obj = KnockbackAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { KnockbackAction.pool.free(this); obtained = false } }
 }
 
 private fun doMove(src: Tile, dst: Tile, type: MovementType, interrupt: Boolean): Tile

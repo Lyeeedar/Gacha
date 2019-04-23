@@ -1,13 +1,14 @@
 package com.lyeeedar.Game.ActionSequence
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.utils.Pool
 import com.lyeeedar.Components.ActiveActionSequenceComponent
 import com.lyeeedar.Components.Mappers
 import com.lyeeedar.Components.TransientComponent
 import com.lyeeedar.Global
 import com.lyeeedar.Util.XmlData
 
-class BlockTurnAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
+class BlockTurnAction : AbstractActionSequenceAction()
 {
 	override fun enter(): Boolean
 	{
@@ -24,18 +25,41 @@ class BlockTurnAction(ability: ActionSequence) : AbstractActionSequenceAction(ab
 		return false
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		return BlockTurnAction(sequence)
+		return BlockTurnAction.obtain()
 	}
 
 	override fun parse(xmlData: XmlData)
 	{
 
 	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<BlockTurnAction> = object : Pool<BlockTurnAction>() {
+			override fun newObject(): BlockTurnAction
+			{
+				return BlockTurnAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): BlockTurnAction
+		{
+			val obj = BlockTurnAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { BlockTurnAction.pool.free(this); obtained = false } }
 }
 
-class UnlockEntityAction(ability: ActionSequence) : AbstractActionSequenceAction(ability)
+class UnlockEntityAction : AbstractActionSequenceAction()
 {
 	override fun enter(): Boolean
 	{
@@ -63,9 +87,9 @@ class UnlockEntityAction(ability: ActionSequence) : AbstractActionSequenceAction
 
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val action = UnlockEntityAction(sequence)
+		val action = UnlockEntityAction.obtain()
 		return action
 	}
 
@@ -74,4 +98,26 @@ class UnlockEntityAction(ability: ActionSequence) : AbstractActionSequenceAction
 
 	}
 
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<UnlockEntityAction> = object : Pool<UnlockEntityAction>() {
+			override fun newObject(): UnlockEntityAction
+			{
+				return UnlockEntityAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): UnlockEntityAction
+		{
+			val obj = UnlockEntityAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { UnlockEntityAction.pool.free(this); obtained = false } }
 }

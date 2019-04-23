@@ -3,6 +3,7 @@ package com.lyeeedar.Game.ActionSequence
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.utils.Array
+import com.badlogic.gdx.utils.Pool
 import com.lyeeedar.Components.*
 import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Animation.*
@@ -21,7 +22,7 @@ enum class OnEndBehaviour
 	STOP
 }
 
-class ReplaceSourceRenderableAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
+class ReplaceSourceRenderableAction() : AbstractActionSequenceAction()
 {
 	lateinit var renderable: Renderable
 
@@ -106,9 +107,9 @@ class ReplaceSourceRenderableAction(sequence: ActionSequence) : AbstractActionSe
 		originalRenderable = null
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val action = ReplaceSourceRenderableAction(sequence)
+		val action = ReplaceSourceRenderableAction.obtain()
 
 		action.renderable = renderable
 		action.restoreOriginal = restoreOriginal
@@ -123,9 +124,32 @@ class ReplaceSourceRenderableAction(sequence: ActionSequence) : AbstractActionSe
 		restoreOriginal = xmlData.getBoolean("RestoreOriginal", true)
 		blendDuration = xmlData.getFloat("BlendDuration", 0f)
 	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<ReplaceSourceRenderableAction> = object : Pool<ReplaceSourceRenderableAction>() {
+			override fun newObject(): ReplaceSourceRenderableAction
+			{
+				return ReplaceSourceRenderableAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): ReplaceSourceRenderableAction
+		{
+			val obj = ReplaceSourceRenderableAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { ReplaceSourceRenderableAction.pool.free(this); obtained = false } }
 }
 
-class SourceAnimationAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
+class SourceAnimationAction() : AbstractActionSequenceAction()
 {
 	enum class Animation
 	{
@@ -178,9 +202,9 @@ class SourceAnimationAction(sequence: ActionSequence) : AbstractActionSequenceAc
 
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val action = SourceAnimationAction(sequence)
+		val action = SourceAnimationAction.obtain()
 
 		action.anim = anim
 		action.startSize = startSize
@@ -204,9 +228,31 @@ class SourceAnimationAction(sequence: ActionSequence) : AbstractActionSequenceAc
 		endFade = xmlData.getFloat("FadeEnd", 1f)
 	}
 
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<SourceAnimationAction> = object : Pool<SourceAnimationAction>() {
+			override fun newObject(): SourceAnimationAction
+			{
+				return SourceAnimationAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): SourceAnimationAction
+		{
+			val obj = SourceAnimationAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { SourceAnimationAction.pool.free(this); obtained = false } }
 }
 
-class DestinationRenderableAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
+class DestinationRenderableAction() : AbstractActionSequenceAction()
 {
 	enum class SpawnBehaviour
 	{
@@ -369,9 +415,9 @@ class DestinationRenderableAction(sequence: ActionSequence) : AbstractActionSequ
 		entities.clear()
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val out = DestinationRenderableAction(sequence)
+		val out = DestinationRenderableAction.obtain()
 		out.renderable = renderable
 		out.slot = slot
 		out.onEnd = onEnd
@@ -393,9 +439,32 @@ class DestinationRenderableAction(sequence: ActionSequence) : AbstractActionSequ
 		spawnBehaviour = SpawnBehaviour.valueOf(xmlData.get("SpawnBehaviour", "Immediate")!!.toUpperCase())
 		spawnDuration = xmlData.getFloat("SpawnDuration", 0f)
 	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<DestinationRenderableAction> = object : Pool<DestinationRenderableAction>() {
+			override fun newObject(): DestinationRenderableAction
+			{
+				return DestinationRenderableAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): DestinationRenderableAction
+		{
+			val obj = DestinationRenderableAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { DestinationRenderableAction.pool.free(this); obtained = false } }
 }
 
-class AttachToEntityRenderableAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
+class AttachToEntityRenderableAction() : AbstractActionSequenceAction()
 {
 	enum class SpawnBehaviour
 	{
@@ -513,9 +582,9 @@ class AttachToEntityRenderableAction(sequence: ActionSequence) : AbstractActionS
 		entities.clear()
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val out = AttachToEntityRenderableAction(sequence)
+		val out = AttachToEntityRenderableAction.obtain()
 		out.renderable = renderable
 		out.above = above
 		out.spawnBehaviour = spawnBehaviour
@@ -531,9 +600,32 @@ class AttachToEntityRenderableAction(sequence: ActionSequence) : AbstractActionS
 		spawnBehaviour = SpawnBehaviour.valueOf(xmlData.get("SpawnBehaviour", "Immediate")!!.toUpperCase())
 		spawnDuration = xmlData.getFloat("SpawnDuration", 0f)
 	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<AttachToEntityRenderableAction> = object : Pool<AttachToEntityRenderableAction>() {
+			override fun newObject(): AttachToEntityRenderableAction
+			{
+				return AttachToEntityRenderableAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): AttachToEntityRenderableAction
+		{
+			val obj = AttachToEntityRenderableAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { AttachToEntityRenderableAction.pool.free(this); obtained = false } }
 }
 
-class SourceRenderableAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
+class SourceRenderableAction() : AbstractActionSequenceAction()
 {
 	lateinit var renderable: ParticleEffectDescription
 	lateinit var slot: SpaceSlot
@@ -589,9 +681,9 @@ class SourceRenderableAction(sequence: ActionSequence) : AbstractActionSequenceA
 		entities.clear()
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val out = SourceRenderableAction(sequence)
+		val out = SourceRenderableAction.obtain()
 		out.renderable = renderable
 		out.slot = slot
 		out.onEnd = onEnd
@@ -605,9 +697,32 @@ class SourceRenderableAction(sequence: ActionSequence) : AbstractActionSequenceA
 		renderable = AssetManager.loadParticleEffect(xmlData.getChildByName("Renderable")!!)
 		onEnd = OnEndBehaviour.valueOf(xmlData.get("OnEnd", "Stop")!!.toUpperCase())
 	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<SourceRenderableAction> = object : Pool<SourceRenderableAction>() {
+			override fun newObject(): SourceRenderableAction
+			{
+				return SourceRenderableAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): SourceRenderableAction
+		{
+			val obj = SourceRenderableAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { SourceRenderableAction.pool.free(this); obtained = false } }
 }
 
-class MovementRenderableAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
+class MovementRenderableAction() : AbstractActionSequenceAction()
 {
 	lateinit var renderable: ParticleEffectDescription
 	lateinit var slot: SpaceSlot
@@ -658,9 +773,9 @@ class MovementRenderableAction(sequence: ActionSequence) : AbstractActionSequenc
 		Global.engine.removeEntity(entity)
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val out = MovementRenderableAction(sequence)
+		val out = MovementRenderableAction.obtain()
 		out.renderable = renderable
 		out.useLeap = useLeap
 		out.slot = slot
@@ -674,9 +789,32 @@ class MovementRenderableAction(sequence: ActionSequence) : AbstractActionSequenc
 		useLeap = xmlData.getBoolean("UseLeap", false)
 		renderable = AssetManager.loadParticleEffect(xmlData.getChildByName("Renderable")!!)
 	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<MovementRenderableAction> = object : Pool<MovementRenderableAction>() {
+			override fun newObject(): MovementRenderableAction
+			{
+				return MovementRenderableAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): MovementRenderableAction
+		{
+			val obj = MovementRenderableAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { MovementRenderableAction.pool.free(this); obtained = false } }
 }
 
-class ScreenShakeAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
+class ScreenShakeAction() : AbstractActionSequenceAction()
 {
 	var speed: Float = 0f
 	var amount: Float = 0f
@@ -698,9 +836,9 @@ class ScreenShakeAction(sequence: ActionSequence) : AbstractActionSequenceAction
 		Global.engine.render()?.renderer?.unlockScreenShake()
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val out = ScreenShakeAction(sequence)
+		val out = ScreenShakeAction.obtain()
 		out.speed = speed
 		out.amount = amount
 
@@ -712,4 +850,27 @@ class ScreenShakeAction(sequence: ActionSequence) : AbstractActionSequenceAction
 		this.speed = 1f / xmlData.getFloat("Speed", 10f)
 		this.amount = xmlData.getFloat("Strength", 5f)
 	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<ScreenShakeAction> = object : Pool<ScreenShakeAction>() {
+			override fun newObject(): ScreenShakeAction
+			{
+				return ScreenShakeAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): ScreenShakeAction
+		{
+			val obj = ScreenShakeAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { ScreenShakeAction.pool.free(this); obtained = false } }
 }

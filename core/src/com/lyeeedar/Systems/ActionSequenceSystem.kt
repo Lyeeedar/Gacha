@@ -23,6 +23,8 @@ class ActionSequenceSystem : AbstractSystem(Family.one(ActiveActionSequenceCompo
 				{
 					engine.removeEntity(entity)
 				}
+
+				activeSequence.sequence.free()
 			}
 		}
 	}

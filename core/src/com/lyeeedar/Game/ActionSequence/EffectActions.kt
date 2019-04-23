@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.ObjectFloatMap
 import com.badlogic.gdx.utils.ObjectSet
+import com.badlogic.gdx.utils.Pool
 import com.exp4j.Helpers.CompiledExpression
 import com.lyeeedar.AI.Tasks.TaskInterrupt
 import com.lyeeedar.Components.*
@@ -19,7 +20,7 @@ import com.lyeeedar.Systems.EventSystem
 import com.lyeeedar.Systems.event
 import com.lyeeedar.Util.*
 
-class DamageAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
+class DamageAction : AbstractActionSequenceAction()
 {
 	lateinit var damage: CompiledExpression
 
@@ -112,9 +113,9 @@ class DamageAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequ
 
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val action = DamageAction(sequence)
+		val action = DamageAction.obtain()
 		action.damage = damage
 
 		return action
@@ -129,9 +130,32 @@ class DamageAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequ
 
 		damage = CompiledExpression(damageStr, map)
 	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<DamageAction> = object : Pool<DamageAction>() {
+			override fun newObject(): DamageAction
+			{
+				return DamageAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): DamageAction
+		{
+			val obj = DamageAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { DamageAction.pool.free(this); obtained = false } }
 }
 
-class HealAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
+class HealAction() : AbstractActionSequenceAction()
 {
 	lateinit var amount: CompiledExpression
 
@@ -181,9 +205,9 @@ class HealAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequen
 
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val action = HealAction(sequence)
+		val action = HealAction.obtain()
 		action.amount = amount
 
 		return action
@@ -199,9 +223,32 @@ class HealAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequen
 
 		amount = CompiledExpression(healStr, map)
 	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<HealAction> = object : Pool<HealAction>() {
+			override fun newObject(): HealAction
+			{
+				return HealAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): HealAction
+		{
+			val obj = HealAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { HealAction.pool.free(this); obtained = false } }
 }
 
-class StunAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
+class StunAction() : AbstractActionSequenceAction()
 {
 	lateinit var chance: CompiledExpression
 	lateinit var count: CompiledExpression
@@ -261,9 +308,9 @@ class StunAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequen
 
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val action = StunAction(sequence)
+		val action = StunAction.obtain()
 		action.chance = chance
 		action.count = count
 
@@ -283,9 +330,31 @@ class StunAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequen
 		count = CompiledExpression(countStr, map)
 	}
 
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<StunAction> = object : Pool<StunAction>() {
+			override fun newObject(): StunAction
+			{
+				return StunAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): StunAction
+		{
+			val obj = StunAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { StunAction.pool.free(this); obtained = false } }
 }
 
-class BuffAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
+class BuffAction() : AbstractActionSequenceAction()
 {
 	var isDebuff = false
 	lateinit var buff: Buff
@@ -357,9 +426,9 @@ class BuffAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequen
 		appliedToEntities.clear()
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val action = BuffAction(sequence)
+		val action = BuffAction.obtain()
 		action.isDebuff = isDebuff
 		action.buff = buff
 
@@ -372,9 +441,32 @@ class BuffAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequen
 		buff = Buff()
 		buff.parse(xmlData.getChildByName("Buff")!!)
 	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<BuffAction> = object : Pool<BuffAction>() {
+			override fun newObject(): BuffAction
+			{
+				return BuffAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): BuffAction
+		{
+			val obj = BuffAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { BuffAction.pool.free(this); obtained = false } }
 }
 
-class SummonAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
+class SummonAction() : AbstractActionSequenceAction()
 {
 	lateinit var entityPath: String
 	lateinit var summonEffect: ParticleEffectDescription
@@ -461,9 +553,9 @@ class SummonAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequ
 		summonedEntities.clear()
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val action = SummonAction(sequence)
+		val action = SummonAction.obtain()
 		action.entityPath = entityPath
 		action.summonEffect = summonEffect
 		action.killOnExit = killOnExit
@@ -478,9 +570,31 @@ class SummonAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequ
 		killOnExit = xmlData.getBoolean("KillOnExit", false)
 	}
 
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<SummonAction> = object : Pool<SummonAction>() {
+			override fun newObject(): SummonAction
+			{
+				return SummonAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): SummonAction
+		{
+			val obj = SummonAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { SummonAction.pool.free(this); obtained = false } }
 }
 
-class ReplaceAttackAction(sequence: ActionSequence) : AbstractActionSequenceAction(sequence)
+class ReplaceAttackAction() : AbstractActionSequenceAction()
 {
 	val replacedAttacks = Array<Pair<Entity, AttackDefinition>>()
 	lateinit var attackDefinition: AttackDefinition
@@ -516,9 +630,9 @@ class ReplaceAttackAction(sequence: ActionSequence) : AbstractActionSequenceActi
 		replacedAttacks.clear()
 	}
 
-	override fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	override fun doCopy(): AbstractActionSequenceAction
 	{
-		val action = ReplaceAttackAction(sequence)
+		val action = ReplaceAttackAction.obtain()
 		action.attackDefinition = attackDefinition
 
 		return action
@@ -530,4 +644,27 @@ class ReplaceAttackAction(sequence: ActionSequence) : AbstractActionSequenceActi
 		attackDefinition = AttackDefinition()
 		attackDefinition.parse(attackDefEl)
 	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<ReplaceAttackAction> = object : Pool<ReplaceAttackAction>() {
+			override fun newObject(): ReplaceAttackAction
+			{
+				return ReplaceAttackAction()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): ReplaceAttackAction
+		{
+			val obj = ReplaceAttackAction.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { ReplaceAttackAction.pool.free(this); obtained = false } }
 }

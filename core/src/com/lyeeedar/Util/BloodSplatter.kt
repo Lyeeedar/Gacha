@@ -19,8 +19,8 @@ class BloodSplatter
 		{
 			if (Global.resolveInstant) return
 
-			var vector = source.toVec()
-			vector.sub(target.x.toFloat(), target.y.toFloat())
+			var vector = target.toVec()
+			vector.sub(source.x.toFloat(), source.y.toFloat())
 			vector.nor()
 			vector = vector.rotate(Random.random(-angle, angle))
 

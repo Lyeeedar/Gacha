@@ -2,10 +2,21 @@ package com.lyeeedar.Game.ActionSequence
 
 import com.lyeeedar.Util.XmlData
 
-abstract class AbstractActionSequenceAction(val sequence: ActionSequence)
+abstract class AbstractActionSequenceAction
 {
+	lateinit var sequence: ActionSequence
+
 	var start: Float = 0f
 	var end: Float = 0f
+
+	fun set(sequence: ActionSequence, start: Float, end: Float): AbstractActionSequenceAction
+	{
+		this.sequence = sequence
+		this.start = start
+		this.end = end
+
+		return this
+	}
 
 	abstract fun enter(): Boolean
 
@@ -18,15 +29,16 @@ abstract class AbstractActionSequenceAction(val sequence: ActionSequence)
 
 	fun copy(sequence: ActionSequence): AbstractActionSequenceAction
 	{
-		val newAction = doCopy(sequence)
-		newAction.start = start
-		newAction.end = end
+		val newAction = doCopy()
+		newAction.set(sequence, start, end)
 
 		return newAction
 	}
 
-	protected abstract fun doCopy(sequence: ActionSequence): AbstractActionSequenceAction
+	protected abstract fun doCopy(): AbstractActionSequenceAction
 	abstract fun parse(xmlData: XmlData)
+
+	abstract fun free()
 
 	companion object
 	{
@@ -34,40 +46,41 @@ abstract class AbstractActionSequenceAction(val sequence: ActionSequence)
 		{
 			val node = when (xmlData.name.toUpperCase())
 			{
-				"BLOCKTURN" -> BlockTurnAction(sequence)
-				"UNLOCKENTITY" -> UnlockEntityAction(sequence)
+				"BLOCKTURN" -> BlockTurnAction.obtain()
+				"UNLOCKENTITY" -> UnlockEntityAction.obtain()
 
-				"DAMAGE" -> DamageAction(sequence)
-				"STUN" -> StunAction(sequence)
-				"HEAL" -> HealAction(sequence)
-				"BUFF", "DEBUFF" -> BuffAction(sequence)
-				"SUMMON" -> SummonAction(sequence)
-				"REPLACEATTACK" -> ReplaceAttackAction(sequence)
+				"DAMAGE" -> DamageAction.obtain()
+				"STUN" -> StunAction.obtain()
+				"HEAL" -> HealAction.obtain()
+				"BUFF", "DEBUFF" -> BuffAction.obtain()
+				"SUMMON" -> SummonAction.obtain()
+				"REPLACEATTACK" -> ReplaceAttackAction.obtain()
 
-				"MOVESOURCE" -> MoveSourceAction(sequence)
-				"PULL" -> PullAction(sequence)
-				"KNOCKBACK" -> KnockbackAction(sequence)
+				"MOVESOURCE" -> MoveSourceAction.obtain()
+				"PULL" -> PullAction.obtain()
+				"KNOCKBACK" -> KnockbackAction.obtain()
 
-				"PERMUTE" -> PermuteAction(sequence)
-				"SELECTALLIES", "SELECTENEMIES", "SELECTENTITIES" -> SelectEntitiesAction(sequence)
-				"SELECTTILES" -> SelectTilesAction(sequence)
-				"SELECTSELF" -> SelectSelfAction(sequence)
-				"LOCKTARGETS" -> LockTargetsAction(sequence)
+				"PERMUTE" -> PermuteAction.obtain()
+				"SELECTALLIES", "SELECTENEMIES", "SELECTENTITIES" -> SelectEntitiesAction.obtain()
+				"SELECTTILES" -> SelectTilesAction.obtain()
+				"SELECTSELF" -> SelectSelfAction.obtain()
+				"LOCKTARGETS" -> LockTargetsAction.obtain()
 
-				"SOURCERENDERABLE" -> SourceRenderableAction(sequence)
-				"REPLACESOURCERENDERABLE" -> ReplaceSourceRenderableAction(sequence)
-				"ATTACHTOENTITYRENDERABLE" -> AttachToEntityRenderableAction(sequence)
-				"SOURCEANIMATION" -> SourceAnimationAction(sequence)
-				"DESTINATIONRENDERABLE" -> DestinationRenderableAction(sequence)
-				"MOVEMENTRENDERABLE" -> MovementRenderableAction(sequence)
-				"SCREENSHAKE" -> ScreenShakeAction(sequence)
+				"SOURCERENDERABLE" -> SourceRenderableAction.obtain()
+				"REPLACESOURCERENDERABLE" -> ReplaceSourceRenderableAction.obtain()
+				"ATTACHTOENTITYRENDERABLE" -> AttachToEntityRenderableAction.obtain()
+				"SOURCEANIMATION" -> SourceAnimationAction.obtain()
+				"DESTINATIONRENDERABLE" -> DestinationRenderableAction.obtain()
+				"MOVEMENTRENDERABLE" -> MovementRenderableAction.obtain()
+				"SCREENSHAKE" -> ScreenShakeAction.obtain()
 
-				"REPEATBEGIN" -> RepeatBegin(sequence)
-				"REPEATEND" -> RepeatEnd(sequence)
+				"REPEATBEGIN" -> RepeatBegin.obtain()
+				"REPEATEND" -> RepeatEnd.obtain()
 
 				else -> throw Exception("Unhandled sequence action type " + xmlData.getAttribute("meta:RefKey") + "!")
 			}
 
+			node.set(sequence, 0f, 0f)
 			node.parse(xmlData)
 
 			node.start = xmlData.getFloat("Time", 0f)
