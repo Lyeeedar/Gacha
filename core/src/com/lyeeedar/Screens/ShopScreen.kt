@@ -51,6 +51,9 @@ class ShopScreen : AbstractScreen()
 
 		mainTable.background = TiledDrawable(TextureRegionDrawable(AssetManager.loadTextureRegion("Oryx/uf_split/uf_terrain/floor_extra_15"))).tint(Color(0.4f, 0.4f, 0.4f, 1f))
 
+		mainTable.add(GameDataBar()).growX()
+		mainTable.row()
+
 		val shopTable = Table()
 
 		val merchantTable = Table()
@@ -347,7 +350,7 @@ class ShopScreen : AbstractScreen()
 				{
 					for (hero in faction.heroes)
 					{
-						val extraWeight = if (Global.data.heroPool.any{ it.factionEntity == hero}) 2 else 1
+						val extraWeight = if (Global.data.heroPool.any{ it.factionEntity == hero}) 3 else 1
 						for (i in 0 until hero.rarity.dropRate * extraWeight)
 						{
 							possibleDrops.add(hero)
@@ -495,7 +498,7 @@ class ShopScreen : AbstractScreen()
 				val possibleDrops = Array<FactionEntity>()
 				for (hero in faction.heroes)
 				{
-					val extraWeight = if (Global.data.heroPool.any{ it.factionEntity == hero}) 2 else 1
+					val extraWeight = if (Global.data.heroPool.any{ it.factionEntity == hero}) 3 else 1
 					for (i in 0 until hero.rarity.dropRate * extraWeight)
 					{
 						possibleDrops.add(hero)

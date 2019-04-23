@@ -49,6 +49,9 @@ class HeroesScreen : AbstractScreen()
 		val contentTable = heroesContentTable
 		contentTable.clear()
 
+		contentTable.add(GameDataBar()).growX()
+		contentTable.row()
+
 		val heroesButton = Table()
 		heroesButton.background = TextureRegionDrawable(AssetManager.loadTextureRegion("GUI/BasePanelHighlight"))
 		heroesButton.add(Label("Heroes", Global.skin)).center()
@@ -120,6 +123,9 @@ class HeroesScreen : AbstractScreen()
 	{
 		mainTable.clear()
 
+		mainTable.add(GameDataBar()).growX()
+		mainTable.row()
+
 		val stats = entity.stats()!!
 
 		// faction, ascension, armour type
@@ -142,14 +148,14 @@ class HeroesScreen : AbstractScreen()
 
 		// name
 		val nameLabel = Label(entity.name().name, Global.skin, "title")
-		mainTable.add(nameLabel).expandX().center().padTop(10f)
+		mainTable.add(nameLabel).expandX().center().padTop(5f)
 		mainTable.row()
-		mainTable.add(Label(entity.name().title, Global.skin, "small").tint(Color.LIGHT_GRAY)).expandX().center().padTop(2f).padBottom(10f)
+		mainTable.add(Label(entity.name().title, Global.skin, "small").tint(Color.LIGHT_GRAY)).expandX().center().padTop(2f).padBottom(5f)
 		mainTable.row()
 
 		// sprite and skills
 		val spriteAndSkillsTable = Table()
-		mainTable.add(spriteAndSkillsTable).growX().padTop(20f).padBottom(15f)
+		mainTable.add(spriteAndSkillsTable).growX().padTop(10f).padBottom(10f)
 		mainTable.row()
 
 		val leftSkillsColumn = Table()
@@ -628,6 +634,9 @@ class HeroesScreen : AbstractScreen()
 		val contentTable = factionsContentTable
 		factionsContentTable.clear()
 
+		contentTable.add(GameDataBar()).growX()
+		contentTable.row()
+
 		val heroesButton = Table()
 		heroesButton.background = TextureRegionDrawable(AssetManager.loadTextureRegion("GUI/BasePanel"))
 		heroesButton.add(Label("Heroes", Global.skin)).center()
@@ -651,14 +660,13 @@ class HeroesScreen : AbstractScreen()
 		for (faction in Global.data.unlockedFactions)
 		{
 			val factionTable = Table()
-			val panelBack = AssetManager.loadTextureRegion("GUI/TilePanel")
-			factionTable.background = NinePatchDrawable(NinePatch(panelBack, 12, 12, 12, 12))
+			factionTable.background = NinePatchDrawable(NinePatch(AssetManager.loadTextureRegion("Sprites/GUI/Button.png"), 6, 6, 6, 6))
 
-			factionTable.add(SpriteWidget(faction.icon, 16f, 16f)).pad(3f)
-			factionTable.add(Label(faction.name, Global.skin)).padLeft(10f)
+			factionTable.add(SpriteWidget(faction.icon, 16f, 16f)).pad(10f)
+			factionTable.add(Label(faction.name, Global.skin)).pad(10f).padTop(15f).padBottom(15f)
 
 			val numUnlockedHeroes = faction.heroes.count { Global.data.heroPool.any { ed -> ed.factionEntity == it } }
-			factionTable.add(Label(numUnlockedHeroes.toString() + "/" + faction.heroes.size, Global.skin)).expandX().right()
+			factionTable.add(Label(numUnlockedHeroes.toString() + "/" + faction.heroes.size, Global.skin)).pad(5f).expandX().right()
 
 			factionTable.addClickListener {
 				createFactionTable(faction)
@@ -690,6 +698,9 @@ class HeroesScreen : AbstractScreen()
 	fun createFactionTable(faction: Faction)
 	{
 		mainTable.clear()
+
+		mainTable.add(GameDataBar()).growX()
+		mainTable.row()
 
 		// icon
 		mainTable.add(SpriteWidget(faction.icon.copy(), 32f, 32f)).expandX().center().pad(20f)

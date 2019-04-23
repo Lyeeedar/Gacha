@@ -1,0 +1,209 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Titania</Name>
+			<Title>Sword Saint</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>125</MaxHP>
+				<Power>11.5</Power>
+				<CritChance>0.1</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<EquipmentWeight>Heavy</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/titania</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/titania</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Requip: Heaven's Wheel</Name>
+					<Description>Equip the armour 'Heaven's Wheel', instantly leaping to a target and striking them for [GOLD]200%[]. Gain [GOLD]100%[] haste for the next 5 turns.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/titania_heaven_1</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<SelectEnemies>
+								<Time>0.113328524</Time>
+							</SelectEnemies>
+							<MoveSource>
+								<Time>0.13551873</Time>
+								<MoveType>Leap</MoveType>
+							</MoveSource>
+							<DestinationRenderable>
+								<Time>0.232204646</Time>
+								<Duration LockDuration="False">0.08242074</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>slash</Name>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+							</DestinationRenderable>
+							<Damage>
+								<Time>0.314625382</Time>
+								<Amount>2</Amount>
+							</Damage>
+							<UnlockEntity>
+								<Time>0.338400573</Time>
+							</UnlockEntity>
+							<RepeatBegin>
+								<Time>0.368515849</Time>
+								<Count>5</Count>
+							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.393876076</Time>
+							</BlockTurn>
+							<RepeatEnd>
+								<Time>0.4208213</Time>
+							</RepeatEnd>
+						</Timeline>
+						<Timeline>
+							<Buff>
+								<Time>0.030059088</Time>
+								<Duration LockDuration="False">0.46957162</Duration>
+								<Buff meta:RefKey="Buff">
+									<Name>Requip: Heaven's Wheel</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Oryx/Custom/heroes/titania_heaven_1</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Haste>1</Haste>
+									</Statistics>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<ReplaceSourceRenderable>
+								<Time>0.030059088</Time>
+								<Duration LockDuration="False">0.46957162</Duration>
+								<Renderable meta:RefKey="Sprite">
+									<Name>Oryx/Custom/heroes/titania_heaven</Name>
+									<DrawActualSize>true</DrawActualSize>
+								</Renderable>
+							</ReplaceSourceRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>3,10</Cooldown>
+					<Condition>requip==0</Condition>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Requip: Dancing Blades</Name>
+					<Description>Equip the armour 'dancing blades', instantly striking all enemies for [GOLD]50%[]. For the next 5 rounds each time you attack there is a [GOLD]30%[] chance to strike a random enemy for [GOLD]50%[].</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/titania_ataraxia_1</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<SelectEnemies>
+								<Time>0.113328524</Time>
+								<Count>10</Count>
+							</SelectEnemies>
+							<Damage>
+								<Time>0.124564134</Time>
+								<Amount>0.5</Amount>
+							</Damage>
+							<UnlockEntity>
+								<Time>0.338400573</Time>
+							</UnlockEntity>
+							<RepeatBegin>
+								<Time>0.368515849</Time>
+								<Count>5</Count>
+							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.393876076</Time>
+							</BlockTurn>
+							<RepeatEnd>
+								<Time>0.4208213</Time>
+							</RepeatEnd>
+						</Timeline>
+						<Timeline>
+							<Buff>
+								<Time>0.030059088</Time>
+								<Duration LockDuration="False">0.46957162</Duration>
+								<Buff meta:RefKey="Buff">
+									<Name>Requip: Dancing Blades</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Oryx/Custom/heroes/titania_ataraxia_1</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics" />
+									<EventHandlers meta:RefKey="EventHandler">
+										<Events>
+											<DealDamage>
+												<EventHandler>
+													<Condition>chance(1, 3)</Condition>
+													<ActionSequence meta:RefKey="ActionSequence">
+														<Timeline>
+															<SelectEnemies />
+															<Damage>
+																<Time>0.08695238</Time>
+																<Amount>0.5</Amount>
+															</Damage>
+														</Timeline>
+														<Timeline>
+															<DestinationRenderable>
+																<Time>0.0366666652</Time>
+																<Duration LockDuration="False">0.129904762</Duration>
+																<Renderable meta:RefKey="ParticleEffect">
+																	<Name>slash</Name>
+																</Renderable>
+															</DestinationRenderable>
+														</Timeline>
+													</ActionSequence>
+												</EventHandler>
+											</DealDamage>
+										</Events>
+									</EventHandlers>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<ReplaceSourceRenderable>
+								<Time>0.030059088</Time>
+								<Duration LockDuration="False">0.46957162</Duration>
+								<Renderable meta:RefKey="Sprite">
+									<Name>Oryx/Custom/heroes/titania_ataraxia</Name>
+									<DrawActualSize>true</DrawActualSize>
+								</Renderable>
+							</ReplaceSourceRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>3,10</Cooldown>
+					<Condition>requip==0</Condition>
+					<Range>99</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

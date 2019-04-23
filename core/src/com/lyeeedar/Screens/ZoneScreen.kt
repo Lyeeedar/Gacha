@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable
 import com.lyeeedar.Game.Zone
 import com.lyeeedar.Global
 import com.lyeeedar.MainGame
+import com.lyeeedar.UI.GameDataBar
 import com.lyeeedar.UI.NavigationBar
 import com.lyeeedar.UI.ZoneWidget
 import com.lyeeedar.UI.addClickListener
@@ -20,6 +21,9 @@ class ZoneScreen : AbstractScreen()
 		val widget = ZoneWidget(zone)
 
 		mainTable.background = TiledDrawable(TextureRegionDrawable(zone.theme.backgroundTile)).tint(zone.theme.ambient.color())
+
+		mainTable.add(GameDataBar()).growX()
+		mainTable.row()
 
 		val stack = Stack()
 		widget.width = stage.width

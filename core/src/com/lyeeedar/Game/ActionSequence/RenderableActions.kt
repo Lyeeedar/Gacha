@@ -599,13 +599,11 @@ class MovementRenderableAction(sequence: ActionSequence) : AbstractActionSequenc
 		val duration = end - start
 		if (useLeap)
 		{
-			r.faceInMoveDirection = true
 			r.animation = LeapAnimation.obtain().set(duration, pos.position.getPosDiff(sequence.source.tile()!!), 2f)
 			r.animation = ExpandAnimation.obtain().set(duration, 0.5f, 1.5f, false)
 		}
 		else
 		{
-			r.faceInMoveDirection = true
 			r.animation = MoveAnimation.obtain().set(duration, UnsmoothedPath(midPoint.getPosDiff(sequence.source.tile()!!)), Interpolation.linear)
 		}
 

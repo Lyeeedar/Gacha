@@ -12,7 +12,7 @@
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
 				<MaxHP>130</MaxHP>
-				<Power>10.5</Power>
+				<Power>10</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
 			</Statistics>
@@ -215,43 +215,6 @@
 					</Ability>
 					<Cooldown>3,6</Cooldown>
 					<Condition>Stormsurge==1</Condition>
-				</AbilityData>
-				<AbilityData>
-					<Name>Intimidating Roar</Name>
-					<Description>Roar at the enemy, causing them lose [GOLD]20%[] power and [GOLD]30%[] ability power for 4 rounds.</Description>
-					<Icon meta:RefKey="Sprite">
-						<Name>EffectSprites/Shout/Shout_3</Name>
-						<Colour>237,56,247,255</Colour>
-					</Icon>
-					<Ability meta:RefKey="ActionSequence">
-						<Timeline>
-							<Debuff>
-								<Duration LockDuration="False">0.243269235</Duration>
-								<Buff meta:RefKey="Buff">
-									<Name>Intimidated</Name>
-									<Icon meta:RefKey="Sprite">
-										<Name>Icons/powerdown</Name>
-									</Icon>
-									<Statistics meta:RefKey="Statistics">
-										<Power>-0.2</Power>
-										<AbilityPower>-0.3</AbilityPower>
-									</Statistics>
-									<Duration>4</Duration>
-								</Buff>
-							</Debuff>
-						</Timeline>
-						<Timeline>
-							<SourceRenderable>
-								<Duration LockDuration="False">0.1918956</Duration>
-								<Renderable meta:RefKey="ParticleEffect">
-									<Name>Shout</Name>
-								</Renderable>
-								<OnEnd>Nothing</OnEnd>
-							</SourceRenderable>
-						</Timeline>
-					</Ability>
-					<Cooldown>4,10</Cooldown>
-					<Range>99</Range>
 				</AbilityData>
 			</Abilities>
 		</Ability>
