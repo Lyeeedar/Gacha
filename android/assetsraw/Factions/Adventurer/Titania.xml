@@ -15,6 +15,7 @@
 				<Power>11</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
+				<DR>0.1</DR>
 			</Statistics>
 			<EquipmentWeight>Heavy</EquipmentWeight>
 			<Death meta:RefKey="ParticleEffect">
@@ -47,7 +48,7 @@
 			<Abilities>
 				<AbilityData>
 					<Name>Requip: Heaven's Wheel</Name>
-					<Description>Equip the armour 'Heaven's Wheel', instantly leaping to a target and striking them for [GOLD]200%[]. Gain [GOLD]100%[] haste for the next 5 turns.</Description>
+					<Description>Equip the armour 'Heaven's Wheel', instantly leaping to a target and striking them for [GOLD]200%[]. Gain [GOLD]100%[] haste for the next 6 rounds.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/Custom/items/heavens_rapiers</Name>
 					</Icon>
@@ -62,8 +63,8 @@
 								<MoveType>Leap</MoveType>
 							</MoveSource>
 							<DestinationRenderable>
-								<Time>0.232204646</Time>
 								<Duration LockDuration="False">0.08242074</Duration>
+								<Time>0.232204646</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>slash</Name>
 								</Renderable>
@@ -78,7 +79,7 @@
 							</UnlockEntity>
 							<RepeatBegin>
 								<Time>0.368515849</Time>
-								<Count>5</Count>
+								<Count>6</Count>
 							</RepeatBegin>
 							<BlockTurn>
 								<Time>0.393876076</Time>
@@ -89,8 +90,8 @@
 						</Timeline>
 						<Timeline>
 							<Buff>
-								<Time>0.030059088</Time>
 								<Duration LockDuration="False">0.46957162</Duration>
+								<Time>0.030059088</Time>
 								<Buff meta:RefKey="Buff">
 									<Name>Requip: Heaven's Wheel</Name>
 									<Icon meta:RefKey="Sprite">
@@ -101,25 +102,39 @@
 									</Statistics>
 								</Buff>
 							</Buff>
+							<Buff>
+								<Duration LockDuration="False">0.07346058</Duration>
+								<Time>0.525447</Time>
+								<Buff meta:RefKey="Buff">
+									<Name>Requip: Cooldown</Name>
+									<Statistics meta:RefKey="Statistics" />
+									<Duration>3</Duration>
+								</Buff>
+							</Buff>
+							<SelectSelf>
+								<Time>0.5158144</Time>
+							</SelectSelf>
 						</Timeline>
 						<Timeline>
 							<ReplaceSourceRenderable>
-								<Time>0.030059088</Time>
 								<Duration LockDuration="False">0.46957162</Duration>
+								<Time>0.030059088</Time>
 								<Renderable meta:RefKey="Sprite">
 									<Name>Oryx/Custom/heroes/titania_heaven</Name>
 									<DrawActualSize>true</DrawActualSize>
 								</Renderable>
+								<BlendDuration>0.3</BlendDuration>
 							</ReplaceSourceRenderable>
 						</Timeline>
 					</Ability>
 					<Cooldown>3,10</Cooldown>
 					<Condition>requip==0</Condition>
+					<Cancellable>false</Cancellable>
 					<Range>99</Range>
 				</AbilityData>
 				<AbilityData>
 					<Name>Requip: Dancing Blade</Name>
-					<Description>Equip the armour 'Dancing Blade', instantly striking all enemies for [GOLD]50%[]. For the next 5 rounds each time you attack there is a [GOLD]30%[] chance to strike a random enemy for [GOLD]40%[].</Description>
+					<Description>Equip the armour 'Dancing Blade', instantly striking all enemies for [GOLD]50%[]. For the next 6 rounds each time you attack there is a [GOLD]30%[] chance to strike a random enemy for [GOLD]40%[].</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/Custom/items/ataraxia_blade</Name>
 					</Icon>
@@ -130,8 +145,20 @@
 								<Time>0.113328524</Time>
 								<Count>10</Count>
 							</SelectEnemies>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.01880236</Duration>
+								<Time>0.129889935</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>DancingBlade</Name>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<OnEnd>Nothing</OnEnd>
+								<AlignToVector>false</AlignToVector>
+								<SpawnBehaviour>FromSource</SpawnBehaviour>
+								<SpawnDuration>0.4</SpawnDuration>
+							</DestinationRenderable>
 							<Damage>
-								<Time>0.124564134</Time>
+								<Time>0.156735018</Time>
 								<Amount>0.5</Amount>
 							</Damage>
 							<UnlockEntity>
@@ -139,7 +166,7 @@
 							</UnlockEntity>
 							<RepeatBegin>
 								<Time>0.368515849</Time>
-								<Count>5</Count>
+								<Count>6</Count>
 							</RepeatBegin>
 							<BlockTurn>
 								<Time>0.393876076</Time>
@@ -150,8 +177,8 @@
 						</Timeline>
 						<Timeline>
 							<Buff>
-								<Time>0.030059088</Time>
 								<Duration LockDuration="False">0.46957162</Duration>
+								<Time>0.030059088</Time>
 								<Buff meta:RefKey="Buff">
 									<Name>Requip: Dancing Blades</Name>
 									<Icon meta:RefKey="Sprite">
@@ -166,6 +193,16 @@
 													<ActionSequence meta:RefKey="ActionSequence">
 														<Timeline>
 															<SelectEnemies />
+															<DestinationRenderable>
+																<Duration LockDuration="False">0.02696991</Duration>
+																<Time>0.0557470843</Time>
+																<Renderable meta:RefKey="ParticleEffect">
+																	<Name>DancingBlade</Name>
+																</Renderable>
+																<RenderablePerTile>true</RenderablePerTile>
+																<OnEnd>Nothing</OnEnd>
+																<AlignToVector>false</AlignToVector>
+															</DestinationRenderable>
 															<Damage>
 																<Time>0.08695238</Time>
 																<Amount>0.4</Amount>
@@ -173,8 +210,8 @@
 														</Timeline>
 														<Timeline>
 															<DestinationRenderable>
-																<Time>0.0366666652</Time>
 																<Duration LockDuration="False">0.129904762</Duration>
+																<Time>0.0366666652</Time>
 																<Renderable meta:RefKey="ParticleEffect">
 																	<Name>slash</Name>
 																</Renderable>
@@ -187,25 +224,39 @@
 									</EventHandlers>
 								</Buff>
 							</Buff>
+							<SelectSelf>
+								<Time>0.511288762</Time>
+							</SelectSelf>
+							<Buff>
+								<Duration LockDuration="False">0.04663217</Duration>
+								<Time>0.5192829</Time>
+								<Buff meta:RefKey="Buff">
+									<Name>Requip: Cooldown</Name>
+									<Statistics meta:RefKey="Statistics" />
+									<Duration>3</Duration>
+								</Buff>
+							</Buff>
 						</Timeline>
 						<Timeline>
 							<ReplaceSourceRenderable>
-								<Time>0.030059088</Time>
 								<Duration LockDuration="False">0.46957162</Duration>
+								<Time>0.030059088</Time>
 								<Renderable meta:RefKey="Sprite">
 									<Name>Oryx/Custom/heroes/titania_ataraxia</Name>
 									<DrawActualSize>true</DrawActualSize>
 								</Renderable>
+								<BlendDuration>0.3</BlendDuration>
 							</ReplaceSourceRenderable>
 						</Timeline>
 					</Ability>
 					<Cooldown>3,10</Cooldown>
 					<Condition>requip==0</Condition>
+					<Cancellable>false</Cancellable>
 					<Range>99</Range>
 				</AbilityData>
 				<AbilityData>
 					<Name>Requip: Starlight Spear</Name>
-					<Description>Equip the armour 'Starlight Spear', knocking your opponent back and stunning them for 4 rounds. For the next 5 rounds you gain [GOLD]30%[] more crit chance.</Description>
+					<Description>Equip the armour 'Starlight Spear', knocking your opponent back and stunning them for 4 rounds. For the next 6 rounds you gain [GOLD]30%[] more crit chance.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/Custom/items/nakagami_spear</Name>
 					</Icon>
@@ -230,7 +281,7 @@
 							</UnlockEntity>
 							<RepeatBegin>
 								<Time>0.368515849</Time>
-								<Count>5</Count>
+								<Count>6</Count>
 							</RepeatBegin>
 							<BlockTurn>
 								<Time>0.393876076</Time>
@@ -245,8 +296,8 @@
 						</Timeline>
 						<Timeline>
 							<Buff>
-								<Time>0.030059088</Time>
 								<Duration LockDuration="False">0.46957162</Duration>
+								<Time>0.030059088</Time>
 								<Buff meta:RefKey="Buff">
 									<Name>Requip: Starlight Spear</Name>
 									<Icon meta:RefKey="Sprite">
@@ -257,24 +308,38 @@
 									</Statistics>
 								</Buff>
 							</Buff>
+							<SelectSelf>
+								<Time>0.5079579</Time>
+							</SelectSelf>
+							<Buff>
+								<Duration LockDuration="False">0.0426351428</Duration>
+								<Time>0.517284334</Time>
+								<Buff meta:RefKey="Buff">
+									<Name>Requip: Cooldown</Name>
+									<Statistics meta:RefKey="Statistics" />
+									<Duration>3</Duration>
+								</Buff>
+							</Buff>
 						</Timeline>
 						<Timeline>
 							<ReplaceSourceRenderable>
-								<Time>0.030059088</Time>
 								<Duration LockDuration="False">0.46957162</Duration>
+								<Time>0.030059088</Time>
 								<Renderable meta:RefKey="Sprite">
 									<Name>Oryx/Custom/heroes/titania_nakagami</Name>
 									<DrawActualSize>true</DrawActualSize>
 								</Renderable>
+								<BlendDuration>0.3</BlendDuration>
 							</ReplaceSourceRenderable>
 						</Timeline>
 					</Ability>
 					<Cooldown>3,10</Cooldown>
 					<Condition>requip==0</Condition>
+					<Cancellable>false</Cancellable>
 				</AbilityData>
 				<AbilityData>
 					<Name>Requip: Metal Fairy</Name>
-					<Description>Equip the armour 'Metal Fairy', instantly healing for [GOLD]300%[] power. For the next 5 rounds gain [GOLD]20%[] lifesteal.</Description>
+					<Description>Equip the armour 'Metal Fairy', instantly healing for [GOLD]300%[] power. For the next 6 rounds gain [GOLD]20%[] lifesteal.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/Custom/items/armadura_blades</Name>
 					</Icon>
@@ -286,7 +351,7 @@
 							</UnlockEntity>
 							<RepeatBegin>
 								<Time>0.368515849</Time>
-								<Count>5</Count>
+								<Count>6</Count>
 							</RepeatBegin>
 							<BlockTurn>
 								<Time>0.393876076</Time>
@@ -301,8 +366,8 @@
 						</Timeline>
 						<Timeline>
 							<Buff>
-								<Time>0.030059088</Time>
 								<Duration LockDuration="False">0.46957162</Duration>
+								<Time>0.030059088</Time>
 								<Buff meta:RefKey="Buff">
 									<Name>Requip: Metal Fairy</Name>
 									<Icon meta:RefKey="Sprite">
@@ -313,21 +378,34 @@
 									</Statistics>
 								</Buff>
 							</Buff>
+							<SelectSelf>
+								<Time>0.503294647</Time>
+							</SelectSelf>
+							<Buff>
+								<Duration LockDuration="False">0.0439674854</Duration>
+								<Time>0.511954963</Time>
+								<Buff meta:RefKey="Buff">
+									<Name>Requip: Cooldown</Name>
+									<Statistics meta:RefKey="Statistics" />
+									<Duration>3</Duration>
+								</Buff>
+							</Buff>
 						</Timeline>
 						<Timeline>
 							<ReplaceSourceRenderable>
-								<Time>0.030059088</Time>
 								<Duration LockDuration="False">0.46957162</Duration>
+								<Time>0.030059088</Time>
 								<Renderable meta:RefKey="Sprite">
 									<Name>Oryx/Custom/heroes/titania_armadura</Name>
 									<DrawActualSize>true</DrawActualSize>
 								</Renderable>
+								<BlendDuration>0.3</BlendDuration>
 							</ReplaceSourceRenderable>
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Time>0.07820134</Time>
 								<Duration LockDuration="False">0.103977196</Duration>
+								<Time>0.07820134</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Heal</Name>
 									<Colour>20,240,34,255</Colour>
@@ -338,6 +416,7 @@
 					</Ability>
 					<Cooldown>3,10</Cooldown>
 					<Condition>requip==0</Condition>
+					<Cancellable>false</Cancellable>
 					<Range>99</Range>
 				</AbilityData>
 			</Abilities>

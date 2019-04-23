@@ -39,6 +39,7 @@ class TaskAbility() : AbstractTask()
 		ability.justUsed = true
 
 		val newAb = ability.ability.copy()
+		newAb.cancellable = ability.cancellable
 		newAb.source = e
 
 		newAb.begin(e, Global.engine.level!!)

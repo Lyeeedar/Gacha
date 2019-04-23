@@ -61,7 +61,7 @@
 						<Data Name="Brownian" Min="0" meta:RefKey="Number" />
 						<Data Name="VelocityAligned" meta:RefKey="Boolean" />
 						<Data Name="AllowResize" Default="True" meta:RefKey="Boolean" />
-						<Data Name="MainAspectRatio" meta:RefKey="Boolean" />
+						<Data Name="MaintainAspectRatio" meta:RefKey="Boolean" />
 						<Data Name="SizeKeyframes" MinCount="1" meta:RefKey="Collection">
 							<Data Name="Stream" MinCount="1" meta:RefKey="Timeline">
 								<Keyframe Name="Keyframe" Collapse="True" Seperator="|" meta:RefKey="Keyframe">

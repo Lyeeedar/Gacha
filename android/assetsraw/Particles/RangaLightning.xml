@@ -5,6 +5,12 @@
 			<Name>LightningBolt</Name>
 			<Width>0</Width>
 			<Height>0</Height>
+			<SizeMultiplier>
+				<Keyframe>0|1</Keyframe>
+			</SizeMultiplier>
+			<Offset>
+				<Keyframe>0|0,0.5</Keyframe>
+			</Offset>
 			<Direction>Down</Direction>
 			<ParticleSpeed>0,0</ParticleSpeed>
 			<ParticleRotation>0,0</ParticleRotation>
@@ -17,7 +23,7 @@
 					<Lifetime>0.3,0.3</Lifetime>
 					<SizeKeyframes>
 						<Stream>
-							<Keyframe>0|1|1</Keyframe>
+							<Keyframe>0|1.5|1.5</Keyframe>
 						</Stream>
 					</SizeKeyframes>
 					<BlendMode>Multiplicative</BlendMode>
@@ -63,8 +69,11 @@
 			<IsBlockingEmitter>false</IsBlockingEmitter>
 			<Width>0.6</Width>
 			<Height>0</Height>
+			<SizeMultiplier>
+				<Keyframe>0|1</Keyframe>
+			</SizeMultiplier>
 			<Offset>
-				<Keyframe>0|0,0.8</Keyframe>
+				<Keyframe>0|0,1.5</Keyframe>
 			</Offset>
 			<ParticleSpeed>0,0</ParticleSpeed>
 			<ParticleRotation>0,360</ParticleRotation>

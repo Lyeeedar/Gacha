@@ -482,7 +482,7 @@ class Particle(val emitter: Emitter)
 			particle.drag = xml.getFloat("Drag", 0f)
 			particle.velocityAligned = xml.getBoolean("VelocityAligned", false)
 			particle.allowResize = xml.getBoolean("AllowResize", true)
-			particle.maintainAspectRatio = xml.getBoolean("MainAspectRatio", false)
+			particle.maintainAspectRatio = xml.getBoolean("MaintainAspectRatio", false)
 			particle.brownian = xml.getFloat("Brownian", 0f)
 
 			particle.blendKeyframes = xml.getBoolean("BlendKeyframes", false)

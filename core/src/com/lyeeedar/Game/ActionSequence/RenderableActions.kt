@@ -25,6 +25,8 @@ class ReplaceSourceRenderableAction(sequence: ActionSequence) : AbstractActionSe
 {
 	lateinit var renderable: Renderable
 
+	var blendDuration = 0f
+
 	var restoreOriginal = true
 	var originalRenderable: Renderable? = null
 
@@ -43,8 +45,25 @@ class ReplaceSourceRenderableAction(sequence: ActionSequence) : AbstractActionSe
 			originalRenderable = source.renderable().renderable
 		}
 
-		source.renderable().renderable = renderable.copy()
+		val newRenderable = renderable.copy()
+		source.renderable().renderable = newRenderable
 		source.renderable().lockRenderable = true
+
+		if (originalRenderable != null && blendDuration > 0f)
+		{
+			var addRenderable = source.additionalRenderable()
+			if (addRenderable == null)
+			{
+				addRenderable = AdditionalRenderableComponent()
+				source.add(addRenderable)
+			}
+
+			addRenderable.above["blendTo"] = originalRenderable!!
+			originalRenderable!!.animation = AlphaAnimation.obtain().set(blendDuration, 1f, 0f)
+			Future.call({ addRenderable.above.remove("blendTo") }, blendDuration)
+
+			newRenderable.animation = AlphaAnimation.obtain().set(blendDuration, 0f, 1f)
+		}
 
 		return false
 	}
@@ -57,8 +76,26 @@ class ReplaceSourceRenderableAction(sequence: ActionSequence) : AbstractActionSe
 
 		if (originalRenderable != null)
 		{
+			val replacementRenderable = source.renderable().renderable
+
 			source.renderable().renderable = originalRenderable!!
 			source.renderable().lockRenderable = false
+
+			if (blendDuration > 0f)
+			{
+				var addRenderable = source.additionalRenderable()
+				if (addRenderable == null)
+				{
+					addRenderable = AdditionalRenderableComponent()
+					source.add(addRenderable)
+				}
+
+				addRenderable.above["blendFrom"] = replacementRenderable
+				replacementRenderable.animation = AlphaAnimation.obtain().set(blendDuration, 1f, 0f)
+				Future.call({ addRenderable.above.remove("blendFrom") }, blendDuration)
+
+				originalRenderable!!.animation = AlphaAnimation.obtain().set(blendDuration, 0f, 1f)
+			}
 
 		}
 		else
@@ -75,6 +112,7 @@ class ReplaceSourceRenderableAction(sequence: ActionSequence) : AbstractActionSe
 
 		action.renderable = renderable
 		action.restoreOriginal = restoreOriginal
+		action.blendDuration = blendDuration
 
 		return action
 	}
@@ -83,6 +121,7 @@ class ReplaceSourceRenderableAction(sequence: ActionSequence) : AbstractActionSe
 	{
 		renderable = AssetManager.loadRenderable(xmlData.getChildByName("Renderable")!!)
 		restoreOriginal = xmlData.getBoolean("RestoreOriginal", true)
+		blendDuration = xmlData.getFloat("BlendDuration", 0f)
 	}
 }
 

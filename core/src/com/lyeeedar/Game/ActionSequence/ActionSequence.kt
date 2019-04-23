@@ -13,6 +13,7 @@ import ktx.collections.set
 
 class ActionSequence
 {
+	var cancellable = true
 	val actions: Array<AbstractActionSequenceAction> = Array(4)
 
 	val enteredActions: Array<AbstractActionSequenceAction> = Array(false, 4)
@@ -114,6 +115,7 @@ class ActionSequence
 				if (blocked)
 				{
 					this.blocked = blocked
+					currentTime = action.start
 					enteredActions.add(action)
 					break
 				}
@@ -154,14 +156,15 @@ class ActionSequence
 
 	fun copy(): ActionSequence
 	{
-		val ability = ActionSequence()
+		val sequence = ActionSequence()
 		for (action in actions)
 		{
-			val copy = action.copy(ability)
-			ability.actions.add(copy)
+			val copy = action.copy(sequence)
+			sequence.actions.add(copy)
 		}
+		sequence.cancellable = cancellable
 
-		return ability
+		return sequence
 	}
 
 	companion object
@@ -223,7 +226,7 @@ class ActionSequence
 					}
 
 					val start = currentAction.start
-					val end = actions[endI].end
+					val end = sorted[endI].end
 
 					// for num count, copy items and place into array
 					var currentTime = start
