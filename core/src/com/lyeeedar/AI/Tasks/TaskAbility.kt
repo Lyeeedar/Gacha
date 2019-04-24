@@ -48,7 +48,7 @@ class TaskAbility() : AbstractTask()
 		newAb.lockedTargets.add(target)
 		newAb.facing = Direction.Companion.getDirection(e.tile()!!, target.tile()!!)
 
-		val component = ActiveActionSequenceComponent()
+		val component = ActiveActionSequenceComponent.obtain()
 		component.sequence = newAb
 
 		e.add(component)

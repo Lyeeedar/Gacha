@@ -431,6 +431,52 @@ class StatisticsComponent: AbstractComponent()
 
 			return comp
 		}
+
+		private val pool: Pool<StatisticsComponent> = object : Pool<StatisticsComponent>() {
+			override fun newObject(): StatisticsComponent
+			{
+				return StatisticsComponent()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): StatisticsComponent
+		{
+			val obj = StatisticsComponent.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+			obj.reset()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+
+	var obtained: Boolean = false
+	override fun free() { if (obtained) { StatisticsComponent.pool.free(this); obtained = false } }
+	override fun reset()
+	{
+		baseStats.clear()
+		faction = ""
+		factionData = null
+		lostHp = 0f
+		maxLostHp = 0f
+		blocking = false
+		blockBroken = false
+		invulnerable = false
+		godMode = false
+		tookDamage = false
+		blockedDamage = false
+		survivingAllies = 0
+		ascension = Ascension.MUNDANE
+		level = 1
+		buffs.clear()
+		factionBuffs.clear()
+		lastHitSource = Point()
+		equipment.clear()
+		attackDamageDealt = 0f
+		abilityDamageDealt = 0f
+		messagesToShow.clear()
 	}
 }
 

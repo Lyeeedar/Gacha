@@ -43,7 +43,7 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 
 		if (stats.hp <= 0)
 		{
-			if (entity.getComponent(MarkedForDeletionComponent::class.java) == null) entity.add(MarkedForDeletionComponent())
+			if (entity.getComponent(MarkedForDeletionComponent::class.java) == null) entity.add(MarkedForDeletionComponent.obtain())
 		}
 
 		if (stats.lostHp > 0)

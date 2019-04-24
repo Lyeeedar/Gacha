@@ -2,6 +2,7 @@ package com.lyeeedar.Components
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Array
+import com.badlogic.gdx.utils.Pool
 import com.exp4j.Helpers.CompiledExpression
 import com.lyeeedar.Game.ActionSequence.ActionSequence
 import com.lyeeedar.Renderables.Sprite.Sprite
@@ -48,6 +49,34 @@ class AbilityComponent : AbstractComponent()
 
 			abilities.add(data)
 		}
+	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<AbilityComponent> = object : Pool<AbilityComponent>() {
+			override fun newObject(): AbilityComponent
+			{
+				return AbilityComponent()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): AbilityComponent
+		{
+			val obj = AbilityComponent.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+			obj.reset()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { AbilityComponent.pool.free(this); obtained = false } }
+	override fun reset()
+	{
+		abilities.clear()
 	}
 }
 

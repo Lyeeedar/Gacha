@@ -22,4 +22,8 @@ abstract class AbstractComponent : Component
 	{
 
 	}
+
+	open fun reset(){}
+
+	abstract fun free()
 }

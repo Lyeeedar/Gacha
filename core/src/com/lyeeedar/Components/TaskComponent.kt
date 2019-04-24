@@ -1,6 +1,7 @@
 package com.lyeeedar.Components
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.utils.Pool
 import com.lyeeedar.AI.BehaviourTree.BehaviourTree
 import com.lyeeedar.AI.Tasks.AbstractTask
 import com.lyeeedar.UI.DebugConsole
@@ -50,5 +51,35 @@ class TaskComponent: AbstractComponent(), IDebugCommandProvider
 
 			return true
 		})
+	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<TaskComponent> = object : Pool<TaskComponent>() {
+			override fun newObject(): TaskComponent
+			{
+				return TaskComponent()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): TaskComponent
+		{
+			val obj = TaskComponent.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+			obj.reset()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { TaskComponent.pool.free(this); obtained = false } }
+	override fun reset()
+	{
+		tasks.clear()
+		speed = 1f
+		actionAccumulator = 0f
 	}
 }

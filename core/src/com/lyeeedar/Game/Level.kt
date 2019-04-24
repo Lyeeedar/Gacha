@@ -197,7 +197,7 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 			var addRenderable = tileCurrent!!.entity!!.additionalRenderable()
 			if (addRenderable == null)
 			{
-				addRenderable = AdditionalRenderableComponent()
+				addRenderable = AdditionalRenderableComponent.obtain()
 				tileCurrent!!.entity!!.add(addRenderable)
 			}
 

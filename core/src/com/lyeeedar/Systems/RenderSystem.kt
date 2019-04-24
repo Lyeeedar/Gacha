@@ -228,7 +228,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 				val effect = renderable
 				if (effect.completed && entity.isTransient())
 				{
-					entity.add(MarkedForDeletionComponent())
+					entity.add(MarkedForDeletionComponent.obtain())
 				}
 			}
 

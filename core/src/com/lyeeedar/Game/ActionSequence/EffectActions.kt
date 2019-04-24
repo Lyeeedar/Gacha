@@ -547,7 +547,7 @@ class SummonAction() : AbstractActionSequenceAction()
 		{
 			for (entity in summonedEntities)
 			{
-				entity.add(MarkedForDeletionComponent())
+				entity.add(MarkedForDeletionComponent.obtain())
 			}
 		}
 		summonedEntities.clear()

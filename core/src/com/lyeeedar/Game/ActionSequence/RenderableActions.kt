@@ -39,7 +39,7 @@ class ReplaceSourceRenderableAction() : AbstractActionSequenceAction()
 
 		if (source.renderable() == null)
 		{
-			source.add(RenderableComponent())
+			source.add(RenderableComponent.obtain())
 		}
 		else
 		{
@@ -55,7 +55,7 @@ class ReplaceSourceRenderableAction() : AbstractActionSequenceAction()
 			var addRenderable = source.additionalRenderable()
 			if (addRenderable == null)
 			{
-				addRenderable = AdditionalRenderableComponent()
+				addRenderable = AdditionalRenderableComponent.obtain()
 				source.add(addRenderable)
 			}
 
@@ -87,7 +87,7 @@ class ReplaceSourceRenderableAction() : AbstractActionSequenceAction()
 				var addRenderable = source.additionalRenderable()
 				if (addRenderable == null)
 				{
-					addRenderable = AdditionalRenderableComponent()
+					addRenderable = AdditionalRenderableComponent.obtain()
 					source.add(addRenderable)
 				}
 
@@ -290,7 +290,7 @@ class DestinationRenderableAction() : AbstractActionSequenceAction()
 			{
 				val tile = sequence.level.getTile(point) ?: continue
 
-				val entity = Entity()
+				val entity = EntityPool.obtain()
 
 				val r = renderable.getParticleEffect()
 				if (spawnBehaviour == SpawnBehaviour.IMMEDIATE)
@@ -328,8 +328,8 @@ class DestinationRenderableAction() : AbstractActionSequenceAction()
 					throw Exception("Unhandled spawn behaviour")
 				}
 
-				entity.add(RenderableComponent(r))
-				entity.add(PositionComponent())
+				entity.add(RenderableComponent.obtain().set(r))
+				entity.add(PositionComponent.obtain())
 				val pos = entity.pos()!!
 
 				pos.position = tile
@@ -349,11 +349,11 @@ class DestinationRenderableAction() : AbstractActionSequenceAction()
 		{
 			if (sequence.targets.size == 0) return false
 
-			val entity = Entity()
+			val entity = EntityPool.obtain()
 
 			val r = renderable.getParticleEffect()
-			entity.add(RenderableComponent(r))
-			entity.add(PositionComponent())
+			entity.add(RenderableComponent.obtain().set(r))
+			entity.add(PositionComponent.obtain())
 			val pos = entity.pos()!!
 
 			pos.min = min
@@ -536,7 +536,7 @@ class AttachToEntityRenderableAction() : AbstractActionSequenceAction()
 			var additionalRenderableComponent = entity.additionalRenderable()
 			if (additionalRenderableComponent == null)
 			{
-				additionalRenderableComponent = AdditionalRenderableComponent()
+				additionalRenderableComponent = AdditionalRenderableComponent.obtain()
 				entity.add(additionalRenderableComponent)
 			}
 
@@ -638,11 +638,11 @@ class SourceRenderableAction() : AbstractActionSequenceAction()
 		if (Global.resolveInstant) return false
 
 		val tile = sequence.source.tile()!!
-		val entity = Entity()
+		val entity = EntityPool.obtain()
 
 		val r = renderable.getParticleEffect()
-		entity.add(RenderableComponent(r))
-		entity.add(PositionComponent())
+		entity.add(RenderableComponent.obtain().set(r))
+		entity.add(PositionComponent.obtain())
 		val pos = entity.pos()!!
 
 		pos.position = tile
@@ -734,11 +734,11 @@ class MovementRenderableAction() : AbstractActionSequenceAction()
 	{
 		if (Global.resolveInstant) return false
 
-		entity = Entity()
+		entity = EntityPool.obtain()
 
 		val r = renderable.getParticleEffect()
-		entity.add(RenderableComponent(r))
-		entity.add(PositionComponent())
+		entity.add(RenderableComponent.obtain().set(r))
+		entity.add(PositionComponent.obtain())
 		val pos = entity.pos()!!
 
 		val min = sequence.targets.minBy(Point::hashCode)!!

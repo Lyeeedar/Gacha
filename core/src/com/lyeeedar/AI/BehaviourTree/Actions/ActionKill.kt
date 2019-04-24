@@ -9,7 +9,7 @@ class ActionKill : AbstractAction()
 {
 	override fun evaluate(entity: Entity): ExecutionState
 	{
-		if (entity.getComponent(MarkedForDeletionComponent::class.java) == null) entity.add(MarkedForDeletionComponent())
+		if (entity.getComponent(MarkedForDeletionComponent::class.java) == null) entity.add(MarkedForDeletionComponent.obtain())
 		return ExecutionState.COMPLETED
 	}
 

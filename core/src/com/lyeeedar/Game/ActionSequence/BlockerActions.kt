@@ -1,8 +1,8 @@
 package com.lyeeedar.Game.ActionSequence
 
-import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Pool
 import com.lyeeedar.Components.ActiveActionSequenceComponent
+import com.lyeeedar.Components.EntityPool
 import com.lyeeedar.Components.Mappers
 import com.lyeeedar.Components.TransientComponent
 import com.lyeeedar.Global
@@ -63,7 +63,7 @@ class UnlockEntityAction : AbstractActionSequenceAction()
 {
 	override fun enter(): Boolean
 	{
-		val entity = Entity()
+		val entity = EntityPool.obtain()
 		var activeAbilityComponent = Mappers.activeActionSequence.get(sequence.source)
 		if (activeAbilityComponent?.sequence == sequence)
 		{
@@ -71,11 +71,11 @@ class UnlockEntityAction : AbstractActionSequenceAction()
 		}
 		else
 		{
-			activeAbilityComponent = ActiveActionSequenceComponent()
+			activeAbilityComponent = ActiveActionSequenceComponent.obtain()
 			activeAbilityComponent.sequence = sequence
 		}
 
-		entity.add(TransientComponent())
+		entity.add(TransientComponent.obtain())
 		entity.add(activeAbilityComponent)
 		Global.engine.addEntity(entity)
 

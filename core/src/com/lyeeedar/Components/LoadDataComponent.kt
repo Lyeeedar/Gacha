@@ -1,13 +1,21 @@
 package com.lyeeedar.Components
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.utils.Pool
 import com.lyeeedar.Util.XmlData
 
-class LoadDataComponent(val path: String, val xml: XmlData) : AbstractComponent()
+class LoadDataComponent() : AbstractComponent()
 {
-	init
+	lateinit var path: String
+	lateinit var xml: XmlData
+
+	fun set(path: String, xml: XmlData, fromLoad: Boolean): LoadDataComponent
 	{
-		fromLoad = true
+		this.path = path
+		this.xml = xml
+		this.fromLoad = fromLoad
+
+		return this
 	}
 
 	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
@@ -15,4 +23,26 @@ class LoadDataComponent(val path: String, val xml: XmlData) : AbstractComponent(
 
 	}
 
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<LoadDataComponent> = object : Pool<LoadDataComponent>() {
+			override fun newObject(): LoadDataComponent
+			{
+				return LoadDataComponent()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): LoadDataComponent
+		{
+			val obj = LoadDataComponent.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { LoadDataComponent.pool.free(this); obtained = false } }
 }

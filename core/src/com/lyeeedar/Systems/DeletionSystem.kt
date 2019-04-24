@@ -104,8 +104,11 @@ class DeletionSystem : AbstractSystem(Family.all(MarkedForDeletionComponent::cla
 		if (activeAbility != null)
 		{
 			activeAbility.sequence.cancel()
+			activeAbility.sequence.free()
 		}
 
 		engine.removeEntity(entity)
+
+		entity.free()
 	}
 }

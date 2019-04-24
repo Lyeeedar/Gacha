@@ -16,6 +16,8 @@ import com.badlogic.gdx.utils.ObjectSet
 import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
+import com.lyeeedar.Components.EntityPool
+import com.lyeeedar.Components.free
 import com.lyeeedar.Game.EntityData
 import com.lyeeedar.Game.Faction
 import com.lyeeedar.Game.GameData
@@ -101,7 +103,13 @@ class Global
 		{
 			Global.engine.level?.destroyingLevel = true
 
+			for (entity in Global.engine.entities)
+			{
+				entity.free()
+			}
+
 			Global.engine.removeAllEntities()
+			EntityPool.flushFreedEntities()
 
 			level.updateMetaRegions()
 

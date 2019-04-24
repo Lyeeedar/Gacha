@@ -156,7 +156,7 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 		while (itr.hasNext())
 		{
 			val entity = itr.next()
-			val task = entity.task()
+			val task = entity.task() ?: continue
 
 			processEntity(entity)
 

@@ -2,6 +2,7 @@ package com.lyeeedar.Components
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.utils.Pool
 import com.lyeeedar.Direction
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.SpaceSlot
@@ -58,7 +59,7 @@ class PositionComponent(): AbstractComponent()
 		get() = position.y
 
 	val tiles: Iterable<Tile>
-		get() = (min.x..max.x).zip(min.y..max.y).map { tile!!.level.getTile(it.first, it.second) }.filterNotNull()
+		get() = (min.x..max.x).zip(min.y..max.y).mapNotNull { tile!!.level.getTile(it.first, it.second) }
 
 	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
 	{
@@ -221,5 +222,42 @@ class PositionComponent(): AbstractComponent()
 		position = t
 
 		addToTile(entity)
+	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<PositionComponent> = object : Pool<PositionComponent>() {
+			override fun newObject(): PositionComponent
+			{
+				return PositionComponent()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): PositionComponent
+		{
+			val obj = PositionComponent.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+			obj.reset()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { PositionComponent.pool.free(this); obtained = false } }
+	override fun reset()
+	{
+		offset.set(0f, 0f)
+		turnsOnTile = 0
+		moveLocked = false
+		facing = Direction.SOUTH
+		position = Point(-1, -1)
+		slot = SpaceSlot.ENTITY
+		size = 1
+		max = Point(-1, -1)
+		moveable = true
+		canFall = true
 	}
 }

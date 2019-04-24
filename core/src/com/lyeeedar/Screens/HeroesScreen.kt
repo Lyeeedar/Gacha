@@ -186,7 +186,7 @@ class HeroesScreen : AbstractScreen()
 		val leftSkillsColumn = Table()
 		val rightSkillsColumn = Table()
 
-		val abilities = entity.ability() ?: AbilityComponent()
+		val abilities = entity.ability() ?: AbilityComponent.obtain()
 		fun addAbilityIcon(index: Int, column: Table)
 		{
 			if (abilities.abilities.size > index)

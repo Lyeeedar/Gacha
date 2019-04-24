@@ -156,6 +156,7 @@ class MapScreen : AbstractScreen()
 		val level = zone.currentEncounter.encounter!!.createLevel(zone.theme)
 
 		this.level = level
+		Global.changeLevel(level)
 
 		val mapWidget = RenderSystemWidget()
 
@@ -170,8 +171,6 @@ class MapScreen : AbstractScreen()
 		mainTable.add(bottomArea).grow().height(Value.percentHeight(0.3f, mainTable))
 
 		selectEntities()
-
-		Global.changeLevel(level)
 	}
 
 	fun beginLevel()

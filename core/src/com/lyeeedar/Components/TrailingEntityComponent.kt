@@ -2,6 +2,7 @@ package com.lyeeedar.Components
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Array
+import com.badlogic.gdx.utils.Pool
 import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
@@ -30,10 +31,10 @@ class TrailingEntityComponent : AbstractComponent()
 		for (el in renderablesEl.children())
 		{
 			val renderable = AssetManager.loadRenderable(el)
-			val trailEntity = Entity()
-			trailEntity.add(RenderableComponent(renderable))
+			val trailEntity = EntityPool.obtain()
+			trailEntity.add(RenderableComponent.obtain().set(renderable))
 			trailEntity.add(this)
-			trailEntity.add(PositionComponent())
+			trailEntity.add(PositionComponent.obtain())
 			trailEntity.pos().moveable = false
 
 			Future.call(
@@ -89,7 +90,7 @@ class TrailingEntityComponent : AbstractComponent()
 
 		if (entities.all { !it.renderable().renderable.visible })
 		{
-			entities.forEach { it.add(MarkedForDeletionComponent()) }
+			entities.forEach { it.add(MarkedForDeletionComponent.obtain()) }
 		}
 	}
 
@@ -143,4 +144,27 @@ class TrailingEntityComponent : AbstractComponent()
 			}
 		}, 0f)
 	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<TrailingEntityComponent> = object : Pool<TrailingEntityComponent>() {
+			override fun newObject(): TrailingEntityComponent
+			{
+				return TrailingEntityComponent()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): TrailingEntityComponent
+		{
+			val obj = TrailingEntityComponent.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { TrailingEntityComponent.pool.free(this); obtained = false } }
 }

@@ -36,7 +36,7 @@ class DirectionalSpriteSystem(): AbstractSystem(Family.all(DirectionalSpriteComp
 		{
 			val chosen = dirSprite.directionalSprite.getSprite(dirSprite.currentAnim, dirSprite.lastV, dirSprite.lastH)
 
-			renderable = RenderableComponent(chosen)
+			renderable = RenderableComponent.obtain().set(chosen)
 			entity.add(renderable)
 		}
 

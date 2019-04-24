@@ -1,6 +1,7 @@
 package com.lyeeedar.Components
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.utils.Pool
 import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
@@ -18,9 +19,10 @@ class RenderableComponent() : AbstractComponent()
 	var overrideSprite = false
 	var lockRenderable = false
 
-	constructor(renderable: Renderable) : this()
+	fun set(renderable: Renderable): RenderableComponent
 	{
 		this.renderable = renderable
+		return this
 	}
 
 	override fun parse(xml: XmlData, entity: Entity, parentPath: String)
@@ -99,5 +101,34 @@ class RenderableComponent() : AbstractComponent()
 		{
 			renderable = kryo.readClassAndObject(input) as Sprite
 		}
+	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<RenderableComponent> = object : Pool<RenderableComponent>() {
+			override fun newObject(): RenderableComponent
+			{
+				return RenderableComponent()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): RenderableComponent
+		{
+			val obj = RenderableComponent.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+			obj.reset()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { RenderableComponent.pool.free(this); obtained = false } }
+	override fun reset()
+	{
+		overrideSprite = false
+		lockRenderable = false
 	}
 }

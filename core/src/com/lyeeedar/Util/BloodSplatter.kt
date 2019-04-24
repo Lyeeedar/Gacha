@@ -1,7 +1,7 @@
 package com.lyeeedar.Util
 
-import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
+import com.lyeeedar.Components.EntityPool
 import com.lyeeedar.Components.PositionComponent
 import com.lyeeedar.Components.RenderableComponent
 import com.lyeeedar.Global
@@ -36,15 +36,15 @@ class BloodSplatter
 			sprite.colour = Colour(1f, 0.6f + Random.random(0.2f), 0.6f + Random.random(0.2f), 0.4f + Random.random(0.2f))
 			sprite.animationBlocksUpdate = false
 
-			val renderable = RenderableComponent(sprite)
-			val pos = PositionComponent()
+			val renderable = RenderableComponent.obtain().set(sprite)
+			val pos = PositionComponent.obtain()
 			pos.position = target.copy()
 			pos.offset.set(vector)
 
 			val animDur = 0.1f + 0.15f * dist
 			sprite.animation = LeapAnimation.obtain().set(animDur, arrayOf(vector * -1f, Vector2()), 0.1f + 0.1f * dist)
 
-			val newEntity = Entity()
+			val newEntity = EntityPool.obtain()
 			newEntity.add(renderable)
 			newEntity.add(pos)
 			Global.engine.addEntity(newEntity)

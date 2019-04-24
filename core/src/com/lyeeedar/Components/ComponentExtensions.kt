@@ -3,7 +3,9 @@ package com.lyeeedar.Components
 import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.ObjectMap
+import com.badlogic.gdx.utils.Pool
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Renderable
@@ -80,9 +82,9 @@ class EntityLoader()
 		{
 			val xml = getXml(path)
 
-			val entity = if (xml.get("Extends", null) != null) load(xml.get("Extends")) else Entity()
+			val entity = if (xml.get("Extends", null) != null) load(xml.get("Extends")) else EntityPool.obtain()
 
-			entity.add(LoadDataComponent(path, xml))
+			entity.add(LoadDataComponent.obtain().set(path, xml, true))
 
 			val componentsEl = xml.getChildByName("Components") ?: return entity
 
@@ -91,6 +93,7 @@ class EntityLoader()
 				if (Global.resolveInstant)
 				{
 					if (
+						componentEl.name.toUpperCase() == "ADDITIONALRENDERABLES" ||
 						componentEl.name.toUpperCase() == "DIRECTIONALSPRITE" ||
 						componentEl.name.toUpperCase() == "RENDERABLE")
 					{
@@ -100,18 +103,18 @@ class EntityLoader()
 
 				val component = when(componentEl.name.toUpperCase())
 				{
-					"ADDITIONALRENDERABLES" -> AdditionalRenderableComponent()
-					"DIRECTIONALSPRITE" -> DirectionalSpriteComponent()
-					"METAREGION" -> MetaRegionComponent()
-					"NAME" -> NameComponent()
-					"OCCLUDES" -> OccludesComponent()
-					"POSITION" -> PositionComponent()
-					"RENDERABLE" -> RenderableComponent()
-					"STATISTICS" -> StatisticsComponent()
-					"AI" -> TaskComponent()
-					"ABILITY" -> AbilityComponent()
-					"TRAILING" -> TrailingEntityComponent()
-					"EVENTHANDLER" -> EventHandlerComponent()
+					"ADDITIONALRENDERABLES" -> AdditionalRenderableComponent.obtain()
+					"DIRECTIONALSPRITE" -> DirectionalSpriteComponent.obtain()
+					"METAREGION" -> MetaRegionComponent.obtain()
+					"NAME" -> NameComponent.obtain()
+					"OCCLUDES" -> OccludesComponent.obtain()
+					"POSITION" -> PositionComponent.obtain()
+					"RENDERABLE" -> RenderableComponent.obtain()
+					"STATISTICS" -> StatisticsComponent.obtain()
+					"AI" -> TaskComponent.obtain()
+					"ABILITY" -> AbilityComponent.obtain()
+					"TRAILING" -> TrailingEntityComponent.obtain()
+					"EVENTHANDLER" -> EventHandlerComponent.obtain()
 
 					else -> throw Exception("Unknown component type '" + componentEl.name + "'!")
 				}
@@ -123,7 +126,8 @@ class EntityLoader()
 
 			if (entity.name() == null)
 			{
-				val name = NameComponent(path)
+				val name = NameComponent.obtain()
+				name.set(path)
 				name.fromLoad = true
 				entity.add(name)
 			}
@@ -153,10 +157,10 @@ fun Entity.isEnemies(other: Entity): Boolean
 
 fun Renderable.addToEngine(point: Point, offset: Vector2 = Vector2())
 {
-	val pe = Entity()
-	pe.add(TransientComponent())
-	pe.add(RenderableComponent(this))
-	val ppos = PositionComponent()
+	val pe = EntityPool.obtain()
+	pe.add(TransientComponent.obtain())
+	pe.add(RenderableComponent.obtain().set(this))
+	val ppos = PositionComponent.obtain()
 	ppos.slot = SpaceSlot.EFFECT
 
 	ppos.size = min(this.size[0], this.size[1])
@@ -166,3 +170,47 @@ fun Renderable.addToEngine(point: Point, offset: Vector2 = Vector2())
 	pe.add(ppos)
 	Global.engine.addEntity(pe)
 }
+
+class EntityPool
+{
+	companion object
+	{
+		private val pool: Pool<Entity> = object : Pool<Entity>() {
+			override fun newObject(): Entity
+			{
+				return Entity()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): Entity
+		{
+			val obj = pool.obtain()
+			if (obj.components.size() != 0) throw RuntimeException()
+			return obj
+		}
+
+		val toBeFreed = Array<Entity>()
+
+		fun free(entity: Entity) = toBeFreed.add(entity)
+
+		fun flushFreedEntities()
+		{
+			for (entity in toBeFreed)
+			{
+				for (component in entity.components)
+				{
+					if (component is AbstractComponent)
+					{
+						component.free()
+					}
+				}
+
+				//entity.removeAll()
+				//pool.free(entity)
+			}
+			toBeFreed.clear()
+		}
+	}
+}
+fun Entity.free() = EntityPool.free(this)

@@ -83,9 +83,9 @@ class EventSystem : AbstractSystem()
 						sequence.lockedTargets.add(eventData.targetEntity!!)
 					}
 
-					val entity = Entity()
-					entity.add(ActiveActionSequenceComponent(sequence))
-					entity.add(TransientComponent())
+					val entity = EntityPool.obtain()
+					entity.add(ActiveActionSequenceComponent.obtain().set(sequence))
+					entity.add(TransientComponent.obtain())
 
 					Global.engine.addEntity(entity)
 				}

@@ -74,7 +74,8 @@ class ActionSequence
 			targets.clear()
 			for (target in lockedTargets)
 			{
-				targets.add(target.pos().position)
+				val pos = target.pos() ?: continue
+				targets.add(pos.position)
 			}
 		}
 
