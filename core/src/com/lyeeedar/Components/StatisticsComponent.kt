@@ -137,20 +137,23 @@ class StatisticsComponent: AbstractComponent()
 		tookDamage = false
 	}
 
+	fun checkAegis(): Boolean
+	{
+		val aegisChance = getStat(Statistic.AEGIS)
+		if (aegisChance > 0f && Random.random() < aegisChance)
+		{
+			return true
+		}
+
+		return false
+	}
+
 	fun dealDamage(amount: Float): Float
 	{
 		val baseDam = amount
 		val dr = getStat(Statistic.DR)
 
-		var dam = baseDam - dr * baseDam
-
-		val aegisChance = getStat(Statistic.AEGIS)
-		if (aegisChance > 0f && Random.random() < aegisChance)
-		{
-			dam = 0f
-			blockedDamage = true
-		}
-
+		val dam = baseDam - dr * baseDam
 		hp -= dam
 
 		if (!Global.resolveInstant)

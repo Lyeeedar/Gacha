@@ -77,13 +77,13 @@ class TestScreen : AbstractScreen()
 		}
 		else
 		{
-			for (i in 0 until 20)
+			for (i in 0 until 50)
 			{
 				ratingTest.doRatingTest(heroes)
 			}
 
 			count++
-			if (count == 5)
+			if (count == 4)
 			{
 				count = 0
 				offAccumulator = delta

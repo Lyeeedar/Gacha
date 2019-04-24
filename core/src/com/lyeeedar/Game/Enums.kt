@@ -424,7 +424,9 @@ enum class EventType
 	ENEMYDEATH,
 	ANYDEATH,
 	HEALED,
-	CRIT;
+	CRIT,
+	BLOCK,
+	ONTURN;
 
 	companion object
 	{

@@ -93,6 +93,17 @@ class EventSystem : AbstractSystem()
 		}
 	}
 
+	override fun onTurn()
+	{
+		for (entity in engine.entities)
+		{
+			if (isEventRegistered(EventType.ONTURN, entity))
+			{
+				addEvent(EventData.obtain().set(EventType.ONTURN, entity, entity))
+			}
+		}
+	}
+
 	fun addEvent(eventData: EventData)
 	{
 		queuedEvents.add(eventData)

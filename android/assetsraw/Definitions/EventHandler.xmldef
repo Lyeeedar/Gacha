@@ -49,6 +49,18 @@
 					<Data Name="ActionSequence" Keys="ActionSequence" Nullable="False" meta:RefKey="Reference" />
 				</Data>
 			</Data>
+			<Data Name="Block" meta:RefKey="Collection">
+				<Data Name="EventHandler" Nullable="False" meta:RefKey="Struct">
+					<Data Name="Condition" Default="1" SkipIfDefault="False" meta:RefKey="String" />
+					<Data Name="ActionSequence" Keys="ActionSequence" Nullable="False" meta:RefKey="Reference" />
+				</Data>
+			</Data>
+			<Data Name="OnTurn" meta:RefKey="Collection">
+				<Data Name="EventHandler" Nullable="False" meta:RefKey="Struct">
+					<Data Name="Condition" Default="1" SkipIfDefault="False" meta:RefKey="String" />
+					<Data Name="ActionSequence" Keys="ActionSequence" Nullable="False" meta:RefKey="Reference" />
+				</Data>
+			</Data>
 		</Data>
 	</Definition>
 </Definitions>

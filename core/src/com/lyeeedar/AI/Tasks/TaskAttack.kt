@@ -84,7 +84,20 @@ class TaskAttack() : AbstractTask()
 				{
 					val attackerStats = e.stats()!!
 					val defenderStats = entity.stats()!!
-					val dam = attackerStats.getAttackDam(attackerStats.attackDefinition.damage)
+					var dam = attackerStats.getAttackDam(attackerStats.attackDefinition.damage)
+
+					if (defenderStats.checkAegis())
+					{
+						if (EventSystem.isEventRegistered(EventType.BLOCK, entity))
+						{
+							val eventData = EventData.obtain().set(EventType.BLOCK, entity, e, mapOf(Pair("damage", dam.first)))
+							Global.engine.event().addEvent(eventData)
+						}
+
+						dam = Pair(0f, dam.second)
+						defenderStats.blockedDamage = true
+					}
+
 					val finalDam = defenderStats.dealDamage(dam.first)
 
 					attackerStats.attackDamageDealt += finalDam
@@ -103,7 +116,7 @@ class TaskAttack() : AbstractTask()
 
 						if (EventSystem.isEventRegistered(EventType.HEALED, e))
 						{
-							val healEventData = EventData.obtain().set(EventType.HEALED, e, e, mapOf(Pair("amount", stolenLife)))
+							val healEventData = EventData.obtain().set(EventType.HEALED, e, entity, mapOf(Pair("amount", stolenLife)))
 							Global.engine.event().addEvent(healEventData)
 						}
 					}

@@ -49,7 +49,20 @@ class DamageAction : AbstractActionSequenceAction()
 					var damModifier = damage.evaluate(map)
 					damModifier += damModifier * sourceStats.getStat(Statistic.ABILITYPOWER)
 
-					val attackDam = sourceStats.getAttackDam(damModifier)
+					var attackDam = sourceStats.getAttackDam(damModifier)
+
+					if (targetstats.checkAegis())
+					{
+						if (EventSystem.isEventRegistered(EventType.BLOCK, entity))
+						{
+							val eventData = EventData.obtain().set(EventType.BLOCK, entity, sequence.source, mapOf(Pair("damage", attackDam.first)))
+							Global.engine.event().addEvent(eventData)
+						}
+
+						attackDam = Pair(0f, attackDam.second)
+						targetstats.blockedDamage = true
+					}
+
 					val finalDam = targetstats.dealDamage(attackDam.first)
 
 					sourceStats.abilityDamageDealt += finalDam

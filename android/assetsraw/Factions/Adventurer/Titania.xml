@@ -11,11 +11,10 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>125</MaxHP>
+				<MaxHP>120</MaxHP>
 				<Power>11</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
-				<DR>0.1</DR>
 			</Statistics>
 			<EquipmentWeight>Heavy</EquipmentWeight>
 			<Death meta:RefKey="ParticleEffect">
@@ -125,6 +124,23 @@
 								</Renderable>
 								<BlendDuration>0.3</BlendDuration>
 							</ReplaceSourceRenderable>
+						</Timeline>
+						<Timeline>
+							<Buff>
+								<Duration LockDuration="False">0.0915256441</Duration>
+								<Time>0.0281171072</Time>
+								<Buff meta:RefKey="Buff">
+									<Name>Armament Enhance</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Oryx/Custom/items/heavy_body</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Power>0.01</Power>
+										<DR>0.002</DR>
+									</Statistics>
+									<Duration>9999</Duration>
+								</Buff>
+							</Buff>
 						</Timeline>
 					</Ability>
 					<Cooldown>3,10</Cooldown>
@@ -248,6 +264,23 @@
 								<BlendDuration>0.3</BlendDuration>
 							</ReplaceSourceRenderable>
 						</Timeline>
+						<Timeline>
+							<Buff>
+								<Duration LockDuration="False">0.0915256441</Duration>
+								<Time>0.0281171072</Time>
+								<Buff meta:RefKey="Buff">
+									<Name>Armament Enhance</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Oryx/Custom/items/heavy_body</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Power>0.01</Power>
+										<DR>0.002</DR>
+									</Statistics>
+									<Duration>9999</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
 					</Ability>
 					<Cooldown>3,10</Cooldown>
 					<Condition>requip==0</Condition>
@@ -332,6 +365,15 @@
 								<BlendDuration>0.3</BlendDuration>
 							</ReplaceSourceRenderable>
 						</Timeline>
+						<Timeline>
+							<Buff>
+								<Duration LockDuration="False">0.0233653821</Duration>
+								<Time>0.0322442241</Time>
+								<Buff meta:RefKey="Buff">
+									<Statistics meta:RefKey="Statistics" />
+								</Buff>
+							</Buff>
+						</Timeline>
 					</Ability>
 					<Cooldown>3,10</Cooldown>
 					<Condition>requip==0</Condition>
@@ -339,7 +381,7 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Requip: Metal Fairy</Name>
-					<Description>Equip the armour 'Metal Fairy', instantly healing for [GOLD]300%[] power. For the next 6 rounds gain [GOLD]20%[] lifesteal.</Description>
+					<Description>Equip the armour 'Metal Fairy', instantly healing for [GOLD]150%[] power. For the next 6 rounds gain [GOLD]20%[] lifesteal.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/Custom/items/armadura_blades</Name>
 					</Icon>
@@ -361,7 +403,7 @@
 							</RepeatEnd>
 							<Heal>
 								<Time>0.125275046</Time>
-								<Amount>3</Amount>
+								<Amount>1.5</Amount>
 							</Heal>
 						</Timeline>
 						<Timeline>
@@ -413,11 +455,217 @@
 								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 						</Timeline>
+						<Timeline>
+							<Buff>
+								<Duration LockDuration="False">0.0915256441</Duration>
+								<Time>0.0281171072</Time>
+								<Buff meta:RefKey="Buff">
+									<Name>Armament Enhance</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Oryx/Custom/items/heavy_body</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Power>0.01</Power>
+										<DR>0.002</DR>
+									</Statistics>
+									<Duration>9999</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
 					</Ability>
 					<Cooldown>3,10</Cooldown>
 					<Condition>requip==0</Condition>
 					<Cancellable>false</Cancellable>
 					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Requip: Vengeful Scorpion</Name>
+					<Description>Equip the armour 'Vengeful Scorpion', instantly lashing out at all enemies within 1 for [GOLD]100%[] damage. For the next 6 rounds gain [GOLD]20%[] chance to block attacks, and when you do lash out at all enemies within 1 for [GOLD]30%[] damage.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/Custom/items/scorpion_tail</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<SelectSelf>
+								<Time>0.091686815</Time>
+							</SelectSelf>
+							<Permute>
+								<Time>0.10462065</Time>
+								<HitPoints>
+									<Line>###</Line>
+									<Line>#@#</Line>
+									<Line>###</Line>
+								</HitPoints>
+							</Permute>
+							<Damage>
+								<Time>0.153238356</Time>
+							</Damage>
+							<UnlockEntity>
+								<Time>0.338400573</Time>
+							</UnlockEntity>
+							<RepeatBegin>
+								<Time>0.368515849</Time>
+								<Count>6</Count>
+							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.393876076</Time>
+							</BlockTurn>
+							<RepeatEnd>
+								<Time>0.4208213</Time>
+							</RepeatEnd>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.0505764037</Duration>
+								<Time>0.131038859</Time>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>DancingBlade</Name>
+										<Colour>255,255,255,199</Colour>
+										<Scale>0.8</Scale>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>Oryx/Custom/items/ataraxia_blade_flipped</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Oryx/Custom/items/scorpion_stinger</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+								<SpawnBehaviour>Random</SpawnBehaviour>
+								<SpawnDuration>0.2</SpawnDuration>
+							</DestinationRenderable>
+						</Timeline>
+						<Timeline>
+							<Buff>
+								<Duration LockDuration="False">0.46957162</Duration>
+								<Time>0.030059088</Time>
+								<Buff meta:RefKey="Buff">
+									<Name>Requip: Vengeful Scorpion</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Oryx/Custom/items/scorpion_tail</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Aegis>0.2</Aegis>
+									</Statistics>
+									<EventHandlers meta:RefKey="EventHandler">
+										<Events>
+											<Block>
+												<EventHandler>
+													<Condition>chance(1, 5)</Condition>
+													<ActionSequence meta:RefKey="ActionSequence">
+														<Timeline>
+															<SelectSelf />
+															<Permute>
+																<Time>0.0339097753</Time>
+																<HitPoints>
+																	<Line>###</Line>
+																	<Line>#@#</Line>
+																	<Line>###</Line>
+																</HitPoints>
+															</Permute>
+															<Damage>
+																<Time>0.141916022</Time>
+																<Amount>0.3</Amount>
+															</Damage>
+														</Timeline>
+														<Timeline>
+															<DestinationRenderable>
+																<Duration LockDuration="False">0.18195489</Duration>
+																<Time>0.0554135367</Time>
+																<Renderable meta:RefKey="ParticleEffectTemplate">
+																	<Base meta:RefKey="ParticleEffect">
+																		<Name>DancingBlade</Name>
+																		<Colour>255,255,255,193</Colour>
+																		<Scale>0.7</Scale>
+																	</Base>
+																	<Overrides>
+																		<OverrideTexture>
+																			<Name>Oryx/Custom/items/ataraxia_blade_flipped</Name>
+																			<Texture meta:RefKey="Texture">
+																				<File>Oryx/Custom/items/scorpion_stinger</File>
+																			</Texture>
+																		</OverrideTexture>
+																	</Overrides>
+																</Renderable>
+																<RenderablePerTile>true</RenderablePerTile>
+																<AlignToVector>false</AlignToVector>
+																<SpawnBehaviour>Random</SpawnBehaviour>
+																<SpawnDuration>0.2</SpawnDuration>
+															</DestinationRenderable>
+														</Timeline>
+													</ActionSequence>
+												</EventHandler>
+											</Block>
+										</Events>
+									</EventHandlers>
+								</Buff>
+							</Buff>
+							<SelectSelf>
+								<Time>0.503294647</Time>
+							</SelectSelf>
+							<Buff>
+								<Duration LockDuration="False">0.0439674854</Duration>
+								<Time>0.511954963</Time>
+								<Buff meta:RefKey="Buff">
+									<Name>Requip: Cooldown</Name>
+									<Statistics meta:RefKey="Statistics" />
+									<Duration>3</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<ReplaceSourceRenderable>
+								<Duration LockDuration="False">0.46957162</Duration>
+								<Time>0.030059088</Time>
+								<Renderable meta:RefKey="Sprite">
+									<Name>Oryx/Custom/heroes/titania_scorpion</Name>
+									<DrawActualSize>true</DrawActualSize>
+								</Renderable>
+								<BlendDuration>0.3</BlendDuration>
+							</ReplaceSourceRenderable>
+						</Timeline>
+						<Timeline>
+							<Buff>
+								<Duration LockDuration="False">0.0915256441</Duration>
+								<Time>0.030059088</Time>
+								<Buff meta:RefKey="Buff">
+									<Name>Armament Enhance</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Oryx/Custom/items/heavy_body</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Power>0.01</Power>
+										<DR>0.002</DR>
+									</Statistics>
+									<Duration>9999</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+					</Ability>
+					<Cooldown>3,10</Cooldown>
+					<Condition>requip==0</Condition>
+					<Cancellable>false</Cancellable>
+				</AbilityData>
+				<AbilityData>
+					<Name>Armament Enhance</Name>
+					<Description>Each time you cast a 'Requip' ability, your power increases by [GOLD]1%[] and damage reduction by [GOLD]0.2%[].</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/Custom/items/heavy_body</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<BlockTurn />
+						</Timeline>
+					</Ability>
+					<SingleUse>true</SingleUse>
+					<AvailableOnStart>true</AvailableOnStart>
+					<Cancellable>false</Cancellable>
+					<Range>9999</Range>
 				</AbilityData>
 			</Abilities>
 		</Ability>
