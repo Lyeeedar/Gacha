@@ -13,10 +13,7 @@ import com.lyeeedar.Components.loaddata
 import com.lyeeedar.Components.name
 import com.lyeeedar.Components.pos
 import com.lyeeedar.Components.stats
-import com.lyeeedar.Game.Faction
-import com.lyeeedar.Game.Level
-import com.lyeeedar.Game.Tile
-import com.lyeeedar.Game.Zone
+import com.lyeeedar.Game.*
 import com.lyeeedar.Global
 import com.lyeeedar.MainGame
 import com.lyeeedar.SpaceSlot
@@ -316,22 +313,23 @@ class MapScreen : AbstractScreen()
 		heroWidgets.clear()
 		heroesTable.clear()
 
-		val allHeroes = com.badlogic.gdx.utils.Array<Entity>()
+		class EntityAndData(val data: EntityData, val entity: Entity)
+		val allHeroes = com.badlogic.gdx.utils.Array<EntityAndData>()
 		for (heroData in Global.data.heroPool)
 		{
 			val hero = heroData.getEntity("1")
-			allHeroes.add(hero)
+			allHeroes.add(EntityAndData(heroData, hero))
 		}
 
 		val heroesARow = 5
 		var x = 0
-		for (hero in allHeroes.sortedByDescending { it.stats().calculatePowerRating(it) })
+		for (hero in allHeroes.sortedByDescending { it.entity.stats().calculatePowerRating(it.entity) })
 		{
-			val heroWidget = HeroSelectionWidget(hero)
+			val heroWidget = HeroSelectionWidget(hero.entity, hero.data.factionEntity)
 			for (existing in level!!.playerTiles)
 			{
 				val ent = existing.entity ?: continue
-				if (ent.loaddata()!!.path == hero.loaddata()!!.path)
+				if (ent.loaddata()!!.path == hero.entity.loaddata()!!.path)
 				{
 					heroWidget.alreadyUsed = true
 					break
@@ -344,10 +342,10 @@ class MapScreen : AbstractScreen()
 					{
 						if (existing.entity == null)
 						{
-							existing.entity = hero
-							hero.pos().tile = existing.tile
-							hero.pos().addToTile(hero)
-							Global.engine.addEntity(hero)
+							existing.entity = hero.entity
+							hero.entity.pos().tile = existing.tile
+							hero.entity.pos().addToTile(hero.entity)
+							Global.engine.addEntity(hero.entity)
 							break
 						}
 					}
@@ -370,15 +368,15 @@ class MapScreen : AbstractScreen()
 			val lastSelectedHero = Global.data.lastSelectedHeroes[i]
 			if (lastSelectedHero != null)
 			{
-				val hero = allHeroes.firstOrNull { it.name().name == lastSelectedHero }
+				val hero = allHeroes.firstOrNull { it.entity.name().name == lastSelectedHero }
 				if (hero != null)
 				{
 					val slot = level!!.playerTiles[i]
-					slot.entity = hero
+					slot.entity = hero.entity
 
-					hero.pos().tile = slot.tile
-					hero.pos().addToTile(hero)
-					Global.engine.addEntity(hero)
+					hero.entity.pos().tile = slot.tile
+					hero.entity.pos().addToTile(hero.entity)
+					Global.engine.addEntity(hero.entity)
 				}
 			}
 		}

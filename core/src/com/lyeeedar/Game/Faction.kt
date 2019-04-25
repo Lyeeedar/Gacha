@@ -13,10 +13,7 @@ import com.lyeeedar.Global
 import com.lyeeedar.Rarity
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Systems.directionSprite
-import com.lyeeedar.UI.SpriteWidget
-import com.lyeeedar.UI.addTapToolTip
-import com.lyeeedar.UI.tint
-import com.lyeeedar.UI.wrap
+import com.lyeeedar.UI.*
 import com.lyeeedar.Util.*
 
 class Faction(val path: String)
@@ -99,6 +96,7 @@ class FactionEntity(val faction: Faction)
 		tileStack.add(SpriteWidget(background, size, size))
 		tileStack.add(SpriteWidget(sprite, size, size))
 		tileStack.add(SpriteWidget(border, size, size).tint(ascension.colour.color()))
+		tileStack.addTable(Label(rarity.shortName, Global.skin, "small").tint(rarity.colour.color())).expand().top().right().pad(3f)
 
 		tileTable.add(tileStack).size(size)
 
@@ -122,7 +120,7 @@ class FactionEntity(val faction: Faction)
 				.addTapToolTip("Ascension level " + (ascension.ordinal + 1)))
 		ascensionTable.add(SpriteWidget(entity.stats().equipmentWeight.icon.copy(), 32f, 32f).addTapToolTip("Wears ${entity.stats().equipmentWeight.niceName} equipment."))
 		ascensionTable.row()
-		ascensionTable.add(Label(ascension.toString().neaten(), Global.skin).tint(ascension.colour.color())).colspan(3).center()
+		ascensionTable.add(Label(rarity.niceName, Global.skin, "title").tint(rarity.colour.color())).colspan(3).center()
 
 		table.add(ascensionTable).padBottom(5f)
 		table.row()

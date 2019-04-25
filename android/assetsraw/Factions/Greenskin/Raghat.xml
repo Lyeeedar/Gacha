@@ -1,0 +1,172 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Raghat</Name>
+			<Title>Steelthorn</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>110</MaxHP>
+				<Power>11</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<EquipmentWeight>Heavy</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/goblin_chief</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/goblin_chief</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Frenzy</Name>
+					<Description>Go into a frenzy, gaining [GOLD]20%[] more power and haste, but taking [GOLD]30%[] more damage for 6 turns.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/enrage</Name>
+						<Colour>250,36,36,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<Buff>
+								<Duration LockDuration="False">0.0995174944</Duration>
+								<Time>0.06435464</Time>
+								<Buff meta:RefKey="Buff">
+									<Name>Frenzy</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Icons/enrage</Name>
+										<Colour>250,36,36,255</Colour>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Power>0.2</Power>
+										<Haste>0.2</Haste>
+										<DR>-0.3</DR>
+									</Statistics>
+									<Duration>6</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.0889022946</Duration>
+								<Time>0.02587455</Time>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>Buff</Name>
+										<Colour>255,37,37,255</Colour>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Icons/enrage</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>4,10</Cooldown>
+					<Range>2</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Whirlwind</Name>
+					<Description>Spin your mace around yourself, hitting all enemies within 1 tile for [GOLD]110%[] damage.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/Custom/items/mace</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<Permute>
+								<Time>0.0232769046</Time>
+								<HitPoints>
+									<Line>###</Line>
+									<Line>#@#</Line>
+									<Line>###</Line>
+								</HitPoints>
+							</Permute>
+							<Damage>
+								<Time>0.1123942</Time>
+								<Amount>1.1</Amount>
+							</Damage>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.113059253</Duration>
+								<Time>0.0472188629</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>SpinSlash</Name>
+								</Renderable>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+				</AbilityData>
+				<AbilityData>
+					<Name>Long Smash</Name>
+					<Description>Swing your mace out, hitting and enemy within 3 tiles for [GOLD]150%[] damage.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/Custom/items/maceAndchain</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<MovementRenderable>
+								<Duration LockDuration="False">0.09909311</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>SpinningFlightParticle</Name>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Oryx/Custom/items/maceAndchain</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+							</MovementRenderable>
+							<Damage>
+								<Time>0.09909311</Time>
+								<Amount>1.5</Amount>
+							</Damage>
+						</Timeline>
+					</Ability>
+					<Cooldown>4,10</Cooldown>
+					<Range>3</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

@@ -11,7 +11,7 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>130</MaxHP>
+				<MaxHP>140</MaxHP>
 				<Power>10</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
@@ -113,7 +113,6 @@
 							</ReplaceAttack>
 						</Timeline>
 					</Ability>
-					<Cooldown>8,15</Cooldown>
 					<Condition>Stormsurge==0</Condition>
 					<Range>99</Range>
 				</AbilityData>

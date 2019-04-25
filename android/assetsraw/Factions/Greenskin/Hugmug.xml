@@ -1,0 +1,182 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Hugmug</Name>
+			<Title>Troll Skullbreaker</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>135</MaxHP>
+				<Power>8</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+				<Haste>-0.25</Haste>
+			</Statistics>
+			<EquipmentWeight>Heavy</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>Stomp</Name>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/troll</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/troll</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Regeneration</Name>
+					<Description>Trolls have powerful regeneration, regaining [GOLD]5%[] hp per round.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/troll_1</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<Buff>
+								<Duration LockDuration="False">0.120023988</Duration>
+								<Time>0.0230815355</Time>
+								<Buff meta:RefKey="Buff">
+									<Name>Regeneration</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Oryx/uf_split/uf_heroes/troll_1</Name>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Regeneration>0.05</Regeneration>
+									</Statistics>
+									<Duration>9999</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.09892086</Duration>
+								<Time>0.0230815355</Time>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>Buff</Name>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Oryx/uf_split/uf_heroes/troll_1</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<OnEnd>Nothing</OnEnd>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<SingleUse>true</SingleUse>
+					<AvailableOnStart>true</AvailableOnStart>
+					<Cancellable>false</Cancellable>
+					<Range>999</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Slam</Name>
+					<Description>Smash the ground in front of you, hitting your target for [GOLD]120%[] damage.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Particle/boot-stomp</Name>
+						<Colour>16,171,78,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<Damage>
+								<Time>0.0666067153</Time>
+								<Amount>1.2</Amount>
+							</Damage>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.08705036</Duration>
+								<Time>0.021762589</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Stomp</Name>
+									<Colour>39,150,62,255</Colour>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+				</AbilityData>
+				<AbilityData>
+					<Name>Stench</Name>
+					<Description>A rancid odour emanates from your body, stunning all enemies within 1 tile for 1 round, and reducing their power by [GOLD]20%[] for 5 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Particle/plasma_1</Name>
+						<Colour>151,184,73,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<Permute>
+								<Time>0.0204436444</Time>
+								<HitPoints>
+									<Line>###</Line>
+									<Line>#@#</Line>
+									<Line>###</Line>
+								</HitPoints>
+							</Permute>
+							<Stun>
+								<Time>0.09166667</Time>
+							</Stun>
+							<Debuff>
+								<Time>0.118045561</Time>
+								<Duration LockDuration="False">0.110791363</Duration>
+								<Buff meta:RefKey="Buff">
+									<Name>Stench</Name>
+									<Icon meta:RefKey="Sprite">
+										<Name>Particle/plasma_1</Name>
+										<Colour>99,133,46,255</Colour>
+									</Icon>
+									<Statistics meta:RefKey="Statistics">
+										<Power>-0.2</Power>
+									</Statistics>
+									<Duration>5</Duration>
+								</Buff>
+							</Debuff>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.08441247</Duration>
+								<Time>0.0494604334</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>OdourRelease</Name>
+								</Renderable>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>8,12</Cooldown>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

@@ -2,6 +2,8 @@ package com.lyeeedar.Screens
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.ObjectMap
+import com.lyeeedar.Game.Faction
+import com.lyeeedar.Game.FactionEntity
 import com.lyeeedar.Global
 import com.lyeeedar.Tests.DPSTest
 import com.lyeeedar.Tests.HeroEntry
@@ -19,11 +21,28 @@ class TestScreen : AbstractScreen()
 
 	override fun create()
 	{
+		val pathToFactionEntityMap = ObjectMap<String, FactionEntity>()
+		for (factionPath in XmlData.enumeratePaths("Factions", "Faction"))
+		{
+			val faction = Faction.load(factionPath.replace("Factions/", ""))
+			for (entity in faction.heroes)
+			{
+				pathToFactionEntityMap[entity.entityPath + ".xml"] = entity
+			}
+		}
+
 		for (entity in XmlData.enumeratePaths("Factions", "Entity"))
 		{
 			if (!entity.toLowerCase().contains("test"))
 			{
-				val entry = HeroEntry(entity)
+				var rarity = "---"
+				if (pathToFactionEntityMap.containsKey(entity))
+				{
+					val fe = pathToFactionEntityMap[entity]
+					rarity = fe.rarity.shortName
+				}
+
+				val entry = HeroEntry(entity, rarity)
 				heroes[entity] = entry
 
 				entry.damage = DPSTest().testEntity(entity)
@@ -38,8 +57,8 @@ class TestScreen : AbstractScreen()
 		mainTable.clear()
 		mainTable.add(Label("Name", Global.skin, "title"))
 		mainTable.add(Label("W/L", Global.skin, "title"))
-		mainTable.add(Label("Damage", Global.skin, "title"))
-		mainTable.add(Label("DPS", Global.skin, "title"))
+		mainTable.add(Label("Dam/DPS", Global.skin, "title"))
+		mainTable.add(Label("Rarity", Global.skin, "title"))
 		mainTable.row()
 		mainTable.add(Seperator(Global.skin)).colspan(4).growX()
 		mainTable.row()
@@ -48,8 +67,8 @@ class TestScreen : AbstractScreen()
 		{
 			mainTable.add(Label(hero.path.filename(false), Global.skin))
 			mainTable.add(Label((hero.wins.toFloat() / hero.losses.toFloat()).toString(2), Global.skin))
-			mainTable.add(Label(hero.damage.toString(2), Global.skin))
-			mainTable.add(Label((hero.totalDps / hero.numSamples).toString(2), Global.skin))
+			mainTable.add(Label(hero.damage.toString(2) + " / " + (hero.totalDps / hero.numSamples).toString(2), Global.skin))
+			mainTable.add(Label(hero.rarity, Global.skin))
 			mainTable.row()
 		}
 	}

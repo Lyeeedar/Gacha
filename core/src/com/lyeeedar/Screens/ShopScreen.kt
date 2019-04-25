@@ -459,7 +459,10 @@ class ShopScreen : AbstractScreen()
 
 				if (isNewHero)
 				{
-					card.flipEffect = ParticleEffectActor(AssetManager.loadParticleEffect("NewHero").getParticleEffect(), false)
+					val particle = AssetManager.loadParticleEffect("NewHero")
+					particle.colour = Colour.WHITE.copy().lerp(hero.rarity.colour, 0.5f)
+
+					card.flipEffect = ParticleEffectActor(particle.getParticleEffect(), false)
 					card.flipDelay = 1f
 				}
 				else if (ascension != Ascension.MUNDANE)
@@ -606,7 +609,10 @@ class ShopScreen : AbstractScreen()
 
 				if (isNewHero)
 				{
-					card.flipEffect = ParticleEffectActor(AssetManager.loadParticleEffect("NewHero").getParticleEffect(), false)
+					val particle = AssetManager.loadParticleEffect("NewHero")
+					particle.colour = Colour.WHITE.copy().lerp(hero.rarity.colour, 0.5f)
+
+					card.flipEffect = ParticleEffectActor(particle.getParticleEffect(), false)
 					card.flipDelay = 1f
 				}
 				else if (ascension != Ascension.MUNDANE)

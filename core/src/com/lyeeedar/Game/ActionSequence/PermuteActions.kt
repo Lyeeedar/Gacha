@@ -87,6 +87,7 @@ class PermuteAction() : AbstractActionSequenceAction()
 			val obj = PermuteAction.pool.obtain()
 
 			if (obj.obtained) throw RuntimeException()
+			obj.hitPoints.clear()
 
 			obj.obtained = true
 			return obj

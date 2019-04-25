@@ -110,7 +110,7 @@ class HeroesScreen : AbstractScreen()
 		var x = 0
 		for (hero in allHeroes.sortedByDescending { it.entity.stats().calculatePowerRating(it.entity) })
 		{
-			val heroWidget = HeroSelectionWidget(hero.entity)
+			val heroWidget = HeroSelectionWidget(hero.entity, hero.data.factionEntity)
 			heroWidget.addClickListener {
 				createHeroTable(hero.entity, hero.data, false)
 			}
@@ -166,7 +166,10 @@ class HeroesScreen : AbstractScreen()
 
 		val ascensionLabel = Label(stats.ascension.toString().neaten(), Global.skin)
 		ascensionLabel.color = stats.ascension.colour.color()
-		factionAscensionTable.add(ascensionLabel).colspan(3).center()
+
+		val rarityLabel = Label(entityData.factionEntity.rarity.niceName, Global.skin)
+		rarityLabel.color = entityData.factionEntity.rarity.colour.color()
+		factionAscensionTable.add(rarityLabel).colspan(3).center()
 
 		mainTable.add(factionAscensionTable).expandX().center().pad(5f)
 		mainTable.row()
@@ -383,10 +386,10 @@ class HeroesScreen : AbstractScreen()
 		statsAndPowerTable.add(statsTable).growX().pad(5f)
 		statsAndPowerTable.row()
 
-		fun addSubtextNumber(text: String, value: Int)
+		fun addSubtextNumber(text: String, value: String)
 		{
 			val table = Table()
-			table.add(Label(value.prettyPrint(), Global.skin)).expandX().center()
+			table.add(Label(value, Global.skin)).expandX().center()
 			table.row()
 			val textLabel = Label(text, Global.skin, "small")
 			textLabel.color = Color.GRAY
@@ -395,10 +398,10 @@ class HeroesScreen : AbstractScreen()
 			statsTable.add(table).expandX()
 		}
 
-		addSubtextNumber("Level", stats.level)
-		addSubtextNumber("Ascension", stats.ascension.ordinal+1)
-		addSubtextNumber("Health", stats.getStat(Statistic.MAXHP).toInt())
-		addSubtextNumber("Power", stats.getStat(Statistic.POWER).toInt())
+		addSubtextNumber("Level", stats.level.prettyPrint())
+		addSubtextNumber("Ascension", stats.ascension.name.neaten())
+		addSubtextNumber("Health", stats.getStat(Statistic.MAXHP).toInt().prettyPrint())
+		addSubtextNumber("Power", stats.getStat(Statistic.POWER).toInt().prettyPrint())
 
 		val fullStats = SpriteWidget(AssetManager.loadSprite("GUI/attack_empty"), 32f, 32f)
 		fullStats.addClickListener {
@@ -781,7 +784,7 @@ class HeroesScreen : AbstractScreen()
 			{
 				val entity = entityData.getEntity("1")
 
-				val heroWidget = HeroSelectionWidget(entity)
+				val heroWidget = HeroSelectionWidget(entity, entityData.factionEntity)
 				heroWidget.addClickListener {
 					createHeroTable(entity, entityData, true)
 				}

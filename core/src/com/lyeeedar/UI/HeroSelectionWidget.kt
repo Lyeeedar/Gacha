@@ -9,12 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import com.badlogic.gdx.utils.Align
 import com.lyeeedar.Components.renderable
 import com.lyeeedar.Components.stats
+import com.lyeeedar.Game.FactionEntity
 import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.Colour
 
-class HeroSelectionWidget(var entity: Entity) : Widget()
+class HeroSelectionWidget(var entity: Entity, val factionEntity: FactionEntity) : Widget()
 {
 	val background = AssetManager.loadTextureRegion("Icons/Empty")!!
 	val border = AssetManager.loadTextureRegion("GUI/RewardChanceBorder")!!
@@ -27,6 +28,7 @@ class HeroSelectionWidget(var entity: Entity) : Widget()
 
 	val layout = GlyphLayout()
 	val font = Global.skin.getFont("small")
+	val bigfont = Global.skin.getFont("default")
 
 	var alreadyUsed = false
 
@@ -59,6 +61,10 @@ class HeroSelectionWidget(var entity: Entity) : Widget()
 			batch.draw(stats.factionData!!.icon.currentTexture, x + 8f, y + 8f, layout.height, layout.height)
 			font.draw(batch, layout, x + 13f + layout.height, y + 8f + layout.height)
 		}
+
+		batch.color = Color.WHITE
+		layout.setText(font, factionEntity.rarity.shortName, factionEntity.rarity.colour.color(), Global.stage.width * 0.5f, Align.left, false)
+		font.draw(batch, layout, x + width - layout.width - 5f, y + height - layout.height)
 
 		batch.setColor(entity.stats()!!.ascension.colour)
 		batch.draw(border, x, y, width, height)

@@ -12,7 +12,7 @@ import com.lyeeedar.Util.Future
 import com.lyeeedar.Util.XmlData
 import ktx.collections.set
 
-class HeroEntry(val path: String, var wins: Int = 0, var losses: Int = 0, var damage: Float = 0f)
+class HeroEntry(val path: String, val rarity: String, var wins: Int = 0, var losses: Int = 0, var damage: Float = 0f)
 {
 	var totalDps: Float = 0f
 	var numSamples: Int = 0
@@ -130,7 +130,7 @@ class RatingTest
 		{
 			if (!entity.toLowerCase().contains("test"))
 			{
-				val entry = HeroEntry(entity)
+				val entry = HeroEntry(entity, "--")
 				heroes[entity] = entry
 			}
 		}

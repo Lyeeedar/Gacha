@@ -40,12 +40,12 @@
 			<Rarity>Common</Rarity>
 		</Hero>
 		<Hero>
-			<Entity>Gobuta</Entity>
-			<Rarity>Rare</Rarity>
+			<Entity>Raghat</Entity>
+			<Rarity>Common</Rarity>
 		</Hero>
 		<Hero>
-			<Entity>TheBoneSpeaker</Entity>
-			<Rarity>Rare</Rarity>
+			<Entity>Hugmug</Entity>
+			<Rarity>Uncommon</Rarity>
 		</Hero>
 		<Hero>
 			<Entity>Haruna</Entity>
@@ -54,6 +54,14 @@
 		<Hero>
 			<Entity>Ranga</Entity>
 			<Rarity>Uncommon</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>TheBoneSpeaker</Entity>
+			<Rarity>Rare</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>Gobuta</Entity>
+			<Rarity>SuperRare</Rarity>
 		</Hero>
 	</Heroes>
 </Faction>
