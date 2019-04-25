@@ -539,7 +539,7 @@ class SummonAction() : AbstractActionSequenceAction()
 				val effect = summonEffect.getParticleEffect()
 				effect.addToEngine(tile)
 
-				delay = effect.lifetime * 0.3f
+				delay = effect.blockinglifetime * 0.7f
 			}
 
 			Future.call({

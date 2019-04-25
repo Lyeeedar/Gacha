@@ -76,9 +76,17 @@ abstract class AbstractScreen() : Screen, InputProcessor, GestureDetector.Gestur
         stage.viewport.update(width, height, true)
     }
 
+	open fun modifyDelta(delta: Float): Float
+	{
+		return delta
+	}
+
     // ----------------------------------------------------------------------
     override fun render(delta: Float)
 	{
+		val rawDelta = delta
+		val delta = modifyDelta(delta)
+
 		val start = System.nanoTime()
 
         stage.act()
@@ -112,9 +120,9 @@ abstract class AbstractScreen() : Screen, InputProcessor, GestureDetector.Gestur
 
 		val diff = (end - start) / 1000000000f
 		frameDuration = (frameDuration + diff) / 2f
-		deltaAverage = (deltaAverage + delta) / 2f
+		deltaAverage = (deltaAverage + rawDelta) / 2f
 
-		fpsAccumulator += delta
+		fpsAccumulator += rawDelta
 		if (fpsAccumulator > 0.5f)
 		{
 			fpsAccumulator = 0f

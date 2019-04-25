@@ -2,7 +2,7 @@
 	<Components>
 		<Name>
 			<Name>Titania</Name>
-			<Title>Sword Saint</Title>
+			<Title>Thousand Blades</Title>
 		</Name>
 		<AI>
 			<Speed>1</Speed>
@@ -101,18 +101,20 @@
 									</Statistics>
 								</Buff>
 							</Buff>
+						</Timeline>
+						<Timeline>
+							<SelectSelf>
+								<Time>0.481813163</Time>
+							</SelectSelf>
 							<Buff>
 								<Duration LockDuration="False">0.07346058</Duration>
-								<Time>0.525447</Time>
+								<Time>0.49144575</Time>
 								<Buff meta:RefKey="Buff">
 									<Name>Requip: Cooldown</Name>
 									<Statistics meta:RefKey="Statistics" />
 									<Duration>3</Duration>
 								</Buff>
 							</Buff>
-							<SelectSelf>
-								<Time>0.5158144</Time>
-							</SelectSelf>
 						</Timeline>
 						<Timeline>
 							<ReplaceSourceRenderable>
@@ -143,7 +145,7 @@
 							</Buff>
 						</Timeline>
 					</Ability>
-					<Cooldown>3,10</Cooldown>
+					<Cooldown>6,10</Cooldown>
 					<Condition>requip==0</Condition>
 					<Cancellable>false</Cancellable>
 					<Range>99</Range>
@@ -240,12 +242,14 @@
 									</EventHandlers>
 								</Buff>
 							</Buff>
+						</Timeline>
+						<Timeline>
 							<SelectSelf>
-								<Time>0.511288762</Time>
+								<Time>0.4864196</Time>
 							</SelectSelf>
 							<Buff>
 								<Duration LockDuration="False">0.04663217</Duration>
-								<Time>0.5192829</Time>
+								<Time>0.4944137</Time>
 								<Buff meta:RefKey="Buff">
 									<Name>Requip: Cooldown</Name>
 									<Statistics meta:RefKey="Statistics" />
@@ -282,7 +286,7 @@
 							</Buff>
 						</Timeline>
 					</Ability>
-					<Cooldown>3,10</Cooldown>
+					<Cooldown>3,5</Cooldown>
 					<Condition>requip==0</Condition>
 					<Cancellable>false</Cancellable>
 					<Range>99</Range>
@@ -309,6 +313,10 @@
 								<MoveType>Leap</MoveType>
 								<Dist>2</Dist>
 							</Knockback>
+							<MoveSource>
+								<Time>0.153113961</Time>
+								<MoveType>Leap</MoveType>
+							</MoveSource>
 							<UnlockEntity>
 								<Time>0.338400573</Time>
 							</UnlockEntity>
@@ -322,10 +330,6 @@
 							<RepeatEnd>
 								<Time>0.4208213</Time>
 							</RepeatEnd>
-							<MoveSource>
-								<Time>0.153113961</Time>
-								<MoveType>Leap</MoveType>
-							</MoveSource>
 						</Timeline>
 						<Timeline>
 							<Buff>
@@ -341,12 +345,14 @@
 									</Statistics>
 								</Buff>
 							</Buff>
+						</Timeline>
+						<Timeline>
 							<SelectSelf>
-								<Time>0.5079579</Time>
+								<Time>0.4871968</Time>
 							</SelectSelf>
 							<Buff>
 								<Duration LockDuration="False">0.0426351428</Duration>
-								<Time>0.517284334</Time>
+								<Time>0.496523261</Time>
 								<Buff meta:RefKey="Buff">
 									<Name>Requip: Cooldown</Name>
 									<Statistics meta:RefKey="Statistics" />
@@ -375,7 +381,7 @@
 							</Buff>
 						</Timeline>
 					</Ability>
-					<Cooldown>3,10</Cooldown>
+					<Cooldown>3,5</Cooldown>
 					<Condition>requip==0</Condition>
 					<Cancellable>false</Cancellable>
 				</AbilityData>
@@ -388,6 +394,10 @@
 					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
 							<SelectSelf />
+							<Heal>
+								<Time>0.125275046</Time>
+								<Amount>1.5</Amount>
+							</Heal>
 							<UnlockEntity>
 								<Time>0.338400573</Time>
 							</UnlockEntity>
@@ -401,10 +411,6 @@
 							<RepeatEnd>
 								<Time>0.4208213</Time>
 							</RepeatEnd>
-							<Heal>
-								<Time>0.125275046</Time>
-								<Amount>1.5</Amount>
-							</Heal>
 						</Timeline>
 						<Timeline>
 							<Buff>
@@ -420,12 +426,14 @@
 									</Statistics>
 								</Buff>
 							</Buff>
+						</Timeline>
+						<Timeline>
 							<SelectSelf>
-								<Time>0.503294647</Time>
+								<Time>0.487262428</Time>
 							</SelectSelf>
 							<Buff>
 								<Duration LockDuration="False">0.0439674854</Duration>
-								<Time>0.511954963</Time>
+								<Time>0.495922744</Time>
 								<Buff meta:RefKey="Buff">
 									<Name>Requip: Cooldown</Name>
 									<Statistics meta:RefKey="Statistics" />
@@ -473,8 +481,8 @@
 							</Buff>
 						</Timeline>
 					</Ability>
-					<Cooldown>3,10</Cooldown>
-					<Condition>requip==0</Condition>
+					<Cooldown>6,8</Cooldown>
+					<Condition>requip==0 &amp;&amp; hp &lt; maxhp*0.6</Condition>
 					<Cancellable>false</Cancellable>
 					<Range>99</Range>
 				</AbilityData>
@@ -524,6 +532,7 @@
 										<Name>DancingBlade</Name>
 										<Colour>255,255,255,199</Colour>
 										<Scale>0.8</Scale>
+										<TimeMultiplier>1.5</TimeMultiplier>
 									</Base>
 									<Overrides>
 										<OverrideTexture>
@@ -556,7 +565,7 @@
 										<Events>
 											<Block>
 												<EventHandler>
-													<Condition>chance(1, 5)</Condition>
+													<Condition>1</Condition>
 													<ActionSequence meta:RefKey="ActionSequence">
 														<Timeline>
 															<SelectSelf />
@@ -582,6 +591,7 @@
 																		<Name>DancingBlade</Name>
 																		<Colour>255,255,255,193</Colour>
 																		<Scale>0.7</Scale>
+																		<TimeMultiplier>1.5</TimeMultiplier>
 																	</Base>
 																	<Overrides>
 																		<OverrideTexture>
@@ -605,12 +615,14 @@
 									</EventHandlers>
 								</Buff>
 							</Buff>
+						</Timeline>
+						<Timeline>
 							<SelectSelf>
-								<Time>0.503294647</Time>
+								<Time>0.481520116</Time>
 							</SelectSelf>
 							<Buff>
 								<Duration LockDuration="False">0.0439674854</Duration>
-								<Time>0.511954963</Time>
+								<Time>0.490180433</Time>
 								<Buff meta:RefKey="Buff">
 									<Name>Requip: Cooldown</Name>
 									<Statistics meta:RefKey="Statistics" />
@@ -647,9 +659,10 @@
 							</Buff>
 						</Timeline>
 					</Ability>
-					<Cooldown>3,10</Cooldown>
+					<Cooldown>3,5</Cooldown>
 					<Condition>requip==0</Condition>
 					<Cancellable>false</Cancellable>
+					<Range>2</Range>
 				</AbilityData>
 				<AbilityData>
 					<Name>Armament Enhance</Name>

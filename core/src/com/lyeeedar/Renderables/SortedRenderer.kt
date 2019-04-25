@@ -144,14 +144,14 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 					   VertexAttribute(VertexAttributes.Usage.Position, 4, ShaderProgram.POSITION_ATTRIBUTE),
 					   VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 4, ShaderProgram.TEXCOORD_ATTRIBUTE),
 					   VertexAttribute(VertexAttributes.Usage.ColorPacked, 4, ShaderProgram.COLOR_ATTRIBUTE),
-					   VertexAttribute(VertexAttributes.Usage.ColorPacked, 4, "a_additionalData")
+					   VertexAttribute(VertexAttributes.Usage.ColorPacked, 4, "a_additionalData") // blendalpha, islit, alpharef, brightness
 					  )
 
 		staticMesh = BigMesh(true, maxSprites * 4, maxSprites * 6,
 							 VertexAttribute(VertexAttributes.Usage.Position, 4, ShaderProgram.POSITION_ATTRIBUTE),
 							 VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 4, ShaderProgram.TEXCOORD_ATTRIBUTE),
 							 VertexAttribute(VertexAttributes.Usage.ColorPacked, 4, ShaderProgram.COLOR_ATTRIBUTE),
-							 VertexAttribute(VertexAttributes.Usage.ColorPacked, 4, "a_additionalData")
+							 VertexAttribute(VertexAttributes.Usage.ColorPacked, 4, "a_additionalData") // blendalpha, islit, alpharef, brightness
 					  )
 
 		val len = maxSprites * 6
@@ -1255,6 +1255,7 @@ varying vec2 v_texCoords2;
 varying float v_blendAlpha;
 varying float v_isLit;
 varying float v_alphaRef;
+varying float v_brightness;
 
 void main()
 {
@@ -1269,7 +1270,8 @@ void main()
 	v_texCoords2 = ${ShaderProgram.TEXCOORD_ATTRIBUTE}.zw;
 	v_blendAlpha = a_additionalData.x;
 	v_isLit = float(a_additionalData.y == 0.0);
-	v_alphaRef = 1.0 - a_additionalData.z;
+	v_alphaRef = a_additionalData.z;
+	v_brightness = a_additionalData.w;
 	gl_Position = u_projTrans * truePos;
 }
 """
@@ -1362,6 +1364,7 @@ varying vec2 v_texCoords2;
 varying float v_blendAlpha;
 varying float v_isLit;
 varying float v_alphaRef;
+varying float v_brightness;
 
 uniform float u_tileSize;
 
@@ -1577,7 +1580,9 @@ void main()
 		outCol = vec4(0.0, 0.0, 0.0, 0.0);
 	}
 
-	vec4 finalCol = clamp(v_color * outCol * vec4(lightCol, 1.0), 0.0, 1.0);
+	vec4 objCol = vec4(v_color.rgb * v_brightness * 255.0, v_color.a);
+
+	vec4 finalCol = clamp(objCol * outCol * vec4(lightCol, 1.0), 0.0, 1.0);
 	gl_FragColor = finalCol;
 }
 """
@@ -1794,7 +1799,9 @@ void main ()
 	lightCol4.rgb = mix(vec3(1.0, 1.0, 1.0), lightCol, 1.0 - v_additionalData.y);
 	lightCol4.a = 1.0;
 
-	LOWP vec4 outCol = clamp(v_color * mix(texture2D(u_texture, v_texCoords.xy), texture2D(u_texture, v_texCoords.zw), v_additionalData.x) * lightCol4, 0.0, 1.0);
+	LOWP vec4 objCol = vec4(v_color.rgb * (v_additionalData.w * 255.0), v_color.a);
+
+	LOWP vec4 outCol = clamp(objCol * mix(texture2D(u_texture, v_texCoords.xy), texture2D(u_texture, v_texCoords.zw), v_additionalData.x) * lightCol4, 0.0, 1.0);
 	outCol *= float(outCol.a > v_additionalData.z); // apply alpharef
 
 	gl_FragColor = outCol;

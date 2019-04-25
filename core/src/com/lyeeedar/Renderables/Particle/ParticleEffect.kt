@@ -100,6 +100,9 @@ class ParticleEffect(val description: ParticleEffectDescription) : Renderable()
 	val lifetime: Float
 		get() = (animation?.duration() ?: emitters.maxBy { it.lifetime() }!!.lifetime())
 
+	val blockinglifetime: Float
+		get() = (animation?.duration() ?: emitters.filter { it.isBlockingEmitter }.maxBy { it.lifetime() }!!.lifetime())
+
 	fun start()
 	{
 		for (emitter in emitters)

@@ -475,10 +475,15 @@ class MapScreen : AbstractScreen()
 		}
 	}
 
-	override fun doRender(delta: Float)
+	override fun modifyDelta(delta: Float): Float
 	{
 		val extraMult = if (level!!.selectingEntities || paused) 0f else 1f
-		Global.engine.update(delta * multipliers[multiplierIndex].multiplier * extraMult)
+		return delta * multipliers[multiplierIndex].multiplier * extraMult
+	}
+
+	override fun doRender(delta: Float)
+	{
+		Global.engine.update(delta)
 
 		if (!levelComplete && !level!!.selectingEntities)
 		{

@@ -74,7 +74,7 @@ class TaskAttack() : AbstractTask()
 				effect.rotation = getRotation(e.tile()!!, tile)
 				effect.addToEngine(tile)
 
-				delay += effect.lifetime * 0.3f
+				delay += effect.blockinglifetime * 0.7f
 			}
 		}
 

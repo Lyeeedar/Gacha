@@ -61,9 +61,11 @@ class ReplaceSourceRenderableAction() : AbstractActionSequenceAction()
 
 			addRenderable.above["blendTo"] = originalRenderable!!
 			originalRenderable!!.animation = AlphaAnimation.obtain().set(blendDuration, 1f, 0f)
-			Future.call({ addRenderable.above.remove("blendTo") }, blendDuration)
+			originalRenderable!!.animation = ColourChangeAnimation.obtain().set(Colour.WHITE, Colour.WHITE.copy().mul(50f), blendDuration)
+			Future.call({ addRenderable.above.remove("blendTo") }, blendDuration*0.98f)
 
 			newRenderable.animation = AlphaAnimation.obtain().set(blendDuration, 0f, 1f)
+			newRenderable.animation = ColourChangeAnimation.obtain().set(Colour.WHITE.copy().mul(50f), Colour.WHITE, blendDuration)
 		}
 
 		return false
@@ -93,9 +95,11 @@ class ReplaceSourceRenderableAction() : AbstractActionSequenceAction()
 
 				addRenderable.above["blendFrom"] = replacementRenderable
 				replacementRenderable.animation = AlphaAnimation.obtain().set(blendDuration, 1f, 0f)
-				Future.call({ addRenderable.above.remove("blendFrom") }, blendDuration)
+				replacementRenderable.animation = ColourChangeAnimation.obtain().set(Colour.WHITE, Colour.WHITE.copy().mul(50f), blendDuration)
+				Future.call({ addRenderable.above.remove("blendFrom") }, blendDuration*0.95f)
 
 				originalRenderable!!.animation = AlphaAnimation.obtain().set(blendDuration, 0f, 1f)
+				originalRenderable!!.animation = ColourChangeAnimation.obtain().set(Colour.WHITE.copy().mul(50f), Colour.WHITE, blendDuration)
 			}
 
 		}
