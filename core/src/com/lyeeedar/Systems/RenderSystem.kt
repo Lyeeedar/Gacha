@@ -359,7 +359,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 				var i = 0
 				for (buffCounter in buffCounterMap.values())
 				{
-					renderer.queueTexture(buffCounter.buff.icon!!.currentTexture, ax+i*spacePerPip*3, ay+overhead+0.1f+spacePerPip, pos.slot.ordinal, 4, width = spacePerPip*3, height = spacePerPip*3, sortX = ax, sortY = ay)
+					renderer.queueTexture(buffCounter.buff.icon!!.currentTexture, ax+i*spacePerPip*3, ay+overhead+0.1f+spacePerPip, pos.slot.ordinal, 4, width = spacePerPip*3, height = spacePerPip*3, sortX = ax, sortY = ay, colour = buffCounter.buff.icon!!.colour)
 					i++
 				}
 			}

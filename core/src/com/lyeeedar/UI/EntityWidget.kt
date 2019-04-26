@@ -112,7 +112,9 @@ class EntityWidget(var entity: Entity?) : Widget()
 				var i = 0
 				for (buffCounter in buffCounterMap.values())
 				{
+					batch.setColor(buffCounter.buff.icon!!.colour.color().toFloatBits())
 					batch.draw(buffCounter.buff.icon!!.currentTexture, x + 5f + i * solid * 3, y + 10f, solid * 3, solid * 3)
+					batch.setColor(Colour.WHITE)
 					font.draw(batch, buffCounter.count.toString(), x + 5f + i * solid * 3 + solid * 2, y + 20f)
 					i++
 				}
