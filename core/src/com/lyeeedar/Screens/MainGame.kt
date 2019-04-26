@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
 import com.lyeeedar.Screens.*
-import com.lyeeedar.Util.Future
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.util.*
@@ -92,7 +91,7 @@ class MainGame : Game()
 			screens.put(ScreenEnum.HEROES, HeroesScreen())
 			screens.put(ScreenEnum.SETTINGS, SettingsScreen())
 
-			switchScreen(ScreenEnum.ZONE)
+			switchScreen(ScreenEnum.TEST)
 		}
 
 	}
@@ -126,15 +125,9 @@ class MainGame : Game()
 	{
 		if (currentScreen != null)
 		{
-			currentScreen!!.fadeOutTransition(0.2f)
-
-			Future.call(
-					{
-						val ascreen = screen as AbstractScreen
-						currentScreen = ascreen
-						super.setScreen(screen)
-						ascreen.fadeInTransition(0.2f)
-					}, 0.2f)
+			val ascreen = screen as AbstractScreen
+			currentScreen = ascreen
+			super.setScreen(screen)
 		}
 		else
 		{

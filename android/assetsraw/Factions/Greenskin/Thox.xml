@@ -11,8 +11,8 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>100</MaxHP>
-				<Power>7</Power>
+				<MaxHP>85</MaxHP>
+				<Power>5</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
 			</Statistics>
@@ -115,11 +115,12 @@
 							</DestinationRenderable>
 						</Timeline>
 					</Ability>
+					<Cooldown>8,13</Cooldown>
 					<Range>99</Range>
 				</AbilityData>
 				<AbilityData>
 					<Name>"Defend Yourselves!"</Name>
-					<Description>Shout a command to your team, giving them all [GOLD]30%[] aegis but [GOLD]-10%[] power for 6 rounds.</Description>
+					<Description>Shout a command to your team, giving them all [GOLD]30%[] damage reduction but [GOLD]-10%[] power for 6 rounds.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Icons/screaming</Name>
 						<Colour>151,153,134,255</Colour>
@@ -136,7 +137,7 @@
 									<UseParentNameAndIcon>true</UseParentNameAndIcon>
 									<Statistics meta:RefKey="Statistics">
 										<Power>-0.1</Power>
-										<Aegis>0.3</Aegis>
+										<DR>0.3</DR>
 									</Statistics>
 									<Duration>6</Duration>
 								</Buff>
@@ -186,11 +187,12 @@
 							</DestinationRenderable>
 						</Timeline>
 					</Ability>
+					<Cooldown>5,12</Cooldown>
 					<Range>99</Range>
 				</AbilityData>
 				<AbilityData>
 					<Name>"Charge!"</Name>
-					<Description>Shout a command to your team, giving them all [GOLD]30%[] haste and [GOLD]20%[] power for 6 rounds.</Description>
+					<Description>Shout a command to your team, giving them all [GOLD]20%[] haste and [GOLD]10%[] power for 6 rounds.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Icons/enrage</Name>
 						<Colour>240,166,44,255</Colour>
@@ -206,8 +208,8 @@
 								<Buff meta:RefKey="Buff">
 									<UseParentNameAndIcon>true</UseParentNameAndIcon>
 									<Statistics meta:RefKey="Statistics">
-										<Power>0.2</Power>
-										<Haste>0.3</Haste>
+										<Power>0.1</Power>
+										<Haste>0.2</Haste>
 									</Statistics>
 									<Duration>6</Duration>
 								</Buff>
@@ -257,6 +259,7 @@
 							</DestinationRenderable>
 						</Timeline>
 					</Ability>
+					<Cooldown>6,9</Cooldown>
 					<Range>99</Range>
 				</AbilityData>
 			</Abilities>

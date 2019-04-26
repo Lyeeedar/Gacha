@@ -27,7 +27,7 @@
 					</SizeKeyframes>
 					<RotationSpeedKeyframes>
 						<Stream>
-							<Keyframe>0|720|720</Keyframe>
+							<Keyframe>0|3600|3600</Keyframe>
 						</Stream>
 					</RotationSpeedKeyframes>
 					<BlendMode>Multiplicative</BlendMode>

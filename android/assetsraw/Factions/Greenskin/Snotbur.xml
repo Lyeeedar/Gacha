@@ -1,0 +1,173 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Snotbur</Name>
+			<Title>Shinkicker Anklebiter</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>110</MaxHP>
+				<Power>4</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+				<Haste>0.2</Haste>
+				<DR>0.15</DR>
+			</Statistics>
+			<EquipmentWeight>Light</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/snotbur</Name>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/snotbur</Name>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Shank Him!</Name>
+					<Description>Call your allies, summoning 2 Snotlings at your location. After 4 turns they flee.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/snotbur_1</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<SourceRenderable>
+								<Time>0.004271923</Time>
+								<Duration LockDuration="False">0.0134410448</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Shout</Name>
+									<Colour>76,201,78,255</Colour>
+								</Renderable>
+							</SourceRenderable>
+							<UnlockEntity>
+								<Time>0.02645414</Time>
+							</UnlockEntity>
+							<RepeatBegin>
+								<Time>0.048791565</Time>
+								<Count>1</Count>
+							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.0596756153</Time>
+							</BlockTurn>
+							<RepeatEnd>
+								<Time>0.0707544759</Time>
+							</RepeatEnd>
+						</Timeline>
+						<Timeline>
+							<Summon>
+								<Time>0.0203020126</Time>
+								<Duration LockDuration="False">0.0836689</Duration>
+								<Entity>Factions/Greenskin/Snotling</Entity>
+								<KillOnExit>true</KillOnExit>
+							</Summon>
+						</Timeline>
+						<Timeline>
+							<Summon>
+								<Time>0.0203020126</Time>
+								<Duration LockDuration="False">0.0836689</Duration>
+								<Entity>Factions/Greenskin/Snotling</Entity>
+								<KillOnExit>true</KillOnExit>
+							</Summon>
+						</Timeline>
+					</Ability>
+					<Cooldown>6,14</Cooldown>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Dirty Trick</Name>
+					<Description>Throw some muck in your enemies face, stunning them for 1 round and causing them to take [GOLD]20%[] more damage for 3 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/Custom/terrain/Rubbish_1</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<Stun>
+								<Time>0.00922818948</Time>
+							</Stun>
+							<Debuff>
+								<Time>0.0375279635</Time>
+								<Duration LockDuration="False">0.09228188</Duration>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<DR>-0.2</DR>
+									</Statistics>
+									<Duration>3</Duration>
+								</Buff>
+							</Debuff>
+						</Timeline>
+						<Timeline>
+							<MovementRenderable>
+								<Duration LockDuration="False">0.05167785</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>FlightParticle</Name>
+										<Colour>134,135,45,255</Colour>
+										<Scale>0.5</Scale>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Particle/plasma_3</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+								<UseLeap>true</UseLeap>
+							</MovementRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>6,12</Cooldown>
+				</AbilityData>
+				<AbilityData>
+					<Name>Stab</Name>
+					<Description>Stab your foe for [GOLD]150%[] damage.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/weapon_dagger</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<Damage>
+								<Time>0.06459731</Time>
+								<Amount>1.5</Amount>
+							</Damage>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.1082774</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Thrust</Name>
+									<Colour>171,154,154,255</Colour>
+								</Renderable>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

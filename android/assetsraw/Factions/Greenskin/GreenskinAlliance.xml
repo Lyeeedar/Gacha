@@ -32,11 +32,7 @@
 	</Buffs>
 	<Heroes>
 		<Hero>
-			<Entity>Gibu</Entity>
-			<Rarity>Common</Rarity>
-		</Hero>
-		<Hero>
-			<Entity>Linbah</Entity>
+			<Entity>Snotbur</Entity>
 			<Rarity>Common</Rarity>
 		</Hero>
 		<Hero>

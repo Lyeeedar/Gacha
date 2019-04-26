@@ -487,7 +487,7 @@ class BuffAction() : AbstractActionSequenceAction()
 class SummonAction() : AbstractActionSequenceAction()
 {
 	lateinit var entityPath: String
-	lateinit var summonEffect: ParticleEffectDescription
+	var summonEffect: ParticleEffectDescription? = null
 	var killOnExit = false
 
 	val summonedEntities = Array<Entity>(1)
@@ -539,9 +539,9 @@ class SummonAction() : AbstractActionSequenceAction()
 			}
 
 			var delay = 0f
-			if (!Global.resolveInstant)
+			if (!Global.resolveInstant && summonEffect != null)
 			{
-				val effect = summonEffect.getParticleEffect()
+				val effect = summonEffect!!.getParticleEffect()
 				effect.addToEngine(tile)
 
 				delay = effect.blockinglifetime * 0.7f
@@ -584,7 +584,13 @@ class SummonAction() : AbstractActionSequenceAction()
 	override fun parse(xmlData: XmlData)
 	{
 		entityPath = xmlData.get("Entity")
-		summonEffect = AssetManager.loadParticleEffect(xmlData.getChildByName("Effect")!!)
+
+		val effectEl = xmlData.getChildByName("Effect")
+		if (effectEl != null)
+		{
+			summonEffect = AssetManager.loadParticleEffect(effectEl)
+		}
+
 		killOnExit = xmlData.getBoolean("KillOnExit", false)
 	}
 
