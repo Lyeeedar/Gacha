@@ -11,6 +11,8 @@ import com.lyeeedar.Util.XmlData
 
 class Buff
 {
+	var useParentNameAndIcon = false
+
 	var name: String = ""
 	lateinit var description: String
 
@@ -24,6 +26,7 @@ class Buff
 	fun copy(): Buff
 	{
 		val buff = Buff()
+		buff.useParentNameAndIcon = useParentNameAndIcon
 		buff.name = name
 		buff.description = description
 		buff.duration = duration
@@ -36,6 +39,8 @@ class Buff
 
 	fun parse(xml: XmlData)
 	{
+		useParentNameAndIcon = xml.getBoolean("UseParentNameAndIcon", false)
+
 		name = xml.get("Name", "")!!
 
 		val iconEl = xml.getChildByName("Icon")

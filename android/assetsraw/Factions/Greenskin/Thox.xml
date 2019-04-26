@@ -1,0 +1,265 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Thox</Name>
+			<Title>Iron Legion Captain</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>100</MaxHP>
+				<Power>7</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<EquipmentWeight>Medium</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>9</Range>
+				<FlightEffect meta:RefKey="ParticleEffectTemplate">
+					<Base meta:RefKey="ParticleEffect">
+						<Name>FastSpinningFlightParticle</Name>
+					</Base>
+					<Overrides>
+						<OverrideTexture>
+							<Name>white</Name>
+							<Texture meta:RefKey="Texture">
+								<File>Oryx/uf_split/uf_items/weapon_axe</File>
+							</Texture>
+						</OverrideTexture>
+					</Overrides>
+				</FlightEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/rigurdo</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/rigurdo</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>"Stick Together!"</Name>
+					<Description>Shout a command to your team, giving them all [GOLD]1%[] ally boost for 6 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/shouting</Name>
+						<Colour>158,204,151,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectAllies>
+								<Count>99</Count>
+							</SelectAllies>
+							<Buff>
+								<Duration LockDuration="False">0.119292229</Duration>
+								<Time>0.0244863033</Time>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<AllyBoost>0.01</AllyBoost>
+									</Statistics>
+									<Duration>6</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<SourceRenderable>
+								<Time>0.0244863033</Time>
+								<Duration LockDuration="False">0.081621</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>Shout</Name>
+										<Colour>158,204,151,255</Colour>
+									</Base>
+								</Renderable>
+							</SourceRenderable>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.116780818</Duration>
+								<Time>0.05964612</Time>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>Buff</Name>
+										<Colour>158,204,151,255</Colour>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Icons/shouting</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<OnEnd>Nothing</OnEnd>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>"Defend Yourselves!"</Name>
+					<Description>Shout a command to your team, giving them all [GOLD]30%[] aegis but [GOLD]-10%[] power for 6 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/screaming</Name>
+						<Colour>151,153,134,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectAllies>
+								<Count>99</Count>
+							</SelectAllies>
+							<Buff>
+								<Duration LockDuration="False">0.119292229</Duration>
+								<Time>0.0244863033</Time>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Power>-0.1</Power>
+										<Aegis>0.3</Aegis>
+									</Statistics>
+									<Duration>6</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<SourceRenderable>
+								<Time>0.0244863033</Time>
+								<Duration LockDuration="False">0.081621</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>Shout</Name>
+										<Colour>151,153,134,255</Colour>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>Icons/shouting</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Icons/screaming</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+							</SourceRenderable>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.116780818</Duration>
+								<Time>0.05964612</Time>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>Buff</Name>
+										<Colour>151,153,134,255</Colour>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Icons/screaming</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<OnEnd>Nothing</OnEnd>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>"Charge!"</Name>
+					<Description>Shout a command to your team, giving them all [GOLD]30%[] haste and [GOLD]20%[] power for 6 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/enrage</Name>
+						<Colour>240,166,44,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectAllies>
+								<Count>99</Count>
+							</SelectAllies>
+							<Buff>
+								<Duration LockDuration="False">0.119292229</Duration>
+								<Time>0.0244863033</Time>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Power>0.2</Power>
+										<Haste>0.3</Haste>
+									</Statistics>
+									<Duration>6</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<SourceRenderable>
+								<Time>0.0244863033</Time>
+								<Duration LockDuration="False">0.081621</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>Shout</Name>
+										<Colour>240,166,44,255</Colour>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>Icons/shouting</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Icons/enrage</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+							</SourceRenderable>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.116780818</Duration>
+								<Time>0.05964612</Time>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>Buff</Name>
+										<Colour>240,166,44,255</Colour>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Icons/enrage</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<OnEnd>Nothing</OnEnd>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Range>99</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

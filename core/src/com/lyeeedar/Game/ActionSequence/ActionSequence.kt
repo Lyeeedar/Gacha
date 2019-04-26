@@ -8,12 +8,16 @@ import com.lyeeedar.Components.pos
 import com.lyeeedar.Direction
 import com.lyeeedar.Game.Level
 import com.lyeeedar.Global
+import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Util.Point
 import com.lyeeedar.Util.XmlData
 import ktx.collections.set
 
 class ActionSequence
 {
+	var creatingName = ""
+	var creatingIcon: Sprite? = null
+
 	var cancellable = true
 	val actions: Array<AbstractActionSequenceAction> = Array(4)
 

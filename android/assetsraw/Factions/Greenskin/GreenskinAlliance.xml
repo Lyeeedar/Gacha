@@ -44,15 +44,19 @@
 			<Rarity>Common</Rarity>
 		</Hero>
 		<Hero>
+			<Entity>Ranga</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>Thox</Entity>
+			<Rarity>Uncommon</Rarity>
+		</Hero>
+		<Hero>
 			<Entity>Hugmug</Entity>
 			<Rarity>Uncommon</Rarity>
 		</Hero>
 		<Hero>
 			<Entity>Haruna</Entity>
-			<Rarity>Uncommon</Rarity>
-		</Hero>
-		<Hero>
-			<Entity>Ranga</Entity>
 			<Rarity>Uncommon</Rarity>
 		</Hero>
 		<Hero>

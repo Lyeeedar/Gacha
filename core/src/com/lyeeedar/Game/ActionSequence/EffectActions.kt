@@ -393,6 +393,11 @@ class BuffAction() : AbstractActionSequenceAction()
 				if ((isDebuff && entity.isEnemies(sequence.source)) || entity.isAllies(sequence.source))
 				{
 					val buff = buff.copy()
+					if (buff.useParentNameAndIcon)
+					{
+						buff.name = sequence.creatingName
+						buff.icon = sequence.creatingIcon?.copy()
+					}
 
 					if (isDebuff)
 					{

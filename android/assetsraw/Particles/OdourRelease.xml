@@ -24,7 +24,7 @@
 					<SizeKeyframes>
 						<Stream>
 							<Keyframe>0|0|0</Keyframe>
-							<Keyframe>1|0.3|0.6</Keyframe>
+							<Keyframe>1|0.15|0.3</Keyframe>
 						</Stream>
 					</SizeKeyframes>
 					<BlendMode>Multiplicative</BlendMode>

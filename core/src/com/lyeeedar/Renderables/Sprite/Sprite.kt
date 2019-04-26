@@ -427,6 +427,7 @@ class Sprite(val fileName: String, var animationDelay: Float, var textures: Arra
 		sprite.colourAnimation = colourAnimation?.copy() as? AbstractColourAnimation
 		sprite.disableHDR = disableHDR
 		sprite.light = light?.copy()
+		sprite.colour = colour.copy()
 
 		return sprite
 	}
