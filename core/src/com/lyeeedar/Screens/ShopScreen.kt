@@ -171,13 +171,17 @@ class ShopScreen : AbstractScreen()
 				val dst = dstTable.localToStageCoordinates(Vector2())
 
 				val widget = SpriteWidget(AssetManager.loadSprite("Particle/shard"), 16f, 16f)
+				widget.color = Colour.WHITE.copy().lerp(hero.rarity.colour, 0.7f).color()
 				widget.setSize(16f, 16f)
 
 				val chosenDst = dst.cpy()
 				chosenDst.x += dstTable.width * 0.5f * Random.random()
 				chosenDst.y += dstTable.height * 0.5f * Random.random()
 
-				val sparkleParticle = ParticleEffectActor(AssetManager.loadParticleEffect("GetShard", timeMultiplier = 1.2f).getParticleEffect(), true)
+				val particle = AssetManager.loadParticleEffect("GetShard", timeMultiplier = 1.2f)
+				particle.colour = Colour.WHITE.copy().lerp(hero.rarity.colour, 0.7f)
+
+				val sparkleParticle = ParticleEffectActor(particle.getParticleEffect(), true)
 				sparkleParticle.setSize(dstTable.height, dstTable.height)
 				sparkleParticle.setPosition(chosenDst.x - 16f, chosenDst.y - 16f)
 
@@ -441,6 +445,7 @@ class ShopScreen : AbstractScreen()
 					val dst = dstTable.localToStageCoordinates(Vector2())
 
 					val widget = SpriteWidget(AssetManager.loadSprite("Particle/shard"), 16f, 16f)
+					widget.color = Colour.WHITE.copy().lerp(hero.rarity.colour, 0.7f).color()
 					widget.setSize(16f, 16f)
 					widget.setPosition(src.x, src.y)
 					widget.toFront()
@@ -449,15 +454,18 @@ class ShopScreen : AbstractScreen()
 					chosenDst.x += dstTable.width * 0.5f * Random.random()
 					chosenDst.y += dstTable.height * 0.5f * Random.random()
 
-					val sparkleParticle = ParticleEffectActor(AssetManager.loadParticleEffect("GetShard", timeMultiplier = 1.2f).getParticleEffect(), true)
-					sparkleParticle.setSize(dstTable.height, dstTable.height)
-					sparkleParticle.setPosition(chosenDst.x - 16f, chosenDst.y - 16f)
+					val particle = AssetManager.loadParticleEffect("GetShard", timeMultiplier = 1.2f)
+					particle.colour = Colour.WHITE.copy().lerp(hero.rarity.colour, 0.7f)
+
+					val shardParticle = ParticleEffectActor(particle.getParticleEffect(), true)
+					shardParticle.setSize(dstTable.height, dstTable.height)
+					shardParticle.setPosition(chosenDst.x - 16f, chosenDst.y - 16f)
 
 					val sequence =
 						parallel(
 							mote(src, chosenDst, 1f + i * 0.02f, Interpolation.exp5, true),
 							scaleTo(0.7f, 0.7f, 1f),
-							delay(0.8f + i * 0.02f) then lambda { stage.addActor(sparkleParticle) } then fadeOut(0.1f)) then
+							delay(0.8f + i * 0.02f) then lambda { stage.addActor(shardParticle) } then fadeOut(0.1f)) then
 							removeActor()
 					widget.addAction(sequence)
 

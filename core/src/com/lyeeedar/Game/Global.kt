@@ -131,6 +131,12 @@ class Global
 			}
 		}
 
+		fun getExperienceForLevel(level: Int): Int
+		{
+			val expRequired = (100 * Math.pow(1.2, level.toDouble())).toInt()
+			return expRequired
+		}
+
 		private fun loadSkin(): Skin
 		{
 			val skin = Skin()

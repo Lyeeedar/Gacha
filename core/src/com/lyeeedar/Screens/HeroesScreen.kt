@@ -455,7 +455,7 @@ class HeroesScreen : AbstractScreen()
 		mainTable.row()
 
 		val levelTable = Table()
-		val expRequired = (100 * Math.pow(1.2, stats.level.toDouble())).toInt()
+		val expRequired = Global.getExperienceForLevel(stats.level)
 		if (expRequired < Global.data.experience)
 		{
 			levelTable.add(Label("${expRequired.prettyPrint()} / ${Global.data.experience.prettyPrint()}", Global.skin, "small")).expandX().center().pad(2f)

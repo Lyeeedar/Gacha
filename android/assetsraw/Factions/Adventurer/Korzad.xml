@@ -21,7 +21,7 @@
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
-			<Attack>
+			<Attack meta:RefKey="AttackDescription">
 				<Damage>1</Damage>
 				<Range>1</Range>
 				<HitEffect meta:RefKey="ParticleEffect">
@@ -65,8 +65,8 @@
 								<Time>0.112438031</Time>
 							</BlockTurn>
 							<Buff>
-								<Time>0.1524613</Time>
 								<Duration LockDuration="False">0.05438813</Duration>
+								<Time>0.1524613</Time>
 								<Buff meta:RefKey="Buff">
 									<Description>Drunken Rage</Description>
 									<Icon meta:RefKey="Sprite">
@@ -82,8 +82,8 @@
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Time>0.008747132</Time>
 								<Duration LockDuration="False">0.0337084569</Duration>
+								<Time>0.008747132</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Splatter</Name>
 									<Colour>232,207,50,255</Colour>
@@ -92,8 +92,8 @@
 								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 							<DestinationRenderable>
-								<Time>0.05482958</Time>
 								<Duration LockDuration="False">0.0298682489</Duration>
+								<Time>0.05482958</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Splatter</Name>
 									<Colour>232,207,50,255</Colour>
@@ -102,8 +102,8 @@
 								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 							<DestinationRenderable>
-								<Time>0.0979252</Time>
 								<Duration LockDuration="False">0.0354152173</Duration>
+								<Time>0.0979252</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Splatter</Name>
 									<Colour>232,207,50,255</Colour>
@@ -169,21 +169,21 @@
 								<UseLeap>true</UseLeap>
 							</MovementRenderable>
 							<DestinationRenderable>
-								<Time>0.129851669</Time>
 								<Duration LockDuration="False">0.108776271</Duration>
+								<Time>0.129851669</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Splatter</Name>
 									<Colour>201,154,33,255</Colour>
 								</Renderable>
 							</DestinationRenderable>
 							<Debuff>
-								<Duration LockDuration="False">0.156365871</Duration>
 								<Time>0.23862794</Time>
+								<Duration LockDuration="False">0.156365871</Duration>
 								<Buff meta:RefKey="Buff">
 									<Description>Dwarven Ale</Description>
 									<Icon meta:RefKey="Sprite">
 										<Name>Oryx/Custom/items/tankard</Name>
-										<Colour>191,89,89,255</Colour>
+										<Colour>227,188,188,255</Colour>
 									</Icon>
 									<Statistics meta:RefKey="Statistics">
 										<Power>-0.2</Power>
@@ -212,8 +212,8 @@
 								<Time>0.0401112475</Time>
 							</BlockTurn>
 							<Buff>
-								<Time>0.06458591</Time>
 								<Duration LockDuration="False">0.106056854</Duration>
+								<Time>0.06458591</Time>
 								<Buff meta:RefKey="Buff">
 									<Description>Vodka Of Life</Description>
 									<Icon meta:RefKey="Sprite">
@@ -229,8 +229,8 @@
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Time>0.0183559954</Time>
 								<Duration LockDuration="False">0.06662546</Duration>
+								<Time>0.0183559954</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Heal</Name>
 									<Colour>232,200,56,255</Colour>

@@ -1,16 +1,25 @@
 package com.lyeeedar.Game
 
+import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.scenes.scene2d.ui.Stack
+import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.Array
 import com.lyeeedar.Ascension
 import com.lyeeedar.Components.directionalSprite
 import com.lyeeedar.Components.pos
 import com.lyeeedar.Components.stats
+import com.lyeeedar.Global
 import com.lyeeedar.Pathfinding.BresenhamLine
 import com.lyeeedar.Pathfinding.IPathfindingTile
 import com.lyeeedar.Rarity
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Renderables.Sprite.SpriteWrapper
 import com.lyeeedar.SpaceSlot
+import com.lyeeedar.UI.SpriteWidget
+import com.lyeeedar.UI.addTable
+import com.lyeeedar.UI.addTapToolTip
 import com.lyeeedar.Util.*
 import ktx.collections.toGdxArray
 
@@ -185,7 +194,7 @@ class Zone(val seed: Long, val handicap: Float)
 			}
 		}
 
-		val encounter = Encounter(this, ((progression+1) % 10) == 0)
+		val encounter = Encounter(this, level.toInt(), ((progression+1) % 10) == 0, ran.nextLong())
 		encounter.gridEl = possibleLevels.random(ran)
 
 		val levels = kotlin.Array<Int>(5) { level.toInt() }
@@ -304,7 +313,7 @@ class ZoneTile(x: Int, y: Int) : Point(x, y), IPathfindingTile
 	}
 }
 
-class Encounter(val zone: Zone, val isBoss: Boolean)
+class Encounter(val zone: Zone, val level: Int, val isBoss: Boolean, val seed: Long)
 {
 	val enemies = Array<EntityData>(5)
 	lateinit var gridEl: XmlData
@@ -313,7 +322,8 @@ class Encounter(val zone: Zone, val isBoss: Boolean)
 	{
 		val level = Level.load(gridEl, theme)
 
-		val bossIndex = if (isBoss) zone.ran.nextInt(5) else -1
+		val ran = Random.obtainTS(seed)
+		val bossIndex = if (isBoss) ran.nextInt(5) else -1
 
 		var i = 0
 		for (enemy in enemies)
@@ -333,6 +343,83 @@ class Encounter(val zone: Zone, val isBoss: Boolean)
 			i++
 		}
 
+		ran.freeTS()
+
 		return level
+	}
+
+	class RewardDesc(val tile: Table, val func: () -> Unit)
+	fun generateRewards(victory: Boolean): Array<RewardDesc>
+	{
+		val ran = Random.obtainTS(seed+100)
+
+		val output = Array<RewardDesc>()
+
+		// experience
+		val expRequired = (100 * Math.pow(1.2, level.toDouble())).toInt()
+		var expReward = (expRequired / 5f).toInt()
+		expReward += (expReward * ((ran.nextFloat() * 0.4f) - 0.2f)).toInt() // +/-20%
+
+		if (!victory)
+		{
+			expReward = (expReward * 0.4f).toInt()
+		}
+
+		val expTile = Stack()
+		expTile.add(SpriteWidget(AssetManager.loadSprite("GUI/textured_back"), 64f, 64f))
+		expTile.add(SpriteWidget(AssetManager.loadSprite("Oryx/uf_split/uf_items/book_blue"), 64f, 64f))
+
+		val expAmountTable = Table()
+		expAmountTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(0f, 0f, 0f, 0.6f))
+		expAmountTable.add(Label(expReward.prettyPrint(), Global.skin, "small")).padBottom(5f)
+
+		expTile.addTable(expAmountTable).expandY().growX().bottom()
+		expTile.add(SpriteWidget(AssetManager.loadSprite("GUI/PortraitFrameBorder"), 64f, 64f))
+
+		val expTable = Table()
+		expTable.add(expTile).grow()
+		expTable.addTapToolTip("Gain ${expReward.prettyPrint()} experience.")
+
+		output.add(RewardDesc(expTable, { Global.data.experience += expReward }))
+
+		// gold
+		var goldReward = 500 + level * 2
+		goldReward += (goldReward * ((ran.nextFloat() * 0.4f) - 0.2f)).toInt() // +/-20%
+
+		if (!victory)
+		{
+			goldReward = (goldReward * 0.4f).toInt()
+		}
+
+		val goldTile = Stack()
+		goldTile.add(SpriteWidget(AssetManager.loadSprite("GUI/textured_back"), 64f, 64f))
+		goldTile.add(SpriteWidget(AssetManager.loadSprite("Oryx/Custom/items/coin_gold_pile"), 64f, 64f))
+
+		val goldAmountTable = Table()
+		goldAmountTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(0f, 0f, 0f, 0.6f))
+		goldAmountTable.add(Label(goldReward.prettyPrint(), Global.skin, "small")).padBottom(5f)
+
+		goldTile.addTable(goldAmountTable).expandY().growX().bottom()
+		goldTile.add(SpriteWidget(AssetManager.loadSprite("GUI/PortraitFrameBorder"), 64f, 64f))
+
+		val goldTable = Table()
+		goldTable.add(goldTile).grow()
+		expTable.addTapToolTip("Gain ${goldReward.prettyPrint()} gold.")
+
+		output.add(RewardDesc(goldTable, { Global.data.gold += goldReward }))
+
+		// chance for equipment
+		if (victory && ran.nextFloat() < 0.2f)
+		{
+			val equip = EquipmentCreator.createRandom(level)
+			val tile = equip.createTile(64f)
+			tile.addTapToolTip("Gain the equipment ${equip.fullName}.")
+
+			output.add(RewardDesc(tile, { Global.data.equipment.add(equip) }))
+		}
+
+		ran.freeTS()
+
+		return output
 	}
 }

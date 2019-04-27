@@ -9,13 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable
 import com.badlogic.gdx.utils.ObjectMap
-import com.lyeeedar.Components.loaddata
-import com.lyeeedar.Components.name
-import com.lyeeedar.Components.pos
-import com.lyeeedar.Components.stats
+import com.lyeeedar.Components.*
 import com.lyeeedar.Game.*
 import com.lyeeedar.Global
 import com.lyeeedar.MainGame
+import com.lyeeedar.Renderables.Sprite.DirectionalSprite
+import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.SpaceSlot
 import com.lyeeedar.Systems.AbstractSystem
 import com.lyeeedar.Systems.systemList
@@ -479,6 +478,59 @@ class MapScreen : AbstractScreen()
 		return delta * multipliers[multiplierIndex].multiplier * extraMult
 	}
 
+	fun createLevelEndTable(rewards: com.badlogic.gdx.utils.Array<Encounter.RewardDesc>): Table
+	{
+		val table = Table()
+
+		val rewardsTable = Table()
+		for (reward in rewards)
+		{
+			rewardsTable.add(reward.tile).size(64f).pad(10f)
+		}
+		table.add(rewardsTable).growX()
+		table.row()
+
+		table.add(Seperator(Global.skin, false)).growX().pad(5f)
+		table.row()
+
+		val heroesTable = Table()
+		for (heroTile in level!!.playerTiles)
+		{
+			val hero = heroTile.entity!!
+
+			val heroTexure = hero.directionalSprite()!!.directionalSprite.getSprite("idle", DirectionalSprite.VDir.DOWN, DirectionalSprite.HDir.RIGHT).textures[0]
+
+			val heroTable = Table()
+			heroTable.add(SpriteWidget(Sprite(heroTexure), 32f, 32f))
+
+			heroesTable.add(heroTable).growX()
+			heroesTable.row()
+		}
+
+		val enemiesTable = Table()
+		for (heroTile in level!!.enemyTiles)
+		{
+			val hero = heroTile.entity!!
+
+			val heroTexure = hero.directionalSprite()!!.directionalSprite.getSprite("idle", DirectionalSprite.VDir.DOWN, DirectionalSprite.HDir.RIGHT).textures[0]
+
+			val heroTable = Table()
+			heroTable.add(SpriteWidget(Sprite(heroTexure), 32f, 32f))
+
+			enemiesTable.add(heroTable).growX()
+			enemiesTable.row()
+		}
+
+		val battleResultsTable = Table()
+		battleResultsTable.add(heroesTable).growY().width(Value.percentWidth(0.5f, table))
+		battleResultsTable.add(enemiesTable).growY().width(Value.percentWidth(0.5f, table))
+
+		table.add(battleResultsTable).grow()
+		table.row()
+
+		return table
+	}
+
 	override fun doRender(delta: Float)
 	{
 		Global.engine.update(delta)
@@ -489,7 +541,7 @@ class MapScreen : AbstractScreen()
 
 			if (winningFaction != null)
 			{
-				val table = FullscreenTable(0.7f)
+				val table = FullscreenTable(0.9f)
 				table.touchable = Touchable.disabled
 				table.color.a = 0f
 
@@ -497,7 +549,16 @@ class MapScreen : AbstractScreen()
 				if (winningFaction == "1")
 				{
 					val label = Label("Victory", Global.skin, "title")
-					table.add(label).expand().center()
+					table.add(label).expandX().center().padTop(50f)
+					table.row()
+
+					table.add(Seperator(Global.skin, false)).growX().pad(5f)
+					table.row()
+
+					val rewards = zone!!.currentEncounter.encounter!!.generateRewards(true)
+
+					val rewardsTable = createLevelEndTable(rewards)
+					table.add(rewardsTable).grow()
 
 					clickAction = {
 
@@ -510,6 +571,11 @@ class MapScreen : AbstractScreen()
 						zone.currentEncounter.isCurrent = true
 						zone.currentEncounter.updateFlag()
 
+						for (reward in rewards)
+						{
+							reward.func()
+						}
+
 						table.remove()
 						Global.game.switchScreen(MainGame.ScreenEnum.ZONE)
 					}
@@ -517,9 +583,23 @@ class MapScreen : AbstractScreen()
 				else
 				{
 					val label = Label("Defeat", Global.skin, "title")
-					table.add(label).expand().center()
+					table.add(label).expandX().center().padTop(50f)
+					table.row()
+
+					table.add(Seperator(Global.skin, false)).growX().pad(5f)
+					table.row()
+
+					val rewards = zone!!.currentEncounter.encounter!!.generateRewards(false)
+
+					val rewardsTable = createLevelEndTable(rewards)
+					table.add(rewardsTable).grow()
 
 					clickAction = {
+
+						for (reward in rewards)
+						{
+							reward.func()
+						}
 
 						table.remove()
 						Global.game.switchScreen(MainGame.ScreenEnum.ZONE)
