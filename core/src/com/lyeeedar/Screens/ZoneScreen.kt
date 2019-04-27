@@ -15,6 +15,8 @@ import com.lyeeedar.UI.addClickListener
 
 class ZoneScreen : AbstractScreen()
 {
+	val gameDataBar = GameDataBar()
+
 	override fun create()
 	{
 		val zone = Zone.load("Zones/Test")
@@ -22,7 +24,7 @@ class ZoneScreen : AbstractScreen()
 
 		mainTable.background = TiledDrawable(TextureRegionDrawable(zone.theme.backgroundTile)).tint(zone.theme.ambient.color())
 
-		mainTable.add(GameDataBar()).growX()
+		mainTable.add(gameDataBar).growX()
 		mainTable.row()
 
 		val stack = Stack()
@@ -48,6 +50,12 @@ class ZoneScreen : AbstractScreen()
 		buttonsTable.row()
 
 		buttonsTable.add(NavigationBar(MainGame.ScreenEnum.ZONE)).growX()
+	}
+
+	override fun show()
+	{
+		gameDataBar.rebind()
+		super.show()
 	}
 
 	override fun doRender(delta: Float)

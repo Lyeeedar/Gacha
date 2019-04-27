@@ -46,6 +46,7 @@ class ShopScreen : AbstractScreen()
 	val itemsToBuy = Array2D<ShopWare?>(4, 3) { x,y -> null }
 	val purchasesTable = Table()
 	val navigationBar = NavigationBar(MainGame.ScreenEnum.SHOP)
+	val gameDataBar = GameDataBar()
 
 	override fun create()
 	{
@@ -53,7 +54,7 @@ class ShopScreen : AbstractScreen()
 
 		mainTable.background = TiledDrawable(TextureRegionDrawable(AssetManager.loadTextureRegion("Oryx/uf_split/uf_terrain/floor_extra_15"))).tint(Color(0.4f, 0.4f, 0.4f, 1f))
 
-		mainTable.add(GameDataBar()).growX()
+		mainTable.add(gameDataBar).growX()
 		mainTable.row()
 
 		val shopTable = Table()
@@ -693,6 +694,12 @@ class ShopScreen : AbstractScreen()
 
 			purchasesTable.row()
 		}
+	}
+
+	override fun show()
+	{
+		gameDataBar.rebind()
+		super.show()
 	}
 
 	override fun doRender(delta: Float)

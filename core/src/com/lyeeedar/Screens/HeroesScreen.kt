@@ -23,6 +23,8 @@ import ktx.collections.gdxArrayOf
 
 class HeroesScreen : AbstractScreen()
 {
+	val gameDataBar = GameDataBar()
+
 	override fun create()
 	{
 		drawFPS = false
@@ -66,6 +68,8 @@ class HeroesScreen : AbstractScreen()
 		recreateFactionsTable()
 		recreateHeroesTable()
 		createHeroesTable()
+
+		gameDataBar.rebind()
 	}
 
 	val heroesContentTable = Table()
@@ -74,7 +78,7 @@ class HeroesScreen : AbstractScreen()
 		val contentTable = heroesContentTable
 		contentTable.clear()
 
-		contentTable.add(GameDataBar()).growX()
+		contentTable.add(gameDataBar).growX()
 		contentTable.row()
 
 		val heroesButton = Table()
@@ -148,7 +152,7 @@ class HeroesScreen : AbstractScreen()
 	{
 		mainTable.clear()
 
-		mainTable.add(GameDataBar()).growX()
+		mainTable.add(gameDataBar).growX()
 		mainTable.row()
 
 		val stats = entity.stats()!!
@@ -662,7 +666,7 @@ class HeroesScreen : AbstractScreen()
 		val contentTable = factionsContentTable
 		factionsContentTable.clear()
 
-		contentTable.add(GameDataBar()).growX()
+		contentTable.add(gameDataBar).growX()
 		contentTable.row()
 
 		val heroesButton = Table()
@@ -727,7 +731,7 @@ class HeroesScreen : AbstractScreen()
 	{
 		mainTable.clear()
 
-		mainTable.add(GameDataBar()).growX()
+		mainTable.add(gameDataBar).growX()
 		mainTable.row()
 
 		// icon
