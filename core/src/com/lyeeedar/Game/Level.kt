@@ -244,7 +244,11 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 				for (slot in SpaceSlot.EntityValues)
 				{
 					val entity = tile.contents[slot] ?: continue
-					if (entity.stats() != null)
+					if (entity.isMarkedForDeletion())
+					{
+						tile.contents[slot] = null
+					}
+					else if (entity.stats() != null)
 					{
 						foundEntity = true
 

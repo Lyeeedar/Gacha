@@ -22,12 +22,12 @@ enum class BlendMode constructor(val src: Int, val dst: Int)
 enum class Ascension(val multiplier: Float, val colour: Colour, val shardsRequired: Int)
 {
 	MUNDANE(1f, Colour(152, 127, 95, 255, true), 0),
-	EXCEPTIONAL(1.25f, Colour(78, 232, 67, 255, true), 3),
-	EXTRAORDINARY(1.6f, Colour(72, 169, 255, 255, true), 9),
-	FABLED(1.9f, Colour(186, 85, 223, 255, true), 27),
-	LEGENDARY(2.4f, Colour(255, 219, 0, 255, true), 50),
-	MYTHICAL(2.8f, Colour(226, 0, 51, 255, true), 100),
-	DIVINE(3.5f, Colour(255, 221, 249, 255, true), 150);
+	EXCEPTIONAL(1.25f, Colour(78, 232, 67, 255, true), 2),
+	EXTRAORDINARY(1.6f, Colour(72, 169, 255, 255, true), 4),
+	FABLED(1.9f, Colour(186, 85, 223, 255, true), 6),
+	LEGENDARY(2.4f, Colour(255, 219, 0, 255, true), 10),
+	MYTHICAL(2.8f, Colour(226, 0, 51, 255, true), 15),
+	DIVINE(3.5f, Colour(255, 221, 249, 255, true), 25);
 
 	companion object
 	{
@@ -56,8 +56,8 @@ enum class Ascension(val multiplier: Float, val colour: Colour, val shardsRequir
 // ----------------------------------------------------------------------
 enum class Rarity private constructor(val niceName: String, val spawnWeight: Int, val dropRate: Int, val shortName: String, val colour: Colour)
 {
-	COMMON("Common", 4, 7, "C", Colour(182, 157, 135, 255, true)),
-	UNCOMMON("Uncommon", 3, 5, "UC", Colour(98, 192, 87, 255, true)),
+	COMMON("Common", 4, 5, "C", Colour(182, 157, 135, 255, true)),
+	UNCOMMON("Uncommon", 3, 4, "UC", Colour(98, 192, 87, 255, true)),
 	RARE("Rare", 1, 3, "R", Colour(40, 229, 255, 255, true)),
 	SUPERRARE("Super Rare", 1, 2, "SR", Colour(255, 239, 20, 255, true)),
 	ULTRARARE("Ultra Rare", 1, 1, "UR", Colour(246, 20, 71, 255, true));

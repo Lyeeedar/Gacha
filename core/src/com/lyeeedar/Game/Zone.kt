@@ -2,7 +2,9 @@ package com.lyeeedar.Game
 
 import com.badlogic.gdx.utils.Array
 import com.lyeeedar.Ascension
+import com.lyeeedar.Components.directionalSprite
 import com.lyeeedar.Components.pos
+import com.lyeeedar.Components.stats
 import com.lyeeedar.Pathfinding.BresenhamLine
 import com.lyeeedar.Pathfinding.IPathfindingTile
 import com.lyeeedar.Rarity
@@ -12,7 +14,7 @@ import com.lyeeedar.SpaceSlot
 import com.lyeeedar.Util.*
 import ktx.collections.toGdxArray
 
-class Zone(val seed: Long)
+class Zone(val seed: Long, val handicap: Float)
 {
 	val numEncounters = 40
 	val width = 10
@@ -183,7 +185,7 @@ class Zone(val seed: Long)
 			}
 		}
 
-		val encounter = Encounter()
+		val encounter = Encounter(this, ((progression+1) % 10) == 0)
 		encounter.gridEl = possibleLevels.random(ran)
 
 		val levels = kotlin.Array<Int>(5) { level.toInt() }
@@ -213,7 +215,7 @@ class Zone(val seed: Long)
 		{
 			val xml = getXml(path)
 
-			val zone = Zone(Random.random.nextLong())
+			val zone = Zone(Random.random.nextLong(), -0.3f)
 
 			val factionsEl = xml.getChildByName("Factions")!!
 			for (el in factionsEl.children)
@@ -302,7 +304,7 @@ class ZoneTile(x: Int, y: Int) : Point(x, y), IPathfindingTile
 	}
 }
 
-class Encounter
+class Encounter(val zone: Zone, val isBoss: Boolean)
 {
 	val enemies = Array<EntityData>(5)
 	lateinit var gridEl: XmlData
@@ -311,6 +313,8 @@ class Encounter
 	{
 		val level = Level.load(gridEl, theme)
 
+		val bossIndex = if (isBoss) zone.ran.nextInt(5) else -1
+
 		var i = 0
 		for (enemy in enemies)
 		{
@@ -318,6 +322,13 @@ class Encounter
 			level.enemyTiles[i].entity = entity
 			entity.pos().tile = level.enemyTiles[i].tile
 			entity.pos().addToTile(entity)
+			entity.stats().statModifier = zone.handicap
+
+			if (i == bossIndex)
+			{
+				entity.stats().statModifier += 0.2f
+				entity.directionalSprite().directionalSprite.scale = 1.3f
+			}
 
 			i++
 		}

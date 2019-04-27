@@ -83,6 +83,7 @@ class StatisticsComponent: AbstractComponent()
 
 	var ascension: Ascension = Ascension.MUNDANE
 	var level: Int = 1
+	var statModifier = 0f
 
 	var survivingAllies = 0
 
@@ -215,6 +216,7 @@ class StatisticsComponent: AbstractComponent()
 		if (Statistic.BaseValues.contains(statistic))
 		{
 			value = value.applyAscensionAndLevel(level, ascension)
+			value += value * statModifier
 		}
 		else
 		{
@@ -473,6 +475,7 @@ class StatisticsComponent: AbstractComponent()
 		survivingAllies = 0
 		ascension = Ascension.MUNDANE
 		level = 1
+		statModifier = 0f
 		buffs.clear()
 		factionBuffs.clear()
 		lastHitSource = Point()

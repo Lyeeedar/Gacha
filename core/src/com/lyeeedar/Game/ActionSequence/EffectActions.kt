@@ -504,6 +504,7 @@ class SummonAction() : AbstractActionSequenceAction()
 			summonEntity.stats().ascension = sequence.source.stats().ascension
 			summonEntity.stats().factionBuffs.addAll(sequence.source.stats().factionBuffs)
 			summonEntity.stats().faction = sequence.source.stats().faction
+			summonEntity.stats().statModifier = sequence.source.stats().statModifier
 
 			val abPower = sequence.source.stats().getStat(Statistic.ABILITYPOWER)
 			val powerBuff = Buff()

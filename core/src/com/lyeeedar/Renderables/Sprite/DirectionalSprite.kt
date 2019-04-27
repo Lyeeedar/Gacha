@@ -39,6 +39,23 @@ class DirectionalSprite
 			}
 		}
 
+	var scale: Float
+		get() = -1f
+		set(value)
+		{
+			for (up in upSprites)
+			{
+				up.value.baseScale[0] = value
+				up.value.baseScale[1] = value
+			}
+
+			for (down in downSprites)
+			{
+				down.value.baseScale[0] = value
+				down.value.baseScale[1] = value
+			}
+		}
+
 	fun hasAnim(anim: String) = availableAnimations.contains(anim)
 
 	fun addAnim(name: String, up: Sprite, down: Sprite)

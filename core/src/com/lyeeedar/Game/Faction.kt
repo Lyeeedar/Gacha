@@ -14,7 +14,10 @@ import com.lyeeedar.Rarity
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Systems.directionSprite
 import com.lyeeedar.UI.*
-import com.lyeeedar.Util.*
+import com.lyeeedar.Util.AssetManager
+import com.lyeeedar.Util.XmlData
+import com.lyeeedar.Util.directory
+import com.lyeeedar.Util.getXml
 
 class Faction(val path: String)
 {
@@ -95,7 +98,7 @@ class FactionEntity(val faction: Faction)
 		val tileStack = Stack()
 		tileStack.add(SpriteWidget(background, size, size))
 		tileStack.add(SpriteWidget(sprite, size, size))
-		tileStack.add(SpriteWidget(border, size, size).tint(ascension.colour.color()))
+		tileStack.add(SpriteWidget(border, size, size).tint(rarity.colour.color()))
 		tileStack.addTable(Label(rarity.shortName, Global.skin, "small").tint(rarity.colour.color())).expand().top().right().pad(3f)
 
 		tileTable.add(tileStack).size(size)
@@ -138,9 +141,7 @@ class FactionEntity(val faction: Faction)
 		}
 		else
 		{
-			val droppedShards = max(ascension.ordinal + 1, ascension.shardsRequired / 3)
-			val shardWord = if (droppedShards == 1) "shard" else "shards"
-			table.add(Label("Gain [GREEN]$droppedShards[] ascension $shardWord for this hero.", Global.skin, "card").wrap()).growX().padTop(30f)
+			table.add(Label("Gain 1 ascension shard for this hero.", Global.skin, "card").wrap()).growX().padTop(30f)
 			table.row()
 		}
 
