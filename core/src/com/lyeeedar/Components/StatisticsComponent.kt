@@ -41,6 +41,8 @@ class StatisticsComponent: AbstractComponent()
 					blockedDamage = true
 					return
 				}
+
+				totalHpLost -= diff
 			}
 
 			v = hp + diff
@@ -97,6 +99,9 @@ class StatisticsComponent: AbstractComponent()
 	val equipment = FastEnumMap<EquipmentSlot, Equipment>(EquipmentSlot::class.java)
 	var equipmentWeight: EquipmentWeight = EquipmentWeight.MEDIUM
 
+	var totalHpLost = 0f
+	var healing = 0f
+
 	var attackDamageDealt = 0f
 	var abilityDamageDealt = 0f
 
@@ -135,6 +140,7 @@ class StatisticsComponent: AbstractComponent()
 		hp = getStat(Statistic.MAXHP)
 		lostHp = 0f
 		maxLostHp = 0f
+		totalHpLost = 0f
 		tookDamage = false
 	}
 
@@ -483,6 +489,8 @@ class StatisticsComponent: AbstractComponent()
 		attackDamageDealt = 0f
 		abilityDamageDealt = 0f
 		messagesToShow.clear()
+		totalHpLost = 0f
+		healing = 0f
 	}
 }
 

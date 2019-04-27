@@ -201,6 +201,8 @@ class HealAction() : AbstractActionSequenceAction()
 					val healing = power * healModifier
 					targetstats.heal(healing)
 
+					sequence.source.stats().healing += healing
+
 					if (EventSystem.isEventRegistered(EventType.HEALED, entity))
 					{
 						val healEventData = EventData.obtain().set(EventType.HEALED, entity, sequence.source, mapOf(Pair("amount", healing)))

@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable
+import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.ObjectMap
 import com.lyeeedar.Components.*
 import com.lyeeedar.Game.*
@@ -20,8 +21,11 @@ import com.lyeeedar.Systems.AbstractSystem
 import com.lyeeedar.Systems.systemList
 import com.lyeeedar.UI.*
 import com.lyeeedar.Util.AssetManager
+import com.lyeeedar.Util.Colour
+import com.lyeeedar.Util.prettyPrint
 import ktx.actors.then
 import ktx.collections.set
+import ktx.collections.toGdxArray
 
 class MapScreen : AbstractScreen()
 {
@@ -493,37 +497,70 @@ class MapScreen : AbstractScreen()
 		table.add(Seperator(Global.skin, false)).growX().pad(5f)
 		table.row()
 
-		val heroesTable = Table()
-		for (heroTile in level!!.playerTiles)
-		{
-			val hero = heroTile.entity!!
-
-			val heroTexure = hero.directionalSprite()!!.directionalSprite.getSprite("idle", DirectionalSprite.VDir.DOWN, DirectionalSprite.HDir.RIGHT).textures[0]
-
-			val heroTable = Table()
-			heroTable.add(SpriteWidget(Sprite(heroTexure), 32f, 32f))
-
-			heroesTable.add(heroTable).growX()
-			heroesTable.row()
-		}
-
-		val enemiesTable = Table()
-		for (heroTile in level!!.enemyTiles)
-		{
-			val hero = heroTile.entity!!
-
-			val heroTexure = hero.directionalSprite()!!.directionalSprite.getSprite("idle", DirectionalSprite.VDir.DOWN, DirectionalSprite.HDir.RIGHT).textures[0]
-
-			val heroTable = Table()
-			heroTable.add(SpriteWidget(Sprite(heroTexure), 32f, 32f))
-
-			enemiesTable.add(heroTable).growX()
-			enemiesTable.row()
-		}
-
 		val battleResultsTable = Table()
-		battleResultsTable.add(heroesTable).growY().width(Value.percentWidth(0.5f, table))
-		battleResultsTable.add(enemiesTable).growY().width(Value.percentWidth(0.5f, table))
+
+		val titleRow = Table()
+		titleRow.add(Table()).width(32f)
+		titleRow.add(Label("Damage", Global.skin).align(Align.center)).width(Value.percentWidth(0.3f, battleResultsTable)).center()
+		titleRow.add(Label("Healing", Global.skin).align(Align.center)).width(Value.percentWidth(0.3f, battleResultsTable)).center()
+		titleRow.add(Label("Hp Lost", Global.skin).align(Align.center)).width(Value.percentWidth(0.3f, battleResultsTable)).center()
+
+		battleResultsTable.add(titleRow).growX().pad(10f, 0f, 10f, 0f)
+		battleResultsTable.row()
+
+		var bright = true
+
+		fun buildHeroRows(entities: com.badlogic.gdx.utils.Array<Entity>, colour: Colour)
+		{
+			var totalDamage = 0f
+			var totalHealing = 0f
+			var totalHpLost = 0f
+
+			for (entity in entities)
+			{
+				totalDamage += entity.stats().damageDealt
+				totalHealing += entity.stats().healing
+				totalHpLost += entity.stats().totalHpLost
+			}
+
+			for (entity in entities)
+			{
+				val heroTexure = entity.directionalSprite()!!.directionalSprite.getSprite("idle", DirectionalSprite.VDir.DOWN, DirectionalSprite.HDir.RIGHT).textures[0]
+
+				val rowTable = Table()
+				if (bright)
+				{
+					rowTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(1f, 1f, 1f, 0.1f))
+				}
+				bright = !bright
+
+				fun addNumberAndBar(num: Float, total: Float)
+				{
+					val table = Table()
+					table.add(PercentageBarWidget(num / total, colour)).growX().height(10f)
+					table.row()
+					table.add(Label(num.toInt().prettyPrint(), Global.skin, "small"))
+
+					rowTable.add(table).width(Value.percentWidth(0.3f, battleResultsTable)).center()
+				}
+
+				rowTable.add(SpriteWidget(Sprite(heroTexure), 24f, 24f)).size(26f)
+				addNumberAndBar(entity.stats().damageDealt, totalDamage)
+				addNumberAndBar(entity.stats().healing, totalHealing)
+				addNumberAndBar(entity.stats().totalHpLost, totalHpLost)
+
+				battleResultsTable.add(rowTable).growX()
+				battleResultsTable.row()
+			}
+		}
+
+		buildHeroRows(level!!.playerTiles.mapNotNull { it.entity }.toGdxArray(), Colour.GREEN)
+
+		battleResultsTable.add(Table()).pad(20f)
+		battleResultsTable.row()
+
+		bright = true
+		buildHeroRows(level!!.enemyTiles.mapNotNull { it.entity }.toGdxArray(), Colour.RED)
 
 		table.add(battleResultsTable).grow()
 		table.row()

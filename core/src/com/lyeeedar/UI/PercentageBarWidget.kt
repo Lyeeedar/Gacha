@@ -1,0 +1,36 @@
+package com.lyeeedar.UI
+
+import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.scenes.scene2d.ui.Widget
+import com.lyeeedar.Systems.RenderSystem
+import com.lyeeedar.Util.AssetManager
+import com.lyeeedar.Util.Colour
+
+class PercentageBarWidget(var percentage: Float, var colour: Colour) : Widget()
+{
+	val white = AssetManager.loadTextureRegion("white")!!
+	val hp_border = AssetManager.loadTextureRegion("Sprites/GUI/health_border.png")!!
+
+	override fun draw(batch: Batch, parentAlpha: Float)
+	{
+		val totalWidth = width-10f
+
+		val solidSpaceRatio = 0.05f
+		val space = totalWidth
+		val spacePerPip = space / RenderSystem.numHpPips
+		val spacing = spacePerPip * solidSpaceRatio
+		val solid = spacePerPip - spacing
+
+		batch.setColor(0f, 0f, 0f, parentAlpha)
+		batch.draw(white, x+5f, y+5f, totalWidth, 5f)
+
+		batch.setColor(colour.r, colour.g, colour.b, colour.a * parentAlpha)
+		batch.draw(white, x+5f, y+5f, totalWidth*percentage, 5f)
+
+		batch.setColor(1f, 1f, 1f, parentAlpha)
+		for (i in 0 until RenderSystem.numHpPips)
+		{
+			batch.draw(hp_border, x+5f+i*spacePerPip, y+5f, solid, 5f)
+		}
+	}
+}
