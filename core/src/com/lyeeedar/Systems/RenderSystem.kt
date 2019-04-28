@@ -270,7 +270,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 			{
 				for (below in additional.below.values())
 				{
-					renderer.queue(below, ax, ay, pos.slot.ordinal, -1, tileCol)
+					renderer.queue(below, ax, ay, SpaceSlot.BELOWENTITY.ordinal, 0, tileCol)
 
 					if (drawParticleDebug && below is ParticleEffect)
 					{
@@ -281,7 +281,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 
 				for (above in additional.above.values())
 				{
-					renderer.queue(above, ax, ay, pos.slot.ordinal, 1, tileCol)
+					renderer.queue(above, ax, ay, SpaceSlot.ABOVEENTITY.ordinal, 0, tileCol)
 
 					if (drawParticleDebug && above is ParticleEffect)
 					{

@@ -3,16 +3,21 @@
 	<Emitters>
 		<Emitter>
 			<Name>Energy</Name>
+			<Space>Local</Space>
 			<Type>Accumulated</Type>
 			<Width>0</Width>
 			<Height>0</Height>
 			<SizeMultiplier>
 				<Keyframe>0|1</Keyframe>
 			</SizeMultiplier>
-			<ParticleSpeed>1,1</ParticleSpeed>
-			<ParticleRotation>-30,30</ParticleRotation>
+			<Offset>
+				<Keyframe>0|0,0.2</Keyframe>
+			</Offset>
+			<Direction>Up</Direction>
+			<ParticleSpeed>0.8,0.8</ParticleSpeed>
+			<ParticleRotation>0,0</ParticleRotation>
 			<RateKeyframes>
-				<Keyframe>0|4</Keyframe>
+				<Keyframe>0|3.5</Keyframe>
 			</RateKeyframes>
 			<Particles>
 				<Particle>
@@ -20,26 +25,77 @@
 					<SizeKeyframes>
 						<Stream>
 							<Keyframe>0|0|0</Keyframe>
-							<Keyframe>0.09423292|0.4|0.45</Keyframe>
+							<Keyframe>0.09423292|1.2|1.4</Keyframe>
 							<Keyframe>1|0|0</Keyframe>
 						</Stream>
 					</SizeKeyframes>
 					<BlendMode>Additive</BlendMode>
 					<TextureKeyframes>
 						<Stream>
-							<Keyframe>0|Particle/EnergyPart</Keyframe>
+							<Keyframe>0|Particle/Energy</Keyframe>
 						</Stream>
 					</TextureKeyframes>
 					<ColourKeyframes>
 						<Stream>
-							<Keyframe>0|255,255,255,255</Keyframe>
+							<Keyframe>0|199,106,106,255</Keyframe>
 						</Stream>
 					</ColourKeyframes>
 					<AlphaKeyframes>
 						<Stream>
 							<Keyframe>0|0</Keyframe>
-							<Keyframe>0.07082867|1</Keyframe>
-							<Keyframe>0.5980403|1</Keyframe>
+							<Keyframe>0.1834155|1</Keyframe>
+							<Keyframe>0.3923292|1</Keyframe>
+							<Keyframe>0.6842666|0.7</Keyframe>
+							<Keyframe>1|0</Keyframe>
+						</Stream>
+					</AlphaKeyframes>
+					<AlphaRefKeyframes>
+						<Stream>
+							<Keyframe>0|0</Keyframe>
+						</Stream>
+					</AlphaRefKeyframes>
+				</Particle>
+			</Particles>
+		</Emitter>
+		<Emitter>
+			<Name>Oval</Name>
+			<Space>Local</Space>
+			<Type>Accumulated</Type>
+			<Width>0</Width>
+			<Height>0</Height>
+			<SizeMultiplier>
+				<Keyframe>0|1</Keyframe>
+			</SizeMultiplier>
+			<Direction>Up</Direction>
+			<ParticleSpeed>0,0</ParticleSpeed>
+			<ParticleRotation>0,0</ParticleRotation>
+			<RateKeyframes>
+				<Keyframe>0|0.5</Keyframe>
+			</RateKeyframes>
+			<Particles>
+				<Particle>
+					<Lifetime>0.5,0.5</Lifetime>
+					<SizeKeyframes>
+						<Stream>
+							<Keyframe>0|0|0</Keyframe>
+							<Keyframe>1|1.4|1.4</Keyframe>
+						</Stream>
+					</SizeKeyframes>
+					<BlendMode>Additive</BlendMode>
+					<TextureKeyframes>
+						<Stream>
+							<Keyframe>0|Particle/oval</Keyframe>
+						</Stream>
+					</TextureKeyframes>
+					<ColourKeyframes>
+						<Stream>
+							<Keyframe>0|245,32,32,255</Keyframe>
+						</Stream>
+					</ColourKeyframes>
+					<AlphaKeyframes>
+						<Stream>
+							<Keyframe>0|1</Keyframe>
+							<Keyframe>0.6115901|1</Keyframe>
 							<Keyframe>1|0</Keyframe>
 						</Stream>
 					</AlphaKeyframes>

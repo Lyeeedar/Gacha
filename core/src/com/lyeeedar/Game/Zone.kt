@@ -16,6 +16,7 @@ import com.lyeeedar.UI.SpriteWidget
 import com.lyeeedar.UI.addTable
 import com.lyeeedar.UI.addTapToolTip
 import com.lyeeedar.Util.*
+import ktx.collections.set
 import ktx.collections.toGdxArray
 import kotlin.math.min
 
@@ -332,7 +333,7 @@ class Encounter(val zone: Zone, val level: Int, val progression: Int, val isBoss
 					entity.add(additionalRenderableComponent)
 				}
 
-				//additionalRenderableComponent.below["BossAura"] =
+				additionalRenderableComponent.below["BossAura"] = AssetManager.loadParticleEffect("BossAura").getParticleEffect()
 			}
 
 			i++
