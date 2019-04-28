@@ -8,9 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.IntSet
 import com.lyeeedar.*
-import com.lyeeedar.Components.directionalSprite
-import com.lyeeedar.Components.pos
-import com.lyeeedar.Components.stats
+import com.lyeeedar.Components.*
 import com.lyeeedar.Pathfinding.IPathfindingTile
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Renderables.Sprite.SpriteWrapper
@@ -19,6 +17,7 @@ import com.lyeeedar.UI.addTable
 import com.lyeeedar.UI.addTapToolTip
 import com.lyeeedar.Util.*
 import ktx.collections.toGdxArray
+import kotlin.math.min
 
 class Zone(val zoneIndex: Int, val handicap: Float)
 {
@@ -192,14 +191,28 @@ class Zone(val zoneIndex: Int, val handicap: Float)
 	companion object
 	{
 		val numEncounters = 40
-		val zoneLevelRange = 20
+		val zoneLevelRange = 15
 
 		fun load(index: Int): Zone
 		{
-			val path = "Zones/Zone$index"
-			val xml = getXml(path)
+			var testI = index
+			var xml: XmlData
+			while (true)
+			{
+				try
+				{
+					val path = "Zones/Zone$testI"
+					xml = getXml(path)
+					break
+				}
+				catch (ex: Exception)
+				{
+					testI--
+				}
+			}
 
-			val zone = Zone(index, -0.3f)
+			val handicap = min(-0.4f + 0.1f * index, 0f) // 30% to 0%
+			val zone = Zone(index, handicap)
 
 			val factionsEl = xml.getChildByName("Factions")!!
 			for (el in factionsEl.children)
@@ -310,7 +323,16 @@ class Encounter(val zone: Zone, val level: Int, val progression: Int, val isBoss
 			if (i == bossIndex)
 			{
 				entity.stats().statModifier += 0.2f
-				entity.directionalSprite().directionalSprite.scale = 1.3f
+				entity.directionalSprite().directionalSprite.scale = 1.2f
+
+				var additionalRenderableComponent = entity.additionalRenderable()
+				if (additionalRenderableComponent == null)
+				{
+					additionalRenderableComponent = AdditionalRenderableComponent()
+					entity.add(additionalRenderableComponent)
+				}
+
+				//additionalRenderableComponent.below["BossAura"] =
 			}
 
 			i++

@@ -46,6 +46,7 @@ class GameDataBar : Table()
 		val zoneTable = Table()
 		zoneTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(0f, 0f, 0f, 0.6f))
 		zoneTable.add(zoneLabel).expandX().left().padLeft(3f)
+		zoneTable.addTapToolTip("Your current journey progression. Zone ${Global.data.currentZone}, encounter ${(Global.data.currentZoneProgression+1)}.")
 
 		val rating = Global.data.heroPool.map { it.getEntity("1") }.map { it.stats().calculatePowerRating(it) }.sortedByDescending { it }.take(5).sum()
 		val ratingLabel = Label(rating.toInt().prettyPrint(), Global.skin)
@@ -55,16 +56,19 @@ class GameDataBar : Table()
 		ratingTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(0f, 0f, 0f, 0.6f))
 		ratingTable.add(SpriteWidget(Sprite(AssetManager.loadTextureRegion("Icons/upgrade")!!), 16f, 16f).tint(Color.GOLD)).padRight(3f)
 		ratingTable.add(ratingLabel).expandX().left()
+		ratingTable.addTapToolTip("The total power of your 5 strongest heroes.")
 
 		val goldTable = Table()
 		goldTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(0f, 0f, 0f, 0.6f))
 		goldTable.add(SpriteWidget(AssetManager.loadSprite("Oryx/Custom/items/coin_gold_pile"), 24f, 24f))
 		goldTable.add(goldLabel).expandX().left()
+		goldTable.addTapToolTip("Your current gold. Used for buying equipment and heroes.")
 
 		val expTable = Table()
 		expTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(0f, 0f, 0f, 0.6f))
 		expTable.add(SpriteWidget(AssetManager.loadSprite("Oryx/uf_split/uf_items/book_blue"), 24f, 24f))
 		expTable.add(expLabel).expandX().left()
+		expTable.addTapToolTip("Your current experience. Used for levelling up heroes.")
 
 		add(zoneTable).pad(3f).width(Value.percentWidth(0.2f, this)).height(18f)
 		add(ratingTable).pad(3f).width(Value.percentWidth(0.23f, this)).height(18f)
@@ -84,6 +88,11 @@ class GameDataBar : Table()
 		val expLabel = NumberChangeLabel("", Global.skin)
 
 		init
+		{
+			complete()
+		}
+
+		fun complete()
 		{
 			goldLabel.value = Global.data.gold
 			expLabel.value = Global.data.experience

@@ -13,6 +13,7 @@ import com.lyeeedar.Components.*
 import com.lyeeedar.Game.EntityData
 import com.lyeeedar.Game.Equipment
 import com.lyeeedar.Game.Faction
+import com.lyeeedar.Game.Save
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.UI.*
 import com.lyeeedar.Util.AssetManager
@@ -558,6 +559,8 @@ class HeroesScreen : AbstractScreen()
 			}
 		}
 		backButtonTable.add(backButton).expandX().left().pad(5f)
+
+		Save.save()
 	}
 
 	fun createEquipmentTable(entity: Entity, entityData: EntityData, slot: EquipmentSlot, refreshFunc: () -> Unit)

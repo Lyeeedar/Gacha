@@ -26,9 +26,11 @@ interface IEquipmentStatsProvider
 
 	val stats: FastEnumMap<Statistic, Float>
 	val eventHandlers: FastEnumMap<EventType, Array<EventAndCondition>>
+
+	var loadPath: String
 }
 
-class Equipment : IEquipmentStatsProvider
+class Equipment(override var loadPath: String) : IEquipmentStatsProvider
 {
 	override lateinit var name: String
 	override lateinit var description: String
@@ -306,14 +308,46 @@ class Equipment : IEquipmentStatsProvider
 		EventType.parseEvents(xmlData.getChildByName("EventHandlers"), eventHandlers)
 	}
 
+	fun save(xmlData: XmlData)
+	{
+		xmlData.set("Base", loadPath)
+		xmlData.set("Ascension", ascension.toString())
+
+		if (prefix != null)
+		{
+			xmlData.set("Prefix", prefix!!.loadPath)
+		}
+
+		if (material != null)
+		{
+			xmlData.set("Material", material!!.loadPath)
+		}
+
+		if (suffix != null)
+		{
+			xmlData.set("Suffix", suffix!!.loadPath)
+		}
+	}
+
 	companion object
 	{
 		fun load(xmlData: XmlData): Equipment
 		{
-			val equip = Equipment()
-			equip.parse(xmlData)
+			val baseEquipPath = xmlData.get("Base")
+			val equipment = Equipment(baseEquipPath)
+			equipment.parse(getXml(baseEquipPath))
+			equipment.ascension = Ascension.valueOf(xmlData.get("Ascension"))
 
-			return equip
+			val prefixPath = xmlData.get("Prefix", null)
+			if (prefixPath != null) equipment.prefix = EquipmentCreator.getPart(prefixPath)
+
+			val materialPath = xmlData.get("Material", null)
+			if (materialPath != null) equipment.material = EquipmentCreator.getPart(materialPath)
+
+			val suffixPath = xmlData.get("Suffix", null)
+			if (suffixPath != null) equipment.suffix = EquipmentCreator.getPart(suffixPath)
+
+			return equipment
 		}
 	}
 }

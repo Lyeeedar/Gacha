@@ -181,6 +181,32 @@ class XmlData
 		return attributeMap[name.toUpperCase().hashCode()]?.boolean() ?: fallback
 	}
 
+	fun set(name: String, value: Any)
+	{
+		val holder = XmlData()
+		holder.name = name
+		holder.nameId = name.hashCode()
+		holder.value = value
+
+		addChild(holder)
+	}
+
+	fun addChild(xmlData: XmlData)
+	{
+		children = Array(childCount+1) { i -> if (i < childCount) children[i] else xmlData }
+	}
+
+	fun addChild(name: String): XmlData
+	{
+		val holder = XmlData()
+		holder.name = name
+		holder.nameId = name.hashCode()
+
+		addChild(holder)
+
+		return holder
+	}
+
 	val text: String
 			get() = value?.toString() ?: ""
 	fun int(): Int = value as? Int ?: value.toString().toIntOrNull() ?: throw TypeCastException("Cannot cast $value to an Int!")
@@ -228,6 +254,11 @@ class XmlData
 				}
 				else ->
 				{
+					if (value == null)
+					{
+						value = ""
+					}
+
 					output.writeShort(3)
 					output.writeString(value as String)
 				}

@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.utils.Scaling
 import com.badlogic.gdx.utils.viewport.ScalingViewport
+import com.lyeeedar.Game.Save
 import com.lyeeedar.Global
 import com.lyeeedar.UI.DebugConsole
 import com.lyeeedar.UI.Tutorial
@@ -68,6 +69,8 @@ abstract class AbstractScreen() : Screen, InputProcessor, GestureDetector.Gestur
         }
 
         Gdx.input.inputProcessor = inputMultiplexer
+
+		Save.save()
     }
 
     // ----------------------------------------------------------------------

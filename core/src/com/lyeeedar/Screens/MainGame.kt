@@ -3,7 +3,9 @@ package com.lyeeedar
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
+import com.lyeeedar.Game.Save
 import com.lyeeedar.Screens.*
+import com.lyeeedar.UI.GameDataBar
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.util.*
@@ -90,6 +92,9 @@ class MainGame : Game()
 			screens.put(ScreenEnum.DUNGEON, DungeonScreen())
 			screens.put(ScreenEnum.HEROES, HeroesScreen())
 			screens.put(ScreenEnum.SETTINGS, SettingsScreen())
+
+			Save.load()
+			GameDataBar.complete()
 
 			switchScreen(ScreenEnum.ZONE)
 		}

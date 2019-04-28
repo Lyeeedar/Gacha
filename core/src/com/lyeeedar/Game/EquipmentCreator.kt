@@ -20,7 +20,7 @@ class EquipmentCreator
 			// find all relevant parts files
 			for (xml in XmlData.enumeratePaths("EquipmentParts", "EquipmentPart"))
 			{
-				val part = EquipmentPart()
+				val part = EquipmentPart(xml)
 				part.parse(getXml(xml))
 				parts.add(part)
 			}
@@ -43,7 +43,8 @@ class EquipmentCreator
 
 			// load base equipment
 			val baseEquipmentName = "Equipment/" + weight.toString().neaten() + slot.toString().neaten()
-			val baseEquipment = Equipment.load(getXml(baseEquipmentName))
+			val baseEquipment = Equipment(baseEquipmentName)
+			baseEquipment.parse(getXml(baseEquipmentName))
 			baseEquipment.ascension = ascension
 
 			baseEquipment.material = getPart(EquipmentPart.PartType.MATERIAL, slot, weight, level, ascension, ran)
@@ -98,10 +99,20 @@ class EquipmentCreator
 				return validParts.random(ran)
 			}
 		}
+
+		fun getPart(path: String): Part?
+		{
+			val split = path.split(':')
+			val partPath = split[0]
+			val index = split[1].toInt()
+
+			val ep = parts.firstOrNull { it.loadPath == partPath } ?: return null
+			return ep.parts[index]
+		}
 	}
 }
 
-class EquipmentPart
+class EquipmentPart(var loadPath: String)
 {
 	enum class PartType
 	{
@@ -136,17 +147,20 @@ class EquipmentPart
 		rarity = Rarity.valueOf(xmlData.get("Rarity", "Common")!!.toUpperCase())
 
 		val partsEl = xmlData.getChildByName("Parts")!!
+		var i = 0
 		for (partEl in partsEl.children)
 		{
-			val part = Part()
+			val part = Part("$loadPath:$i")
 			part.parse(partEl)
 
 			parts.add(part)
+
+			i++
 		}
 	}
 }
 
-class Part : IEquipmentStatsProvider
+class Part(override var loadPath: String) : IEquipmentStatsProvider
 {
 	override lateinit var name: String
 	override lateinit var description: String

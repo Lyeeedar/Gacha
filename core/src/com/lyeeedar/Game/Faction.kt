@@ -60,9 +60,10 @@ class Faction(val path: String)
 	{
 		fun load(path: String): Faction
 		{
+			val originalPath = path
 			val path = "Factions/$path"
 			val xml = getXml(path)
-			val faction = Faction(path)
+			val faction = Faction(originalPath)
 			faction.parse(xml)
 
 			return faction
@@ -76,7 +77,7 @@ class FactionEntity(val faction: Faction)
 	lateinit var rarity: Rarity
 
 	val entityPath: String
-		get() = faction.path.directory() + "/" + rawEntityPath
+		get() = "Factions" + "/" + faction.path.directory() + "/" + rawEntityPath
 
 	fun parse(xmlData: XmlData)
 	{

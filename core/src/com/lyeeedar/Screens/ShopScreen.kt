@@ -20,10 +20,7 @@ import com.lyeeedar.*
 import com.lyeeedar.Components.EntityLoader
 import com.lyeeedar.Components.renderable
 import com.lyeeedar.Components.stats
-import com.lyeeedar.Game.EntityData
-import com.lyeeedar.Game.EquipmentCreator
-import com.lyeeedar.Game.Faction
-import com.lyeeedar.Game.FactionEntity
+import com.lyeeedar.Game.*
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Systems.directionSprite
 import com.lyeeedar.UI.*
@@ -483,6 +480,8 @@ class ShopScreen : AbstractScreen()
 
 					stage.addActor(widget)
 				}
+
+				Save.save()
 			})
 			cards.add(card)
 
@@ -581,6 +580,8 @@ class ShopScreen : AbstractScreen()
 				if (gatheredLoot == cards.size)
 				{
 					greyoutTable.addAction(fadeOut(0.6f) then removeActor())
+
+					Save.save()
 				}
 
 				val table = Table()
@@ -694,6 +695,8 @@ class ShopScreen : AbstractScreen()
 								card.remove()
 
 								fillPurchasesTable()
+
+								Save.save()
 							})
 						}
 

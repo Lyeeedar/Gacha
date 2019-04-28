@@ -1,6 +1,8 @@
 package com.lyeeedar.Screens
 
+import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.lyeeedar.Global
 import com.lyeeedar.MainGame
 import com.lyeeedar.UI.GameDataBar
 import com.lyeeedar.UI.NavigationBar
@@ -12,6 +14,8 @@ class DungeonScreen : AbstractScreen()
 	override fun create()
 	{
 		val dungeonTable = Table()
+
+		dungeonTable.add(Label("Work in Progress", Global.skin))
 
 		mainTable.add(gameDataBar).growX()
 		mainTable.row()
