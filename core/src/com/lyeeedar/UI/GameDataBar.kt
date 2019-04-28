@@ -15,6 +15,8 @@ class GameDataBar : Table()
 
 	override fun act(delta: Float)
 	{
+		rebind()
+
 		goldLabel.value = Global.data.gold
 		expLabel.value = Global.data.experience
 

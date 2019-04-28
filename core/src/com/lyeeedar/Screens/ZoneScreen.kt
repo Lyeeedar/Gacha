@@ -17,6 +17,7 @@ class ZoneScreen : AbstractScreen()
 
 	override fun create()
 	{
+		drawFPS = false
 		updateTable()
 	}
 
