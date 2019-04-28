@@ -3,7 +3,7 @@
 		<Data Name="Factions" meta:RefKey="Collection">
 			<Data Name="Faction" BasePath="Factions" StripExtension="True" ResourceType="Faction" meta:RefKey="File" />
 		</Data>
-		<Data Name="LevelRange" Name1="Min" Name2="Max" Min="1" Default="1" Type="Int" meta:RefKey="Vector" />
+		<Data Name="Grid" ElementPerLine="True" IsAsciiGrid="True" meta:RefKey="MultilineString" />
 		<Data Name="Floor1" Keys="SpriteWrapper" meta:RefKey="Reference" />
 		<Data Name="Floor2" Keys="SpriteWrapper" meta:RefKey="Reference" />
 		<Data Name="Path" Keys="SpriteWrapper" meta:RefKey="Reference" />

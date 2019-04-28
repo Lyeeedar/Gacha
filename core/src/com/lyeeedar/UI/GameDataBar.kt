@@ -37,14 +37,22 @@ class GameDataBar : Table()
 
 		background = TextureRegionDrawable(AssetManager.loadTextureRegion("GUI/BasePanel")).tint(Color(0.5f, 0.5f, 0.5f, 1f))
 
-		add(goldLabel)
-		add(expLabel)
+		val goldTable = Table()
+		goldTable.add(SpriteWidget(AssetManager.loadSprite("Oryx/Custom/items/coin_gold_pile"), 24f, 24f))
+		goldTable.add(goldLabel)
+
+		val expTable = Table()
+		expTable.add(SpriteWidget(AssetManager.loadSprite("Oryx/uf_split/uf_items/book_blue"), 24f, 24f))
+		expTable.add(expLabel)
+
+		add(goldTable).pad(5f)
+		add(expTable).pad(5f)
 	}
 
 	companion object
 	{
-		val goldLabel = NumberChangeLabel("Gold", Global.skin)
-		val expLabel = NumberChangeLabel("Exp", Global.skin)
+		val goldLabel = NumberChangeLabel("", Global.skin)
+		val expLabel = NumberChangeLabel("", Global.skin)
 
 		init
 		{

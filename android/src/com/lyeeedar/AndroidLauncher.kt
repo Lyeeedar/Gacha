@@ -18,6 +18,7 @@ class AndroidLauncher : AndroidApplication()
 		config.resolutionStrategy.calcMeasures(360, 640)
 		config.disableAudio = false
 		config.useImmersiveMode = true
+		config.useWakelock = true
 
 		Global.android = true
 		Global.game = MainGame()

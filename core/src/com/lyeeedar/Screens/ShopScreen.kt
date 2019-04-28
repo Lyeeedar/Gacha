@@ -101,7 +101,7 @@ class ShopScreen : AbstractScreen()
 	{
 		for (i in 0 until 4)
 		{
-			val equip = EquipmentCreator.createRandom(10)
+			val equip = EquipmentCreator.createRandom(Global.data.getCurrentLevel())
 			val tileTable = Table()
 			tileTable.add(equip.createTile(48f)).size(48f).padBottom(42f)
 
@@ -214,7 +214,7 @@ class ShopScreen : AbstractScreen()
 
 			for (i in 0 until 9)
 			{
-				val equip = EquipmentCreator.createRandom(1)
+				val equip = EquipmentCreator.createRandom(Global.data.getCurrentLevel())
 				val card = CardWidget(equip.createCardTable(), equip.createCardTable(), AssetManager.loadTextureRegion("GUI/EquipmentCardback")!!, border = equip.ascension.colour)
 				card.canZoom = false
 				card.addPick("", {
@@ -281,7 +281,7 @@ class ShopScreen : AbstractScreen()
 
 			for (i in 0 until 9)
 			{
-				val equip = EquipmentCreator.createRandom(1, weight = weightChosen)
+				val equip = EquipmentCreator.createRandom(Global.data.getCurrentLevel(), weight = weightChosen)
 				val card = CardWidget(equip.createCardTable(), equip.createCardTable(), AssetManager.loadTextureRegion("GUI/EquipmentCardback")!!, border = equip.ascension.colour)
 				card.canZoom = false
 				card.addPick("", {
@@ -648,12 +648,19 @@ class ShopScreen : AbstractScreen()
 					purchaseStack.addTable(SpriteWidget(counter_large, 48f, 48f)).size(48f).expand().bottom()
 					purchaseStack.addTable(ware.wareTable).size(48f).padBottom(18f).expand().bottom()
 
+					val costTable = Table()
+					costTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(0f, 0f, 0f, 0.6f))
+
 					val costLabel = Label(ware.cost.prettyPrint(), Global.skin)
 					if (ware.cost > Global.data.gold)
 					{
 						costLabel.setColor(0.85f, 0f, 0f, 1f)
 					}
-					purchaseStack.addTable(costLabel).expand().bottom().padBottom(24f)
+
+					costTable.add(costLabel)
+					costTable.add(SpriteWidget(AssetManager.loadSprite("Oryx/Custom/items/coin_gold_pile"), 16f, 16f))
+
+					purchaseStack.addTable(costTable).expand().bottom().padBottom(24f)
 
 					purchaseStack.addClickListener {
 						val card = CardWidget(ware.previewTable, ware.previewTable, AssetManager.loadTextureRegion("GUI/MoneyCardback")!!, border = ware.colour)
@@ -698,8 +705,10 @@ class ShopScreen : AbstractScreen()
 
 	override fun show()
 	{
-		gameDataBar.rebind()
 		super.show()
+
+		fillPurchasesTable()
+		gameDataBar.rebind()
 	}
 
 	override fun doRender(delta: Float)

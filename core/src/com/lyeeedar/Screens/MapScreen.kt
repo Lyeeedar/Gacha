@@ -153,7 +153,9 @@ class MapScreen : AbstractScreen()
 
 		levelComplete = false
 		this.zone = zone
-		val level = zone.currentEncounter.encounter!!.createLevel(zone.theme)
+		val currentEncounter = zone.encounters[Global.data.currentZoneProgression]
+
+		val level = currentEncounter.createLevel(zone.theme)
 
 		this.level = level
 		Global.changeLevel(level)
@@ -536,12 +538,15 @@ class MapScreen : AbstractScreen()
 
 				fun addNumberAndBar(num: Float, total: Float)
 				{
-					val table = Table()
-					table.add(PercentageBarWidget(num / total, colour)).growX().height(10f)
-					table.row()
-					table.add(Label(num.toInt().prettyPrint(), Global.skin, "small"))
+					val percent = if (total > 0f) num / total else 0f
 
-					rowTable.add(table).width(Value.percentWidth(0.3f, battleResultsTable)).center()
+					val table = Table()
+
+					table.add(Label(num.toInt().prettyPrint(), Global.skin, "small"))
+					table.row()
+					table.add(PercentageBarWidget(percent, colour)).growX().height(7f)
+
+					rowTable.add(table).width(Value.percentWidth(0.3f, battleResultsTable)).center().expandY()
 				}
 
 				rowTable.add(SpriteWidget(Sprite(heroTexure), 24f, 24f)).size(26f)
@@ -592,7 +597,8 @@ class MapScreen : AbstractScreen()
 					table.add(Seperator(Global.skin, false)).growX().pad(5f)
 					table.row()
 
-					val rewards = zone!!.currentEncounter.encounter!!.generateRewards(true)
+					val currentEncounter = zone!!.encounters[Global.data.currentZoneProgression]
+					val rewards = currentEncounter.generateRewards(true)
 
 					val rewardsTable = createLevelEndTable(rewards)
 					table.add(rewardsTable).grow()
@@ -600,13 +606,8 @@ class MapScreen : AbstractScreen()
 					clickAction = {
 
 						val zone = zone!!
-						zone.currentEncounter.isComplete = true
-						zone.currentEncounter.isCurrent = false
-						zone.currentEncounter.updateFlag()
-
-						zone.currentEncounter = zone.currentEncounter.nextTile!!
-						zone.currentEncounter.isCurrent = true
-						zone.currentEncounter.updateFlag()
+						Global.data.currentZoneProgression++
+						zone.updateFlags()
 
 						for (reward in rewards)
 						{
@@ -626,7 +627,8 @@ class MapScreen : AbstractScreen()
 					table.add(Seperator(Global.skin, false)).growX().pad(5f)
 					table.row()
 
-					val rewards = zone!!.currentEncounter.encounter!!.generateRewards(false)
+					val currentEncounter = zone!!.encounters[Global.data.currentZoneProgression]
+					val rewards = currentEncounter.generateRewards(false)
 
 					val rewardsTable = createLevelEndTable(rewards)
 					table.add(rewardsTable).grow()

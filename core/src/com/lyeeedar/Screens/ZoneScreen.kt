@@ -1,7 +1,5 @@
 package com.lyeeedar.Screens
 
-import com.badlogic.gdx.scenes.scene2d.ui.Stack
-import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable
@@ -19,43 +17,62 @@ class ZoneScreen : AbstractScreen()
 
 	override fun create()
 	{
-		val zone = Zone.load("Zones/Test")
+		updateTable()
+	}
+
+	fun updateTable()
+	{
+		mainTable.clear()
+
+		val zone = Zone.load(Global.data.currentZone)
 		val widget = ZoneWidget(zone)
 
-		mainTable.background = TiledDrawable(TextureRegionDrawable(zone.theme.backgroundTile)).tint(zone.theme.ambient.color())
+		mainTable.background = TiledDrawable(TextureRegionDrawable(zone.floor1.sprite!!.currentTexture))
 
 		mainTable.add(gameDataBar).growX()
 		mainTable.row()
 
-		val stack = Stack()
 		widget.width = stage.width
 
-		stack.add(widget)
-
-		mainTable.add(stack).grow()
+		mainTable.add(widget).grow()
 		mainTable.row()
 
-		val beginButton = TextButton("Begin", Global.skin)
-		beginButton.addClickListener {
-			val mapScreen = Global.game.getTypedScreen<MapScreen>()!!
-			mapScreen.setNewLevel(zone)
+		if (Global.data.currentZoneProgression == Zone.numEncounters-1)
+		{
+			val nextZoneButton = TextButton("Journey Onwards", Global.skin)
+			nextZoneButton.addClickListener {
+				Global.data.currentZone++
+				Global.data.currentZoneProgression = 0
 
-			Global.game.switchScreen(MainGame.ScreenEnum.MAP)
+				updateTable()
+			}
+
+			mainTable.add(nextZoneButton).expandX().center().width(200f).height(30f).pad(5f)
+			mainTable.row()
+		}
+		else
+		{
+			val beginButton = TextButton("Begin", Global.skin)
+			beginButton.addClickListener {
+				val mapScreen = Global.game.getTypedScreen<MapScreen>()!!
+				mapScreen.setNewLevel(zone)
+
+				Global.game.switchScreen(MainGame.ScreenEnum.MAP)
+			}
+
+			mainTable.add(beginButton).expandX().center().width(200f).height(30f).pad(5f)
+			mainTable.row()
 		}
 
-		val buttonsTable = Table()
-		stack.add(buttonsTable)
-
-		buttonsTable.add(beginButton).pad(20f).expand().bottom().width(200f).height(30f)
-		buttonsTable.row()
-
-		buttonsTable.add(NavigationBar(MainGame.ScreenEnum.ZONE)).growX()
+		mainTable.add(NavigationBar(MainGame.ScreenEnum.ZONE)).growX()
 	}
 
 	override fun show()
 	{
-		gameDataBar.rebind()
 		super.show()
+
+		updateTable()
+		gameDataBar.rebind()
 	}
 
 	override fun doRender(delta: Float)

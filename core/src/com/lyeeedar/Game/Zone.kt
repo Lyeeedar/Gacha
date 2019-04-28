@@ -6,34 +6,27 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.Array
-import com.lyeeedar.Ascension
+import com.badlogic.gdx.utils.IntSet
+import com.lyeeedar.*
 import com.lyeeedar.Components.directionalSprite
 import com.lyeeedar.Components.pos
 import com.lyeeedar.Components.stats
-import com.lyeeedar.Global
-import com.lyeeedar.Pathfinding.BresenhamLine
 import com.lyeeedar.Pathfinding.IPathfindingTile
-import com.lyeeedar.Rarity
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Renderables.Sprite.SpriteWrapper
-import com.lyeeedar.SpaceSlot
 import com.lyeeedar.UI.SpriteWidget
 import com.lyeeedar.UI.addTable
 import com.lyeeedar.UI.addTapToolTip
 import com.lyeeedar.Util.*
 import ktx.collections.toGdxArray
 
-class Zone(val seed: Long, val handicap: Float)
+class Zone(val zoneIndex: Int, val handicap: Float)
 {
-	val numEncounters = 40
-	val width = 10
-	val height = 15
-
-	val ran = Random.obtainTS(seed)
+	val ran = Random.obtainTS(20181201L + zoneIndex)
 
 	val factions = Array<Faction>()
 	lateinit var grid: Array2D<ZoneTile>
-	lateinit var levelRange: Range
+	val levelRange: Range = Range(Point((zoneIndex - 1) * zoneLevelRange + 1, zoneIndex * zoneLevelRange))
 
 	lateinit var floor1: SpriteWrapper
 	lateinit var floor2: SpriteWrapper
@@ -42,141 +35,111 @@ class Zone(val seed: Long, val handicap: Float)
 	lateinit var theme: Theme
 	val possibleLevels = Array<XmlData>()
 
-	lateinit var currentEncounter: ZoneTile
+	lateinit var encounters: kotlin.Array<Encounter>
 
-	fun createGrid()
+	val width: Int
+		get() = grid.width
+
+	val height: Int
+		get() = grid.height
+
+	fun createGrid(xmlData: XmlData)
 	{
-		grid = Array2D(width, height) { x, y -> ZoneTile(x, y) }
+		val charGrid = xmlData.toCharGrid()
+
+		grid = Array2D(charGrid.width, charGrid.height) { x, y -> ZoneTile(x, y) }
+
+		var foundEncounters = 0
 		for (tile in grid)
 		{
-			tile.sprite = if (ran.nextBoolean()) floor1.copy() else floor2.copy()
+			val char = charGrid[tile.x, grid.height-tile.y-1]
+
+			tile.sprite = if (char == '#') floor2.copy() else floor1.copy()
 			tile.sprite.chooseSprites()
+
+			if (char == '!')
+			{
+				tile.isEncounter = true
+				foundEncounters++
+			}
+			else if (char == 'S')
+			{
+				tile.isEncounter = true
+				tile.isStart = true
+				foundEncounters++
+			}
+			else if (char == 'B')
+			{
+				tile.isEncounter = true
+				tile.isBoss = true
+				foundEncounters++
+			}
+			else if (char == ',')
+			{
+				tile.sprite = path.copy()
+				tile.sprite.chooseSprites()
+			}
+		}
+
+		if (foundEncounters != numEncounters)
+		{
+			throw Exception("Invalid number of encounters defined in zone! Found $foundEncounters, should have found $numEncounters")
 		}
 	}
 
 	fun createPath()
 	{
-		// place numEncounters random points, one bottom, one top
-		val validPoints = Array<ZoneTile>()
-		for (x in 1 until grid.width-1)
-		{
-			for (y in 2 until grid.height-1 step 2)
-			{
-				validPoints.add(grid[x, y])
-			}
-		}
+		// starting at the start tile, walk to neighbouring tile, building the path
+		val explored = IntSet()
 
-		if (validPoints.size < numEncounters-2)
-		{
-			throw Exception("Grid too small!")
-		}
-
-		val points = Array<ZoneTile>()
-		val w3 = width / 3
-		points.add(grid[w3+ran.nextInt(grid.width-w3*2), 0])
-		points.add(grid[w3+ran.nextInt(grid.width-w3*2), grid.height-1])
-
-		while (points.size < numEncounters)
-		{
-			points.add(validPoints.removeRandom(ran))
-		}
-
-		// create array of points at each y
-		val pointsPerY = kotlin.Array<Array<ZoneTile>?>(grid.height) { null }
-		for (y in 0 until grid.height)
-		{
-			pointsPerY[y] = points.filter { it.y == y }.toGdxArray()
-			if (pointsPerY[y]!!.size == 0)
-			{
-				pointsPerY[y] = null
-			}
-		}
-
-		// starting at the bottom center walk through points and link together
-		var y = 1
-		var current = pointsPerY[0]!![0]
-		var left = current.x < width / 2
-
+		var current = grid.first{ it.isStart }
+		var progression = 0
+		val encountersArray = Array<Encounter>()
 		while (true)
 		{
-			// find the next row with points
-			while (true)
+			explored.add(current.hashCode())
+
+			val alpha = progression.toFloat() / numEncounters.toFloat()
+			val level = levelRange.min.lerp(levelRange.max, alpha)
+
+			val encounter = createEncounter(level, progression, current.isBoss)
+			encountersArray.add(encounter)
+			current.encounter = encounter
+
+			current.sprite = path.copy()
+			current.sprite.chooseSprites()
+
+			if (progression == numEncounters-1)
 			{
-				if (pointsPerY[y] == null)
+				break
+			}
+
+			var found = false
+			for (dir in Direction.ValuesWithoutCenter)
+			{
+				val nTile = grid.tryGet(current.x + dir.x, current.y + dir.y, null) ?: continue
+				if (!explored.contains(nTile.hashCode()) && nTile.isEncounter)
 				{
-					y++
-				}
-				else
-				{
+					current = nTile
+					found = true
 					break
 				}
 			}
 
-			// sort based on going left or right
-			val currentPoints = pointsPerY[y]!!
-			val sorted = if (left) currentPoints.sortedBy { it.x }.toGdxArray() else currentPoints.sortedByDescending { it.x }.toGdxArray()
-
-			// link up the points in order
-			for (point in sorted)
+			if (!found)
 			{
-				current.nextTile = point
-
-				// draw path between points
-				val path = BresenhamLine.lineNoDiag(current.x, current.y, point.x, point.y, grid)
-				for (p in path)
-				{
-					val t = grid[p]
-					t.sprite = this.path.copy()
-					t.sprite.chooseSprites()
-				}
-
-				current = point
-			}
-
-			y++
-			left = !left
-
-			// if weve reached the end, break
-			if (y == grid.height)
-			{
-				break
-			}
-		}
-
-		current = pointsPerY[0]!![0]
-		var progression = 0
-		while (true)
-		{
-			val alpha = progression.toFloat() / numEncounters.toFloat()
-			val level = levelRange.min.lerp(levelRange.max, alpha)
-
-			current.encounter = createEncounter(level, progression)
-
-			if (((progression+1) % 10) == 0)
-			{
-				current.isBoss = true
-			}
-
-			if (current.nextTile == null)
-			{
-				break
+				throw Exception("Unable to find next encounter! Progression: $progression, Position: $current")
 			}
 
 			progression++
-			current = current.nextTile
 		}
 
-		pointsPerY[0]!![0].isCurrent = true
-		currentEncounter = pointsPerY[0]!![0]
+		encounters = kotlin.Array(encountersArray.size) { i -> encountersArray[i] }
 
-		for (point in points)
-		{
-			point.isEncounter = true
-			point.updateFlag()
-		}
+		updateFlags()
 	}
 
-	fun createEncounter(level: Float, progression: Int): Encounter
+	fun createEncounter(level: Float, progression: Int, isBoss: Boolean): Encounter
 	{
 		val entities = Array<FactionEntity>()
 		for (faction in factions)
@@ -194,7 +157,7 @@ class Zone(val seed: Long, val handicap: Float)
 			}
 		}
 
-		val encounter = Encounter(this, level.toInt(), ((progression+1) % 10) == 0, ran.nextLong())
+		val encounter = Encounter(this, level.toInt(), progression, isBoss, ran.nextLong())
 		encounter.gridEl = possibleLevels.random(ran)
 
 		val levels = kotlin.Array<Int>(5) { level.toInt() }
@@ -218,13 +181,25 @@ class Zone(val seed: Long, val handicap: Float)
 		return encounter
 	}
 
+	fun updateFlags()
+	{
+		for (tile in grid)
+		{
+			tile.updateFlag()
+		}
+	}
+
 	companion object
 	{
-		fun load(path: String): Zone
+		val numEncounters = 40
+		val zoneLevelRange = 20
+
+		fun load(index: Int): Zone
 		{
+			val path = "Zones/Zone$index"
 			val xml = getXml(path)
 
-			val zone = Zone(Random.random.nextLong(), -0.3f)
+			val zone = Zone(index, -0.3f)
 
 			val factionsEl = xml.getChildByName("Factions")!!
 			for (el in factionsEl.children)
@@ -232,11 +207,11 @@ class Zone(val seed: Long, val handicap: Float)
 				zone.factions.add(Faction.load(el.text))
 			}
 
+			val gridEl = xml.getChildByName("Grid")!!
+
 			zone.floor1 = SpriteWrapper.load(xml.getChildByName("Floor1")!!)
 			zone.floor2 = SpriteWrapper.load(xml.getChildByName("Floor2")!!)
 			zone.path = SpriteWrapper.load(xml.getChildByName("Path")!!)
-
-			zone.levelRange = Range.parse(xml.get("LevelRange"))
 
 			zone.theme = Theme.load(xml.get("Theme"))
 
@@ -246,7 +221,7 @@ class Zone(val seed: Long, val handicap: Float)
 				zone.possibleLevels.add(el)
 			}
 
-			zone.createGrid()
+			zone.createGrid(gridEl)
 			zone.createPath()
 
 			return zone
@@ -267,11 +242,9 @@ class ZoneTile(x: Int, y: Int) : Point(x, y), IPathfindingTile
 	}
 
 	var isEncounter = false
-	var isComplete = false
-	var isCurrent = false
 	var isBoss = false
+	var isStart = false
 
-	var nextTile: ZoneTile? = null
 	var encounter: Encounter? = null
 
 	var flagSprite: Sprite? = null
@@ -282,12 +255,12 @@ class ZoneTile(x: Int, y: Int) : Point(x, y), IPathfindingTile
 	{
 		if (isEncounter)
 		{
-			if (isCurrent)
+			if (encounter!!.progression == Global.data.currentZoneProgression)
 			{
 				flagSprite = AssetManager.loadSprite("Oryx/Custom/terrain/flag_combat", drawActualSize = true)
 				flagSprite!!.randomiseAnimation()
 			}
-			else if (isComplete)
+			else if (encounter!!.progression < Global.data.currentZoneProgression)
 			{
 				flagSprite = AssetManager.loadSprite("Oryx/Custom/terrain/flag_complete", drawActualSize = true)
 				flagSprite!!.randomiseAnimation()
@@ -313,7 +286,7 @@ class ZoneTile(x: Int, y: Int) : Point(x, y), IPathfindingTile
 	}
 }
 
-class Encounter(val zone: Zone, val level: Int, val isBoss: Boolean, val seed: Long)
+class Encounter(val zone: Zone, val level: Int, val progression: Int, val isBoss: Boolean, val seed: Long)
 {
 	val enemies = Array<EntityData>(5)
 	lateinit var gridEl: XmlData

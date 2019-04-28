@@ -20,7 +20,19 @@ class GameData
 	val lastSelectedHeroes = kotlin.Array<String?>(5) { null }
 
 	var experience = 0
-	var gold = 350000
+	var gold = 0
+
+	var currentZone: Int = 1
+	var currentZoneProgression: Int = 0
+
+	fun getCurrentLevel(): Int
+	{
+		val zoneStartLevel = (currentZone-1) * Zone.zoneLevelRange + 1
+
+		val alpha = currentZoneProgression.toFloat() / Zone.numEncounters.toFloat()
+
+		return zoneStartLevel + (Zone.zoneLevelRange.toFloat() * alpha).toInt()
+	}
 }
 
 class EntityData()

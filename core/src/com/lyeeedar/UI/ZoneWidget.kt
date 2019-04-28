@@ -17,7 +17,6 @@ import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.Colour
 import com.lyeeedar.Util.Point
-import ktx.math.plus
 
 class ZoneWidget(val zone: Zone) : Widget()
 {
@@ -248,29 +247,5 @@ class ZoneWidget(val zone: Zone) : Widget()
 		renderer.end(batch)
 
 		batch.begin()
-
-		shapeRenderer.projectionMatrix = batch.projectionMatrix
-		shapeRenderer.transformMatrix = batch.transformMatrix
-		shapeRenderer.updateMatrices()
-		shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
-		shapeRenderer.color = Color.PINK
-		for (x in 0 until zone.width)
-		{
-			for (y in 0 until zone.height)
-			{
-				val tile = zone.grid[x, y]
-
-				if (tile.isEncounter && tile.nextTile != null)
-				{
-					val n = tile.nextTile!!
-
-					val p1 = pointToScreenspace(tile.toVec() + Vector2(0.5f, 0.5f))
-					val p2 = pointToScreenspace(n.toVec() + Vector2(0.5f, 0.5f))
-
-					//shapeRenderer.line(p1, p2)
-				}
-			}
-		}
-		shapeRenderer.end()
 	}
 }

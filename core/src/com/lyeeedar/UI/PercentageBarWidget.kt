@@ -22,15 +22,15 @@ class PercentageBarWidget(var percentage: Float, var colour: Colour) : Widget()
 		val solid = spacePerPip - spacing
 
 		batch.setColor(0f, 0f, 0f, parentAlpha)
-		batch.draw(white, x+5f, y+5f, totalWidth, 5f)
+		batch.draw(white, x+5f, y, totalWidth, height)
 
 		batch.setColor(colour.r, colour.g, colour.b, colour.a * parentAlpha)
-		batch.draw(white, x+5f, y+5f, totalWidth*percentage, 5f)
+		batch.draw(white, x+5f, y, totalWidth*percentage, height)
 
 		batch.setColor(1f, 1f, 1f, parentAlpha)
 		for (i in 0 until RenderSystem.numHpPips)
 		{
-			batch.draw(hp_border, x+5f+i*spacePerPip, y+5f, solid, 5f)
+			batch.draw(hp_border, x+5f+i*spacePerPip, y, solid, height)
 		}
 	}
 }
