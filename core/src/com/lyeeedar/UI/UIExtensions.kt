@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Stack
 import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.lyeeedar.Global
 import com.lyeeedar.Util.AssetManager
@@ -18,6 +19,13 @@ import ktx.actors.plus
 import ktx.actors.then
 import ktx.scene2d.label
 import ktx.scene2d.table
+
+fun Drawable.setNoMinSize(): Drawable
+{
+	this.minWidth = 0f
+	this.minHeight = 0f
+	return this
+}
 
 fun showFullscreenText(text: String, minDuration: Float, exitAction: ()->Unit)
 {

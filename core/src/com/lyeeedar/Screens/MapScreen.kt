@@ -544,7 +544,7 @@ class MapScreen : AbstractScreen()
 
 					table.add(Label(num.toInt().prettyPrint(), Global.skin, "small"))
 					table.row()
-					table.add(PercentageBarWidget(percent, colour)).growX().height(7f)
+					table.add(PercentageBarWidget(percent, colour, 6)).growX().height(7f)
 
 					rowTable.add(table).width(Value.percentWidth(0.3f, battleResultsTable)).center().expandY()
 				}

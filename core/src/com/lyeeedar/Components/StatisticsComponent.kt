@@ -102,6 +102,7 @@ class StatisticsComponent: AbstractComponent()
 	var totalHpLost = 0f
 	var healing = 0f
 
+	var summoner: Entity? = null
 	var attackDamageDealt = 0f
 	var abilityDamageDealt = 0f
 
@@ -491,6 +492,7 @@ class StatisticsComponent: AbstractComponent()
 		messagesToShow.clear()
 		totalHpLost = 0f
 		healing = 0f
+		summoner = null
 	}
 }
 

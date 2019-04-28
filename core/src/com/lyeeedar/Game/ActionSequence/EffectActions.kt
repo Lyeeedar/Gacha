@@ -67,6 +67,11 @@ class DamageAction : AbstractActionSequenceAction()
 
 					sourceStats.abilityDamageDealt += finalDam
 
+					if (sourceStats.summoner != null)
+					{
+						sourceStats.summoner!!.stats().abilityDamageDealt += finalDam
+					}
+
 					BloodSplatter.splatter(sequence.source.tile()!!, entity.tile()!!, 1f)
 					targetstats.lastHitSource = sequence.source.tile()!!
 
@@ -202,6 +207,11 @@ class HealAction() : AbstractActionSequenceAction()
 					targetstats.heal(healing)
 
 					sequence.source.stats().healing += healing
+
+					if (sequence.source.stats()!!.summoner != null)
+					{
+						sequence.source.stats()!!.summoner!!.stats().healing += healing
+					}
 
 					if (EventSystem.isEventRegistered(EventType.HEALED, entity))
 					{
@@ -516,6 +526,8 @@ class SummonAction() : AbstractActionSequenceAction()
 			summonEntity.stats().factionBuffs.add(powerBuff)
 
 			summonEntity.stats().resetHP()
+
+			summonEntity.stats()!!.summoner = sequence.source
 
 			if (summonEntity.pos()!!.isValidTile(tile, summonEntity))
 			{

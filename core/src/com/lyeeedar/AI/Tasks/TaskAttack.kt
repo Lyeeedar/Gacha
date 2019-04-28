@@ -101,6 +101,10 @@ class TaskAttack() : AbstractTask()
 					val finalDam = defenderStats.dealDamage(dam.first)
 
 					attackerStats.attackDamageDealt += finalDam
+					if (attackerStats.summoner != null)
+					{
+						attackerStats.summoner!!.stats().attackDamageDealt += finalDam
+					}
 
 					if (Random.random() < 0.5f)
 					{

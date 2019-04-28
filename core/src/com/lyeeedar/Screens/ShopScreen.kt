@@ -95,6 +95,17 @@ class ShopScreen : AbstractScreen()
 		mainTable.add(shopTable).grow()
 		mainTable.row()
 		mainTable.add(navigationBar).growX()
+
+		if (!Global.release)
+		{
+			debugConsole.register("addgold", "", { args, console ->
+
+				val num = args[0].toInt()
+				Global.data.gold += num
+
+				true
+			})
+		}
 	}
 
 	fun createWares()
@@ -657,8 +668,8 @@ class ShopScreen : AbstractScreen()
 						costLabel.setColor(0.85f, 0f, 0f, 1f)
 					}
 
-					costTable.add(costLabel)
 					costTable.add(SpriteWidget(AssetManager.loadSprite("Oryx/Custom/items/coin_gold_pile"), 16f, 16f))
+					costTable.add(costLabel)
 
 					purchaseStack.addTable(costTable).expand().bottom().padBottom(24f)
 

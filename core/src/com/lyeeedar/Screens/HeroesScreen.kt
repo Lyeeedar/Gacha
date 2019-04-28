@@ -164,14 +164,20 @@ class HeroesScreen : AbstractScreen()
 		factionAscensionTable.add(SpriteWidget(stats.equipmentWeight.icon.copy(), 32f, 32f).addTapToolTip("Wears ${stats.equipmentWeight.niceName} equipment."))
 		factionAscensionTable.row()
 
+		mainTable.add(factionAscensionTable).expandX().center().pad(5f)
+		mainTable.row()
+
 		val ascensionLabel = Label(stats.ascension.toString().neaten(), Global.skin)
 		ascensionLabel.color = stats.ascension.colour.color()
 
 		val rarityLabel = Label(entityData.factionEntity.rarity.niceName, Global.skin)
 		rarityLabel.color = entityData.factionEntity.rarity.colour.color()
-		factionAscensionTable.add(rarityLabel).colspan(3).center()
 
-		mainTable.add(factionAscensionTable).expandX().center().pad(5f)
+		val ascensionRarityTable = Table()
+		ascensionRarityTable.add(ascensionLabel).padRight(10f)
+		ascensionRarityTable.add(rarityLabel)
+
+		mainTable.add(ascensionRarityTable)
 		mainTable.row()
 
 		// name
@@ -183,7 +189,7 @@ class HeroesScreen : AbstractScreen()
 
 		// sprite and skills
 		val spriteAndSkillsTable = Table()
-		mainTable.add(spriteAndSkillsTable).growX().padTop(10f).padBottom(10f)
+		mainTable.add(spriteAndSkillsTable).grow().padTop(5f).padBottom(5f)
 		mainTable.row()
 
 		val leftSkillsColumn = Table()
@@ -204,7 +210,7 @@ class HeroesScreen : AbstractScreen()
 
 				imageStack.addTapToolTip(ability.name + "\n\n" + ability.description)
 
-				column.add(imageStack).size(48f).pad(10f)
+				column.add(imageStack).size(48f).pad(5f)
 				column.row()
 			}
 			else
@@ -212,7 +218,7 @@ class HeroesScreen : AbstractScreen()
 				val emptySprite = AssetManager.loadSprite("Icons/Empty", colour = Colour(0.3f, 0.3f, 0.3f, 1.0f))
 				val widget = SpriteWidget(emptySprite, 32f, 32f)
 
-				column.add(widget).size(48f).pad(10f)
+				column.add(widget).size(48f).pad(5f)
 				column.row()
 			}
 		}
@@ -375,11 +381,16 @@ class HeroesScreen : AbstractScreen()
 
 		statsAndPowerTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(1f, 1f, 1f, 0.1f))
 
+		val powerRatingTable = Table()
+		powerRatingTable.addTapToolTip("Strength Rating (calculated from stats).")
+
 		val powerRatingLabel = Label(stats.calculatePowerRating(entity).toInt().prettyPrint(), Global.skin)
 		powerRatingLabel.color = Color.GOLD
-		powerRatingLabel.addTapToolTip("Strength Rating (calculated from stats).")
 
-		statsAndPowerTable.add(powerRatingLabel).expandX().center().padTop(5f)
+		powerRatingTable.add(SpriteWidget(Sprite(AssetManager.loadTextureRegion("Icons/upgrade")!!), 16f, 16f).tint(Color.GOLD)).padRight(3f)
+		powerRatingTable.add(powerRatingLabel)
+
+		statsAndPowerTable.add(powerRatingTable).expandX().center().padTop(5f)
 		statsAndPowerTable.row()
 
 		val statsTable = Table()
@@ -399,7 +410,7 @@ class HeroesScreen : AbstractScreen()
 		}
 
 		addSubtextNumber("Level", stats.level.prettyPrint())
-		addSubtextNumber("Ascension", stats.ascension.name.neaten())
+		addSubtextNumber("Ascension", (stats.ascension.ordinal+1).toString())
 		addSubtextNumber("Health", stats.getStat(Statistic.MAXHP).toInt().prettyPrint())
 		addSubtextNumber("Power", stats.getStat(Statistic.POWER).toInt().prettyPrint())
 
@@ -566,7 +577,8 @@ class HeroesScreen : AbstractScreen()
 
 			equipTable.add(equipped.createTile(24f)).size(24f).pad(2f)
 			equipTable.add(Label(equipped.fullName, Global.skin, "small")).pad(2f)
-			equipTable.add(Label(equipped.calculatePowerRating(entity).toInt().prettyPrint(), Global.skin).tint(Color.GOLD)).expandX().right().pad(2f)
+			equipTable.add(SpriteWidget(Sprite(AssetManager.loadTextureRegion("Icons/upgrade")!!), 16f, 16f).tint(Color.GOLD)).expandX().right()
+			equipTable.add(Label(equipped.calculatePowerRating(entity).toInt().prettyPrint(), Global.skin).tint(Color.GOLD)).pad(2f)
 
 			equipTable.addClickListener {
 				val card = CardWidget(equipped.createCardTable(entity), equipped.createCardTable(entity), equipped.icon.base, equipped, border = equipped.ascension.colour)
