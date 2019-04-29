@@ -17,7 +17,7 @@ class MainGame : Game()
 	{
 		MAP,
 		ZONE,
-		DUNGEON,
+		QUESTS,
 		SHOP,
 		HEROES,
 		SETTINGS,
@@ -89,7 +89,7 @@ class MainGame : Game()
 			screens.put(ScreenEnum.MAP, MapScreen())
 			screens.put(ScreenEnum.ZONE, ZoneScreen())
 			screens.put(ScreenEnum.SHOP, ShopScreen())
-			screens.put(ScreenEnum.DUNGEON, DungeonScreen())
+			screens.put(ScreenEnum.QUESTS, QuestsScreen())
 			screens.put(ScreenEnum.HEROES, HeroesScreen())
 			screens.put(ScreenEnum.SETTINGS, SettingsScreen())
 

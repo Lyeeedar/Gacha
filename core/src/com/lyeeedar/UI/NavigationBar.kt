@@ -32,13 +32,13 @@ class NavigationBar(val current: MainGame.ScreenEnum) : Table()
 		val shopButton = TextAndIconButton("Shop", AssetManager.loadSprite("GUI/MoneyCardback"), Global.skin.getFont("small"))
 		val heroesButton = TextAndIconButton("Heroes", AssetManager.loadSprite("GUI/CharacterCardback"), Global.skin.getFont("small"))
 		val settingsButton = TextAndIconButton("Settings", AssetManager.loadSprite("GUI/CardCardback"), Global.skin.getFont("small"))
-		val dungeonButton = TextAndIconButton("Dungeon", AssetManager.loadSprite("GUI/ChanceCardback"), Global.skin.getFont("small"))
+		val questsButton = TextAndIconButton("Quests", AssetManager.loadSprite("GUI/ChanceCardback"), Global.skin.getFont("small"))
 
 		screenMap[MainGame.ScreenEnum.ZONE] = zoneButton
 		screenMap[MainGame.ScreenEnum.SHOP] = shopButton
 		screenMap[MainGame.ScreenEnum.HEROES] = heroesButton
 		screenMap[MainGame.ScreenEnum.SETTINGS] = settingsButton
-		screenMap[MainGame.ScreenEnum.DUNGEON] = dungeonButton
+		screenMap[MainGame.ScreenEnum.QUESTS] = questsButton
 
 		screenMap[current].background = AssetManager.loadTextureRegion("GUI/BasePanelHighlight")
 
@@ -53,7 +53,7 @@ class NavigationBar(val current: MainGame.ScreenEnum) : Table()
 		}
 
 		add(shopButton)
-		add(dungeonButton)
+		add(questsButton)
 		add(zoneButton)
 		add(heroesButton)
 		add(settingsButton)
