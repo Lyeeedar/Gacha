@@ -249,7 +249,6 @@ class DebugConsole(val historyKey: String) : Table()
 		if (Global.release) return
 
 		val lname = name.toLowerCase()
-		if (!commands.containsKey(lname)) throw Exception("No console command registered with name '$name'!")
 
 		commands.remove(lname)
 	}

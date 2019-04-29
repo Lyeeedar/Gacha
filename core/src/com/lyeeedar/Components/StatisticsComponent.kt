@@ -395,6 +395,36 @@ class StatisticsComponent: AbstractComponent()
 		tookDamage = false
 	}
 
+	fun hasBestEquipment(entity: Entity): Boolean
+	{
+		var betterEquipment = false
+		for (equip in Global.data.equipment)
+		{
+			if (equipmentWeight == equip.weight)
+			{
+				val existing = equipment[equip.slot]
+				if (existing == null)
+				{
+					betterEquipment = true
+					break
+				}
+				else
+				{
+					val newPower = equip.calculatePowerRating(entity)
+					val oldPower = existing.calculatePowerRating(entity)
+
+					if (newPower > oldPower)
+					{
+						betterEquipment = true
+						break
+					}
+				}
+			}
+		}
+
+		return !betterEquipment
+	}
+
 	companion object
 	{
 		val map = ObjectFloatMap<String>()

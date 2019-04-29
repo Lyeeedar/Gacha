@@ -35,7 +35,7 @@ class MapScreen : AbstractScreen()
 	var zone: Zone? = null
 
 	class TimeMultiplier(val name: String, val multiplier: Float)
-	val multipliers = arrayOf(TimeMultiplier("x0.5", 0.5f), TimeMultiplier("x1", 0.8f), TimeMultiplier("x2", 1.6f))
+	val multipliers = arrayOf(TimeMultiplier("x0.5", 0.5f), TimeMultiplier("x1", 0.8f), TimeMultiplier("x2", 1.3f))
 	var multiplierIndex = 1
 	var paused = false
 
@@ -330,7 +330,7 @@ class MapScreen : AbstractScreen()
 		var x = 0
 		for (hero in allHeroes.sortedByDescending { it.entity.stats().calculatePowerRating(it.entity) })
 		{
-			val heroWidget = HeroSelectionWidget(hero.entity, hero.data.factionEntity)
+			val heroWidget = HeroSelectionWidget(hero.entity, hero.data)
 			for (existing in level!!.playerTiles)
 			{
 				val ent = existing.entity ?: continue

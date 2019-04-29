@@ -111,7 +111,7 @@ class HeroesScreen : AbstractScreen()
 		var x = 0
 		for (hero in allHeroes.sortedByDescending { it.entity.stats().calculatePowerRating(it.entity) })
 		{
-			val heroWidget = HeroSelectionWidget(hero.entity, hero.data.factionEntity)
+			val heroWidget = HeroSelectionWidget(hero.entity, hero.data, true)
 			heroWidget.addClickListener {
 				createHeroTable(hero.entity, hero.data, false)
 			}
@@ -147,6 +147,17 @@ class HeroesScreen : AbstractScreen()
 
 	fun createHeroTable(entity: Entity, entityData: EntityData, cameFromFaction: Boolean)
 	{
+		if (!Global.release)
+		{
+			debugConsole.unregister("addshards")
+			debugConsole.register("addshards", "", { args, console ->
+				val num = args[0].toInt()
+				entityData.ascensionShards += num
+				createHeroTable(entity, entityData, cameFromFaction)
+				true
+			})
+		}
+
 		mainTable.clear()
 
 		mainTable.add(GameDataBar()).growX()
@@ -337,33 +348,40 @@ class HeroesScreen : AbstractScreen()
 		}
 
 		val optimiseEquipButton = TextButton("Optimise Equipment", Global.skin)
-		optimiseEquipButton.addClickListener {
-			for (slot in EquipmentSlot.Values)
-			{
-				val valid = Array<Equipment>()
-				if (stats.equipment[slot] != null) valid.add(stats.equipment[slot])
-
-				for (equip in Global.data.equipment)
+		if (!stats.hasBestEquipment(entity))
+		{
+			optimiseEquipButton.addClickListener {
+				for (slot in EquipmentSlot.Values)
 				{
-					if (equip.slot == slot && equip.weight == stats.equipmentWeight)
+					val valid = Array<Equipment>()
+					if (stats.equipment[slot] != null) valid.add(stats.equipment[slot])
+
+					for (equip in Global.data.equipment)
 					{
-						valid.add(equip)
+						if (equip.slot == slot && equip.weight == stats.equipmentWeight)
+						{
+							valid.add(equip)
+						}
+					}
+
+					if (valid.size > 0)
+					{
+						if (stats.equipment[slot] != null) Global.data.equipment.add(stats.equipment[slot])
+
+						val best = valid.maxBy { it.calculatePowerRating(entity) }
+						stats.equipment[slot] = best
+						entityData.equipment[slot] = best
+						Global.data.equipment.removeValue(best, true)
 					}
 				}
 
-				if (valid.size > 0)
-				{
-					if (stats.equipment[slot] != null) Global.data.equipment.add(stats.equipment[slot])
-
-					val best = valid.maxBy { it.calculatePowerRating(entity) }
-					stats.equipment[slot] = best
-					entityData.equipment[slot] = best
-					Global.data.equipment.removeValue(best, true)
-				}
+				recreateHeroesTable()
+				createHeroTable(entity, entityData, cameFromFaction)
 			}
-
-			recreateHeroesTable()
-			createHeroTable(entity, entityData, cameFromFaction)
+		}
+		else
+		{
+			optimiseEquipButton.color = Color.DARK_GRAY
 		}
 
 		val equipButtonsTable = Table()
@@ -497,14 +515,15 @@ class HeroesScreen : AbstractScreen()
 		val ascensionTable = Table()
 		if (stats.ascension != Ascension.Values.last())
 		{
-			val nextAscension = Ascension.Values[Ascension.Values.indexOf(entityData.ascension) + 1]
+			val nextAscension = stats.ascension.nextAscension
 
 			if (entityData.ascensionShards >= nextAscension.shardsRequired)
 			{
 				ascensionTable.add(Label("${entityData.ascensionShards} / ${nextAscension.shardsRequired}", Global.skin, "small")).expandX().center().pad(2f)
 				ascensionTable.row()
 
-				val ascendButton = TextButton("Ascend", Global.skin)
+				val ascendButton = NotificationButton("Ascend", Global.skin)
+				ascendButton.setNotification(AssetManager.loadTextureRegion("Icons/shard_notification")!!)
 
 				ascendButton.addClickListener {
 					if (stats.ascension != Ascension.Values.last())
@@ -799,7 +818,7 @@ class HeroesScreen : AbstractScreen()
 			{
 				val entity = entityData.getEntity("1")
 
-				val heroWidget = HeroSelectionWidget(entity, entityData.factionEntity)
+				val heroWidget = HeroSelectionWidget(entity, entityData, true)
 				heroWidget.addClickListener {
 					createHeroTable(entity, entityData, true)
 				}
