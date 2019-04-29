@@ -57,6 +57,7 @@ class Save
 			gameData.set("Progression", Global.data.currentZoneProgression)
 			gameData.set("Gold", Global.data.gold)
 			gameData.set("Experience", Global.data.experience)
+			gameData.set("LastRefresh", Global.data.lastRefreshTime)
 
 			val equipment = data.addChild("Equipment")
 			for (equip in Global.data.equipment)
@@ -97,6 +98,31 @@ class Save
 				lastSelectedHeroes.set("$i", Global.data.lastSelectedHeroes[i] ?: "---")
 			}
 
+			val shopWares = data.addChild("ShopWares")
+			val equipmentWares = shopWares.addChild("Equipment")
+			for (i in 0 until 4)
+			{
+				val equipEl = equipmentWares.addChild(i.toString())
+
+				val equip = Global.data.currentShopEquipment[i]
+				if (equip != null)
+				{
+					equip.save(equipEl)
+				}
+			}
+
+			val heroWares = shopWares.addChild("Heroes")
+			for (i in 0 until 4)
+			{
+				val heroEl = heroWares.addChild(i.toString())
+
+				val hero = Global.data.currentShopHeroes[i]
+				if (hero != null)
+				{
+					heroEl.value = hero
+				}
+			}
+
 			data.save(output)
 			output.close()
 		}
@@ -126,6 +152,7 @@ class Save
 				val progression = gameData.getInt("Progression")
 				val gold = gameData.getInt("Gold")
 				val experience = gameData.getInt("Experience")
+				val lastRefresh = gameData.getLong("LastRefresh")
 
 				val equipmentEl = data.getChildByName("Equipment")!!
 				val equipment = Array<Equipment>()
@@ -185,12 +212,44 @@ class Save
 					i++
 				}
 
+				val shopWaresEl = data.getChildByName("ShopWares")!!
+				val equipmentWaresEl = shopWaresEl.getChildByName("Equipment")!!
+				val equipmentWares = kotlin.Array<Equipment?>(4) { null }
+				i = 0
+				for (equipEl in equipmentWaresEl.children)
+				{
+					if (equipEl.childCount > 0)
+					{
+						val equip = Equipment.load(equipEl)
+						equipmentWares[i] = equip
+					}
+
+					i++
+				}
+
+				val heroWaresEl = shopWaresEl.getChildByName("Heroes")!!
+				val heroWares = kotlin.Array<String?>(4) { null }
+				i = 0
+				for (heroEl in heroWaresEl.children)
+				{
+					val heroName = heroEl.value as? String
+					val hero = heroes.firstOrNull { it.factionEntity.entityPath == heroName }
+
+					if (hero != null)
+					{
+						heroWares[i] = heroName
+					}
+
+					i++
+				}
+
 				// load successful, now write to game
 
 				Global.data.currentZone = zone
 				Global.data.currentZoneProgression = progression
 				Global.data.gold = gold
 				Global.data.experience = experience
+				Global.data.lastRefreshTime = lastRefresh
 
 				Global.data.equipment.clear()
 				Global.data.equipment.addAll(equipment)
@@ -206,11 +265,21 @@ class Save
 					Global.data.lastSelectedHeroes[i] = lastSelected[i]
 				}
 
+				for (i in 0 until 4)
+				{
+					Global.data.currentShopEquipment[i] = equipmentWares[i]
+				}
+
+				for (i in 0 until 4)
+				{
+					Global.data.currentShopHeroes[i] = heroWares[i]
+				}
+
 				GameDataBar.complete()
 			}
 			catch (ex: Exception)
 			{
-				if (!Global.release)
+				if (!Global.release && !Global.android)
 				{
 					throw ex
 				}

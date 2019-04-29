@@ -121,6 +121,11 @@ class XmlData
 		return getChildByName(name)?.boolean() ?: fallback
 	}
 
+	fun getLong(name: String): Long
+	{
+		return getChildByName(name)?.long() ?: throw GdxRuntimeException("Element ${this.name} has no child called $name!")
+	}
+
 	fun getPoint(name: String): Point
 	{
 		val str = get(name)
@@ -212,6 +217,7 @@ class XmlData
 	fun int(): Int = value as? Int ?: value.toString().toIntOrNull() ?: throw TypeCastException("Cannot cast $value to an Int!")
 	fun float(): Float = value as? Float ?: value.toString().toFloatOrNull() ?: throw TypeCastException("Cannot cast $value to a Float!")
 	fun boolean(): Boolean = value as? Boolean ?: value.toString().toBoolean()
+	fun long(): Long = value as? Long ?: value.toString().toLong()
 
 	fun save(path: String)
 	{
@@ -251,6 +257,11 @@ class XmlData
 				{
 					output.writeShort(2)
 					output.writeBoolean(value as Boolean)
+				}
+				is Long ->
+				{
+					output.writeShort(4)
+					output.writeLong(value as Long)
 				}
 				else ->
 				{
@@ -311,6 +322,7 @@ class XmlData
 				1 -> input.readFloat()
 				2 -> input.readBoolean()
 				3 -> input.readString()
+				4 -> input.readLong()
 				else -> throw RuntimeException("Unknown xml data type '$valueType'!")
 			}
 		}

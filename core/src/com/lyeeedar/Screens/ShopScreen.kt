@@ -107,9 +107,17 @@ class ShopScreen : AbstractScreen()
 
 	fun createWares()
 	{
+		Global.data.refresh()
+
 		for (i in 0 until 4)
 		{
-			val equip = EquipmentCreator.createRandom(Global.data.getCurrentLevel())
+			val equip = Global.data.currentShopEquipment[i]
+			if (equip == null)
+			{
+				itemsToBuy[i, 0] = null
+				continue
+			}
+
 			val tileTable = Table()
 			tileTable.add(equip.createTile(48f)).size(48f).padBottom(42f)
 
@@ -144,33 +152,24 @@ class ShopScreen : AbstractScreen()
 
 		for (i in 0 until 4)
 		{
-			val possibleDrops = Array<FactionEntity>()
-			for (faction in Global.data.unlockedFactions)
-			{
-				for (hero in faction.heroes)
-				{
-					if (Global.data.heroPool.any{ it.factionEntity == hero})
-					{
-						for (i in 0 until hero.rarity.dropRate)
-						{
-							possibleDrops.add(hero)
-						}
-					}
-				}
-			}
+			val hero = Global.data.currentShopHeroes[i]
+			val heroData = Global.data.heroPool.firstOrNull { it.factionEntity.entityPath == hero }
 
-			val hero = possibleDrops.random()
-			val heroData = Global.data.heroPool.first { it.factionEntity == hero }
+			if (heroData == null)
+			{
+				itemsToBuy[i, 1] = null
+				continue
+			}
 
 			val ascension = Ascension.MUNDANE
 
 			val tileTable = Table()
 
-			tileTable.add(hero.createTile(48f, ascension)).size(48f).padBottom(42f)
+			tileTable.add(heroData.factionEntity.createTile(48f, ascension)).size(48f).padBottom(42f)
 
-			val detailsTable = hero.createCardTable(ascension, false)
+			val detailsTable = heroData.factionEntity.createCardTable(ascension, false)
 
-			val ware = ShopWare(tileTable, (1000 * ascension.multiplier).ciel(), detailsTable, hero.rarity.colour, {
+			val ware = ShopWare(tileTable, (1000 * ascension.multiplier).ciel(), detailsTable, heroData.factionEntity.rarity.colour, {
 
 				heroData.ascensionShards += 1
 
@@ -180,7 +179,7 @@ class ShopScreen : AbstractScreen()
 				val dst = dstTable.localToStageCoordinates(Vector2())
 
 				val widget = SpriteWidget(AssetManager.loadSprite("Particle/shard"), 16f, 16f)
-				widget.color = Colour.WHITE.copy().lerp(hero.rarity.colour, 0.7f).color()
+				widget.color = Colour.WHITE.copy().lerp(heroData.factionEntity.rarity.colour, 0.7f).color()
 				widget.setSize(16f, 16f)
 
 				val chosenDst = dst.cpy()
@@ -188,7 +187,7 @@ class ShopScreen : AbstractScreen()
 				chosenDst.y += dstTable.height * 0.5f * Random.random()
 
 				val particle = AssetManager.loadParticleEffect("GetShard", timeMultiplier = 1.2f)
-				particle.colour = Colour.WHITE.copy().lerp(hero.rarity.colour, 0.7f)
+				particle.colour = Colour.WHITE.copy().lerp(heroData.factionEntity.rarity.colour, 0.7f)
 
 				val sparkleParticle = ParticleEffectActor(particle.getParticleEffect(), true)
 				sparkleParticle.setSize(dstTable.height, dstTable.height)
@@ -643,6 +642,9 @@ class ShopScreen : AbstractScreen()
 	{
 		purchasesTable.clear()
 
+		purchasesTable.add(CountdownWidget("New goods in", Global.data.lastRefreshTimeMillis + Global.data.refreshTimeMillis)).colspan(4)
+		purchasesTable.row()
+
 		for (y in 0 until itemsToBuy.height)
 		{
 			for (x in 0 until itemsToBuy.width)
@@ -689,6 +691,15 @@ class ShopScreen : AbstractScreen()
 
 								if (ware.singlePurchase)
 								{
+									if (y == 0)
+									{
+										Global.data.currentShopEquipment[x] = null
+									}
+									else if (y == 1)
+									{
+										Global.data.currentShopHeroes[x] = null
+									}
+
 									itemsToBuy[x, y] = null
 								}
 
@@ -721,6 +732,7 @@ class ShopScreen : AbstractScreen()
 	{
 		super.show()
 
+		createWares()
 		fillPurchasesTable()
 		gameDataBar.rebind()
 	}

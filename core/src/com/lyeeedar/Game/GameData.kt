@@ -9,6 +9,7 @@ import com.lyeeedar.EquipmentSlot
 import com.lyeeedar.Global
 import com.lyeeedar.Systems.directionSprite
 import com.lyeeedar.Util.FastEnumMap
+import java.lang.System.currentTimeMillis
 
 class GameData
 {
@@ -24,6 +25,54 @@ class GameData
 
 	var currentZone: Int = 1
 	var currentZoneProgression: Int = 0
+
+	var lastRefreshTime: Long = 0
+	val currentShopEquipment = kotlin.Array<Equipment?>(4) { null }
+	val currentShopHeroes = kotlin.Array<String?>(4) { null }
+
+	val lastRefreshTimeMillis: Long
+		get() = lastRefreshTime * refreshTimeMillis
+
+	val refreshTimeMillis = 6L * 60L * 60L * 1000L
+
+	fun refresh()
+	{
+		val currentTime = currentTimeMillis()
+		val asStep = currentTime / refreshTimeMillis
+
+		if (lastRefreshTime != asStep)
+		{
+			lastRefreshTime = asStep
+
+			for (i in 0 until 4)
+			{
+				currentShopEquipment[i] = EquipmentCreator.createRandom(getCurrentLevel())
+			}
+
+			for (i in 0 until 4)
+			{
+				val possibleDrops = Array<FactionEntity>()
+				for (faction in Global.data.unlockedFactions)
+				{
+					for (hero in faction.heroes)
+					{
+						if (Global.data.heroPool.any{ it.factionEntity == hero})
+						{
+							for (i in 0 until hero.rarity.dropRate)
+							{
+								possibleDrops.add(hero)
+							}
+						}
+					}
+				}
+
+				val hero = possibleDrops.random()
+				val heroData = Global.data.heroPool.first { it.factionEntity == hero }
+
+				currentShopHeroes[i] = heroData.factionEntity.entityPath
+			}
+		}
+	}
 
 	fun getCurrentLevel(): Int
 	{
