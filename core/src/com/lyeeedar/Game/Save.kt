@@ -7,6 +7,7 @@ import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
 import com.lyeeedar.Ascension
 import com.lyeeedar.EquipmentSlot
+import com.lyeeedar.EquipmentWeight
 import com.lyeeedar.Global
 import com.lyeeedar.UI.GameDataBar
 import com.lyeeedar.Util.XmlData
@@ -122,6 +123,9 @@ class Save
 					heroEl.value = hero
 				}
 			}
+
+			shopWares.set("Faction", Global.data.currentShopFaction!!.path)
+			shopWares.set("Weight", Global.data.currentShopWeight.toString())
 
 			data.save(output)
 			output.close()
@@ -243,6 +247,11 @@ class Save
 					i++
 				}
 
+				val shopFactionName = shopWaresEl.get("Faction", null)
+				val shopFaction = factions.firstOrNull { it.path == shopFactionName } ?: factions.random()
+
+				val shopWeight = EquipmentWeight.valueOf(shopWaresEl.get("Weight", "MEDIUM")!!)
+
 				// load successful, now write to game
 
 				Global.data.currentZone = zone
@@ -274,6 +283,9 @@ class Save
 				{
 					Global.data.currentShopHeroes[i] = heroWares[i]
 				}
+
+				Global.data.currentShopFaction = shopFaction
+				Global.data.currentShopWeight = shopWeight
 
 				GameDataBar.complete()
 			}

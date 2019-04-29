@@ -147,8 +147,8 @@ class Zone(val zoneIndex: Int, val handicap: Float)
 			for (entity in faction.heroes)
 			{
 				if (entity.rarity.ordinal >= Rarity.RARE.ordinal && progression < numEncounters*0.4) continue
-				if (entity.rarity.ordinal >= Rarity.SUPERRARE.ordinal && progression < numEncounters*0.6) continue
-				if (entity.rarity.ordinal >= Rarity.ULTRARARE.ordinal && progression < numEncounters*0.8) continue
+				if (entity.rarity.ordinal >= Rarity.SUPERRARE.ordinal && progression < numEncounters*0.5) continue
+				if (entity.rarity.ordinal >= Rarity.ULTRARARE.ordinal && progression < numEncounters*0.7) continue
 
 				for (i in 0 until entity.rarity.spawnWeight)
 				{
@@ -169,11 +169,22 @@ class Zone(val zoneIndex: Int, val handicap: Float)
 			levels[levelRaisedPool.removeRandom(ran)]++
 		}
 
+		val ascension = level / levelsPerAscension.toFloat()
+		val ascensions = kotlin.Array<Int>(5) { ascension.toInt() }
+		val ascensionRaisedPool = (0..4).toGdxArray()
+		remainder = ascension - ascensions[0]
+		while (remainder >= 0.2f)
+		{
+			remainder -= 0.2f
+			ascensions[ascensionRaisedPool.removeRandom(ran)]++
+		}
+
 		for (i in 0 until 5)
 		{
 			val level = levels[i]
+			val ascension = Ascension.get(ascensions[i])
 			val heroData = entities.removeRandom(ran)
-			val entityData = EntityData(heroData, Ascension.MUNDANE, level)
+			val entityData = EntityData(heroData, ascension, level)
 
 			encounter.enemies.add(entityData)
 		}
@@ -192,7 +203,8 @@ class Zone(val zoneIndex: Int, val handicap: Float)
 	companion object
 	{
 		val numEncounters = 40
-		val zoneLevelRange = 15
+		val zoneLevelRange = 10
+		val levelsPerAscension = 30
 
 		fun load(index: Int): Zone
 		{
@@ -212,7 +224,7 @@ class Zone(val zoneIndex: Int, val handicap: Float)
 				}
 			}
 
-			val handicap = min(-0.4f + 0.1f * index, 0f) // 30% to 0%
+			val handicap = min(-0.35f + 0.05f * index, 0f) // 30% to 0%
 			val zone = Zone(index, handicap)
 
 			val factionsEl = xml.getChildByName("Factions")!!
@@ -324,6 +336,7 @@ class Encounter(val zone: Zone, val level: Int, val progression: Int, val isBoss
 			if (i == bossIndex)
 			{
 				entity.stats().statModifier += 0.2f
+				entity.stats().ascension = entity.stats().ascension.nextAscension
 				entity.directionalSprite().directionalSprite.scale = 1.2f
 
 				var additionalRenderableComponent = entity.additionalRenderable()
@@ -353,8 +366,13 @@ class Encounter(val zone: Zone, val level: Int, val progression: Int, val isBoss
 
 		// experience
 		val expRequired = (100 * Math.pow(1.2, level.toDouble())).toInt()
-		var expReward = (expRequired / 5f).toInt()
+		var expReward = (expRequired / 10f).toInt()
 		expReward += (expReward * ((ran.nextFloat() * 0.4f) - 0.2f)).toInt() // +/-20%
+
+		if (isBoss)
+		{
+			expReward += (expRequired / 5f).toInt()
+		}
 
 		if (!victory)
 		{
@@ -379,7 +397,12 @@ class Encounter(val zone: Zone, val level: Int, val progression: Int, val isBoss
 		output.add(RewardDesc(expTable, { Global.data.experience += expReward }))
 
 		// gold
-		var goldReward = 500 + level * 2
+		var goldReward = 400 + level * 2
+		if (isBoss)
+		{
+			goldReward += 400
+		}
+
 		goldReward += (goldReward * ((ran.nextFloat() * 0.4f) - 0.2f)).toInt() // +/-20%
 
 		if (!victory)

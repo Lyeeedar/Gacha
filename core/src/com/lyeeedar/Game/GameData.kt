@@ -6,9 +6,11 @@ import com.lyeeedar.Ascension
 import com.lyeeedar.Components.EntityLoader
 import com.lyeeedar.Components.stats
 import com.lyeeedar.EquipmentSlot
+import com.lyeeedar.EquipmentWeight
 import com.lyeeedar.Global
 import com.lyeeedar.Systems.directionSprite
 import com.lyeeedar.Util.FastEnumMap
+import com.lyeeedar.Util.random
 import java.lang.System.currentTimeMillis
 
 class GameData
@@ -29,6 +31,8 @@ class GameData
 	var lastRefreshTime: Long = 0
 	val currentShopEquipment = kotlin.Array<Equipment?>(4) { null }
 	val currentShopHeroes = kotlin.Array<String?>(4) { null }
+	lateinit var currentShopFaction: Faction
+	lateinit var currentShopWeight: EquipmentWeight
 
 	val lastRefreshTimeMillis: Long
 		get() = lastRefreshTime * refreshTimeMillis
@@ -71,6 +75,9 @@ class GameData
 
 				currentShopHeroes[i] = heroData.factionEntity.entityPath
 			}
+
+			currentShopFaction = unlockedFactions.random()
+			currentShopWeight = EquipmentWeight.Values.random()
 		}
 	}
 

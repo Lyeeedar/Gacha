@@ -38,7 +38,7 @@ class ZoneScreen : AbstractScreen()
 		mainTable.add(widget).grow()
 		mainTable.row()
 
-		if (Global.data.currentZoneProgression == Zone.numEncounters-1)
+		if (Global.data.currentZoneProgression == Zone.numEncounters)
 		{
 			val nextZoneButton = TextButton("Journey Onwards", Global.skin)
 			nextZoneButton.addClickListener {

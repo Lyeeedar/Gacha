@@ -270,7 +270,7 @@ class ShopScreen : AbstractScreen()
 		itemsToBuy[0, 2] = ranEquip
 
 		// 9 equipment of weight
-		val weightChosen = EquipmentWeight.Values.random()
+		val weightChosen = Global.data.currentShopWeight
 		val ranEquipWeightTile = Table()
 		val ranEquipWeightStack = Stack()
 		ranEquipWeightTile.add(ranEquipWeightStack).grow()
@@ -351,7 +351,7 @@ class ShopScreen : AbstractScreen()
 		itemsToBuy[2, 2] = ranHero
 
 		// 9 heroes from faction
-		val faction = Global.data.unlockedFactions.random()
+		val faction = Global.data.currentShopFaction!!
 		val ranHeroFactionTile = Table()
 		val ranHeroFactionStack = Stack()
 		ranHeroFactionTile.add(ranHeroFactionStack).grow()

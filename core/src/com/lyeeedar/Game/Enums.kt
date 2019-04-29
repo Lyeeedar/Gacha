@@ -22,16 +22,39 @@ enum class BlendMode constructor(val src: Int, val dst: Int)
 enum class Ascension(val multiplier: Float, val colour: Colour, val shardsRequired: Int)
 {
 	MUNDANE(1f, Colour(152, 127, 95, 255, true), 0),
-	EXCEPTIONAL(1.25f, Colour(78, 232, 67, 255, true), 2),
-	EXTRAORDINARY(1.6f, Colour(72, 169, 255, 255, true), 4),
-	FABLED(1.9f, Colour(186, 85, 223, 255, true), 6),
+	EXCEPTIONAL(1.25f, Colour(78, 232, 67, 255, true), 3),
+	EXTRAORDINARY(1.6f, Colour(72, 169, 255, 255, true), 5),
+	FABLED(1.9f, Colour(186, 85, 223, 255, true), 7),
 	LEGENDARY(2.4f, Colour(255, 219, 0, 255, true), 10),
 	MYTHICAL(2.8f, Colour(226, 0, 51, 255, true), 15),
 	DIVINE(3.5f, Colour(255, 221, 249, 255, true), 25);
 
+	val nextAscension: Ascension
+		get()
+		{
+			if (ordinal < Values.size-1)
+			{
+				return Values[ordinal+1]
+			}
+
+			return this
+		}
+
 	companion object
 	{
 		val Values = Ascension.values()
+
+		fun get(index: Int): Ascension
+		{
+			if (index >= Values.size)
+			{
+				return Values.last()
+			}
+			else
+			{
+				return Values[index]
+			}
+		}
 
 		fun getWeightedAscension(ran: LightRNG = Random.random): Ascension
 		{

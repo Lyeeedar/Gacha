@@ -470,7 +470,7 @@ class HeroesScreen : AbstractScreen()
 		val expRequired = Global.getExperienceForLevel(stats.level)
 		if (expRequired < Global.data.experience)
 		{
-			levelTable.add(Label("${expRequired.prettyPrint()} / ${Global.data.experience.prettyPrint()}", Global.skin, "small")).expandX().center().pad(2f)
+			levelTable.add(Label("${Global.data.experience.prettyPrint()} / ${expRequired.prettyPrint()}", Global.skin, "small")).expandX().center().pad(2f)
 			levelTable.row()
 
 			val levelButton = TextButton("Level Up", Global.skin)
@@ -487,7 +487,7 @@ class HeroesScreen : AbstractScreen()
 		}
 		else
 		{
-			levelTable.add(Label("[RED]${expRequired.prettyPrint()}[] / ${Global.data.experience.prettyPrint()}", Global.skin, "small")).expandX().center().pad(2f)
+			levelTable.add(Label("[RED]${Global.data.experience.prettyPrint()}[] / ${expRequired.prettyPrint()}", Global.skin, "small")).expandX().center().pad(2f)
 			levelTable.row()
 			val levelButton = TextButton("Level Up", Global.skin)
 			levelButton.color = Color.DARK_GRAY
@@ -501,7 +501,7 @@ class HeroesScreen : AbstractScreen()
 
 			if (entityData.ascensionShards >= nextAscension.shardsRequired)
 			{
-				ascensionTable.add(Label("${nextAscension.shardsRequired} / ${entityData.ascensionShards}", Global.skin, "small")).expandX().center().pad(2f)
+				ascensionTable.add(Label("${entityData.ascensionShards} / ${nextAscension.shardsRequired}", Global.skin, "small")).expandX().center().pad(2f)
 				ascensionTable.row()
 
 				val ascendButton = TextButton("Ascend", Global.skin)
