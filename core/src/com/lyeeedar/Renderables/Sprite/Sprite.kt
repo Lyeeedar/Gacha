@@ -13,7 +13,7 @@ import com.lyeeedar.Util.*
 
 class Sprite(val fileName: String, var animationDelay: Float, var textures: Array<TextureRegion>, colour: Colour, var drawActualSize: Boolean) : Renderable()
 {
-	constructor(image: TextureRegion, colour: Colour = Colour.WHITE) : this("", 1f, Array<TextureRegion>(arrayOf(image)), colour, false)
+	constructor(image: TextureRegion, colour: Colour = Colour.WHITE, drawActualSize: Boolean = false) : this("", 1f, Array<TextureRegion>(arrayOf(image)), colour, drawActualSize)
 	{
 	}
 
