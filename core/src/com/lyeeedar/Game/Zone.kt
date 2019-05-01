@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.IntSet
+import com.badlogic.gdx.utils.ObjectMap
 import com.lyeeedar.*
 import com.lyeeedar.Components.*
 import com.lyeeedar.Pathfinding.IPathfindingTile
@@ -32,9 +33,7 @@ class Zone(val zoneIndex: Int, val handicap: Float)
 	lateinit var grid: Array2D<ZoneTile>
 	val levelRange: Range = Range(Point((zoneIndex - 1) * zoneLevelRange + 1, zoneIndex * zoneLevelRange))
 
-	lateinit var floor1: SpriteWrapper
-	lateinit var floor2: SpriteWrapper
-	lateinit var path: SpriteWrapper
+	val symbols = ObjectMap<Char, ZoneSymbol>()
 
 	lateinit var theme: Theme
 	val possibleLevels = Array<XmlData>()
@@ -58,31 +57,32 @@ class Zone(val zoneIndex: Int, val handicap: Float)
 		{
 			val char = charGrid[tile.x, grid.height-tile.y-1]
 
-			tile.sprite = if (char == '#') floor2.copy() else floor1.copy()
-			tile.sprite.chooseSprites()
-
 			if (char == '!')
 			{
+				tile.sprite = symbols[','].spriteWrapper.copy()
 				tile.isEncounter = true
 				foundEncounters++
 			}
 			else if (char == 'S')
 			{
+				tile.sprite = symbols[','].spriteWrapper.copy()
 				tile.isEncounter = true
 				tile.isStart = true
 				foundEncounters++
 			}
 			else if (char == 'B')
 			{
+				tile.sprite = symbols[','].spriteWrapper.copy()
 				tile.isEncounter = true
 				tile.isBoss = true
 				foundEncounters++
 			}
-			else if (char == ',')
+			else
 			{
-				tile.sprite = path.copy()
-				tile.sprite.chooseSprites()
+				tile.sprite = symbols[char].spriteWrapper.copy()
 			}
+
+			tile.sprite.chooseSprites()
 		}
 
 		if (foundEncounters != numEncounters)
@@ -109,9 +109,6 @@ class Zone(val zoneIndex: Int, val handicap: Float)
 			val encounter = createEncounter(level, progression, current.isBoss)
 			encountersArray.add(encounter)
 			current.encounter = encounter
-
-			current.sprite = path.copy()
-			current.sprite.chooseSprites()
 
 			if (progression == numEncounters-1)
 			{
@@ -245,9 +242,14 @@ class Zone(val zoneIndex: Int, val handicap: Float)
 
 			val gridEl = xml.getChildByName("Grid")!!
 
-			zone.floor1 = SpriteWrapper.load(xml.getChildByName("Floor1")!!)
-			zone.floor2 = SpriteWrapper.load(xml.getChildByName("Floor2")!!)
-			zone.path = SpriteWrapper.load(xml.getChildByName("Path")!!)
+			val symbolsEl = xml.getChildByName("Symbols")!!
+			for (symbolEl in symbolsEl.children)
+			{
+				val char = symbolEl.get("Character")[0]
+				val sprite = SpriteWrapper.load(symbolEl.getChildByName("Sprite")!!)
+
+				zone.symbols[char] = ZoneSymbol(char, sprite)
+			}
 
 			zone.theme = Theme.load(xml.get("Theme"))
 
@@ -264,6 +266,8 @@ class Zone(val zoneIndex: Int, val handicap: Float)
 		}
 	}
 }
+
+class ZoneSymbol(val char: Char, val spriteWrapper: SpriteWrapper)
 
 class ZoneTile(x: Int, y: Int) : Point(x, y), IPathfindingTile
 {

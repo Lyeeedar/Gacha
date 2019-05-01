@@ -4,9 +4,12 @@
 			<Data Name="Faction" BasePath="Factions" StripExtension="True" ResourceType="Faction" meta:RefKey="File" />
 		</Data>
 		<Data Name="Grid" ElementPerLine="True" IsAsciiGrid="True" meta:RefKey="MultilineString" />
-		<Data Name="Floor1" Keys="SpriteWrapper" meta:RefKey="Reference" />
-		<Data Name="Floor2" Keys="SpriteWrapper" meta:RefKey="Reference" />
-		<Data Name="Path" Keys="SpriteWrapper" meta:RefKey="Reference" />
+		<Data Name="Symbols" meta:RefKey="Collection">
+			<Data Name="Symbol" meta:RefKey="Struct">
+				<Data Name="Character" MaxLength="1" meta:RefKey="String" />
+				<Data Name="Sprite" Keys="SpriteWrapper" Nullable="False" meta:RefKey="Reference" />
+			</Data>
+		</Data>
 		<Data Name="Theme" BasePath="Themes" StripExtension="True" ResourceType="Theme" meta:RefKey="File" />
 		<Data Name="Levels" meta:RefKey="Collection">
 			<Data Name="Grid" ElementPerLine="True" IsAsciiGrid="True" meta:RefKey="MultilineString" />

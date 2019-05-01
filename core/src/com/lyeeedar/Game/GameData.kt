@@ -97,7 +97,7 @@ class GameData
 	fun levelToZone(level: Int): Pair<Int, Int>
 	{
 		val zone = (level.toFloat() / Zone.zoneLevelRange.toFloat()).floor() + 1
-		val zoneStartLevel = (zone-1) * Zone.zoneLevelRange + 1
+		val zoneStartLevel = (zone-1) * Zone.zoneLevelRange
 		val progression = (level - zoneStartLevel) + 1
 
 		return Pair(zone, progression)

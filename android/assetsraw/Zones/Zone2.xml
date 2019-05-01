@@ -5,88 +5,23 @@
 	</Factions>
 	<Grid>
 		<Line>....t..t..</Line>
-		<Line>.t..B!!...</Line>
-		<Line>...t..!...</Line>
-		<Line>...!!!!...</Line>
-		<Line>...!......</Line>
-		<Line>...!B!!,..</Line>
-		<Line>.t.....!t.</Line>
-		<Line>..,!!!!!..</Line>
-		<Line>..!.......</Line>
-		<Line>..B!!!!!,.</Line>
-		<Line>.t......!.</Line>
-		<Line>........!.</Line>
-		<Line>.!!!!B!!,.</Line>
-		<Line>.!.......t</Line>
-		<Line>.!!!S,....</Line>
-		<Line>wwwwsswwww</Line>
-		<Line>cccccccccc</Line>
-		<Line>cccccccccc</Line>
+		<Line>.t...B,...</Line>
+		<Line>...tt.!.t.</Line>
+		<Line>t,!!!!!t..</Line>
+		<Line>.!....tt.t</Line>
+		<Line>.,!B!!!!,.</Line>
+		<Line>.t..t...!.</Line>
+		<Line>t,!B!!!!,.</Line>
+		<Line>.!....t..t</Line>
+		<Line>.,!!!!!!,.</Line>
+		<Line>.t....t.!.</Line>
+		<Line>t..t....B.</Line>
+		<Line>.,!!!!!!,.</Line>
+		<Line>t!.......t</Line>
+		<Line>.,!!Stt...</Line>
+		<Line>..t.,..t.t</Line>
+		<Line>....,.....</Line>
 	</Grid>
-	<Floor1 meta:RefKey="SpriteWrapper">
-		<Sprite meta:RefKey="RenderedLayeredSprite">
-			<Layers>
-				<Layer>
-					<Name>Oryx/uf_split/uf_terrain/ground_grass_1</Name>
-				</Layer>
-			</Layers>
-		</Sprite>
-		<SpriteVariants>
-			<Sprite>
-				<Sprite meta:RefKey="RenderedLayeredSprite">
-					<Layers>
-						<Layer>
-							<Name>Oryx/uf_split/uf_terrain/ground_grass_4</Name>
-						</Layer>
-					</Layers>
-				</Sprite>
-				<Chance>0.2</Chance>
-			</Sprite>
-		</SpriteVariants>
-	</Floor1>
-	<Floor2 meta:RefKey="SpriteWrapper">
-		<Sprite meta:RefKey="RenderedLayeredSprite">
-			<Layers>
-				<Layer>
-					<Name>Oryx/uf_split/uf_terrain/ground_grass_1</Name>
-				</Layer>
-				<Layer>
-					<Name>Oryx/Custom/terrain/tree1</Name>
-					<DrawActualSize>true</DrawActualSize>
-				</Layer>
-			</Layers>
-		</Sprite>
-	</Floor2>
-	<Path meta:RefKey="SpriteWrapper">
-		<Sprite meta:RefKey="RenderedLayeredSprite">
-			<Layers>
-				<Layer>
-					<Name>Oryx/uf_split/uf_terrain/ground_grass_1</Name>
-				</Layer>
-			</Layers>
-		</Sprite>
-		<TilingSprite meta:RefKey="TilingSprite">
-			<Name>Path</Name>
-			<Mode>Masked</Mode>
-			<Mask>Masks/path</Mask>
-			<Sprite meta:RefKey="Sprite">
-				<Name>Oryx/uf_split/uf_terrain/ground_dirt_brown_1</Name>
-				<Colour>255,255,255,142</Colour>
-			</Sprite>
-		</TilingSprite>
-	</Path>
-	<Theme>GrassyKnoll</Theme>
-	<Levels>
-		<Grid>
-			<Line>..##...</Line>
-			<Line>1.....2</Line>
-			<Line>.1...2.</Line>
-			<Line>1.....2</Line>
-			<Line>.1...2.</Line>
-			<Line>1.....2</Line>
-			<Line>.......</Line>
-		</Grid>
-	</Levels>
 	<Symbols>
 		<Symbol>
 			<Character>.</Character>
@@ -199,4 +134,16 @@
 			</Sprite>
 		</Symbol>
 	</Symbols>
+	<Theme>GrassyKnoll</Theme>
+	<Levels>
+		<Grid>
+			<Line>..##...</Line>
+			<Line>1.....2</Line>
+			<Line>.1...2.</Line>
+			<Line>1.....2</Line>
+			<Line>.1...2.</Line>
+			<Line>1.....2</Line>
+			<Line>.......</Line>
+		</Grid>
+	</Levels>
 </Zone>

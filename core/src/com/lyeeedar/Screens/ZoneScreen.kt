@@ -1,43 +1,60 @@
 package com.lyeeedar.Screens
 
+import com.badlogic.gdx.scenes.scene2d.ui.Stack
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable
 import com.lyeeedar.Game.Zone
 import com.lyeeedar.Global
 import com.lyeeedar.MainGame
-import com.lyeeedar.UI.GameDataBar
-import com.lyeeedar.UI.NavigationBar
-import com.lyeeedar.UI.ZoneWidget
-import com.lyeeedar.UI.addClickListener
+import com.lyeeedar.UI.*
 
 class ZoneScreen : AbstractScreen()
 {
 	val gameDataBar = GameDataBar()
 	val navigationBar = NavigationBar(MainGame.ScreenEnum.ZONE)
 
+	var zoneCreatedFrom: Int = -1
+	lateinit var zone: Zone
+
 	override fun create()
 	{
 		drawFPS = false
 		updateTable()
+
+		if (!Global.release)
+		{
+			debugConsole.register("setzone", "", { args, console ->
+				val zone = args[0].toInt()
+				val progression = args[1].toInt()
+
+				Global.data.currentZone = zone
+				Global.data.currentZoneProgression = progression
+
+				updateTable()
+
+				true
+			})
+		}
 	}
 
 	fun updateTable()
 	{
+		if (Global.data.currentZone != zoneCreatedFrom)
+		{
+			zone = Zone.load(Global.data.currentZone)
+			zoneCreatedFrom = Global.data.currentZone
+		}
+
 		mainTable.clear()
 
-		val zone = Zone.load(Global.data.currentZone)
 		val widget = ZoneWidget(zone)
-
-		mainTable.background = TiledDrawable(TextureRegionDrawable(zone.floor1.sprite!!.currentTexture))
 
 		mainTable.add(gameDataBar).growX()
 		mainTable.row()
 
 		widget.width = stage.width
 
-		mainTable.add(widget).grow()
-		mainTable.row()
+		val zoneStack = Stack()
+		zoneStack.add(widget)
 
 		if (Global.data.currentZoneProgression == Zone.numEncounters)
 		{
@@ -49,8 +66,7 @@ class ZoneScreen : AbstractScreen()
 				updateTable()
 			}
 
-			mainTable.add(nextZoneButton).expandX().center().width(200f).height(30f).pad(5f)
-			mainTable.row()
+			zoneStack.addTable(nextZoneButton).expand().center().bottom().width(200f).height(30f).pad(5f)
 		}
 		else
 		{
@@ -62,9 +78,11 @@ class ZoneScreen : AbstractScreen()
 				Global.game.switchScreen(MainGame.ScreenEnum.MAP)
 			}
 
-			mainTable.add(beginButton).expandX().center().width(200f).height(30f).pad(5f)
-			mainTable.row()
+			zoneStack.addTable(beginButton).expand().center().bottom().width(200f).height(30f).pad(5f)
 		}
+
+		mainTable.add(zoneStack).grow()
+		mainTable.row()
 
 		mainTable.add(navigationBar).growX()
 	}

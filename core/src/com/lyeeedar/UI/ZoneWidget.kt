@@ -14,9 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import com.lyeeedar.Game.Zone
 import com.lyeeedar.Renderables.SortedRenderer
 import com.lyeeedar.Renderables.Sprite.Sprite
-import com.lyeeedar.Util.AssetManager
-import com.lyeeedar.Util.Colour
-import com.lyeeedar.Util.Point
+import com.lyeeedar.Util.*
 
 class ZoneWidget(val zone: Zone) : Widget()
 {
@@ -158,13 +156,79 @@ class ZoneWidget(val zone: Zone) : Widget()
 	}
 
 	var renderY = 0f
-	override fun draw(batch: Batch?, parentAlpha: Float)
+	override fun draw(batch: Batch, parentAlpha: Float)
 	{
-		batch!!.end()
-
 		val xp = this.x + (this.width / 2f) - ((zone.width * tileSize) / 2f)
 		val yp = this.y
 		renderY = yp
+
+		val minX = xp - ((xp - x) / tileSize).ciel() * tileSize
+		val maxX = xp + (zone.width + 2) * tileSize
+
+		// drawbackground
+		val xTiles = ((maxX - minX) / tileSize).ciel()
+		val yTiles = (height / tileSize).ciel()
+		for (tx in 0 until xTiles)
+		{
+			val screenX = minX + tx * tileSize
+			val gridX = ((screenX - minX) / tileSize).floor()
+
+			for (ty in 0 until yTiles)
+			{
+				val screenY = y + (yTiles - ty - 1) * tileSize
+				val gridY = ((screenY - yp) / tileSize).floor()
+
+				if (screenX >= xp && zone.grid.inBounds(gridX, gridY)) continue
+
+				val tile = zone.grid.getClamped(gridX, gridY)
+				var sprite: Sprite
+				if (tile.sprite.chosenSprite != null)
+				{
+					sprite = tile.sprite.chosenSprite!!
+				}
+				else
+				{
+					sprite = zone.symbols['.'].spriteWrapper.sprite!!
+				}
+
+				if (sprite.drawActualSize && ty == 0)
+				{
+					sprite = zone.symbols['.'].spriteWrapper.sprite!!
+				}
+
+				var drawwidth = tileSize
+				var drawheight = tileSize
+				var drawX = screenX
+				var drawY = screenY
+
+				if (sprite.drawActualSize)
+				{
+					val widthRatio = tileSize / 32f
+					val heightRatio = tileSize / 32f
+
+					val texture = sprite.currentTexture
+					val regionWidth = texture.regionWidth.toFloat()
+					val regionHeight = texture.regionHeight.toFloat()
+
+					val trueWidth = regionWidth * widthRatio
+					val trueHeight = regionHeight * heightRatio
+
+					val widthOffset = (trueWidth - tileSize) / 2
+
+					drawX -= widthOffset
+					drawwidth = trueWidth
+					drawheight = trueHeight
+				}
+
+				if (drawY + drawheight > this.y + height)
+				{
+					drawY = (this.y + height) - drawheight
+				}
+				batch.draw(sprite.currentTexture, drawX, drawY, drawwidth, drawheight)
+			}
+		}
+
+		batch.end()
 
 		if (!storedStatic)
 		{
