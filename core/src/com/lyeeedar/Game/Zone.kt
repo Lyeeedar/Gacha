@@ -23,9 +23,8 @@ import ktx.actors.alpha
 import ktx.actors.then
 import ktx.collections.set
 import ktx.collections.toGdxArray
-import kotlin.math.min
 
-class Zone(val zoneIndex: Int, val handicap: Float)
+class Zone(val zoneIndex: Int)
 {
 	val ran = Random.obtainTS(20181201L + zoneIndex)
 
@@ -79,7 +78,15 @@ class Zone(val zoneIndex: Int, val handicap: Float)
 			}
 			else
 			{
-				tile.sprite = symbols[char].spriteWrapper.copy()
+				val symbol = symbols[char] ?: throw Exception("No symbol defined for character '$char'!")
+
+				tile.sprite = symbol.spriteWrapper.copy()
+
+				if (symbol.isEncounter)
+				{
+					tile.isEncounter = true
+					foundEncounters++
+				}
 			}
 
 			tile.sprite.chooseSprites()
@@ -231,8 +238,7 @@ class Zone(val zoneIndex: Int, val handicap: Float)
 				}
 			}
 
-			val handicap = min(-0.35f + 0.05f * index, 0f) // 30% to 0%
-			val zone = Zone(index, handicap)
+			val zone = Zone(index)
 
 			val factionsEl = xml.getChildByName("Factions")!!
 			for (el in factionsEl.children)
@@ -247,8 +253,9 @@ class Zone(val zoneIndex: Int, val handicap: Float)
 			{
 				val char = symbolEl.get("Character")[0]
 				val sprite = SpriteWrapper.load(symbolEl.getChildByName("Sprite")!!)
+				val isEncounter = symbolEl.getBoolean("IsEncounter", false)
 
-				zone.symbols[char] = ZoneSymbol(char, sprite)
+				zone.symbols[char] = ZoneSymbol(char, sprite, isEncounter)
 			}
 
 			zone.theme = Theme.load(xml.get("Theme"))
@@ -267,7 +274,7 @@ class Zone(val zoneIndex: Int, val handicap: Float)
 	}
 }
 
-class ZoneSymbol(val char: Char, val spriteWrapper: SpriteWrapper)
+class ZoneSymbol(val char: Char, val spriteWrapper: SpriteWrapper, val isEncounter: Boolean)
 
 class ZoneTile(x: Int, y: Int) : Point(x, y), IPathfindingTile
 {
@@ -345,11 +352,16 @@ class Encounter(val zone: Zone, val level: Int, val progression: Int, val isBoss
 			level.enemyTiles[i].entity = entity
 			entity.pos().tile = level.enemyTiles[i].tile
 			entity.pos().addToTile(entity)
-			entity.stats().statModifier = zone.handicap
+
+			val handicapLevelDiff = entity.stats().level - 5
+			if (handicapLevelDiff < 0)
+			{
+				entity.stats().statModifier = handicapLevelDiff * 0.05f
+			}
 
 			if (i == bossIndex)
 			{
-				entity.stats().statModifier += 0.2f
+				entity.stats().statModifier += 0.4f
 				entity.stats().ascension = entity.stats().ascension.nextAscension
 				entity.directionalSprite().directionalSprite.scale = 1.2f
 

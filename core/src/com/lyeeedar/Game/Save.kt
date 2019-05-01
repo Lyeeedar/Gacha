@@ -124,7 +124,7 @@ class Save
 				}
 			}
 
-			shopWares.set("Faction", Global.data.currentShopFaction!!.path)
+			shopWares.set("Faction", Global.data.currentShopFaction.path)
 			shopWares.set("Weight", Global.data.currentShopWeight.toString())
 
 			val bountiesEl = data.addChild("Bounties")

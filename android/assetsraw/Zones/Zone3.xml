@@ -2,25 +2,27 @@
 	<Factions>
 		<Faction>Greenskin/GreenskinAlliance</Faction>
 		<Faction>FillerEnemy/FillerEnemy</Faction>
+		<Faction>FillerEnemy/FillerEnemy</Faction>
+		<Faction>Adventurer/Adventurer</Faction>
 	</Factions>
 	<Grid>
-		<Line>..tttttt..</Line>
-		<Line>ttt..B,.t.</Line>
-		<Line>.t.tt.!.t.</Line>
+		<Line>....t..t..</Line>
+		<Line>.t...B,...</Line>
+		<Line>...tt.!.t.</Line>
 		<Line>t,!!!!!t..</Line>
-		<Line>.!t.t.tt.t</Line>
+		<Line>.!....tt.t</Line>
+		<Line>.,!B!!!!,.</Line>
+		<Line>.t..t...!.</Line>
 		<Line>t,!B!!!!,.</Line>
-		<Line>.tt.t...!.</Line>
-		<Line>t,!B!!!!,.</Line>
-		<Line>.!tt..t..t</Line>
+		<Line>.!....t..t</Line>
 		<Line>.,!!!!!!,.</Line>
-		<Line>.t.tt.t.!t</Line>
-		<Line>tt.t.tttBt</Line>
+		<Line>.t....t.!.</Line>
+		<Line>t..t....B.</Line>
 		<Line>.,!!!!!!,.</Line>
-		<Line>t!.tt..t.t</Line>
-		<Line>t,!!Stt.t.</Line>
-		<Line>.ttt,ttt.t</Line>
-		<Line>...t,t..t.</Line>
+		<Line>t!.......t</Line>
+		<Line>.,!!Stt...</Line>
+		<Line>..t.,..t.t</Line>
+		<Line>....,.....</Line>
 	</Grid>
 	<Symbols>
 		<Symbol>

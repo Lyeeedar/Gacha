@@ -310,7 +310,7 @@ class ConsoleCommand(val text: String, val help: String, val callback: (args: ko
 			}
 			catch (ex: Exception)
 			{
-				console.error(ex.message!!)
+				console.error(ex.message ?: "Unknown exception! $ex")
 
 				return false
 			}
