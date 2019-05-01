@@ -127,6 +127,13 @@ class Save
 			shopWares.set("Faction", Global.data.currentShopFaction!!.path)
 			shopWares.set("Weight", Global.data.currentShopWeight.toString())
 
+			val bountiesEl = data.addChild("Bounties")
+			for (bounty in Global.data.bounties)
+			{
+				val bountyEl = bountiesEl.addChild("Bounty")
+				bounty.save(bountyEl)
+			}
+
 			data.save(output)
 			output.close()
 		}
@@ -252,6 +259,17 @@ class Save
 
 				val shopWeight = EquipmentWeight.valueOf(shopWaresEl.get("Weight", "MEDIUM")!!)
 
+				val bounties = Array<AbstractBounty>()
+				val bountiesEl = data.getChildByName("Bounties")
+				if (bountiesEl != null)
+				{
+					for (bountyEl in bountiesEl.children)
+					{
+						val bounty = AbstractBounty.load(bountyEl)
+						bounties.add(bounty)
+					}
+				}
+
 				// load successful, now write to game
 
 				Global.data.currentZone = zone
@@ -286,6 +304,9 @@ class Save
 
 				Global.data.currentShopFaction = shopFaction
 				Global.data.currentShopWeight = shopWeight
+
+				Global.data.bounties.clear()
+				Global.data.bounties.addAll(bounties)
 
 				GameDataBar.complete()
 			}

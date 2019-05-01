@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.NinePatch
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Actor
-import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Stack
@@ -514,13 +513,7 @@ class ShopScreen : AbstractScreen()
 
 	fun displayLoot(cards: Array<CardWidget>)
 	{
-		val greyoutTable = Table()
-		greyoutTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(0f, 0f, 0f, 0.9f))
-		greyoutTable.touchable = Touchable.enabled
-		greyoutTable.setFillParent(true)
-		greyoutTable.addAction(fadeIn(0.1f))
-
-		stage.addActor(greyoutTable)
+		val greyoutTable = createGreyoutTable(stage)
 
 		val cardsTable = Table()
 		greyoutTable.add(cardsTable).grow()
@@ -587,7 +580,7 @@ class ShopScreen : AbstractScreen()
 				gatheredLoot++
 				if (gatheredLoot == cards.size)
 				{
-					greyoutTable.addAction(fadeOut(0.6f) then removeActor())
+					greyoutTable.fadeOutAndRemove(0.6f)
 
 					Save.save()
 				}

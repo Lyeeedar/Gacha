@@ -10,6 +10,7 @@ import com.lyeeedar.EquipmentWeight
 import com.lyeeedar.Global
 import com.lyeeedar.Systems.directionSprite
 import com.lyeeedar.Util.FastEnumMap
+import com.lyeeedar.Util.floor
 import com.lyeeedar.Util.random
 import java.lang.System.currentTimeMillis
 
@@ -33,6 +34,8 @@ class GameData
 	val currentShopHeroes = kotlin.Array<String?>(4) { null }
 	lateinit var currentShopFaction: Faction
 	lateinit var currentShopWeight: EquipmentWeight
+
+	val bounties = Array<AbstractBounty>()
 
 	val lastRefreshTimeMillis: Long
 		get() = lastRefreshTime * refreshTimeMillis
@@ -88,6 +91,39 @@ class GameData
 		val alpha = currentZoneProgression.toFloat() / Zone.numEncounters.toFloat()
 
 		return zoneStartLevel + (Zone.zoneLevelRange.toFloat() * alpha).toInt()
+	}
+
+	fun levelToZone(level: Int): Pair<Int, Int>
+	{
+		val zone = (level.toFloat() / Zone.zoneLevelRange.toFloat()).floor() + 1
+		val zoneStartLevel = (zone-1) * Zone.zoneLevelRange + 1
+		val progression = (level - zoneStartLevel) + 1
+
+		return Pair(zone, progression)
+	}
+
+	val levelsPerBounty = 30
+	fun getAllowedNumBounties(): Int
+	{
+		val baseNum = 3
+
+		val currentLevel = getCurrentLevel()
+		val extraBounties = currentLevel / levelsPerBounty
+
+		return baseNum + extraBounties
+	}
+
+	fun nextBountyLevel(): String
+	{
+		val currentLevel = getCurrentLevel()
+		val currentBountyLevel = (currentLevel / levelsPerBounty) * levelsPerBounty
+
+		val nextLevel = currentBountyLevel + levelsPerBounty
+		val asZoneProgression = levelToZone(nextLevel)
+		val zone = asZoneProgression.first
+		val progression = asZoneProgression.second
+
+		return "$zone-$progression"
 	}
 }
 

@@ -253,6 +253,7 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 			}
 		}
 
+		faceup = !faceup
 		if (animate)
 		{
 			if (flipEffect != null)
@@ -273,8 +274,6 @@ class CardWidget(val frontTable: Table, val frontDetailTable: Table, val backIma
 		{
 			flipFun()
 		}
-
-		faceup = !faceup
 	}
 
 	fun focus()
