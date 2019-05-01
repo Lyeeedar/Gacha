@@ -35,6 +35,7 @@ class GameData
 	lateinit var currentShopFaction: Faction
 	lateinit var currentShopWeight: EquipmentWeight
 
+	var completedBounties = 0
 	val bounties = Array<AbstractBounty>()
 
 	val lastRefreshTimeMillis: Long

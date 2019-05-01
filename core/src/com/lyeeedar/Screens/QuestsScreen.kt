@@ -364,7 +364,7 @@ class QuestsScreen : AbstractScreen()
 
 					bountyTable.addClickListener {
 
-						val ran = Random.obtainTS(Global.data.lastRefreshTime + Global.data.bounties.size)
+						val ran = Random.obtainTS(Global.data.lastRefreshTimeMillis + Global.data.bounties.size + Global.data.completedBounties * 90)
 
 						val greyoutTable = createGreyoutTable(stage, 0.3f, 0.7f)
 

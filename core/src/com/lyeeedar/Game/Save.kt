@@ -133,6 +133,7 @@ class Save
 				val bountyEl = bountiesEl.addChild("Bounty")
 				bounty.save(bountyEl)
 			}
+			data.set("CompletedBounties", Global.data.completedBounties)
 
 			data.save(output)
 			output.close()
@@ -269,6 +270,7 @@ class Save
 						bounties.add(bounty)
 					}
 				}
+				val completedBounties = data.getInt("CompletedBounties", 0)
 
 				// load successful, now write to game
 
@@ -307,6 +309,7 @@ class Save
 
 				Global.data.bounties.clear()
 				Global.data.bounties.addAll(bounties)
+				Global.data.completedBounties = completedBounties
 
 				GameDataBar.complete()
 			}

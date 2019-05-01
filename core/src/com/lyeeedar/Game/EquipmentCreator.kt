@@ -28,11 +28,11 @@ class EquipmentCreator
 			loaded = true
 		}
 
-		fun createRandom(level: Int, ran: LightRNG = Random.random, slot: EquipmentSlot? = null, weight: EquipmentWeight? = null): Equipment
+		fun createRandom(level: Int, ran: LightRNG = Random.random, slot: EquipmentSlot? = null, weight: EquipmentWeight? = null, ascension: Ascension? = null): Equipment
 		{
 			val slot = slot ?: EquipmentSlot.Values.random(ran)
 			val weight = weight ?: EquipmentWeight.Values.random(ran)
-			val ascension = Ascension.getWeightedAscension(ran)
+			val ascension = ascension ?: Ascension.getWeightedAscension(ran)
 
 			return create(slot, weight, level, ascension, ran)
 		}
