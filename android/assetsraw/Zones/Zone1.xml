@@ -1,6 +1,7 @@
 <Zone xmlns:meta="Editor">
 	<Factions>
 		<Faction>Greenskin/GreenskinAlliance</Faction>
+		<Faction>FillerEnemy/FillerEnemy</Faction>
 	</Factions>
 	<Grid>
 		<Line>#########.</Line>
@@ -20,7 +21,6 @@
 		<Line>#!!!S...##</Line>
 		<Line>.###...###</Line>
 	</Grid>
-	<LevelRange>1,20</LevelRange>
 	<Floor1 meta:RefKey="SpriteWrapper">
 		<Sprite meta:RefKey="RenderedLayeredSprite">
 			<Layers>

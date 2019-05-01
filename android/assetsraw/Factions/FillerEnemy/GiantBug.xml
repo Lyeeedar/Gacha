@@ -1,0 +1,71 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>100</MaxHP>
+				<Power>9</Power>
+				<CritChance>0.1</CritChance>
+				<CritDamage>2</CritDamage>
+				<DR>0.1</DR>
+			</Statistics>
+			<EquipmentWeight>Medium</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+					<Colour>176,176,176,255</Colour>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/beetle_giant</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/beetle_giant</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Fly</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>white</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectEnemies />
+							<Stun>
+								<Time>0.0176980328</Time>
+							</Stun>
+							<MoveSource>
+								<Time>0.0219174344</Time>
+								<MoveType>Leap</MoveType>
+							</MoveSource>
+						</Timeline>
+					</Ability>
+					<Cooldown>3,8</Cooldown>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Name>
+			<Name>Giant Bug</Name>
+		</Name>
+	</Components>
+</Entity>

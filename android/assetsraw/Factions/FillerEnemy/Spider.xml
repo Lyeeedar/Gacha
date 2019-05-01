@@ -1,0 +1,90 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>90</MaxHP>
+				<Power>9</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<EquipmentWeight>Light</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+					<Colour>176,176,176,255</Colour>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/spider_brown_giant</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/spider_brown_giant</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Web</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/Custom/terrain/spiderweb</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<MovementRenderable>
+								<Duration LockDuration="False">0.102869287</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>SpinningFlightParticle</Name>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Oryx/Custom/terrain/spiderweb</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+								<UseLeap>true</UseLeap>
+							</MovementRenderable>
+							<Debuff>
+								<Time>0.102869287</Time>
+								<Duration LockDuration="False">0.178852275</Duration>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Haste>-0.4</Haste>
+									</Statistics>
+									<Duration>5</Duration>
+								</Buff>
+							</Debuff>
+						</Timeline>
+					</Ability>
+					<Range>4</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Name>
+			<Name>Brown Spider</Name>
+		</Name>
+	</Components>
+</Entity>

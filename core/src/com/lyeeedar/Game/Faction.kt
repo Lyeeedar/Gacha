@@ -32,7 +32,7 @@ class Faction(val path: String)
 	fun parse(xmlData: XmlData)
 	{
 		name = xmlData.get("Name")
-		description = xmlData.get("Description")
+		description = xmlData.get("Description", "")!!
 		icon = AssetManager.loadSprite(xmlData.getChildByName("Icon")!!)
 
 		val buffsEl = xmlData.getChildByName("Buffs")!!
@@ -119,9 +119,7 @@ class FactionEntity(val faction: Faction)
 
 		val ascensionTable = Table()
 		ascensionTable.add(SpriteWidget(faction.icon.copy(), 32f, 32f).addTapToolTip("Part of the ${faction.name} faction."))
-		ascensionTable.add(
-			SpriteWidget(AssetManager.loadSprite("GUI/ascensionBar", colour = ascension.colour), 48f, 48f)
-				.addTapToolTip("Ascension level " + (ascension.ordinal + 1)))
+		ascensionTable.add(SpriteWidget(AssetManager.loadSprite("GUI/ascensionBar", colour = ascension.colour), 48f, 48f))
 		ascensionTable.add(SpriteWidget(entity.stats().equipmentWeight.icon.copy(), 32f, 32f).addTapToolTip("Wears ${entity.stats().equipmentWeight.niceName} equipment."))
 		ascensionTable.row()
 		ascensionTable.add(Label(rarity.niceName, Global.skin, "title").tint(rarity.colour.color())).colspan(3).center()

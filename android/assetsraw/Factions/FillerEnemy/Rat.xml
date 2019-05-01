@@ -1,0 +1,80 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>100</MaxHP>
+				<Power>8</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<EquipmentWeight>Medium</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+					<Colour>166,161,138,255</Colour>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/rat</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/rat</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Big Strike</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>white</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<BlockTurn>
+								<Time>0.008265478</Time>
+							</BlockTurn>
+							<Damage>
+								<Time>0.109832019</Time>
+								<Amount>0.5</Amount>
+							</Damage>
+							<Stun>
+								<Time>0.119215094</Time>
+							</Stun>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.155616254</Duration>
+								<Time>0.0387318246</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Thrust</Name>
+								</Renderable>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Name>
+			<Name>Rat</Name>
+		</Name>
+	</Components>
+</Entity>

@@ -47,7 +47,7 @@
 			<Abilities>
 				<AbilityData>
 					<Name>Flambe</Name>
-					<Description>Sear your foes with a large gout of fire, dealing [GOLD]110%[] damage and causing them to burn for [GOLD]20%[] damage for 3 rounds.</Description>
+					<Description>Sear your foes with a large gout of fire, dealing [GOLD]110%[] damage and causing them to burn for [GOLD]20%[] damage for 5 rounds.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>EffectSprites/FireBurst/FireBurst_1</Name>
 					</Icon>
@@ -66,31 +66,31 @@
 								<Time>0.07348178</Time>
 								<Amount>1.1</Amount>
 							</Damage>
+							<LockTargets>
+								<Time>0.110737607</Time>
+							</LockTargets>
 							<UnlockEntity>
 								<Time>0.1165005</Time>
 							</UnlockEntity>
 							<RepeatBegin>
-								<Time>0.123954117</Time>
-								<Count>3</Count>
+								<Time>0.135601878</Time>
+								<Count>5</Count>
 							</RepeatBegin>
 							<BlockTurn>
-								<Time>0.140014365</Time>
+								<Time>0.143411621</Time>
 							</BlockTurn>
 							<Damage>
 								<Time>0.1477058</Time>
 								<Amount>0.2</Amount>
 							</Damage>
 							<RepeatEnd>
-								<Time>0.175910935</Time>
+								<Time>0.1560127</Time>
 							</RepeatEnd>
-							<LockTargets>
-								<Time>0.0131876487</Time>
-							</LockTargets>
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Time>0.0244939271</Time>
 								<Duration LockDuration="False">0.0757085</Duration>
+								<Time>0.0244939271</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Fireburst</Name>
 									<Scale>0.4</Scale>
@@ -101,9 +101,11 @@
 								<SpawnBehaviour>FromSource</SpawnBehaviour>
 								<SpawnDuration>0.2</SpawnDuration>
 							</DestinationRenderable>
+						</Timeline>
+						<Timeline>
 							<AttachToEntityRenderable>
+								<Time>0.0756657347</Time>
 								<Duration LockDuration="False">0.132118762</Duration>
-								<Time>0.07348178</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Fire</Name>
 								</Renderable>
@@ -114,6 +116,7 @@
 						</Timeline>
 					</Ability>
 					<Cooldown>6,10</Cooldown>
+					<Cancellable>false</Cancellable>
 					<Range>4</Range>
 				</AbilityData>
 				<AbilityData>
@@ -126,8 +129,8 @@
 						<Timeline>
 							<SelectSelf />
 							<Buff>
-								<Time>0.04082321</Time>
 								<Duration LockDuration="False">0.0623481758</Duration>
+								<Time>0.04082321</Time>
 								<Buff meta:RefKey="Buff">
 									<Name>Slice and Dice</Name>
 									<Icon meta:RefKey="Sprite">
@@ -143,8 +146,8 @@
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Time>0.0244939271</Time>
 								<Duration LockDuration="False">0.05937922</Duration>
+								<Time>0.0244939271</Time>
 								<Renderable meta:RefKey="ParticleEffectTemplate">
 									<Base meta:RefKey="ParticleEffect">
 										<Name>Buff</Name>
@@ -174,8 +177,8 @@
 						<Timeline>
 							<SelectSelf />
 							<Buff>
-								<Time>0.02303866</Time>
 								<Duration LockDuration="False">0.158967748</Duration>
+								<Time>0.02303866</Time>
 								<Buff meta:RefKey="Buff">
 									<Name>Precision Cuts</Name>
 									<Description>Whenever you crit you gain a  [GOLD]10%[] bonus to power for 2 rounds.</Description>
@@ -192,8 +195,8 @@
 														<Timeline>
 															<SelectSelf />
 															<Buff>
-																<Time>0.03633257</Time>
 																<Duration LockDuration="False">0.157858759</Duration>
+																<Time>0.03633257</Time>
 																<Buff meta:RefKey="Buff">
 																	<Name>Precision Cut</Name>
 																	<Icon meta:RefKey="Sprite">
@@ -236,8 +239,8 @@
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Time>0.0293198526</Time>
 								<Duration LockDuration="False">0.09301471</Duration>
+								<Time>0.0293198526</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Heal</Name>
 									<Colour>255,68,68,255</Colour>

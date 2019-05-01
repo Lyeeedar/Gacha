@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha
-import com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Stack
 import com.badlogic.gdx.scenes.scene2d.ui.Table
@@ -198,7 +197,7 @@ class GoldBounty : AbstractBounty()
 			val sequence =
 				alpha(0f) then
 				Actions.delay(delay) then
-					fadeIn(0.1f) then
+					alpha(1f) then
 				Actions.parallel(
 					mote(src, dst, 1f, Interpolation.exp5, false),
 					Actions.scaleTo(0.7f, 0.7f, 1f),
@@ -235,7 +234,23 @@ class GoldBounty : AbstractBounty()
 			"Investigate",
 			"Collect in",
 			"Search",
-			"Gather at"
+			"Gather at",
+			"Delve into",
+			"Examine",
+			"Hunt in",
+			"Prospect",
+			"Scout",
+			"Quest at",
+			"Quest in",
+			"Adventure at",
+			"Adventure in",
+			"Journey to",
+			"Voyage to",
+			"Assault",
+			"Desecrate",
+			"Ransack",
+			"Despoil",
+			"Sack"
 		)
 		val action = actions.random(ran)
 
@@ -244,15 +259,39 @@ class GoldBounty : AbstractBounty()
 
 		val locationTypes = arrayOf(
 			"Ruins",
+			"Remains",
+			"Wreckage",
+			"Wreck",
 			"Crypts",
+			"Tombs",
+			"Catacombs",
+			"Dungeon",
+			"Mausoleum",
+			"Sepulcher",
+			"Vault",
 			"Shrine",
 			"Palace",
+			"Mansion",
+			"Castle",
+			"Manor",
+			"Chateau",
 			"Temple",
+			"Chapel",
+			"Church",
+			"Pagoda",
+			"Sanctuary",
 			"Grave",
 			"Forest",
 			"Caves",
 			"Cave",
-			"Wood"
+			"Caverns",
+			"Wood",
+			"Thicket",
+			"Woodland",
+			"Jungle",
+			"Copse",
+			"Weald",
+			"Grove"
 		)
 		val locationType = locationTypes.random(ran)
 
@@ -325,7 +364,7 @@ class ExpBounty : AbstractBounty()
 			val sequence =
 				alpha(0f) then
 					Actions.delay(delay) then
-					fadeIn(0.1f) then
+					alpha(1f) then
 					Actions.parallel(
 						mote(src, dst, 1f, Interpolation.exp5, false),
 						Actions.scaleTo(0.7f, 0.7f, 1f),
@@ -354,13 +393,33 @@ class ExpBounty : AbstractBounty()
 		// pick action
 		val actions = arrayOf(
 			"Study with",
+			"Debate with",
+			"Exercise with",
+			"Inspect",
+			"Survey",
+			"Inquire about",
 			"Train with",
 			"Spar with",
 			"Listen to",
 			"Observe",
 			"Fight against",
 			"Attend a lecture by",
-			"Take a class by"
+			"Take a class by",
+			"Get instructed by",
+			"Get taught by",
+			"Challenge",
+			"Clash with",
+			"Protect",
+			"Meet",
+			"Assault",
+			"Brawl with",
+			"Duel",
+			"Grapple with",
+			"Joust with",
+			"Scuffle with",
+			"Scrap with",
+			"Wrestle with",
+			"Exchange blows with"
 							 )
 		val action = actions.random(ran)
 
@@ -369,6 +428,11 @@ class ExpBounty : AbstractBounty()
 
 		val personTitles = arrayOf(
 			"Captain",
+			"Boss",
+			"Commander",
+			"Officer",
+			"Chieftan",
+			"Mistress",
 			"General",
 			"Master",
 			"Mage",
@@ -377,7 +441,27 @@ class ExpBounty : AbstractBounty()
 			"Knight",
 			"Fighter",
 			"Warrior",
-			"Lieutenant"
+			"Lieutenant",
+			"Astrologer",
+			"Conjurer",
+			"Diviner",
+			"Enchanter",
+			"Magus",
+			"Necromancer",
+			"Occultist",
+			"Shaman",
+			"Sorcerer",
+			"Warlock",
+			"Witch",
+			"Cavalier",
+			"Champion",
+			"Chevalier",
+			"Paladin",
+			"Warpriest",
+			"Cleric",
+			"Templar",
+			"Hero",
+			"Lord"
 								   )
 		val personTitle = personTitles.random(ran)
 
@@ -446,6 +530,12 @@ class EquipmentBounty : AbstractBounty()
 		// pick action
 		val actions = arrayOf(
 			"Steal",
+			"Nab",
+			"Appropriate",
+			"Pinch",
+			"Purloin",
+			"Confiscate",
+			"Rob",
 			"Pilfer",
 			"Acquire",
 			"Obtain",
@@ -455,7 +545,16 @@ class EquipmentBounty : AbstractBounty()
 			"Craft",
 			"Forge",
 			"Create",
-			"Design"
+			"Design",
+			"Conceive",
+			"Construct",
+			"Invent",
+			"Produce",
+			"Shape",
+			"Fabricate",
+			"Assemble",
+			"Manufacture",
+			"Engineer"
 							 )
 		val action = actions.random(ran)
 
@@ -561,7 +660,21 @@ class HeroBounty : AbstractBounty()
 			"Enhance",
 			"Strengthen",
 			"Empower",
-			"Enchant"
+			"Improve",
+			"Boost",
+			"Advance",
+			"Upgrade",
+			"Augment",
+			"Cultivate",
+			"Develop",
+			"Refine",
+			"Increase",
+			"Progress",
+			"Promote",
+			"Elevate",
+			"Reinforce",
+			"Heighten",
+			"Magnify"
 							 )
 		val action = actions.random(ran)
 

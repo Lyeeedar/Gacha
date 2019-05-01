@@ -1,0 +1,74 @@
+<Faction xmlns:meta="Editor">
+	<Name>Monster</Name>
+	<Icon meta:RefKey="Sprite">
+		<Name>Icons/MonsterIcon</Name>
+	</Icon>
+	<Buffs>
+		<Buff2 meta:RefKey="Buff">
+			<Description>As creatures of the monster faction band together, the risk to their foes increases.</Description>
+			<Statistics meta:RefKey="Statistics">
+				<Power>0.05</Power>
+			</Statistics>
+		</Buff2>
+		<Buff3 meta:RefKey="Buff">
+			<Description>As creatures of the monster faction band together, the risk to their foes increases.</Description>
+			<Statistics meta:RefKey="Statistics">
+				<Power>0.05</Power>
+			</Statistics>
+		</Buff3>
+		<Buff4 meta:RefKey="Buff">
+			<Description>As creatures of the monster faction band together, the risk to their foes increases.</Description>
+			<Statistics meta:RefKey="Statistics">
+				<CritDamage>1</CritDamage>
+			</Statistics>
+		</Buff4>
+		<Buff5 meta:RefKey="Buff">
+			<Description>As creatures of the monster faction band together, the risk to their foes increases.</Description>
+			<Statistics meta:RefKey="Statistics">
+				<CritChance>0.2</CritChance>
+			</Statistics>
+		</Buff5>
+	</Buffs>
+	<Heroes>
+		<Hero>
+			<Entity>Goblin</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>GoblinWithShield</Entity>
+			<Rarity>Uncommon</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>Slime</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>PoisonSlime</Entity>
+			<Rarity>Rare</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>GiantBug</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>FireBeetle</Entity>
+			<Rarity>Rare</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>Rat</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>RatKing</Entity>
+			<Rarity>Rare</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>Spider</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>BlackSpider</Entity>
+			<Rarity>Uncommon</Rarity>
+		</Hero>
+	</Heroes>
+</Faction>

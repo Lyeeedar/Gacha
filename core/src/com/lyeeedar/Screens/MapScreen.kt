@@ -3,6 +3,7 @@ package com.lyeeedar.Screens
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
 import com.badlogic.gdx.scenes.scene2d.ui.*
@@ -609,13 +610,19 @@ class MapScreen : AbstractScreen()
 						Global.data.currentZoneProgression++
 						zone.updateFlags()
 
+						val targetScreen = Global.game.getTypedScreen<ZoneScreen>()!!
+
 						for (reward in rewards)
 						{
-							reward.func()
+							val src = table.localToStageCoordinates(Vector2(table.width / 2f, table.height / 2f))
+							reward.func(src, targetScreen.stage, targetScreen.gameDataBar, targetScreen.navigationBar)
 						}
 
 						table.remove()
-						Global.game.switchScreen(MainGame.ScreenEnum.ZONE)
+
+						targetScreen.swapTo()
+
+
 					}
 				}
 				else
@@ -635,13 +642,17 @@ class MapScreen : AbstractScreen()
 
 					clickAction = {
 
+						val targetScreen = Global.game.getTypedScreen<ZoneScreen>()!!
+
 						for (reward in rewards)
 						{
-							reward.func()
+							val src = table.localToStageCoordinates(Vector2(table.width / 2f, table.height / 2f))
+							reward.func(src, targetScreen.stage, targetScreen.gameDataBar, targetScreen.navigationBar)
 						}
 
 						table.remove()
-						Global.game.switchScreen(MainGame.ScreenEnum.ZONE)
+
+						targetScreen.swapTo()
 					}
 				}
 

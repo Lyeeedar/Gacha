@@ -1,6 +1,10 @@
 package com.lyeeedar.Game
 
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.math.Interpolation
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Stack
 import com.badlogic.gdx.scenes.scene2d.ui.Table
@@ -12,10 +16,10 @@ import com.lyeeedar.Components.*
 import com.lyeeedar.Pathfinding.IPathfindingTile
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Renderables.Sprite.SpriteWrapper
-import com.lyeeedar.UI.SpriteWidget
-import com.lyeeedar.UI.addTable
-import com.lyeeedar.UI.addTapToolTip
+import com.lyeeedar.UI.*
 import com.lyeeedar.Util.*
+import ktx.actors.alpha
+import ktx.actors.then
 import ktx.collections.set
 import ktx.collections.toGdxArray
 import kotlin.math.min
@@ -150,7 +154,13 @@ class Zone(val zoneIndex: Int, val handicap: Float)
 				if (entity.rarity.ordinal >= Rarity.SUPERRARE.ordinal && progression < numEncounters*0.5) continue
 				if (entity.rarity.ordinal >= Rarity.ULTRARARE.ordinal && progression < numEncounters*0.7) continue
 
-				for (i in 0 until entity.rarity.spawnWeight)
+				var spawnWeight = entity.rarity.spawnWeight
+				if (isBoss && entity.rarity.ordinal >= Rarity.RARE.ordinal)
+				{
+					spawnWeight *= 3
+				}
+
+				for (i in 0 until spawnWeight)
 				{
 					entities.add(entity)
 				}
@@ -357,7 +367,7 @@ class Encounter(val zone: Zone, val level: Int, val progression: Int, val isBoss
 		return level
 	}
 
-	class RewardDesc(val tile: Table, val func: () -> Unit)
+	class RewardDesc(val tile: Table, val func: (src: Vector2, stage: Stage, gameDataBar: GameDataBar, navigationBar: NavigationBar) -> Unit)
 	fun generateRewards(victory: Boolean): Array<RewardDesc>
 	{
 		val ran = Random.obtainTS(seed+100)
@@ -394,7 +404,43 @@ class Encounter(val zone: Zone, val level: Int, val progression: Int, val isBoss
 		expTable.add(expTile).grow()
 		expTable.addTapToolTip("Gain ${expReward.prettyPrint()} experience.")
 
-		output.add(RewardDesc(expTable, { Global.data.experience += expReward }))
+		output.add(RewardDesc(expTable, { src, stage, gameDataBar, navigationBar ->
+
+			Future.call({ Global.data.experience += expReward }, 1f)
+
+			var delay = 0f
+			for (i in 0 until 15)
+			{
+				val dstTable = gameDataBar.expTable
+				val dst = dstTable.localToStageCoordinates(Vector2())
+
+				val widget = SpriteWidget(AssetManager.loadSprite("Oryx/uf_split/uf_items/crystal_sky"), 16f, 16f)
+				widget.setSize(16f, 16f)
+				widget.setPosition(src.x, src.y)
+				widget.toFront()
+				widget.alpha = 0f
+
+				val sparkleParticle = ParticleEffectActor(AssetManager.loadParticleEffect("GetEquipment", timeMultiplier = 1.2f).getParticleEffect(), true)
+				sparkleParticle.color = Color.CYAN
+				sparkleParticle.setSize(dstTable.height, dstTable.height)
+				sparkleParticle.setPosition(dst.x, dst.y)
+
+				val sequence =
+					Actions.alpha(0f) then
+						Actions.delay(delay) then
+						Actions.alpha(1f) then
+						Actions.parallel(
+							mote(src, dst, 1f, Interpolation.exp5, false),
+							Actions.scaleTo(0.7f, 0.7f, 1f),
+							Actions.delay(0.8f) then lambda { stage.addActor(sparkleParticle) } then Actions.fadeOut(0.1f)) then
+						Actions.removeActor()
+				widget.addAction(sequence)
+
+				stage.addActor(widget)
+
+				delay += 0.01f
+			}
+		}))
 
 		// gold
 		var goldReward = 400 + level * 2
@@ -425,7 +471,42 @@ class Encounter(val zone: Zone, val level: Int, val progression: Int, val isBoss
 		goldTable.add(goldTile).grow()
 		expTable.addTapToolTip("Gain ${goldReward.prettyPrint()} gold.")
 
-		output.add(RewardDesc(goldTable, { Global.data.gold += goldReward }))
+		output.add(RewardDesc(goldTable, { src, stage, gameDataBar, navigationBar ->
+			Future.call({ Global.data.gold += goldReward }, 1f)
+
+			var delay = 0f
+			for (i in 0 until 15)
+			{
+				val dstTable = gameDataBar.goldTable
+				val dst = dstTable.localToStageCoordinates(Vector2())
+
+				val widget = SpriteWidget(AssetManager.loadSprite("Oryx/uf_split/uf_items/coin_gold"), 16f, 16f)
+				widget.setSize(16f, 16f)
+				widget.setPosition(src.x, src.y)
+				widget.toFront()
+				widget.alpha = 0f
+
+				val sparkleParticle = ParticleEffectActor(AssetManager.loadParticleEffect("GetEquipment", timeMultiplier = 1.2f).getParticleEffect(), true)
+				sparkleParticle.color = Color.GOLD
+				sparkleParticle.setSize(dstTable.height, dstTable.height)
+				sparkleParticle.setPosition(dst.x, dst.y)
+
+				val sequence =
+					Actions.alpha(0f) then
+						Actions.delay(delay) then
+						Actions.alpha(1f) then
+						Actions.parallel(
+							mote(src, dst, 1f, Interpolation.exp5, false),
+							Actions.scaleTo(0.7f, 0.7f, 1f),
+							Actions.delay(0.8f) then lambda { stage.addActor(sparkleParticle) } then Actions.fadeOut(0.1f)) then
+						Actions.removeActor()
+				widget.addAction(sequence)
+
+				stage.addActor(widget)
+
+				delay += 0.01f
+			}
+		}))
 
 		// chance for equipment
 		if (victory && ran.nextFloat() < 0.2f)
@@ -434,7 +515,32 @@ class Encounter(val zone: Zone, val level: Int, val progression: Int, val isBoss
 			val tile = equip.createTile(64f)
 			tile.addTapToolTip("Gain the equipment ${equip.fullName}.")
 
-			output.add(RewardDesc(tile, { Global.data.equipment.add(equip) }))
+			output.add(RewardDesc(tile, { src, stage, gameDataBar, navigationBar ->
+				Global.data.equipment.add(equip)
+
+				val dstTable = navigationBar.screenMap[MainGame.ScreenEnum.HEROES]
+				val dst = dstTable.localToStageCoordinates(Vector2())
+
+				val widget = MaskedTexture(equip.fullIcon)
+				widget.setSize(48f, 48f)
+				widget.setPosition(src.x, src.y)
+				widget.toFront()
+
+				val sparkleParticle = ParticleEffectActor(AssetManager.loadParticleEffect("GetEquipment", timeMultiplier = 1.2f).getParticleEffect(), true)
+				sparkleParticle.color = Color.WHITE.cpy().lerp(equip.ascension.colour.color(), 0.3f)
+				sparkleParticle.setSize(dstTable.height, dstTable.height)
+				sparkleParticle.setPosition(dstTable.x + dstTable.width*0.5f - dstTable.height * 0.5f, dstTable.y)
+
+				val sequence =
+					Actions.parallel(
+						mote(src, dst, 1f, Interpolation.exp5, false),
+						Actions.scaleTo(0.7f, 0.7f, 1f),
+						Actions.delay(0.9f) then lambda { stage.addActor(sparkleParticle) } then Actions.fadeOut(0.1f)) then
+						Actions.removeActor()
+				widget.addAction(sequence)
+
+				stage.addActor(widget)
+			}))
 		}
 
 		ran.freeTS()

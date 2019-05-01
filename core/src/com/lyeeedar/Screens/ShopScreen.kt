@@ -160,7 +160,7 @@ class ShopScreen : AbstractScreen()
 				continue
 			}
 
-			val ascension = Ascension.MUNDANE
+			val ascension = heroData.factionEntity.rarity.ascension
 
 			val tileTable = Table()
 
@@ -400,14 +400,14 @@ class ShopScreen : AbstractScreen()
 			var heroData = Global.data.heroPool.firstOrNull { it.factionEntity == hero }
 			var isNewHero = false
 
-			val ascension = Ascension.MUNDANE
 			if (heroData == null)
 			{
-				heroData = EntityData(hero, ascension, 1)
+				heroData = EntityData(hero, Ascension.MUNDANE, 1)
 				Global.data.heroPool.add(heroData)
 				isNewHero = true
 				unlockedHero = true
 			}
+			val ascension = heroData.factionEntity.rarity.ascension
 
 			val card = CardWidget(hero.createCardTable(ascension, isNewHero), hero.createCardTable(ascension, isNewHero), AssetManager.loadTextureRegion("GUI/CharacterCardback")!!, border = hero.rarity.colour)
 			card.canZoom = false

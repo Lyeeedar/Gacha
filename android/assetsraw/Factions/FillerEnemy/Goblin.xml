@@ -3,16 +3,16 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>110</MaxHP>
-				<Power>9</Power>
+				<MaxHP>100</MaxHP>
+				<Power>8.5</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
 			</Statistics>
-			<EquipmentWeight>Heavy</EquipmentWeight>
+			<EquipmentWeight>Medium</EquipmentWeight>
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
-			<Attack>
+			<Attack meta:RefKey="AttackDescription">
 				<Damage>1</Damage>
 				<Range>1</Range>
 				<HitEffect meta:RefKey="ParticleEffect">
@@ -51,14 +51,11 @@
 							<Damage>
 								<Time>0.109832019</Time>
 							</Damage>
-							<Knockback>
-								<Time>0.119154893</Time>
-							</Knockback>
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Time>0.0387318246</Time>
 								<Duration LockDuration="False">0.155616254</Duration>
+								<Time>0.0387318246</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Thrust</Name>
 								</Renderable>
@@ -74,8 +71,7 @@
 			<AI>BasicMonster</AI>
 		</AI>
 		<Name>
-			<Name>Gibu</Name>
-			<Title>The Boring</Title>
+			<Name>Goblin</Name>
 		</Name>
 	</Components>
 </Entity>

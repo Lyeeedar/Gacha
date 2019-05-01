@@ -3,17 +3,18 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>110</MaxHP>
-				<Power>7</Power>
+				<MaxHP>100</MaxHP>
+				<Power>8</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
-				<DR>0.1</DR>
+				<DR>0.2</DR>
+				<Aegis>0.2</Aegis>
 			</Statistics>
 			<EquipmentWeight>Heavy</EquipmentWeight>
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
-			<Attack>
+			<Attack meta:RefKey="AttackDescription">
 				<Damage>1</Damage>
 				<Range>1</Range>
 				<HitEffect meta:RefKey="ParticleEffect">
@@ -47,9 +48,11 @@
 					</Icon>
 					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
+							<Damage>
+								<Time>0.0343858451</Time>
+							</Damage>
 							<Stun>
 								<Time>0.0381045751</Time>
-								<Count>1+rnd(3)</Count>
 							</Stun>
 						</Timeline>
 						<Timeline>
@@ -62,42 +65,6 @@
 						</Timeline>
 					</Ability>
 				</AbilityData>
-				<AbilityData>
-					<Name>Block</Name>
-					<Icon meta:RefKey="Sprite">
-						<Name>Oryx/uf_split/uf_items/shield_iron_heater</Name>
-					</Icon>
-					<Ability meta:RefKey="ActionSequence">
-						<Timeline>
-							<Buff>
-								<Time>0.031633988</Time>
-								<Duration LockDuration="False">0.204183</Duration>
-								<Buff meta:RefKey="Buff">
-									<Description>Block attacks</Description>
-									<Icon meta:RefKey="Sprite">
-										<Name>Oryx/uf_split/uf_items/shield_iron_heater</Name>
-										<DrawActualSize>true</DrawActualSize>
-									</Icon>
-									<Statistics meta:RefKey="Statistics">
-										<DR>0.8</DR>
-									</Statistics>
-								</Buff>
-							</Buff>
-						</Timeline>
-						<Timeline>
-							<SelectSelf />
-						</Timeline>
-						<Timeline>
-							<SourceRenderable>
-								<Duration LockDuration="False">0.1804575</Duration>
-								<Time>0.031633988</Time>
-								<Renderable meta:RefKey="ParticleEffect">
-									<Name>Block</Name>
-								</Renderable>
-							</SourceRenderable>
-						</Timeline>
-					</Ability>
-				</AbilityData>
 			</Abilities>
 		</Ability>
 		<AI>
@@ -105,8 +72,7 @@
 			<AI>BasicMonster</AI>
 		</AI>
 		<Name>
-			<Name>Linbah</Name>
-			<Title>The Dumb</Title>
+			<Name>Goblin With Shield</Name>
 		</Name>
 	</Components>
 </Entity>

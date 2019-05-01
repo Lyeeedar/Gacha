@@ -14,6 +14,7 @@ import com.lyeeedar.UI.addClickListener
 class ZoneScreen : AbstractScreen()
 {
 	val gameDataBar = GameDataBar()
+	val navigationBar = NavigationBar(MainGame.ScreenEnum.ZONE)
 
 	override fun create()
 	{
@@ -65,7 +66,7 @@ class ZoneScreen : AbstractScreen()
 			mainTable.row()
 		}
 
-		mainTable.add(NavigationBar(MainGame.ScreenEnum.ZONE)).growX()
+		mainTable.add(navigationBar).growX()
 	}
 
 	override fun show()

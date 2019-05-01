@@ -1,0 +1,107 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>75</MaxHP>
+				<Power>9</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+				<DR>0.5</DR>
+			</Statistics>
+			<EquipmentWeight>Light</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+					<Colour>255,0,245,255</Colour>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/slime_purple</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/slime_purple</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Corrosive Goop</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/slime_purple_1</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<Damage>
+								<Time>0.109832019</Time>
+							</Damage>
+							<UnlockEntity>
+								<Time>0.1254516</Time>
+							</UnlockEntity>
+							<RepeatBegin>
+								<Time>0.131053716</Time>
+								<Count>4</Count>
+							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.135380387</Time>
+							</BlockTurn>
+							<Damage>
+								<Time>0.140134454</Time>
+								<Amount>0.3</Amount>
+							</Damage>
+							<RepeatEnd>
+								<Time>0.145319521</Time>
+							</RepeatEnd>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.08352056</Duration>
+								<Time>0.0387318246</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Splatter</Name>
+									<Colour>235,1,181,255</Colour>
+								</Renderable>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+						<Timeline>
+							<Debuff>
+								<Time>0.09978196</Time>
+								<Duration LockDuration="False">0.0607392043</Duration>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Haste>-0.3</Haste>
+									</Statistics>
+								</Buff>
+							</Debuff>
+						</Timeline>
+					</Ability>
+					<Cooldown>3,8</Cooldown>
+					<Range>2</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Name>
+			<Name>Poison Slime</Name>
+		</Name>
+	</Components>
+</Entity>
