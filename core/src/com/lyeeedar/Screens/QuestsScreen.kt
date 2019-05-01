@@ -26,7 +26,7 @@ class QuestsScreen : AbstractScreen()
 	val notificationImg = AssetManager.loadTextureRegion("Icons/generic_notification")!!
 	val redColour = Colour(0.85f, 0f, 0f, 1f)
 
-	val gameDataBar = GameDataBar()
+	val navigationBar = NavigationBar(MainGame.ScreenEnum.QUESTS)
 
 	override fun create()
 	{
@@ -45,11 +45,23 @@ class QuestsScreen : AbstractScreen()
 
 				true
 			})
+
+			debugConsole.register("completebounties", "", { args, console ->
+
+				for (bounty in Global.data.bounties)
+				{
+					bounty.durationMillis = 0
+				}
+				createHubTable()
+
+				true
+			})
 		}
 	}
 
 	fun createHubTable()
 	{
+		val gameDataBar = GameDataBar()
 		mainTable.background = TiledDrawable(TextureRegionDrawable(AssetManager.loadTextureRegion("Oryx/uf_split/uf_terrain/floor_wood_1"))).tint(Color(0.7f, 0.7f, 0.7f, 1f))
 
 		val ran = Random.obtainTS(Global.data.lastRefreshTime)
@@ -292,7 +304,7 @@ class QuestsScreen : AbstractScreen()
 		mainTable.row()
 		mainTable.add(table).grow()
 		mainTable.row()
-		mainTable.add(NavigationBar(MainGame.ScreenEnum.QUESTS)).growX()
+		mainTable.add(navigationBar).growX()
 	}
 
 	fun createBountiesTable()
@@ -301,7 +313,8 @@ class QuestsScreen : AbstractScreen()
 
 		mainTable.clear()
 
-		mainTable.add(GameDataBar()).growX()
+		val gameDataBar = GameDataBar()
+		mainTable.add(gameDataBar).growX()
 		mainTable.row()
 		mainTable.add(Label("Bounties", Global.skin, "title")).expandX().center().padTop(20f)
 		mainTable.row()
@@ -439,9 +452,10 @@ class QuestsScreen : AbstractScreen()
 					{
 						val takeButton = TextButton("Collect", Global.skin)
 						takeButton.addClickListener {
-							bounty!!.collect()
+							bounty!!.collect(takeButton, gameDataBar, navigationBar)
 							Global.data.bounties.removeValue(bounty!!, true)
 							bounty = null
+							Global.data.completedBounties++
 
 							Save.save()
 
@@ -494,12 +508,6 @@ class QuestsScreen : AbstractScreen()
 		}
 
 		mainTable.add(backButton).expandX().left().pad(5f)
-	}
-
-	override fun show()
-	{
-		gameDataBar.rebind()
-		super.show()
 	}
 
 	override fun doRender(delta: Float)

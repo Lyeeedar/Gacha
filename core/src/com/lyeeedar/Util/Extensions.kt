@@ -8,6 +8,15 @@ import com.badlogic.gdx.utils.Pool
  * Created by Philip on 04-Jul-16.
  */
 
+fun Char.isVowel(): Boolean
+{
+	return when(this.toLowerCase())
+	{
+		'a', 'e', 'i', 'o', 'u' -> true
+		else -> false
+	}
+}
+
 fun Long.millisToPrettyTime(showHours: Boolean = true, showMinutes: Boolean = true, showSeconds: Boolean = true): String
 {
 	val difference = this

@@ -1,6 +1,12 @@
 package com.lyeeedar.Game
 
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.math.Interpolation
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Stack
 import com.badlogic.gdx.scenes.scene2d.ui.Table
@@ -9,14 +15,13 @@ import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import com.lyeeedar.Ascension
 import com.lyeeedar.Components.name
-import com.lyeeedar.Components.renderable
 import com.lyeeedar.Global
-import com.lyeeedar.Renderables.Sprite.Sprite
-import com.lyeeedar.UI.SpriteWidget
-import com.lyeeedar.UI.addTable
-import com.lyeeedar.UI.align
-import com.lyeeedar.UI.wrap
+import com.lyeeedar.Global.Companion.stage
+import com.lyeeedar.MainGame
+import com.lyeeedar.UI.*
 import com.lyeeedar.Util.*
+import ktx.actors.alpha
+import ktx.actors.then
 import squidpony.FakeLanguageGen
 import squidpony.squidmath.LightRNG
 import squidpony.squidmath.RNG
@@ -65,7 +70,7 @@ abstract class AbstractBounty
 		return table
 	}
 
-	abstract fun collect()
+	abstract fun collect(source: Actor, gameDataBar: GameDataBar, navigationBar: NavigationBar)
 
 	fun generate(ran: LightRNG)
 	{
@@ -167,9 +172,44 @@ class GoldBounty : AbstractBounty()
 		return table
 	}
 
-	override fun collect()
+	override fun collect(source: Actor, gameDataBar: GameDataBar, navigationBar: NavigationBar)
 	{
-		Global.data.gold += amount
+		Future.call({ Global.data.gold += amount }, 1f)
+
+		var delay = 0f
+		for (i in 0 until 15)
+		{
+			val src = source.localToStageCoordinates(Vector2(source.width / 2f, source.height / 2f))
+
+			val dstTable = gameDataBar.goldTable
+			val dst = dstTable.localToStageCoordinates(Vector2())
+
+			val widget = SpriteWidget(AssetManager.loadSprite("Oryx/uf_split/uf_items/coin_gold"), 16f, 16f)
+			widget.setSize(16f, 16f)
+			widget.setPosition(src.x, src.y)
+			widget.toFront()
+			widget.alpha = 0f
+
+			val sparkleParticle = ParticleEffectActor(AssetManager.loadParticleEffect("GetEquipment", timeMultiplier = 1.2f).getParticleEffect(), true)
+			sparkleParticle.color = Color.GOLD
+			sparkleParticle.setSize(dstTable.height, dstTable.height)
+			sparkleParticle.setPosition(dst.x, dst.y)
+
+			val sequence =
+				alpha(0f) then
+				Actions.delay(delay) then
+					fadeIn(0.1f) then
+				Actions.parallel(
+					mote(src, dst, 1f, Interpolation.exp5, false),
+					Actions.scaleTo(0.7f, 0.7f, 1f),
+					Actions.delay(0.8f) then lambda { stage.addActor(sparkleParticle) } then Actions.fadeOut(0.1f)) then
+					Actions.removeActor()
+			widget.addAction(sequence)
+
+			stage.addActor(widget)
+
+			delay += 0.01f
+		}
 	}
 
 	override fun getClassName(): String = "GOLD"
@@ -259,9 +299,44 @@ class ExpBounty : AbstractBounty()
 		return table
 	}
 
-	override fun collect()
+	override fun collect(source: Actor, gameDataBar: GameDataBar, navigationBar: NavigationBar)
 	{
-		Global.data.experience += amount
+		Future.call({ Global.data.experience += amount }, 1f)
+
+		var delay = 0f
+		for (i in 0 until 15)
+		{
+			val src = source.localToStageCoordinates(Vector2(source.width / 2f, source.height / 2f))
+
+			val dstTable = gameDataBar.expTable
+			val dst = dstTable.localToStageCoordinates(Vector2())
+
+			val widget = SpriteWidget(AssetManager.loadSprite("Oryx/uf_split/uf_items/crystal_sky"), 16f, 16f)
+			widget.setSize(16f, 16f)
+			widget.setPosition(src.x, src.y)
+			widget.toFront()
+			widget.alpha = 0f
+
+			val sparkleParticle = ParticleEffectActor(AssetManager.loadParticleEffect("GetEquipment", timeMultiplier = 1.2f).getParticleEffect(), true)
+			sparkleParticle.color = Color.CYAN
+			sparkleParticle.setSize(dstTable.height, dstTable.height)
+			sparkleParticle.setPosition(dst.x, dst.y)
+
+			val sequence =
+				alpha(0f) then
+					Actions.delay(delay) then
+					fadeIn(0.1f) then
+					Actions.parallel(
+						mote(src, dst, 1f, Interpolation.exp5, false),
+						Actions.scaleTo(0.7f, 0.7f, 1f),
+						Actions.delay(0.8f) then lambda { stage.addActor(sparkleParticle) } then Actions.fadeOut(0.1f)) then
+					Actions.removeActor()
+			widget.addAction(sequence)
+
+			stage.addActor(widget)
+
+			delay += 0.01f
+		}
 	}
 
 	override fun getClassName(): String = "EXP"
@@ -329,9 +404,34 @@ class EquipmentBounty : AbstractBounty()
 		return equipment.createTile(tileSize)
 	}
 
-	override fun collect()
+	override fun collect(source: Actor, gameDataBar: GameDataBar, navigationBar: NavigationBar)
 	{
 		Global.data.equipment.add(equipment)
+
+		val src = source.localToStageCoordinates(Vector2(source.width / 2f, source.height / 2f))
+
+		val dstTable = navigationBar.screenMap[MainGame.ScreenEnum.HEROES]
+		val dst = dstTable.localToStageCoordinates(Vector2())
+
+		val widget = MaskedTexture(equipment.fullIcon)
+		widget.setSize(48f, 48f)
+		widget.setPosition(src.x, src.y)
+		widget.toFront()
+
+		val sparkleParticle = ParticleEffectActor(AssetManager.loadParticleEffect("GetEquipment", timeMultiplier = 1.2f).getParticleEffect(), true)
+		sparkleParticle.color = Color.WHITE.cpy().lerp(equipment.ascension.colour.color(), 0.3f)
+		sparkleParticle.setSize(dstTable.height, dstTable.height)
+		sparkleParticle.setPosition(dstTable.x + dstTable.width*0.5f - dstTable.height * 0.5f, dstTable.y)
+
+		val sequence =
+				Actions.parallel(
+					mote(src, dst, 1f, Interpolation.exp5, false),
+					Actions.scaleTo(0.7f, 0.7f, 1f),
+					Actions.delay(0.9f) then lambda { stage.addActor(sparkleParticle) } then Actions.fadeOut(0.1f)) then
+				Actions.removeActor()
+		widget.addAction(sequence)
+
+		stage.addActor(widget)
 	}
 
 	override fun getClassName(): String = "EQUIPMENT"
@@ -359,7 +459,9 @@ class EquipmentBounty : AbstractBounty()
 							 )
 		val action = actions.random(ran)
 
-		title = "$action a ${equipment.fullName}"
+		val a = if (equipment.fullName[0].isVowel()) "an" else "a"
+
+		title = "$action $a ${equipment.fullName}"
 	}
 
 	override fun doSave(xmlData: XmlData)
@@ -381,25 +483,46 @@ class HeroBounty : AbstractBounty()
 	override fun getTile(): Table
 	{
 		val entityData = Global.data.heroPool.first { it.factionEntity.entityPath == hero }
-		val entity = entityData.getEntity("1")
-		val originalSprite = entity.renderable().renderable as Sprite
-		val sprite = Sprite(originalSprite.textures[0])
 
-		val tile = Stack()
-		tile.add(SpriteWidget(AssetManager.loadSprite("GUI/textured_back"), tileSize, tileSize))
-		tile.add(SpriteWidget(sprite, tileSize, tileSize))
-		tile.add(SpriteWidget(AssetManager.loadSprite("GUI/PortraitFrameBorder"), tileSize, tileSize))
-
-		val table = Table()
-		table.add(tile).grow()
-
-		return table
+		return entityData.factionEntity.createTile(tileSize, Ascension.MUNDANE)
 	}
 
-	override fun collect()
+	override fun collect(source: Actor, gameDataBar: GameDataBar, navigationBar: NavigationBar)
 	{
 		val entityData = Global.data.heroPool.first { it.factionEntity.entityPath == hero }
 		entityData.ascensionShards += 1
+
+		val src = source.localToStageCoordinates(Vector2(source.width / 2f, source.height / 2f))
+
+		val dstTable = navigationBar.screenMap[MainGame.ScreenEnum.HEROES]
+		val dst = dstTable.localToStageCoordinates(Vector2())
+
+		val widget = SpriteWidget(AssetManager.loadSprite("Particle/shard"), 16f, 16f)
+		widget.color = Colour.WHITE.copy().lerp(entityData.factionEntity.rarity.colour, 0.7f).color()
+		widget.setSize(16f, 16f)
+		widget.setPosition(src.x, src.y)
+		widget.toFront()
+
+		val chosenDst = dst.cpy()
+		chosenDst.x += dstTable.width * 0.5f * Random.random()
+		chosenDst.y += dstTable.height * 0.5f * Random.random()
+
+		val particle = AssetManager.loadParticleEffect("GetShard", timeMultiplier = 1.2f)
+		particle.colour = Colour.WHITE.copy().lerp(entityData.factionEntity.rarity.colour, 0.7f)
+
+		val shardParticle = ParticleEffectActor(particle.getParticleEffect(), true)
+		shardParticle.setSize(dstTable.height, dstTable.height)
+		shardParticle.setPosition(chosenDst.x - 16f, chosenDst.y - 16f)
+
+		val sequence =
+			Actions.parallel(
+				mote(src, chosenDst, 1f + 0.02f, Interpolation.exp5, true),
+				Actions.scaleTo(0.7f, 0.7f, 1f),
+				Actions.delay(0.8f + 0.02f) then lambda { stage.addActor(shardParticle) } then Actions.fadeOut(0.1f)) then
+				Actions.removeActor()
+		widget.addAction(sequence)
+
+		stage.addActor(widget)
 	}
 
 	override fun getClassName(): String = "HERO"
@@ -423,6 +546,7 @@ class HeroBounty : AbstractBounty()
 
 		val heroData = possibleDrops.random(ran)
 		hero = heroData.entityPath
+		ascension = heroData.rarity.ascension
 
 		val entityData = Global.data.heroPool.first { it.factionEntity == heroData }
 		val entity = entityData.getEntity("1")

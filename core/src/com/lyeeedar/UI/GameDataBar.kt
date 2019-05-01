@@ -15,6 +15,11 @@ import com.lyeeedar.Util.prettyPrint
 
 class GameDataBar : Table()
 {
+	val zoneTable = Table()
+	val ratingTable = Table()
+	val goldTable = Table()
+	val expTable = Table();
+
 	init
 	{
 		rebind()
@@ -43,7 +48,7 @@ class GameDataBar : Table()
 		val zoneProgress = PercentageBarWidget(Global.data.currentZoneProgression.toFloat() / Zone.numEncounters, Colour.GOLD, Zone.numEncounters)
 
 		val zoneLabel = Label(Global.data.currentZone.toString() + "-" + (Global.data.currentZoneProgression+1), Global.skin)
-		val zoneTable = Table()
+		zoneTable.clear()
 		zoneTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(0f, 0f, 0f, 0.6f))
 		zoneTable.add(zoneLabel).expandX().left().padLeft(3f)
 		zoneTable.addTapToolTip("Your current journey progression. Zone ${Global.data.currentZone}, encounter ${(Global.data.currentZoneProgression+1)}.")
@@ -52,19 +57,19 @@ class GameDataBar : Table()
 		val ratingLabel = Label(rating.toInt().prettyPrint(), Global.skin)
 		ratingLabel.color = Color.GOLD
 
-		val ratingTable = Table()
+		ratingTable.clear()
 		ratingTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(0f, 0f, 0f, 0.6f))
 		ratingTable.add(SpriteWidget(Sprite(AssetManager.loadTextureRegion("Icons/upgrade")!!), 16f, 16f).tint(Color.GOLD)).padRight(3f)
 		ratingTable.add(ratingLabel).expandX().left()
 		ratingTable.addTapToolTip("The total power of your 5 strongest heroes.")
 
-		val goldTable = Table()
+		goldTable.clear()
 		goldTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(0f, 0f, 0f, 0.6f))
 		goldTable.add(SpriteWidget(AssetManager.loadSprite("Oryx/Custom/items/coin_gold_pile"), 24f, 24f))
 		goldTable.add(goldLabel).expandX().left()
 		goldTable.addTapToolTip("Your current gold. Used for buying equipment and heroes.")
 
-		val expTable = Table()
+		expTable.clear()
 		expTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(0f, 0f, 0f, 0.6f))
 		expTable.add(SpriteWidget(AssetManager.loadSprite("Oryx/uf_split/uf_items/book_blue"), 24f, 24f))
 		expTable.add(expLabel).expandX().left()
