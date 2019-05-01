@@ -374,6 +374,7 @@ class ShopScreen : AbstractScreen()
 	{
 		val cards = Array<CardWidget>()
 
+		var unlockedHero = false
 		for (i in 0 until 9)
 		{
 			val possibleDrops = Array<FactionEntity>()
@@ -381,7 +382,14 @@ class ShopScreen : AbstractScreen()
 			{
 				for (hero in faction.heroes)
 				{
-					val extraWeight = if (Global.data.heroPool.any{ it.factionEntity == hero}) 3 else 1
+					val extraWeight = if (Global.data.heroPool.any{ it.factionEntity == hero}) 2 else 1
+					val heroData = Global.data.heroPool.firstOrNull { it.factionEntity == hero }
+
+					if (heroData == null && hero.rarity.ordinal > Rarity.COMMON.ordinal && unlockedHero)
+					{
+						continue // only drop 1 new hero at a time
+					}
+
 					for (i in 0 until hero.rarity.dropRate * extraWeight)
 					{
 						possibleDrops.add(hero)
@@ -399,6 +407,7 @@ class ShopScreen : AbstractScreen()
 				heroData = EntityData(hero, ascension, 1)
 				Global.data.heroPool.add(heroData)
 				isNewHero = true
+				unlockedHero = true
 			}
 
 			val card = CardWidget(hero.createCardTable(ascension, isNewHero), hero.createCardTable(ascension, isNewHero), AssetManager.loadTextureRegion("GUI/CharacterCardback")!!, border = hero.rarity.colour)

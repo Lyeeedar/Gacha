@@ -14,10 +14,7 @@ import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.UI.GameDataBar
 import com.lyeeedar.UI.NavigationBar
 import com.lyeeedar.UI.SpriteWidget
-import com.lyeeedar.Util.AssetManager
-import com.lyeeedar.Util.Random
-import com.lyeeedar.Util.random
-import com.lyeeedar.Util.removeRandom
+import com.lyeeedar.Util.*
 import ktx.collections.gdxArrayOf
 import ktx.collections.toGdxArray
 
@@ -38,15 +35,21 @@ class QuestsScreen : AbstractScreen()
 	{
 		val table = Table()
 
-		val bountyTable = Table()
+		val fixedContent = kotlin.Array<Table?>(5) { null }
 
+		val bountyTable = Table()
 		val bountyBoard = SpriteWidget(Sprite(AssetManager.loadTextureRegion("Oryx/Custom/terrain/bountyboard")!!), 128f, 64f)
 		bountyTable.add(bountyBoard)
 		bountyTable.row()
-		bountyTable.add(Label("Bounties", Global.skin))
+		bountyTable.add(Label("Bounties", Global.skin)).padBottom(16f)
+		fixedContent[0] = bountyTable
 
-		table.add(bountyTable).expand().top().left().pad(5f)
-		table.row()
+		val expeditionTable = Table()
+		val expeditionBoard = SpriteWidget(Sprite(AssetManager.loadTextureRegion("Oryx/Custom/terrain/expedition")!!), 128f, 64f)
+		expeditionTable.add(expeditionBoard)
+		expeditionTable.row()
+		expeditionTable.add(Label("Expedition", Global.skin)).padBottom(16f)
+		fixedContent[2] = expeditionTable
 
 		val heroPool = Global.data.heroPool.toGdxArray()
 
@@ -62,12 +65,67 @@ class QuestsScreen : AbstractScreen()
 
 										  )
 
-		for (i in 0 until 4)
+		val tableHeight = 32f * 2 + 3f * 2
+		var verticalSpace = stage.height - (gameDataBar.prefHeight + 48f + 50f)
+		for (i in 0 until 5)
 		{
-			val numInRow = Random.random(3) + 1
-			val space = ((stage.width - 20) / numInRow) - (32f * 3 + 3f * 3)
-			val rowTable = Table()
+			var rowHeight = tableHeight
 
+			val fixedContentTable = fixedContent[i]
+			if (fixedContentTable != null)
+			{
+				val contentHeight = fixedContentTable.prefHeight + 10f
+				rowHeight = max(rowHeight, contentHeight)
+			}
+
+			verticalSpace -= rowHeight
+		}
+
+		var left = true
+		for (i in 0 until 5)
+		{
+			val fullRowTable = Table()
+			val rowTable = Table()
+			val fixedTable = Table()
+
+			if (left)
+			{
+				fullRowTable.add(fixedTable).growY()
+				fullRowTable.add(rowTable).grow()
+			}
+			else
+			{
+				fullRowTable.add(rowTable).grow()
+				fullRowTable.add(fixedTable).growY()
+			}
+
+			table.add(fullRowTable).growX()
+			table.row()
+
+
+			var rowWidth = stage.width
+
+			// get fixed content
+			val fixedContentTable = fixedContent[i]
+			if (fixedContentTable != null)
+			{
+				fixedTable.add(fixedContentTable).grow().pad(5f)
+				rowWidth -= fixedContentTable.prefWidth + 10f
+
+				left = !left
+			}
+
+			val tableMaxSize = 32f * 3 + 3f * 3 + 10f
+			val maxTables = (rowWidth / tableMaxSize).toInt()
+			val halfFloat = maxTables / 2f
+			val halfMin = halfFloat.floor()
+			val halfMax = halfFloat.ciel()
+
+			val numInRow = Random.random(halfMin+1) + halfMax
+			val space = (rowWidth / numInRow) - (tableMaxSize)
+
+			val rowVertPad = max(verticalSpace / (5 - i), (fixedContentTable?.prefHeight ?: 0f) - tableHeight)
+			var maxRowVertPad = 0f
 			for (x in 0 until numInRow)
 			{
 				// do tables
@@ -77,7 +135,10 @@ class QuestsScreen : AbstractScreen()
 				val belowTable = Table()
 				val tableTable = Table()
 
+				val tableColor = Color(0.8f, 0.8f, 0.8f, 1f)
+
 				val tableSprite = SpriteWidget(Sprite(AssetManager.loadTextureRegion("Oryx/Custom/terrain/roundedtable")!!, drawActualSize = true), 48f, 48f)
+				tableSprite.color = tableColor
 
 				val tableStack = Stack()
 				tableStack.add(tableSprite)
@@ -85,7 +146,9 @@ class QuestsScreen : AbstractScreen()
 				if (potentialDecorations.size > 0 && Random.random() < 0.6f) // 60% chance at decoration
 				{
 					val decorationSprite = Sprite(AssetManager.loadTextureRegion(potentialDecorations.removeRandom())!!, drawActualSize = true)
-					tableStack.add(SpriteWidget(decorationSprite, 48f, 48f))
+					val decorationWidget = SpriteWidget(decorationSprite, 48f, 48f)
+					decorationWidget.color = tableColor
+					tableStack.add(decorationWidget)
 				}
 
 				tableTable.add(aboveTable).colspan(3).height(32f)
@@ -144,6 +207,8 @@ class QuestsScreen : AbstractScreen()
 						"Oryx/Custom/heroes/merchant1",
 						"---",
 						"---",
+						"---",
+						"---",
 						"---"
 													 )
 
@@ -169,15 +234,18 @@ class QuestsScreen : AbstractScreen()
 
 					sprite.randomiseAnimation()
 					val widget = SpriteWidget(sprite, 48f, 48f)
+					widget.color = tableColor
 
 					targetTable.add(widget)
 				}
 
-				rowTable.add(tableTable).padLeft(Random.random(space)).padBottom(Random.random(25f)).expand().left().bottom()
+				val vertPad = Random.random(rowVertPad)
+				rowTable.add(tableTable).padLeft(Random.random(space) + 5f).padBottom(vertPad).expand().left().bottom()
+
+				maxRowVertPad = max(maxRowVertPad, vertPad)
 			}
 
-			table.add(rowTable).growX().pad(10f)
-			table.row()
+			verticalSpace -= maxRowVertPad
 		}
 
 		val wallTable = Table()
