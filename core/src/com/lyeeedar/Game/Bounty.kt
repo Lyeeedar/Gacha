@@ -383,7 +383,7 @@ class ExpBounty : AbstractBounty()
 	override fun doGenerate(ran: LightRNG)
 	{
 		val level = Global.data.getCurrentLevel()
-		val expRequired = (100 * Math.pow(1.2, level.toDouble())).toInt()
+		val expRequired = Global.getExperienceForLevel(level)
 
 		val reward = expRequired + (expRequired * ascension.multiplier * 1.5f).toInt()
 		amount = reward

@@ -35,4 +35,10 @@
 			</Statistics>
 		</Buff5>
 	</Buffs>
+	<Heroes>
+		<Hero>
+			<Entity>Ayda</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+	</Heroes>
 </Faction>

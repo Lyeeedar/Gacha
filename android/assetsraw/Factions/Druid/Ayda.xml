@@ -12,7 +12,7 @@
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
 				<MaxHP>70</MaxHP>
-				<Power>8</Power>
+				<Power>7</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
 			</Statistics>
@@ -171,16 +171,23 @@
 					</Icon>
 					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
+							<UnlockEntity>
+								<Time>0.295728654</Time>
+							</UnlockEntity>
 							<RepeatBegin>
-								<Count>1</Count>
+								<Time>0.31787324</Time>
+								<Count>2</Count>
 							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.346662939</Time>
+							</BlockTurn>
 							<SelectEnemies>
-								<Time>0.01865578</Time>
+								<Time>0.3696608</Time>
 								<Count>99</Count>
 							</SelectEnemies>
 							<DestinationRenderable>
 								<Duration LockDuration="False">0.156155765</Duration>
-								<Time>0.0407663323</Time>
+								<Time>0.391771346</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>ArrowRainDest</Name>
 								</Renderable>
@@ -191,11 +198,11 @@
 								<SpawnDuration>0.3</SpawnDuration>
 							</DestinationRenderable>
 							<Damage>
-								<Time>0.212123126</Time>
+								<Time>0.5631281</Time>
 								<Amount>0.7</Amount>
 							</Damage>
 							<RepeatEnd>
-								<Time>0.232851744</Time>
+								<Time>0.583856761</Time>
 							</RepeatEnd>
 						</Timeline>
 						<Timeline>

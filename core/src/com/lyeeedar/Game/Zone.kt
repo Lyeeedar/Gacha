@@ -391,8 +391,9 @@ class Encounter(val zone: Zone, val level: Int, val progression: Int, val isBoss
 		val output = Array<RewardDesc>()
 
 		// experience
-		val expRequired = (100 * Math.pow(1.2, level.toDouble())).toInt()
-		var expReward = (expRequired / 10f).toInt()
+
+		val expRequired = Global.getExperienceForLevel(level)
+		var expReward = (expRequired / 5f).toInt()
 		expReward += (expReward * ((ran.nextFloat() * 0.4f) - 0.2f)).toInt() // +/-20%
 
 		if (isBoss)

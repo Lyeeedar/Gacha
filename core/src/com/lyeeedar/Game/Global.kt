@@ -87,6 +87,9 @@ class Global
 
 			faction = Faction.load("Greenskin/GreenskinAlliance")
 			data.unlockedFactions.add(faction)
+
+			faction = Faction.load("Druid/Druid")
+			data.unlockedFactions.add(faction)
 		}
 
 		fun newGame()
@@ -133,7 +136,7 @@ class Global
 
 		fun getExperienceForLevel(level: Int): Int
 		{
-			val expRequired = (100 * Math.pow(1.2, level.toDouble())).toInt()
+			val expRequired = (100 * Math.pow(1.1, level.toDouble())).toInt()
 			return expRequired
 		}
 

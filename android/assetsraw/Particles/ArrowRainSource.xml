@@ -3,6 +3,7 @@
 	<Emitters>
 		<Emitter>
 			<Name>Arrows</Name>
+			<Type>Accumulated</Type>
 			<Width>0.1</Width>
 			<Height>0</Height>
 			<SizeMultiplier>
