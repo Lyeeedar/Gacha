@@ -65,6 +65,8 @@ abstract class AbstractActionSequenceAction
 				"SELECTTILES" -> SelectTilesAction.obtain()
 				"SELECTSELF" -> SelectSelfAction.obtain()
 				"LOCKTARGETS" -> LockTargetsAction.obtain()
+				"STORETARGETS" -> StoreTargets.obtain()
+				"RESTORETARGETS" -> RestoreTargets.obtain()
 
 				"SOURCERENDERABLE" -> SourceRenderableAction.obtain()
 				"REPLACESOURCERENDERABLE" -> ReplaceSourceRenderableAction.obtain()

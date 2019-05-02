@@ -11,7 +11,7 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>85</MaxHP>
+				<MaxHP>70</MaxHP>
 				<Power>5</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
@@ -68,8 +68,8 @@
 								<Count>99</Count>
 							</SelectAllies>
 							<Buff>
-								<Duration LockDuration="False">0.119292229</Duration>
 								<Time>0.0244863033</Time>
+								<Duration LockDuration="False">0.119292229</Duration>
 								<Buff meta:RefKey="Buff">
 									<UseParentNameAndIcon>true</UseParentNameAndIcon>
 									<Statistics meta:RefKey="Statistics">
@@ -81,8 +81,8 @@
 						</Timeline>
 						<Timeline>
 							<SourceRenderable>
-								<Time>0.0244863033</Time>
 								<Duration LockDuration="False">0.081621</Duration>
+								<Time>0.0244863033</Time>
 								<Renderable meta:RefKey="ParticleEffectTemplate">
 									<Base meta:RefKey="ParticleEffect">
 										<Name>Shout</Name>
@@ -93,8 +93,8 @@
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.116780818</Duration>
 								<Time>0.05964612</Time>
+								<Duration LockDuration="False">0.116780818</Duration>
 								<Renderable meta:RefKey="ParticleEffectTemplate">
 									<Base meta:RefKey="ParticleEffect">
 										<Name>Buff</Name>
@@ -131,8 +131,8 @@
 								<Count>99</Count>
 							</SelectAllies>
 							<Buff>
-								<Duration LockDuration="False">0.119292229</Duration>
 								<Time>0.0244863033</Time>
+								<Duration LockDuration="False">0.119292229</Duration>
 								<Buff meta:RefKey="Buff">
 									<UseParentNameAndIcon>true</UseParentNameAndIcon>
 									<Statistics meta:RefKey="Statistics">
@@ -145,8 +145,8 @@
 						</Timeline>
 						<Timeline>
 							<SourceRenderable>
-								<Time>0.0244863033</Time>
 								<Duration LockDuration="False">0.081621</Duration>
+								<Time>0.0244863033</Time>
 								<Renderable meta:RefKey="ParticleEffectTemplate">
 									<Base meta:RefKey="ParticleEffect">
 										<Name>Shout</Name>
@@ -165,8 +165,8 @@
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.116780818</Duration>
 								<Time>0.05964612</Time>
+								<Duration LockDuration="False">0.116780818</Duration>
 								<Renderable meta:RefKey="ParticleEffectTemplate">
 									<Base meta:RefKey="ParticleEffect">
 										<Name>Buff</Name>
@@ -203,8 +203,8 @@
 								<Count>99</Count>
 							</SelectAllies>
 							<Buff>
-								<Duration LockDuration="False">0.119292229</Duration>
 								<Time>0.0244863033</Time>
+								<Duration LockDuration="False">0.119292229</Duration>
 								<Buff meta:RefKey="Buff">
 									<UseParentNameAndIcon>true</UseParentNameAndIcon>
 									<Statistics meta:RefKey="Statistics">
@@ -217,8 +217,8 @@
 						</Timeline>
 						<Timeline>
 							<SourceRenderable>
-								<Time>0.0244863033</Time>
 								<Duration LockDuration="False">0.081621</Duration>
+								<Time>0.0244863033</Time>
 								<Renderable meta:RefKey="ParticleEffectTemplate">
 									<Base meta:RefKey="ParticleEffect">
 										<Name>Shout</Name>
@@ -237,8 +237,8 @@
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.116780818</Duration>
 								<Time>0.05964612</Time>
+								<Duration LockDuration="False">0.116780818</Duration>
 								<Renderable meta:RefKey="ParticleEffectTemplate">
 									<Base meta:RefKey="ParticleEffect">
 										<Name>Buff</Name>

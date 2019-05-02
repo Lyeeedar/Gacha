@@ -11,6 +11,7 @@ import com.lyeeedar.Components.*
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.SpaceSlot
 import com.lyeeedar.Util.*
+import ktx.collections.set
 import ktx.collections.toGdxArray
 
 class PermuteAction() : AbstractActionSequenceAction()
@@ -378,7 +379,7 @@ class SelectSelfAction() : AbstractActionSequenceAction()
 }
 
 class LockTargetsAction() : AbstractActionSequenceAction()
-	{
+{
 	override fun enter(): Boolean
 	{
 		sequence.lockedTargets.clear()
@@ -434,4 +435,111 @@ class LockTargetsAction() : AbstractActionSequenceAction()
 		}
 	}
 	override fun free() { if (obtained) { LockTargetsAction.pool.free(this); obtained = false } }
+}
+
+class StoreTargets() : AbstractActionSequenceAction()
+{
+	lateinit var key: String
+
+	override fun enter(): Boolean
+	{
+		val targetCopy = sequence.targets.toGdxArray()
+		sequence.storedTargets[key] = targetCopy
+
+		return false
+	}
+
+	override fun exit()
+	{
+
+	}
+
+	override fun doCopy(): AbstractActionSequenceAction
+	{
+		val action = StoreTargets.obtain()
+		action.key = key
+		return action
+	}
+
+	override fun parse(xmlData: XmlData)
+	{
+		key = xmlData.get("Key")
+	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<StoreTargets> = object : Pool<StoreTargets>() {
+			override fun newObject(): StoreTargets
+			{
+				return StoreTargets()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): StoreTargets
+		{
+			val obj = StoreTargets.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { StoreTargets.pool.free(this); obtained = false } }
+}
+
+class RestoreTargets() : AbstractActionSequenceAction()
+{
+	lateinit var key: String
+
+	override fun enter(): Boolean
+	{
+		val targets = sequence.storedTargets[key]
+		sequence.targets.clear()
+		sequence.targets.addAll(targets)
+
+		return false
+	}
+
+	override fun exit()
+	{
+
+	}
+
+	override fun doCopy(): AbstractActionSequenceAction
+	{
+		val action = RestoreTargets.obtain()
+		action.key = key
+		return action
+	}
+
+	override fun parse(xmlData: XmlData)
+	{
+		key = xmlData.get("Key")
+	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<RestoreTargets> = object : Pool<RestoreTargets>() {
+			override fun newObject(): RestoreTargets
+			{
+				return RestoreTargets()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): RestoreTargets
+		{
+			val obj = RestoreTargets.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { RestoreTargets.pool.free(this); obtained = false } }
 }

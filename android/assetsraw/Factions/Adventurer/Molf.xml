@@ -1,0 +1,152 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Molf</Name>
+			<Title>One Eyed Brute</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>110</MaxHP>
+				<Power>9</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<EquipmentWeight>Heavy</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/barbarian_m</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/barbarian_m</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Resist Pain</Name>
+					<Description>Shrug off the pain of your wounds, gaining [GOLD]30%[] damage resistance for 5 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/enrage</Name>
+						<Colour>184,102,102,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<Buff>
+								<Time>0.0229425021</Time>
+								<Duration LockDuration="False">0.110372052</Duration>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<DR>0.3</DR>
+									</Statistics>
+									<Duration>5</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+					</Ability>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Devouring Blow</Name>
+					<Description>Strike your foe, dealing [GOLD]150%[] damage and gaining it as life.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>EffectSprites/Slash/Slash_2</Name>
+						<Colour>125,95,95,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<Buff>
+								<Time>0.0229425021</Time>
+								<Duration LockDuration="False">0.0570462234</Duration>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<LifeSteal>1</LifeSteal>
+									</Statistics>
+									<Duration>2</Duration>
+								</Buff>
+							</Buff>
+							<SelectEnemies>
+								<Time>0.08990981</Time>
+								<Condition>dist</Condition>
+							</SelectEnemies>
+							<DestinationRenderable>
+								<Time>0.1072717</Time>
+								<Duration LockDuration="False">0.06944758</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>slash</Name>
+									<Colour>135,107,107,255</Colour>
+								</Renderable>
+							</DestinationRenderable>
+						</Timeline>
+						<Timeline>
+							<Damage>
+								<Time>0.137034953</Time>
+								<Amount>1.5</Amount>
+							</Damage>
+						</Timeline>
+					</Ability>
+				</AbilityData>
+				<AbilityData>
+					<Name>Raging Charge</Name>
+					<Description>Charge forward and smash into your foe, knocking them back and stunning them for 1 round.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/sonic-shout</Name>
+						<Colour>189,137,137,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<StoreTargets>
+								<Key>Enemy</Key>
+							</StoreTargets>
+							<Stun>
+								<Time>0.00323392474</Time>
+							</Stun>
+							<MoveSource>
+								<Time>0.0179819614</Time>
+							</MoveSource>
+							<RestoreTargets>
+								<Time>0.08967922</Time>
+								<Key>Enemy</Key>
+							</RestoreTargets>
+							<Damage>
+								<Time>0.0938341245</Time>
+							</Damage>
+							<Knockback>
+								<Time>0.096869275</Time>
+							</Knockback>
+						</Timeline>
+					</Ability>
+					<SingleUse>true</SingleUse>
+					<AvailableOnStart>true</AvailableOnStart>
+					<Range>4</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

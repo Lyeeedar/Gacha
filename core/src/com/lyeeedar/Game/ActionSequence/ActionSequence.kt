@@ -25,6 +25,7 @@ class ActionSequence
 	lateinit var source: Entity
 	val targets: Array<Point> = Array(1)
 	val lockedTargets: Array<Entity> = Array(1)
+	val storedTargets = ObjectMap<String, Array<Point>>()
 	lateinit var level: Level
 	lateinit var facing: Direction
 

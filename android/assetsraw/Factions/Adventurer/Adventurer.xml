@@ -67,5 +67,9 @@
 			<Entity>Titania</Entity>
 			<Rarity>UltraRare</Rarity>
 		</Hero>
+		<Hero>
+			<Entity>Molf</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
 	</Heroes>
 </Faction>
