@@ -41,6 +41,10 @@ class TestScreen : AbstractScreen()
 					val fe = pathToFactionEntityMap[entity]
 					rarity = fe.rarity.shortName
 				}
+				else
+				{
+					continue
+				}
 
 				val entry = HeroEntry(entity, rarity)
 				heroes[entity] = entry

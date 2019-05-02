@@ -3,10 +3,12 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>70</MaxHP>
-				<Power>5</Power>
-				<CritChance>0.05</CritChance>
+				<MaxHP>150</MaxHP>
+				<Power>12</Power>
+				<CritChance>0.2</CritChance>
 				<CritDamage>2</CritDamage>
+				<Haste>0.4</Haste>
+				<DR>0.2</DR>
 			</Statistics>
 			<EquipmentWeight>Medium</EquipmentWeight>
 			<Death meta:RefKey="ParticleEffect">
@@ -16,7 +18,9 @@
 				<Damage>1</Damage>
 				<Range>1</Range>
 				<HitEffect meta:RefKey="ParticleEffect">
-					<Name>Claws</Name>
+					<Name>Bite</Name>
+					<Colour>134,217,151,255</Colour>
+					<Scale>0.5</Scale>
 				</HitEffect>
 			</Attack>
 		</Statistics>
@@ -25,11 +29,11 @@
 				<Animation>
 					<Name>idle</Name>
 					<Up meta:RefKey="Sprite">
-						<Name>Oryx/uf_split/uf_heroes/wolf_black</Name>
+						<Name>Oryx/uf_split/uf_heroes/banshee</Name>
 						<DrawActualSize>true</DrawActualSize>
 					</Up>
 					<Down meta:RefKey="Sprite">
-						<Name>Oryx/uf_split/uf_heroes/wolf_black</Name>
+						<Name>Oryx/uf_split/uf_heroes/banshee</Name>
 						<DrawActualSize>true</DrawActualSize>
 					</Down>
 				</Animation>
@@ -40,7 +44,7 @@
 			<AI>BasicMonster</AI>
 		</AI>
 		<Name>
-			<Name>Wolf</Name>
+			<Name>Ancestor</Name>
 		</Name>
 	</Components>
 </Entity>

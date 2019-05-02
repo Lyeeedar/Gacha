@@ -16,7 +16,9 @@
 				<Damage>1</Damage>
 				<Range>1</Range>
 				<HitEffect meta:RefKey="ParticleEffect">
-					<Name>Claws</Name>
+					<Name>Bite</Name>
+					<Colour>134,217,151,255</Colour>
+					<Scale>0.5</Scale>
 				</HitEffect>
 			</Attack>
 		</Statistics>
@@ -25,11 +27,11 @@
 				<Animation>
 					<Name>idle</Name>
 					<Up meta:RefKey="Sprite">
-						<Name>Oryx/uf_split/uf_heroes/wolf_black</Name>
+						<Name>Oryx/uf_split/uf_heroes/snake</Name>
 						<DrawActualSize>true</DrawActualSize>
 					</Up>
 					<Down meta:RefKey="Sprite">
-						<Name>Oryx/uf_split/uf_heroes/wolf_black</Name>
+						<Name>Oryx/uf_split/uf_heroes/snake</Name>
 						<DrawActualSize>true</DrawActualSize>
 					</Down>
 				</Animation>
@@ -40,7 +42,7 @@
 			<AI>BasicMonster</AI>
 		</AI>
 		<Name>
-			<Name>Wolf</Name>
+			<Name>Snake</Name>
 		</Name>
 	</Components>
 </Entity>

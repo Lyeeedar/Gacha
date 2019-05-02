@@ -1,0 +1,142 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Krottaz</Name>
+			<Title>Serpentblade</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>100</MaxHP>
+				<Power>9</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<EquipmentWeight>Medium</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/lizardman_green</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/lizardman_green</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Call Serpent</Name>
+					<Description>Summon a vicious serpent to fight by your side.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/snake_giant_1</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<Summon>
+								<Time>0.0277367774</Time>
+								<Duration LockDuration="False">0.0933579355</Duration>
+								<Entity>Factions/Greenskin/Snake</Entity>
+							</Summon>
+						</Timeline>
+					</Ability>
+					<SingleUse>true</SingleUse>
+				</AbilityData>
+				<AbilityData>
+					<Name>Poison Fang</Name>
+					<Description>Bite your foe, injecting them with a poison that weakens them, causing them to lose [GOLD]30%[] power and take [GOLD]20%[] damage for 4 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>EffectSprites/Jaws/Jaws_3</Name>
+						<Colour>154,64,191,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.0602091029</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Bite</Name>
+									<Colour>255,79,240,255</Colour>
+								</Renderable>
+							</DestinationRenderable>
+							<UnlockEntity>
+								<Time>0.0845633447</Time>
+							</UnlockEntity>
+							<RepeatBegin>
+								<Time>0.103505537</Time>
+								<Count>4</Count>
+							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.12515375</Time>
+							</BlockTurn>
+							<Damage>
+								<Time>0.15221402</Time>
+								<Amount>0.2</Amount>
+							</Damage>
+							<RepeatEnd>
+								<Time>0.179274291</Time>
+							</RepeatEnd>
+						</Timeline>
+						<Timeline>
+							<Debuff>
+								<Time>0.07509225</Time>
+								<Duration LockDuration="False">0.133948356</Duration>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Power>-0.3</Power>
+									</Statistics>
+								</Buff>
+							</Debuff>
+						</Timeline>
+					</Ability>
+				</AbilityData>
+				<AbilityData>
+					<Name>Shed Skin</Name>
+					<Description>Shed your skin, gaining [GOLD]30%[] haste but taking [GOLD]10%[] more damage for 5 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/Custom/items/Gel</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<Buff>
+								<Duration LockDuration="False">0.12875</Duration>
+								<Time>0.019375</Time>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Haste>0.3</Haste>
+										<DR>-0.1</DR>
+									</Statistics>
+									<Duration>5</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+					</Ability>
+					<Range>99</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

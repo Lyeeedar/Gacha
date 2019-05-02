@@ -216,8 +216,8 @@ class Zone(val zoneIndex: Int)
 
 	companion object
 	{
-		val numEncounters = 40
-		val zoneLevelRange = 10
+		val numEncounters = 80
+		val zoneLevelRange = 15
 		val levelsPerAscension = 30
 
 		fun load(index: Int): Zone

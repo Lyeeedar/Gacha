@@ -63,5 +63,9 @@
 			<Entity>Gobuta</Entity>
 			<Rarity>SuperRare</Rarity>
 		</Hero>
+		<Hero>
+			<Entity>Krottaz</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
 	</Heroes>
 </Faction>

@@ -6,23 +6,26 @@
 		<Faction>Adventurer/Adventurer</Faction>
 	</Factions>
 	<Grid>
-		<Line>....t..t..</Line>
-		<Line>.t...B,...</Line>
-		<Line>...tt.!.t.</Line>
-		<Line>t,!!!!!t..</Line>
-		<Line>.!....tt.t</Line>
-		<Line>.,!B!!!!,.</Line>
-		<Line>.t..t...!.</Line>
-		<Line>t,!B!!!!,.</Line>
-		<Line>.!....t..t</Line>
-		<Line>.,!!!!!!,.</Line>
-		<Line>.t....t.!.</Line>
-		<Line>t..t....B.</Line>
-		<Line>.,!!!!!!,.</Line>
-		<Line>t!.......t</Line>
-		<Line>.,!!Stt...</Line>
-		<Line>..t.,..t.t</Line>
-		<Line>....,.....</Line>
+		<Line>.t..ttt..t.t.t</Line>
+		<Line>tt.t..Btt.ttt.</Line>
+		<Line>.tt.tt!!!!!!!t</Line>
+		<Line>.tt.tttt.tt.!.</Line>
+		<Line>t!B!!!!!!!!!B.</Line>
+		<Line>t!t.t.t.t.tttt</Line>
+		<Line>.!!!!!!!B!!!!t</Line>
+		<Line>tt.tt.t.t.t.!t</Line>
+		<Line>t!!!!!!!B!!!!t</Line>
+		<Line>.!tt.tttt.t...</Line>
+		<Line>t!B!!!!!!!!!B.</Line>
+		<Line>t.t..tt.tt..!t</Line>
+		<Line>t!!!B!!!!!!!!.</Line>
+		<Line>.!..t.t.t.tt.t</Line>
+		<Line>t!!!!!S,t..ttt</Line>
+		<Line>...t..,,.t..t.</Line>
+		<Line>......,,....t.</Line>
+		<Line>..t.t.,,.t.t..</Line>
+		<Line>..t...,,..t...</Line>
+		<Line>tt..t.,,.t.t..</Line>
 	</Grid>
 	<Symbols>
 		<Symbol>

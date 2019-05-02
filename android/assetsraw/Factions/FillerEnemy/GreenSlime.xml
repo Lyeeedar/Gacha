@@ -1,0 +1,86 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>50</MaxHP>
+				<Power>8</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+				<DR>0.5</DR>
+			</Statistics>
+			<EquipmentWeight>Light</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+					<Colour>255,0,0,255</Colour>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/slime_green</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/slime_green</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>HealBurst</Name>
+					<Icon meta:RefKey="Sprite">
+						<Name>white</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<Permute>
+								<HitPoints>
+									<Line>###</Line>
+									<Line>#@#</Line>
+									<Line>###</Line>
+								</HitPoints>
+							</Permute>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.08045564</Duration>
+								<Time>0.0230815355</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Splatter</Name>
+									<Colour>35,250,4,255</Colour>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<OnEnd>Nothing</OnEnd>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+							<Heal>
+								<Time>0.116726622</Time>
+								<Amount>2</Amount>
+							</Heal>
+						</Timeline>
+					</Ability>
+					<Cooldown>4,10</Cooldown>
+					<Range>99</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Name>
+			<Name>Slime</Name>
+		</Name>
+	</Components>
+</Entity>

@@ -1,26 +1,30 @@
 <Zone xmlns:meta="Editor">
 	<Factions>
 		<Faction>Greenskin/GreenskinAlliance</Faction>
+		<Faction>Greenskin/GreenskinAlliance</Faction>
 		<Faction>FillerEnemy/FillerEnemy</Faction>
 	</Factions>
 	<Grid>
-		<Line>..tttttt..</Line>
-		<Line>ttt..B,.t.</Line>
-		<Line>.t.tt.!.t.</Line>
-		<Line>t,!!!!!t..</Line>
-		<Line>.!t.t.tt.t</Line>
-		<Line>t,!B!!!!,.</Line>
-		<Line>.tt.t...!.</Line>
-		<Line>t,!B!!!!,.</Line>
-		<Line>.!tt..t..t</Line>
-		<Line>.,!!!!!!,.</Line>
-		<Line>.t.tt.t.!t</Line>
-		<Line>tt.t.tttBt</Line>
-		<Line>.,!!!!!!,.</Line>
-		<Line>t!.tt..t.t</Line>
-		<Line>t,!!Stt.t.</Line>
-		<Line>.ttt,ttt.t</Line>
-		<Line>...t,t..t.</Line>
+		<Line>tttttttttttttt</Line>
+		<Line>t.tt..Bt.tt.t.</Line>
+		<Line>.tttt.!!!!!!!t</Line>
+		<Line>.tt.t.t..t..!t</Line>
+		<Line>t,B!!!!!!!!!B.</Line>
+		<Line>.!HH.H.....H..</Line>
+		<Line>.,!!!.H.H.....</Line>
+		<Line>t.t.!.s.t.H.s.</Line>
+		<Line>..s.!!!!B!!!!.</Line>
+		<Line>t...s..s.s..!.</Line>
+		<Line>.!!!!!!!B!!!!t</Line>
+		<Line>t!t...t..t...t</Line>
+		<Line>.!B!!!!!!!!!B.</Line>
+		<Line>t..t.t.t.tt.!t</Line>
+		<Line>.!!!B!!!!!!!!t</Line>
+		<Line>t!.tt.tt..ttt.</Line>
+		<Line>t!!!!!S,t.t.tt</Line>
+		<Line>.ttt..,,..tt..</Line>
+		<Line>tt..tt,,ttttt.</Line>
+		<Line>.tttt.,,.t.tt.</Line>
 	</Grid>
 	<Symbols>
 		<Symbol>
@@ -131,6 +135,38 @@
 						<Name>Oryx/uf_split/uf_terrain/ground_dirt_brown_1</Name>
 					</Sprite>
 				</TilingSprite>
+			</Sprite>
+		</Symbol>
+		<Symbol>
+			<Character>H</Character>
+			<Sprite meta:RefKey="SpriteWrapper">
+				<Sprite meta:RefKey="RenderedLayeredSprite">
+					<Layers>
+						<Layer>
+							<Name>Oryx/uf_split/uf_terrain/ground_grass_1</Name>
+						</Layer>
+						<Layer>
+							<Name>Oryx/Custom/terrain/GoblinTent</Name>
+							<DrawActualSize>true</DrawActualSize>
+						</Layer>
+					</Layers>
+				</Sprite>
+			</Sprite>
+		</Symbol>
+		<Symbol>
+			<Character>s</Character>
+			<Sprite meta:RefKey="SpriteWrapper">
+				<Sprite meta:RefKey="RenderedLayeredSprite">
+					<Layers>
+						<Layer>
+							<Name>Oryx/uf_split/uf_terrain/ground_grass_1</Name>
+						</Layer>
+						<Layer>
+							<Name>Oryx/Custom/terrain/HeadOnSpike</Name>
+							<DrawActualSize>true</DrawActualSize>
+						</Layer>
+					</Layers>
+				</Sprite>
 			</Sprite>
 		</Symbol>
 	</Symbols>

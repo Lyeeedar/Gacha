@@ -5,23 +5,32 @@
 		<Faction>FillerEnemy/FillerEnemy</Faction>
 	</Factions>
 	<Grid>
-		<Line>....t..t..</Line>
-		<Line>.t..B.....</Line>
-		<Line>..t!!.tt..</Line>
-		<Line>.ww?wwwwwt</Line>
-		<Line>twc???ccw.</Line>
-		<Line>.wccc?ccwt</Line>
-		<Line>twccc?ccw.</Line>
-		<Line>.wwwwBwwwt</Line>
-		<Line>.!!!!!..t.</Line>
-		<Line>.!.t.t....</Line>
-		<Line>.!!!B!!!!.</Line>
-		<Line>t....t..!.</Line>
-		<Line>.!!!B!!!!.</Line>
-		<Line>.!.......t</Line>
-		<Line>.!!!!!S.t.</Line>
-		<Line>......,...</Line>
-		<Line>.tt...,...</Line>
+		<Line>..t.t..t.......</Line>
+		<Line>.t...B.tt......</Line>
+		<Line>.t.!!,..t.t.t..</Line>
+		<Line>.t.!...t.......</Line>
+		<Line>tt.!!!!,.....t.</Line>
+		<Line>tt.wwwwBww.tt..</Line>
+		<Line>tt.wccc?cw..t..</Line>
+		<Line>.t.w????cw.t..t</Line>
+		<Line>..tw?ccccw.....</Line>
+		<Line>...w????cw.tt..</Line>
+		<Line>t.twwwwBww.....</Line>
+		<Line>..!!!!!,....t..</Line>
+		<Line>..!......t..tt.</Line>
+		<Line>..!!!B!!!!!!!t.</Line>
+		<Line>.t.....t....!..</Line>
+		<Line>..!!!!!!!!!B!..</Line>
+		<Line>..B.......t....</Line>
+		<Line>..!!!!!!!!!B!..</Line>
+		<Line>......t.....!..</Line>
+		<Line>t.!!!B!!!!!!!..</Line>
+		<Line>..!......t.....</Line>
+		<Line>..!!!!!S.......</Line>
+		<Line>.t.t...,t.t..t.</Line>
+		<Line>.......,.......</Line>
+		<Line>...t.t.,.t.t...</Line>
+		<Line>.......,.....tt</Line>
 	</Grid>
 	<Symbols>
 		<Symbol>

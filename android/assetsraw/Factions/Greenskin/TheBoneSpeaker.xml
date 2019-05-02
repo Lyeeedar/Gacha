@@ -3,8 +3,8 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>80</MaxHP>
-				<Power>10</Power>
+				<MaxHP>100</MaxHP>
+				<Power>8</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
 			</Statistics>
@@ -12,7 +12,7 @@
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
-			<Attack>
+			<Attack meta:RefKey="AttackDescription">
 				<Damage>1</Damage>
 				<Range>6</Range>
 				<FlightEffect meta:RefKey="ParticleEffect">
@@ -39,7 +39,7 @@
 			<Abilities>
 				<AbilityData>
 					<Name>Strength of Gorav</Name>
-					<Description>Channel the strength of the mighty Gorav, granting your strongest ally [GOLD]20%[] extra power for 5 turns.</Description>
+					<Description>Channel the strength of the mighty Gorav, granting your strongest ally [GOLD]30%[] extra power for 5 turns.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_heroes/troll_1</Name>
 						<Colour>120,89,120,193</Colour>
@@ -51,8 +51,8 @@
 								<Minimum>false</Minimum>
 							</SelectAllies>
 							<DestinationRenderable>
-								<Time>0.0224907082</Time>
 								<Duration LockDuration="False">0.0258983877</Duration>
+								<Time>0.0224907082</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Shout</Name>
 									<Colour>145,63,122,255</Colour>
@@ -61,8 +61,8 @@
 								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 							<Buff>
-								<Time>0.06610905</Time>
 								<Duration LockDuration="False">0.03680297</Duration>
+								<Time>0.06610905</Time>
 								<Buff meta:RefKey="Buff">
 									<Description>Strength of Gorav</Description>
 									<Icon meta:RefKey="Sprite">
@@ -70,7 +70,7 @@
 										<Colour>120,89,120,193</Colour>
 									</Icon>
 									<Statistics meta:RefKey="Statistics">
-										<Power>0.2</Power>
+										<Power>0.3</Power>
 									</Statistics>
 									<Duration>5</Duration>
 								</Buff>
@@ -81,7 +81,7 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Toughness of Nessa</Name>
-					<Description>Evoke the toughness of Nessa, granting your weakest ally [GOLD]20%[] damage reduction and [GOLD]30%[] chance to block attacks for 5 rounds.</Description>
+					<Description>Evoke the toughness of Nessa, granting your weakest ally [GOLD]30%[] damage reduction and [GOLD]30%[] chance to block attacks for 5 rounds.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_heroes/dwarf_1</Name>
 						<Colour>120,89,120,193</Colour>
@@ -92,8 +92,8 @@
 								<Condition>hp</Condition>
 							</SelectAllies>
 							<DestinationRenderable>
-								<Time>0.0224907082</Time>
 								<Duration LockDuration="False">0.0258983877</Duration>
+								<Time>0.0224907082</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Shout</Name>
 									<Colour>145,63,122,255</Colour>
@@ -102,8 +102,8 @@
 								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 							<Buff>
-								<Time>0.06610905</Time>
 								<Duration LockDuration="False">0.03680297</Duration>
+								<Time>0.06610905</Time>
 								<Buff meta:RefKey="Buff">
 									<Description>Toughness of Nessa</Description>
 									<Icon meta:RefKey="Sprite">
@@ -111,7 +111,7 @@
 										<Colour>120,89,120,193</Colour>
 									</Icon>
 									<Statistics meta:RefKey="Statistics">
-										<DR>0.2</DR>
+										<DR>0.3</DR>
 										<Aegis>0.3</Aegis>
 									</Statistics>
 									<Duration>5</Duration>
@@ -132,8 +132,8 @@
 						<Timeline>
 							<SelectAllies />
 							<DestinationRenderable>
-								<Time>0.0224907082</Time>
 								<Duration LockDuration="False">0.0258983877</Duration>
+								<Time>0.0224907082</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Shout</Name>
 									<Colour>145,63,122,255</Colour>
@@ -142,8 +142,8 @@
 								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 							<Buff>
-								<Time>0.06610905</Time>
 								<Duration LockDuration="False">0.03680297</Duration>
+								<Time>0.06610905</Time>
 								<Buff meta:RefKey="Buff">
 									<Description>Speed of Hellet</Description>
 									<Icon meta:RefKey="Sprite">
@@ -162,47 +162,44 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Wrath of the Ancestors</Name>
-					<Description>Unleash the wrath of the ancestors, smiting all foes for [GOLD]70%[] damage 3 times.</Description>
+					<Description>Summon a wrathful ancestor for 11 turns.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_heroes/banshee_1</Name>
 						<Colour>135,91,129,255</Colour>
 					</Icon>
 					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
-							<SelectEnemies>
-								<Count>10</Count>
-							</SelectEnemies>
-							<LockTargets>
-								<Time>0.005929514</Time>
-							</LockTargets>
-							<RepeatBegin>
-								<Time>0.0142385839</Time>
-								<Count>3</Count>
-							</RepeatBegin>
-							<BlockTurn>
-								<Time>0.0357806571</Time>
-							</BlockTurn>
-							<Damage>
-								<Time>0.0430246852</Time>
-								<Amount>0.7</Amount>
-							</Damage>
-							<RepeatEnd>
-								<Time>0.0798207447</Time>
-							</RepeatEnd>
+							<Summon>
+								<Duration LockDuration="False">0.142345816</Duration>
+								<Entity>Factions/Greenskin/Ancestor</Entity>
+								<Effect meta:RefKey="ParticleEffect">
+									<Name>Death</Name>
+									<Scale>0.6</Scale>
+								</Effect>
+								<KillOnExit>true</KillOnExit>
+							</Summon>
 						</Timeline>
 						<Timeline>
-							<DestinationRenderable>
-								<Time>0.0275065769</Time>
-								<Duration LockDuration="False">0.0489625931</Duration>
-								<Renderable meta:RefKey="ParticleEffect">
-									<Name>Stomp</Name>
-								</Renderable>
-								<RenderablePerTile>true</RenderablePerTile>
-								<AlignToVector>false</AlignToVector>
-							</DestinationRenderable>
+							<BlockTurn>
+								<Time>0.0146649946</Time>
+							</BlockTurn>
+							<UnlockEntity>
+								<Time>0.0514867827</Time>
+							</UnlockEntity>
+							<RepeatBegin>
+								<Time>0.07087004</Time>
+								<Count>10</Count>
+							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.0938876644</Time>
+							</BlockTurn>
+							<RepeatEnd>
+								<Time>0.11569383</Time>
+							</RepeatEnd>
 						</Timeline>
 					</Ability>
-					<Cooldown>12,15</Cooldown>
+					<Cooldown>7,12</Cooldown>
+					<SingleUse>true</SingleUse>
 					<Range>999</Range>
 				</AbilityData>
 			</Abilities>

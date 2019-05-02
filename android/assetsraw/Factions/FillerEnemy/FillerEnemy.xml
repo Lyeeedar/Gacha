@@ -70,5 +70,13 @@
 			<Entity>BlackSpider</Entity>
 			<Rarity>Uncommon</Rarity>
 		</Hero>
+		<Hero>
+			<Entity>GreenSlime</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>BrownWolf</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
 	</Heroes>
 </Faction>
