@@ -2,7 +2,7 @@
 	<Definition Name="Buff" IsGlobal="True" meta:RefKey="StructDef">
 		<Data Name="UseParentNameAndIcon" VisibleIf="Name==null &amp;&amp; Icon==null" meta:RefKey="Boolean" />
 		<Data Name="Name" VisibleIf="UseParentNameAndIcon==false" meta:RefKey="String" />
-		<Data Name="Description" VisibleIf="UseParentNameAndIcon==false" meta:RefKey="String" />
+		<Data Name="Description" meta:RefKey="String" />
 		<Data Name="Icon" Keys="Sprite" VisibleIf="UseParentNameAndIcon==false" meta:RefKey="Reference" />
 		<Data Name="Statistics" Keys="Statistics" Nullable="False" meta:RefKey="Reference" />
 		<Data Name="EventHandlers" Keys="EventHandler" meta:RefKey="Reference" />

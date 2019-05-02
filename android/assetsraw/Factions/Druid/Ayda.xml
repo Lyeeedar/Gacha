@@ -1,0 +1,216 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Ayda</Name>
+			<Title>Grace of the Forest</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>70</MaxHP>
+				<Power>8</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<EquipmentWeight>Light</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>9</Range>
+				<FlightEffect meta:RefKey="ParticleEffectTemplate">
+					<Base meta:RefKey="ParticleEffect">
+						<Name>FlightParticle</Name>
+					</Base>
+					<Overrides>
+						<OverrideTexture>
+							<Name>white</Name>
+							<Texture meta:RefKey="Texture">
+								<File>EffectSprites/Arrow/Arrow_0</File>
+							</Texture>
+						</OverrideTexture>
+					</Overrides>
+				</FlightEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/ayda</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/ayda</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Entangling Shot</Name>
+					<Description>Fire an arrow that entangles your enemy, slowing them by [GOLD]50%[] for 5 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/Custom/terrain/spiderweb</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<MovementRenderable>
+								<Duration LockDuration="False">0.105769232</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>FlightParticle</Name>
+										<Scale>0.5</Scale>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Oryx/Custom/terrain/spiderweb</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+							</MovementRenderable>
+							<Damage>
+								<Time>0.105769232</Time>
+							</Damage>
+							<Debuff>
+								<Time>0.119651444</Time>
+								<Duration LockDuration="False">0.103125006</Duration>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Haste>-0.5</Haste>
+									</Statistics>
+									<Duration>5</Duration>
+								</Buff>
+							</Debuff>
+						</Timeline>
+					</Ability>
+					<Range>9</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Ricochet Shot</Name>
+					<Description>Fire an arrow that bounces between enemies 4 times, dealing [GOLD]70%[] damage each hit.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>EffectSprites/Arrow/Arrow_0</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<MovementRenderable>
+								<Duration LockDuration="False">0.075</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>FlightParticle</Name>
+										<Scale>0.7</Scale>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>EffectSprites/Arrow/Arrow_0</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+							</MovementRenderable>
+							<Damage>
+								<Time>0.075</Time>
+								<Amount>0.7</Amount>
+							</Damage>
+							<RepeatBegin>
+								<Time>0.0798422</Time>
+								<Count>3</Count>
+							</RepeatBegin>
+							<SelectEnemies>
+								<Time>0.08528059</Time>
+							</SelectEnemies>
+							<MovementRenderable>
+								<Time>0.08948538</Time>
+								<Duration LockDuration="False">0.05</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>FlightParticle</Name>
+										<Scale>0.7</Scale>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>EffectSprites/Arrow/Arrow_0</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+							</MovementRenderable>
+							<Damage>
+								<Time>0.139485374</Time>
+								<Amount>0.7</Amount>
+							</Damage>
+							<RepeatEnd>
+								<Time>0.1455702</Time>
+							</RepeatEnd>
+						</Timeline>
+					</Ability>
+					<Range>9</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Rain of Arrows</Name>
+					<Description>Fire arrows into the air to rain down on all enemies, hitting them each 2 times for [GOLD]30%[] damage.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/ArrowRain</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<RepeatBegin>
+								<Count>1</Count>
+							</RepeatBegin>
+							<SelectEnemies>
+								<Time>0.01865578</Time>
+								<Count>99</Count>
+							</SelectEnemies>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.156155765</Duration>
+								<Time>0.0407663323</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>ArrowRainDest</Name>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<OnEnd>Nothing</OnEnd>
+								<AlignToVector>false</AlignToVector>
+								<SpawnBehaviour>Random</SpawnBehaviour>
+								<SpawnDuration>0.3</SpawnDuration>
+							</DestinationRenderable>
+							<Damage>
+								<Time>0.212123126</Time>
+								<Amount>0.7</Amount>
+							</Damage>
+							<RepeatEnd>
+								<Time>0.232851744</Time>
+							</RepeatEnd>
+						</Timeline>
+						<Timeline>
+							<SourceRenderable>
+								<Duration LockDuration="False">0.295728654</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>ArrowRainSource</Name>
+								</Renderable>
+							</SourceRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>8,12</Cooldown>
+					<Range>99</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

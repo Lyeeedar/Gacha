@@ -114,6 +114,7 @@ class SelectEntitiesAction() : AbstractActionSequenceAction()
 	val entities = ObjectSet<Entity>()
 	override fun enter(): Boolean
 	{
+		val oldTarget = sequence.targets[0]
 		sequence.targets.clear()
 		sequence.lockedTargets.clear()
 
@@ -136,6 +137,14 @@ class SelectEntitiesAction() : AbstractActionSequenceAction()
 		if (conditionString == "random")
 		{
 			sorted = entities.sortedBy { Random.random() }
+		}
+		else if (conditionString == "dist")
+		{
+			sorted = entities.filter { it != sequence.source }.sortedBy { it.pos().position.dist(sequence.source.pos().position) }
+		}
+		else if (conditionString == "distcurrent")
+		{
+			sorted = entities.filter { it != oldTarget }.sortedBy { it.pos().position.dist(oldTarget) }
 		}
 		else
 		{

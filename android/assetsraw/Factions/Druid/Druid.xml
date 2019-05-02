@@ -1,0 +1,38 @@
+<Faction xmlns:meta="Editor">
+	<Name>Druids</Name>
+	<Description>The druids who live in and tend to the great forest of Gallenflee. They deal with trespassers and defilers with a vicious fury.</Description>
+	<Icon meta:RefKey="Sprite">
+		<Name>Icons/Druids</Name>
+	</Icon>
+	<Buffs>
+		<Buff2 meta:RefKey="Buff">
+			<UseParentNameAndIcon>true</UseParentNameAndIcon>
+			<Description>Being in tune with nature lets a druids buffs be more powerful.</Description>
+			<Statistics meta:RefKey="Statistics">
+				<BuffPower>0.2</BuffPower>
+			</Statistics>
+		</Buff2>
+		<Buff3 meta:RefKey="Buff">
+			<UseParentNameAndIcon>true</UseParentNameAndIcon>
+			<Description>Being in tune with nature lets a druids debuffs be more debilitating.</Description>
+			<Statistics meta:RefKey="Statistics">
+				<DebuffPower>0.2</DebuffPower>
+			</Statistics>
+		</Buff3>
+		<Buff4 meta:RefKey="Buff">
+			<UseParentNameAndIcon>true</UseParentNameAndIcon>
+			<Description>Being in tune with nature lets a druids buffs and debuffs be more powerful.</Description>
+			<Statistics meta:RefKey="Statistics">
+				<BuffPower>0.2</BuffPower>
+				<DebuffPower>0.2</DebuffPower>
+			</Statistics>
+		</Buff4>
+		<Buff5 meta:RefKey="Buff">
+			<UseParentNameAndIcon>true</UseParentNameAndIcon>
+			<Description>When druids stand together nature will nourish and replenish them.</Description>
+			<Statistics meta:RefKey="Statistics">
+				<Regeneration>0.05</Regeneration>
+			</Statistics>
+		</Buff5>
+	</Buffs>
+</Faction>
