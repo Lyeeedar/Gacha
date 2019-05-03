@@ -78,7 +78,7 @@ class Global
 			var faction = Faction.load("Adventurer/Adventurer")
 			for (hero in faction.heroes)
 			{
-				if (hero.rarity == Rarity.COMMON || hero.rarity == Rarity.UNCOMMON)
+				if ((hero.rarity == Rarity.COMMON || hero.rarity == Rarity.UNCOMMON) && data.heroPool.size < 5)
 				{
 					data.heroPool.add(EntityData(hero, Ascension.MUNDANE, 1))
 				}

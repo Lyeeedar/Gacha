@@ -46,12 +46,15 @@
 					</Icon>
 					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
+							<SelectSelf />
 							<Permute>
+								<Time>0.00283014658</Time>
 								<HitPoints>
 									<Line>###</Line>
 									<Line>#@#</Line>
 									<Line>###</Line>
 								</HitPoints>
+								<AppendTargets>true</AppendTargets>
 							</Permute>
 							<DestinationRenderable>
 								<Duration LockDuration="False">0.08045564</Duration>

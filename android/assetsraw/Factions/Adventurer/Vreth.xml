@@ -82,13 +82,16 @@
 																<Time>0.0213001389</Time>
 																<Count>10</Count>
 															</RepeatBegin>
+															<BlockTurn>
+																<Time>0.0435766131</Time>
+															</BlockTurn>
 															<Damage>
-																<Time>0.0448824354</Time>
+																<Time>0.06304633</Time>
 																<Amount>0.1</Amount>
 																<BonusCritChance>-1</BonusCritChance>
 															</Damage>
 															<RepeatEnd>
-																<Time>0.0661825761</Time>
+																<Time>0.0858254358</Time>
 															</RepeatEnd>
 														</Timeline>
 														<Timeline>
