@@ -56,8 +56,8 @@
 						<Timeline>
 							<SelectSelf />
 							<Buff>
-								<Time>0.0229425021</Time>
 								<Duration LockDuration="False">0.110372052</Duration>
+								<Time>0.0229425021</Time>
 								<Buff meta:RefKey="Buff">
 									<UseParentNameAndIcon>true</UseParentNameAndIcon>
 									<Statistics meta:RefKey="Statistics">
@@ -79,24 +79,7 @@
 					</Icon>
 					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
-							<SelectSelf />
-							<Buff>
-								<Time>0.0229425021</Time>
-								<Duration LockDuration="False">0.0570462234</Duration>
-								<Buff meta:RefKey="Buff">
-									<UseParentNameAndIcon>true</UseParentNameAndIcon>
-									<Statistics meta:RefKey="Statistics">
-										<LifeSteal>1</LifeSteal>
-									</Statistics>
-									<Duration>2</Duration>
-								</Buff>
-							</Buff>
-							<SelectEnemies>
-								<Time>0.08990981</Time>
-								<Condition>dist</Condition>
-							</SelectEnemies>
 							<DestinationRenderable>
-								<Time>0.1072717</Time>
 								<Duration LockDuration="False">0.06944758</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>slash</Name>
@@ -106,8 +89,9 @@
 						</Timeline>
 						<Timeline>
 							<Damage>
-								<Time>0.137034953</Time>
+								<Time>0.0412211455</Time>
 								<Amount>1.5</Amount>
+								<BonusLifesteal>1</BonusLifesteal>
 							</Damage>
 						</Timeline>
 					</Ability>

@@ -61,6 +61,7 @@
 			<Data Name="OverrideTexture" meta:RefKey="Struct">
 				<Data Name="Name" meta:RefKey="String" />
 				<Data Name="Texture" Keys="Texture" Nullable="False" meta:RefKey="Reference" />
+				<Data Name="BlendMode" EnumValues="Current,Additive,Multiplicative" meta:RefKey="Enum" />
 			</Data>
 		</Data>
 	</Definition>

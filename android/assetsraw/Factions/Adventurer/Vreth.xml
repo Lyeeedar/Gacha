@@ -1,0 +1,194 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Vreth</Name>
+			<Title>Redvalley Poisoner</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>70</MaxHP>
+				<Power>6</Power>
+				<CritChance>0.1</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<EquipmentWeight>Heavy</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>9</Range>
+				<FlightEffect meta:RefKey="ParticleEffectTemplate">
+					<Base meta:RefKey="ParticleEffect">
+						<Name>FastSpinningFlightParticle</Name>
+					</Base>
+					<Overrides>
+						<OverrideTexture>
+							<Name>white</Name>
+							<Texture meta:RefKey="Texture">
+								<File>Oryx/uf_split/uf_items/weapon_dagger</File>
+							</Texture>
+							<BlendMode>Multiplicative</BlendMode>
+						</OverrideTexture>
+					</Overrides>
+				</FlightEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/halfling_thief</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/halfling_thief</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Poisoned Blades</Name>
+					<Description>Each critical hit will poison the enemy, dealing [GOLD]10%[] damage a round for 10 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/weapon_magic_sword_acid</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<Buff>
+								<Duration LockDuration="False">0.235714272</Duration>
+								<Time>0.0237068962</Time>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics" />
+									<EventHandlers meta:RefKey="EventHandler">
+										<Events>
+											<Crit>
+												<EventHandler>
+													<Condition>1</Condition>
+													<ActionSequence meta:RefKey="ActionSequence">
+														<Timeline>
+															<RepeatBegin>
+																<Time>0.0213001389</Time>
+																<Count>10</Count>
+															</RepeatBegin>
+															<Damage>
+																<Time>0.0448824354</Time>
+																<Amount>0.1</Amount>
+																<BonusCritChance>-1</BonusCritChance>
+															</Damage>
+															<RepeatEnd>
+																<Time>0.0661825761</Time>
+															</RepeatEnd>
+														</Timeline>
+														<Timeline>
+															<Debuff>
+																<Duration LockDuration="False">0.117150769</Duration>
+																<Buff meta:RefKey="Buff">
+																	<Name>Poison</Name>
+																	<Icon meta:RefKey="Sprite">
+																		<Name>Oryx/uf_split/uf_items/weapon_magic_sword_acid</Name>
+																	</Icon>
+																	<Statistics meta:RefKey="Statistics" />
+																</Buff>
+															</Debuff>
+														</Timeline>
+													</ActionSequence>
+												</EventHandler>
+											</Crit>
+										</Events>
+									</EventHandlers>
+									<Duration>99</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+					</Ability>
+					<SingleUse>true</SingleUse>
+					<AvailableOnStart>true</AvailableOnStart>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Reposition</Name>
+					<Description>Leap to a random tile on the map, and gain [GOLD]30%[] haste and [GOLD]20%[] more crit for 5 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/running-ninja</Name>
+						<Colour>158,111,147,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<Buff>
+								<Duration LockDuration="False">0.07581081</Duration>
+								<Time>0.020067567</Time>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<CritChance>0.2</CritChance>
+										<Haste>0.3</Haste>
+									</Statistics>
+									<Duration>5</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<SelectTiles>
+								<Time>0.03493243</Time>
+								<EmptyOnly>true</EmptyOnly>
+							</SelectTiles>
+							<MoveSource>
+								<Time>0.0587162152</Time>
+								<MoveType>Leap</MoveType>
+							</MoveSource>
+						</Timeline>
+					</Ability>
+					<Cooldown>7,12</Cooldown>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Targetted Throw</Name>
+					<Description>Aim a dagger carefully and throw it at your enemy. This attack will always crit.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/weapon_dagger</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<MovementRenderable>
+								<Time>0.000743243261</Time>
+								<Duration LockDuration="False">0.147162169</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>FastSpinningFlightParticle</Name>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Oryx/uf_split/uf_items/weapon_dagger</File>
+											</Texture>
+											<BlendMode>Multiplicative</BlendMode>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+							</MovementRenderable>
+							<Damage>
+								<Time>0.147905409</Time>
+								<BonusCritChance>1</BonusCritChance>
+							</Damage>
+						</Timeline>
+					</Ability>
+					<Range>99</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

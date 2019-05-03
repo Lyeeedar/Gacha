@@ -1,0 +1,194 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Sandazu</Name>
+			<Title>Stoneshaper</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>80</MaxHP>
+				<Power>7</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<EquipmentWeight>Light</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>9</Range>
+				<FlightEffect meta:RefKey="ParticleEffectTemplate">
+					<Base meta:RefKey="ParticleEffect">
+						<Name>FlightParticle</Name>
+						<Colour>181,153,95,255</Colour>
+					</Base>
+					<Overrides>
+						<OverrideTexture>
+							<Name>white</Name>
+							<Texture meta:RefKey="Texture">
+								<File>Particle/shard</File>
+							</Texture>
+							<BlendMode>Multiplicative</BlendMode>
+						</OverrideTexture>
+					</Overrides>
+				</FlightEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/sandazu</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/sandazu</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Implosion</Name>
+					<Description>Suck a 3x3 block of enemies into a single point, smashing them together and dealing [GOLD]130%[] damage.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>EffectSprites/Shout/Shout_2</Name>
+						<Colour>214,156,76,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<StoreTargets>
+								<Time>2.99060648E-05</Time>
+								<Key>Origin</Key>
+							</StoreTargets>
+							<Permute>
+								<Time>0.00396103971</Time>
+								<HitPoints>
+									<Line>.###.</Line>
+									<Line>#####</Line>
+									<Line>##@##</Line>
+									<Line>#####</Line>
+									<Line>.###.</Line>
+								</HitPoints>
+								<AppendTargets>true</AppendTargets>
+							</Permute>
+							<Pull>
+								<Time>0.0431383923</Time>
+								<MoveType>Roll</MoveType>
+								<Origin>Origin</Origin>
+							</Pull>
+							<Damage>
+								<Time>0.1983372</Time>
+								<Amount>1.3</Amount>
+							</Damage>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="True">0.25</Duration>
+								<Time>0.0161029622</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Implosion</Name>
+								</Renderable>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Stone Edge</Name>
+					<Description>Fire a shard of stone at an enemy, it has [GOLD]50%[] higher crit chance.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/Custom/items/shard</Name>
+						<Colour>148,130,85,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<MovementRenderable>
+								<Duration LockDuration="False">0.154479414</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>Bolt</Name>
+										<Colour>199,156,108,255</Colour>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>EffectSprites/Bolt/Bolt_0</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Particle/shard</File>
+											</Texture>
+											<BlendMode>Multiplicative</BlendMode>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+							</MovementRenderable>
+							<Damage>
+								<Time>0.154479414</Time>
+								<BonusCritChance>0.5</BonusCritChance>
+							</Damage>
+						</Timeline>
+					</Ability>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Stoneskin</Name>
+					<Description>Transform your skin into rock, giving you [GOLD]50%[] damage resistance but lowering your speed by [GOLD]20%[] for 6 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/Custom/items/Gel</Name>
+						<Colour>125,108,64,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<UnlockEntity>
+								<Time>0.0245423336</Time>
+							</UnlockEntity>
+							<ReplaceSourceRenderable>
+								<Duration LockDuration="False">0.0818077847</Duration>
+								<Time>0.0434210524</Time>
+								<Renderable meta:RefKey="Sprite">
+									<Name>Oryx/Custom/heroes/sandazu</Name>
+									<Colour>150,119,40,255</Colour>
+								</Renderable>
+							</ReplaceSourceRenderable>
+						</Timeline>
+						<Timeline>
+							<RepeatBegin>
+								<Time>0.0572654456</Time>
+								<Count>6</Count>
+							</RepeatBegin>
+							<RepeatEnd>
+								<Time>0.09628146</Time>
+							</RepeatEnd>
+						</Timeline>
+						<Timeline>
+							<Buff>
+								<Duration LockDuration="False">0.0818077847</Duration>
+								<Time>0.0434210524</Time>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Haste>-0.2</Haste>
+										<DR>0.5</DR>
+									</Statistics>
+								</Buff>
+							</Buff>
+						</Timeline>
+					</Ability>
+					<Cooldown>7,12</Cooldown>
+					<Condition>hp&lt;maxhp*0.7</Condition>
+					<Range>99</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

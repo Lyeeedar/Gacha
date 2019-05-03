@@ -66,11 +66,10 @@
 							</DestinationRenderable>
 							<Heal>
 								<Time>0.116726622</Time>
-								<Amount>2</Amount>
 							</Heal>
 						</Timeline>
 					</Ability>
-					<Cooldown>4,10</Cooldown>
+					<Cooldown>3,7</Cooldown>
 					<Range>99</Range>
 				</AbilityData>
 			</Abilities>

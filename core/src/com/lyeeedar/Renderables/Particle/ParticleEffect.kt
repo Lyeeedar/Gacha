@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Pools
 import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
+import com.lyeeedar.BlendMode
 import com.lyeeedar.Direction
 import com.lyeeedar.Renderables.Light
 import com.lyeeedar.Renderables.Renderable
@@ -22,6 +23,8 @@ import ktx.collections.set
  * Created by Philip on 14-Aug-16.
  */
 
+class TextureOverride(val oldName: String, val newName: String, val blendMode: BlendMode?)
+
 class ParticleEffectDescription(val path: String)
 {
 	var colour = Colour.WHITE.copy()
@@ -32,7 +35,7 @@ class ParticleEffectDescription(val path: String)
 	var timeMultiplier = 1f
 	var killOnAnimComplete = false
 
-	val textureOverrides = Array<Pair<String, String>>()
+	val textureOverrides = Array<TextureOverride>()
 
 	fun getParticleEffect(): ParticleEffect
 	{
@@ -48,17 +51,17 @@ class ParticleEffectDescription(val path: String)
 		return effect
 	}
 
-	fun getTexture(name: String): String
+	fun getTexture(name: String): TextureOverride?
 	{
 		for (texOverride in textureOverrides)
 		{
-			if (texOverride.first == name)
+			if (texOverride.oldName == name)
 			{
-				return texOverride.second
+				return texOverride
 			}
 		}
 
-		return name
+		return null
 	}
 }
 

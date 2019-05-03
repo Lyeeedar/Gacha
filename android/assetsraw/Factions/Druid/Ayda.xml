@@ -12,7 +12,7 @@
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
 				<MaxHP>60</MaxHP>
-				<Power>5.5</Power>
+				<Power>6</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
 			</Statistics>
@@ -131,8 +131,12 @@
 								<Time>0.0798422</Time>
 								<Count>3</Count>
 							</RepeatBegin>
+							<StoreTargets>
+								<Time>0.08372469</Time>
+								<Key>Source</Key>
+							</StoreTargets>
 							<SelectEnemies>
-								<Time>0.08528059</Time>
+								<Time>0.08543618</Time>
 							</SelectEnemies>
 							<MovementRenderable>
 								<Time>0.08948538</Time>
@@ -151,6 +155,7 @@
 										</OverrideTexture>
 									</Overrides>
 								</Renderable>
+								<Origin>Source</Origin>
 							</MovementRenderable>
 							<Damage>
 								<Time>0.139485374</Time>

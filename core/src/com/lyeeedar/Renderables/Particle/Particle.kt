@@ -448,7 +448,25 @@ class Particle(val emitter: Emitter)
 		{
 			keyframes[i] = ParticleKeyframe(
 					input.readFloat(),
-					kotlin.Array<Pair<String, TextureRegion>>(numTextureStreams) { i -> val name = emitter.particleEffect.description.getTexture(input.readString()); Pair(name, AssetManager.loadTextureRegion(name)!!) },
+					kotlin.Array<Pair<String, TextureRegion>>(numTextureStreams)
+					{ i ->
+						val oldTexName = input.readString()
+						val desc = emitter.particleEffect.description.getTexture(oldTexName)
+						if (desc != null)
+						{
+							if (desc.blendMode != null)
+							{
+								blend = desc.blendMode
+							}
+
+							Pair(desc.newName, AssetManager.loadTextureRegion(desc.newName)!!)
+						}
+						else
+						{
+							Pair(oldTexName, AssetManager.loadTextureRegion(oldTexName)!!)
+						}
+					},
+
 					kotlin.Array<Colour>(numColourStreams) { i -> kryo.readObject(input, Colour::class.java) },
 					kotlin.Array<Float>(numAlphaStreams) { i -> input.readFloat() },
 					kotlin.Array<Float>(numAlphaRefStreams) { i -> input.readFloat() },

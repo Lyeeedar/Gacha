@@ -71,5 +71,9 @@
 			<Entity>Molf</Entity>
 			<Rarity>Common</Rarity>
 		</Hero>
+		<Hero>
+			<Entity>Vreth</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
 	</Heroes>
 </Faction>

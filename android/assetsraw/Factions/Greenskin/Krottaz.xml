@@ -55,8 +55,8 @@
 						<Timeline>
 							<SelectSelf />
 							<Summon>
-								<Time>0.0277367774</Time>
 								<Duration LockDuration="False">0.0933579355</Duration>
+								<Time>0.0277367774</Time>
 								<Entity>Factions/Greenskin/Snake</Entity>
 							</Summon>
 						</Timeline>
@@ -99,8 +99,8 @@
 						</Timeline>
 						<Timeline>
 							<Debuff>
-								<Time>0.07509225</Time>
 								<Duration LockDuration="False">0.133948356</Duration>
+								<Time>0.07509225</Time>
 								<Buff meta:RefKey="Buff">
 									<UseParentNameAndIcon>true</UseParentNameAndIcon>
 									<Statistics meta:RefKey="Statistics">
@@ -121,8 +121,8 @@
 						<Timeline>
 							<SelectSelf />
 							<Buff>
-								<Duration LockDuration="False">0.12875</Duration>
 								<Time>0.019375</Time>
+								<Duration LockDuration="False">0.12875</Duration>
 								<Buff meta:RefKey="Buff">
 									<UseParentNameAndIcon>true</UseParentNameAndIcon>
 									<Statistics meta:RefKey="Statistics">

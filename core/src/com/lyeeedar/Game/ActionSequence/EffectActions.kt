@@ -23,6 +23,9 @@ import com.lyeeedar.Util.*
 class DamageAction : AbstractActionSequenceAction()
 {
 	lateinit var damage: CompiledExpression
+	var bonusLifesteal: Float = 0f
+	var bonusCritChance: Float = 0f
+	var bonusCritDamage: Float = 0f
 
 	val hitEntities = ObjectSet<Entity>()
 	val map = ObjectFloatMap<String>()
@@ -49,7 +52,7 @@ class DamageAction : AbstractActionSequenceAction()
 					var damModifier = damage.evaluate(map)
 					damModifier += damModifier * sourceStats.getStat(Statistic.ABILITYPOWER)
 
-					var attackDam = sourceStats.getAttackDam(damModifier)
+					var attackDam = sourceStats.getAttackDam(damModifier, bonusCritChance, bonusCritDamage)
 
 					if (targetstats.checkAegis())
 					{
@@ -75,7 +78,7 @@ class DamageAction : AbstractActionSequenceAction()
 					BloodSplatter.splatter(sequence.source.tile()!!, entity.tile()!!, 1f)
 					targetstats.lastHitSource = sequence.source.tile()!!
 
-					val lifeSteal = sourceStats.getStat(Statistic.LIFESTEAL)
+					val lifeSteal = sourceStats.getStat(Statistic.LIFESTEAL) + bonusLifesteal
 					val stolenLife = finalDam * lifeSteal
 					if (stolenLife > 0f)
 					{
@@ -86,6 +89,10 @@ class DamageAction : AbstractActionSequenceAction()
 							val healEventData = EventData.obtain().set(EventType.HEALED, sequence.source, sequence.source, mapOf(Pair("damage", stolenLife)))
 							Global.engine.event().addEvent(healEventData)
 						}
+					}
+					else if (stolenLife < 0f)
+					{
+						sourceStats.dealDamage(stolenLife)
 					}
 
 					// do damage events
@@ -135,6 +142,9 @@ class DamageAction : AbstractActionSequenceAction()
 	{
 		val action = DamageAction.obtain()
 		action.damage = damage
+		action.bonusLifesteal = bonusLifesteal
+		action.bonusCritChance = bonusCritChance
+		action.bonusCritDamage = bonusCritDamage
 
 		return action
 	}
@@ -147,6 +157,10 @@ class DamageAction : AbstractActionSequenceAction()
 		StatisticsComponent.writeDefaultVariables(map, "target")
 
 		damage = CompiledExpression(damageStr, map)
+
+		bonusLifesteal = xmlData.getFloat("BonusLifesteal", 0f)
+		bonusCritChance = xmlData.getFloat("BonusCritChance", 0f)
+		bonusCritDamage = xmlData.getFloat("BonusCritDamage", 0f)
 	}
 
 	var obtained: Boolean = false

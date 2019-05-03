@@ -16,6 +16,7 @@ import ktx.collections.toGdxArray
 
 class PermuteAction() : AbstractActionSequenceAction()
 {
+	var appendTargets = false
 	val hitPoints = Array<Point>(4)
 
 	val mat = Matrix3()
@@ -24,8 +25,12 @@ class PermuteAction() : AbstractActionSequenceAction()
 	override fun enter(): Boolean
 	{
 		val current = sequence.targets.toGdxArray()
-		sequence.targets.clear()
-		sequence.lockedTargets.clear()
+
+		if (!appendTargets)
+		{
+			sequence.targets.clear()
+			sequence.lockedTargets.clear()
+		}
 
 		mat.setToRotation(sequence.facing.angle)
 
@@ -61,6 +66,7 @@ class PermuteAction() : AbstractActionSequenceAction()
 	{
 		val action = PermuteAction.obtain()
 		action.hitPoints.addAll(hitPoints)
+		action.appendTargets = appendTargets
 
 		return action
 	}
@@ -70,6 +76,8 @@ class PermuteAction() : AbstractActionSequenceAction()
 		val hitPointsEl = xmlData.getChildByName("HitPoints")
 		if (hitPointsEl != null) hitPoints.addAll(hitPointsEl.toHitPointArray())
 		else hitPoints.add(Point(0, 0))
+
+		appendTargets = xmlData.getBoolean("AppendTargets", false)
 	}
 
 	var obtained: Boolean = false

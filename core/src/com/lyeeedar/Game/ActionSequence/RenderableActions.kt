@@ -478,11 +478,19 @@ class AttachToEntityRenderableAction() : AbstractActionSequenceAction()
 		RANDOM
 	}
 
+	enum class SelectionMode
+	{
+		ANY,
+		ALLIES,
+		ENEMIES
+	}
+
 	lateinit var renderable: ParticleEffectDescription
 	var above = true
 
 	var spawnBehaviour: SpawnBehaviour = SpawnBehaviour.IMMEDIATE
 	var spawnDuration = 0f
+	var selectionMode: SelectionMode = SelectionMode.ANY
 
 	val attachGuid = this.hashCode().toString()
 	val entities = Array<Entity>(1)
@@ -500,6 +508,9 @@ class AttachToEntityRenderableAction() : AbstractActionSequenceAction()
 		{
 			val tile = sequence.level.getTile(point) ?: continue
 			val entity = tile.firstEntity() ?: continue
+
+			if (selectionMode == SelectionMode.ALLIES && !sequence.source.isAllies(entity)) continue
+			if (selectionMode == SelectionMode.ENEMIES && !sequence.source.isEnemies(entity)) continue
 
 			val r = renderable.getParticleEffect()
 			if (spawnBehaviour == SpawnBehaviour.IMMEDIATE)
@@ -593,6 +604,7 @@ class AttachToEntityRenderableAction() : AbstractActionSequenceAction()
 		out.above = above
 		out.spawnBehaviour = spawnBehaviour
 		out.spawnDuration = spawnDuration
+		out.selectionMode = selectionMode
 
 		return out
 	}
@@ -603,6 +615,7 @@ class AttachToEntityRenderableAction() : AbstractActionSequenceAction()
 		above = xmlData.getBoolean("Above", true)
 		spawnBehaviour = SpawnBehaviour.valueOf(xmlData.get("SpawnBehaviour", "Immediate")!!.toUpperCase())
 		spawnDuration = xmlData.getFloat("SpawnDuration", 0f)
+		selectionMode = SelectionMode.valueOf(xmlData.get("SelectionMode", "Any")!!.toUpperCase())
 	}
 
 	var obtained: Boolean = false
@@ -731,6 +744,7 @@ class MovementRenderableAction() : AbstractActionSequenceAction()
 	lateinit var renderable: ParticleEffectDescription
 	lateinit var slot: SpaceSlot
 	var useLeap: Boolean = false
+	var origin: String? = null
 
 	lateinit var entity: Entity
 
@@ -752,17 +766,28 @@ class MovementRenderableAction() : AbstractActionSequenceAction()
 		pos.position = sequence.level.getTileClamped(midPoint)
 		pos.slot = slot
 
-		r.rotation = getRotation(sequence.source.tile()!!, pos.position)
+		val originPoint: Point
+		if (origin == null)
+		{
+			originPoint = sequence.source.tile()!!
+		}
+		else
+		{
+			val targets = sequence.storedTargets[origin!!]
+			originPoint = targets[0]
+		}
+
+		r.rotation = getRotation(originPoint, pos.position)
 
 		val duration = end - start
 		if (useLeap)
 		{
-			r.animation = LeapAnimation.obtain().set(duration, pos.position.getPosDiff(sequence.source.tile()!!), 2f)
+			r.animation = LeapAnimation.obtain().set(duration, pos.position.getPosDiff(originPoint), 2f)
 			r.animation = ExpandAnimation.obtain().set(duration, 0.5f, 1.5f, false)
 		}
 		else
 		{
-			r.animation = MoveAnimation.obtain().set(duration, UnsmoothedPath(midPoint.getPosDiff(sequence.source.tile()!!)), Interpolation.linear)
+			r.animation = MoveAnimation.obtain().set(duration, UnsmoothedPath(midPoint.getPosDiff(originPoint)), Interpolation.linear)
 		}
 
 		Global.engine.addEntity(entity)
@@ -783,6 +808,7 @@ class MovementRenderableAction() : AbstractActionSequenceAction()
 		out.renderable = renderable
 		out.useLeap = useLeap
 		out.slot = slot
+		out.origin = origin
 
 		return out
 	}
@@ -792,6 +818,7 @@ class MovementRenderableAction() : AbstractActionSequenceAction()
 		slot = SpaceSlot.valueOf(xmlData.get("Slot", "Entity")!!.toUpperCase())
 		useLeap = xmlData.getBoolean("UseLeap", false)
 		renderable = AssetManager.loadParticleEffect(xmlData.getChildByName("Renderable")!!)
+		origin = xmlData.get("Origin", null)
 	}
 
 	var obtained: Boolean = false

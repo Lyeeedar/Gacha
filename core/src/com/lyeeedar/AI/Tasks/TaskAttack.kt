@@ -124,6 +124,10 @@ class TaskAttack() : AbstractTask()
 							Global.engine.event().addEvent(healEventData)
 						}
 					}
+					else if (stolenLife < 0f)
+					{
+						attackerStats.dealDamage(stolenLife)
+					}
 
 					// do damage events
 

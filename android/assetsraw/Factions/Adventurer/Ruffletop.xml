@@ -20,7 +20,7 @@
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
-			<Attack>
+			<Attack meta:RefKey="AttackDescription">
 				<Damage>1</Damage>
 				<Range>6</Range>
 				<FlightEffect meta:RefKey="ParticleEffect">
@@ -48,59 +48,38 @@
 			<Abilities>
 				<AbilityData>
 					<Name>Healing Breeze</Name>
-					<Description>Send a healing breeze over one ally, healing them for [GOLD]80%[] power for 5 turns.</Description>
+					<Description>Send a healing breeze over one ally, healing them for [GOLD]50%[] power for 5 turns.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_items/book_green</Name>
 					</Icon>
 					<Ability meta:RefKey="ActionSequence">
-						<Timeline>
-							<Heal>
-								<Time>0.086613</Time>
-								<Amount>0.8</Amount>
-							</Heal>
-							<Heal>
-								<Time>0.108225875</Time>
-								<Amount>0.8</Amount>
-							</Heal>
-							<Heal>
-								<Time>0.128062353</Time>
-								<Amount>0.8</Amount>
-							</Heal>
-							<Heal>
-								<Time>0.148787037</Time>
-								<Amount>0.8</Amount>
-							</Heal>
-							<Heal>
-								<Time>0.1695117</Time>
-							</Heal>
-						</Timeline>
 						<Timeline>
 							<SelectAllies />
 							<LockTargets>
 								<Time>0.02004049</Time>
 							</LockTargets>
 							<UnlockEntity>
-								<Time>0.06902834</Time>
+								<Time>0.07942139</Time>
 							</UnlockEntity>
+							<RepeatBegin>
+								<Time>0.0830384046</Time>
+								<Count>5</Count>
+							</RepeatBegin>
+							<Heal>
+								<Time>0.086613</Time>
+								<Amount>0.5</Amount>
+							</Heal>
 							<BlockTurn>
+								<Time>0.09044665</Time>
+							</BlockTurn>
+							<RepeatEnd>
 								<Time>0.09426451</Time>
-							</BlockTurn>
-							<BlockTurn>
-								<Time>0.115047239</Time>
-							</BlockTurn>
-							<BlockTurn>
-								<Time>0.137314439</Time>
-							</BlockTurn>
-							<BlockTurn>
-								<Time>0.158097163</Time>
-							</BlockTurn>
-							<BlockTurn>
-								<Time>0.1773954</Time>
-							</BlockTurn>
+							</RepeatEnd>
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.09426451</Duration>
+								<Duration LockDuration="False">0.07182809</Duration>
+								<Time>0.0046351105</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Heal</Name>
 									<Colour>255,200,253,255</Colour>
@@ -110,7 +89,7 @@
 							</DestinationRenderable>
 						</Timeline>
 					</Ability>
-					<Cooldown>4,9</Cooldown>
+					<Cooldown>6,12</Cooldown>
 					<Range>999</Range>
 				</AbilityData>
 				<AbilityData>
@@ -131,8 +110,8 @@
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Time>0.034137927</Time>
 								<Duration LockDuration="False">0.141103446</Duration>
+								<Time>0.034137927</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Heal</Name>
 									<Colour>250,200,238,255</Colour>
@@ -142,7 +121,7 @@
 							</DestinationRenderable>
 						</Timeline>
 					</Ability>
-					<Cooldown>7,11</Cooldown>
+					<Cooldown>6,9</Cooldown>
 					<Range>999</Range>
 				</AbilityData>
 				<AbilityData>
@@ -157,8 +136,8 @@
 								<Count>10</Count>
 							</SelectAllies>
 							<Buff>
-								<Time>0.0141189089</Time>
 								<Duration LockDuration="False">0.00690094568</Duration>
+								<Time>0.0141189089</Time>
 								<Buff meta:RefKey="Buff">
 									<Name>Bless</Name>
 									<Icon meta:RefKey="Sprite">
@@ -173,8 +152,8 @@
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Time>0.009956561</Time>
 								<Duration LockDuration="False">0.0355795175</Duration>
+								<Time>0.009956561</Time>
 								<Renderable meta:RefKey="ParticleEffectTemplate">
 									<Base meta:RefKey="ParticleEffect">
 										<Name>Buff</Name>

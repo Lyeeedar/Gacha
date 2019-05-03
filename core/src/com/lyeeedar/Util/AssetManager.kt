@@ -12,10 +12,12 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.ObjectMap
+import com.lyeeedar.BlendMode
 import com.lyeeedar.Renderables.Animation.AbstractAnimation
 import com.lyeeedar.Renderables.Light
 import com.lyeeedar.Renderables.LightAnimation
 import com.lyeeedar.Renderables.Particle.ParticleEffectDescription
+import com.lyeeedar.Renderables.Particle.TextureOverride
 import com.lyeeedar.Renderables.Renderable
 import com.lyeeedar.Renderables.Sprite.DirectionalSprite
 import com.lyeeedar.Renderables.Sprite.Sprite
@@ -200,8 +202,10 @@ class AssetManager
 				{
 					val texName = overrideEl.get("Name")
 					val overrideName = overrideEl.getChildByName("Texture")!!.get("File")
+					val blendModeStr = overrideEl.get("BlendMode", "Current")!!
+					val blendMode = if (blendModeStr != "Current") BlendMode.valueOf(blendModeStr.toUpperCase()) else null
 
-					effect.textureOverrides.add(Pair(texName, overrideName))
+					effect.textureOverrides.add(TextureOverride(texName, overrideName, blendMode))
 				}
 			}
 

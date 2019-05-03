@@ -67,5 +67,9 @@
 			<Entity>Krottaz</Entity>
 			<Rarity>Common</Rarity>
 		</Hero>
+		<Hero>
+			<Entity>Sandazu</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
 	</Heroes>
 </Faction>

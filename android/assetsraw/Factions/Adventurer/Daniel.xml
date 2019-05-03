@@ -112,6 +112,7 @@
 								<Above>true</Above>
 								<SpawnBehaviour>FromSource</SpawnBehaviour>
 								<SpawnDuration>0.2</SpawnDuration>
+								<SelectionMode>Enemies</SelectionMode>
 							</AttachToEntityRenderable>
 						</Timeline>
 					</Ability>

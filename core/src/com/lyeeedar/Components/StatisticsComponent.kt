@@ -266,19 +266,19 @@ class StatisticsComponent: AbstractComponent()
 		return clamp(value, statistic.min, statistic.max)
 	}
 
-	fun getCritMultiplier(): Pair<Float, Boolean>
+	fun getCritMultiplier(extraCritChance: Float = 0f, extraCritDam: Float = 0f): Pair<Float, Boolean>
 	{
-		val critChance = getStat(Statistic.CRITCHANCE)
+		val critChance = getStat(Statistic.CRITCHANCE) + extraCritChance
 		if (Random.random() <= critChance)
 		{
-			val mult = getStat(Statistic.CRITDAMAGE)
+			val mult = getStat(Statistic.CRITDAMAGE) + extraCritDam
 			return Pair(mult, true)
 		}
 
 		return Pair(1f, false)
 	}
 
-	fun getAttackDam(multiplier: Float): Pair<Float, Boolean>
+	fun getAttackDam(multiplier: Float, extraCritChance: Float = 0f, extraCritDam: Float = 0f): Pair<Float, Boolean>
 	{
 		val baseAttack = getStat(Statistic.POWER)
 
@@ -289,7 +289,7 @@ class StatisticsComponent: AbstractComponent()
 
 		val attack = baseAttack + baseAttack * modifier
 
-		val critMult = getCritMultiplier()
+		val critMult = getCritMultiplier(extraCritChance, extraCritDam)
 
 		return Pair(attack * critMult.first * multiplier, critMult.second)
 	}

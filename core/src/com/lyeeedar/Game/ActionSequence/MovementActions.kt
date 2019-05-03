@@ -90,10 +90,22 @@ class MoveSourceAction() : AbstractActionSequenceAction()
 class PullAction() : AbstractActionSequenceAction()
 {
 	lateinit var type: MovementType
+	var origin: String? = null
 
 	override fun enter(): Boolean
 	{
-		val dstTile = sequence.source.tile()!!
+		val dstTile: Tile
+		if (origin == null)
+		{
+			dstTile = sequence.source.tile()!!
+		}
+		else
+		{
+			val targets = sequence.storedTargets[origin!!]
+			val point = targets[0]
+			dstTile = sequence.level.getTileClamped(point)
+		}
+
 		for (src in sequence.targets)
 		{
 			val srcTile = sequence.level.getTile(src) ?: continue
@@ -113,6 +125,7 @@ class PullAction() : AbstractActionSequenceAction()
 	{
 		val action = PullAction.obtain()
 		action.type = type
+		action.origin = origin
 
 		return action
 	}
@@ -120,6 +133,7 @@ class PullAction() : AbstractActionSequenceAction()
 	override fun parse(xmlData: XmlData)
 	{
 		type = MovementType.valueOf(xmlData.get("MoveType", "Move")!!.toUpperCase())
+		origin = xmlData.get("Origin", null)
 	}
 
 	var obtained: Boolean = false
@@ -150,10 +164,22 @@ class KnockbackAction() : AbstractActionSequenceAction()
 {
 	lateinit var type: MovementType
 	var dist: Int = 1
+	var origin: String? = null
 
 	override fun enter(): Boolean
 	{
-		val srcTile = sequence.source.tile()!!
+		val srcTile: Tile
+		if (origin == null)
+		{
+			srcTile = sequence.source.tile()!!
+		}
+		else
+		{
+			val targets = sequence.storedTargets[origin!!]
+			val point = targets[0]
+			srcTile = sequence.level.getTileClamped(point)
+		}
+
 		for (target in sequence.targets)
 		{
 			val targetTile = sequence.level.getTile(target) ?: continue
@@ -182,6 +208,7 @@ class KnockbackAction() : AbstractActionSequenceAction()
 		val action = KnockbackAction.obtain()
 		action.type = type
 		action.dist = dist
+		action.origin = origin
 
 		return action
 	}
@@ -190,6 +217,7 @@ class KnockbackAction() : AbstractActionSequenceAction()
 	{
 		type = MovementType.valueOf(xmlData.get("MoveType", "Move")!!.toUpperCase())
 		dist = xmlData.getInt("Dist", 1)
+		origin = xmlData.get("Origin", null)
 	}
 
 	var obtained: Boolean = false
