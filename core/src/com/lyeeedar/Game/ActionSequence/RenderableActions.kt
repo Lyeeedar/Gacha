@@ -372,7 +372,7 @@ class DestinationRenderableAction() : AbstractActionSequenceAction()
 			r.size[0] = (pos.max.x - pos.min.x) + 1
 			r.size[1] = (pos.max.y - pos.min.y) + 1
 
-			if (alignToVector && r is ParticleEffect && r.useFacing)
+			if (alignToVector && r.useFacing)
 			{
 				r.rotation = pos.facing.angle
 				r.facing = pos.facing
@@ -774,6 +774,8 @@ class MovementRenderableAction() : AbstractActionSequenceAction()
 		else
 		{
 			val targets = sequence.storedTargets[origin!!]
+						  ?: throw Exception("No stored target with name $origin! Stored targets: " + sequence.storedTargets.keys().joinToString(", "))
+
 			originPoint = targets[0]
 		}
 

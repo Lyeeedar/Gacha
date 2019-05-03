@@ -1,14 +1,17 @@
 package com.lyeeedar.AI.Tasks
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Pool
-import com.lyeeedar.Components.directionalSprite
-import com.lyeeedar.Components.pos
-import com.lyeeedar.Components.renderable
+import com.lyeeedar.Components.*
 import com.lyeeedar.Direction
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Animation.MoveAnimation
+import com.lyeeedar.Statistic
+import com.lyeeedar.Util.AssetManager
+import com.lyeeedar.Util.Colour
+import com.lyeeedar.Util.Random
 
 class TaskMove(): AbstractTask()
 {
@@ -23,6 +26,20 @@ class TaskMove(): AbstractTask()
 
 	override fun execute(e: Entity)
 	{
+		val root = e.stats().getStat(Statistic.ROOT)
+		if (root > 0f && Random.random() < root)
+		{
+			if (!Global.resolveInstant)
+			{
+				val stunParticle = AssetManager.loadParticleEffect("Stunned").getParticleEffect()
+				stunParticle.addToEngine(e.pos().tile!!, Vector2(0f, 0.8f))
+
+				e.stats().messagesToShow.add(MessageData.obtain().set("Rooted!", Colour.YELLOW, 0.4f))
+			}
+
+			return
+		}
+
 		e.directionalSprite()?.currentAnim = "move"
 
 		val pos = e.pos() ?: return

@@ -110,6 +110,9 @@ class PullAction() : AbstractActionSequenceAction()
 		{
 			val srcTile = sequence.level.getTile(src) ?: continue
 
+			val entity = srcTile.firstEntity()
+			if (entity == null || entity.isAllies(sequence.source)) continue
+
 			doMove(srcTile, dstTile, type, true)
 		}
 
@@ -183,6 +186,9 @@ class KnockbackAction() : AbstractActionSequenceAction()
 		for (target in sequence.targets)
 		{
 			val targetTile = sequence.level.getTile(target) ?: continue
+
+			val entity = targetTile.firstEntity()
+			if (entity == null || entity.isAllies(sequence.source)) continue
 
 			val dir = Direction.getDirection(srcTile, targetTile)
 			val dstPoint = Point.obtain().set(dir.x, dir.y)

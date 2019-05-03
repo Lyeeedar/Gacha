@@ -122,7 +122,7 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 				label.color = message.colour.color()
 				label.setFontScale(message.size)
 				label.rotation = -60f
-				label.setPosition(pos.x, pos.y)
+				label.setPosition(pos.x - label.prefWidth / 2f, pos.y)
 
 				val sequence =
 					alpha(0f) then
@@ -165,7 +165,7 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 			}
 			else if (regenAmount < 0f)
 			{
-				stats.dealDamage(regenAmount)
+				stats.dealDamage(regenAmount, false)
 			}
 
 			val itr = stats.buffs.iterator()

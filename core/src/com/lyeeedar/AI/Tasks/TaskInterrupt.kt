@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Pool
 import com.lyeeedar.Components.*
 import com.lyeeedar.Global
 import com.lyeeedar.Util.AssetManager
+import com.lyeeedar.Util.Colour
 
 class TaskInterrupt : AbstractTask()
 {
@@ -13,17 +14,24 @@ class TaskInterrupt : AbstractTask()
 	{
 		e.task().ai.cancel(e)
 
+		var interrupted = false
 		val activeAbility = Mappers.activeActionSequence.get(e)
 		if (activeAbility != null && activeAbility.sequence.cancellable)
 		{
 			activeAbility.sequence.cancel()
 			e.remove(ActiveActionSequenceComponent::class.java)
+
+			interrupted = true
 		}
 
 		if (!Global.resolveInstant)
 		{
 			val stunParticle = AssetManager.loadParticleEffect("Stunned").getParticleEffect()
 			stunParticle.addToEngine(e.pos().tile!!, Vector2(0f, 0.8f))
+
+			val message = if (interrupted) "Interrupted!" else "Stunned!"
+
+			e.stats().messagesToShow.add(MessageData.obtain().set(message, Colour.YELLOW, 0.4f))
 		}
 	}
 

@@ -110,7 +110,7 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Fragility</Name>
-					<Description>Each hit of Haruna's arrows increase the damage the enemy takes by [GOLD]2%[] for 3 rounds.</Description>
+					<Description>Each hit of Haruna's arrows increase the damage the enemy takes by [GOLD]2%[] for 4 rounds.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Icons/defensedown</Name>
 					</Icon>
@@ -139,7 +139,7 @@
 																	<Statistics meta:RefKey="Statistics">
 																		<DR>-0.02</DR>
 																	</Statistics>
-																	<Duration>3</Duration>
+																	<Duration>4</Duration>
 																</Buff>
 															</Debuff>
 														</Timeline>

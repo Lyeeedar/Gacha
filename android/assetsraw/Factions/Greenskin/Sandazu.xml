@@ -11,8 +11,8 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>80</MaxHP>
-				<Power>7</Power>
+				<MaxHP>70</MaxHP>
+				<Power>6</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
 			</Statistics>
@@ -32,7 +32,7 @@
 						<OverrideTexture>
 							<Name>white</Name>
 							<Texture meta:RefKey="Texture">
-								<File>Particle/shard</File>
+								<File>Oryx/Custom/items/shard</File>
 							</Texture>
 							<BlendMode>Multiplicative</BlendMode>
 						</OverrideTexture>
@@ -59,7 +59,7 @@
 			<Abilities>
 				<AbilityData>
 					<Name>Implosion</Name>
-					<Description>Suck a 3x3 block of enemies into a single point, smashing them together and dealing [GOLD]130%[] damage.</Description>
+					<Description>Suck a 2x2 block of enemies into a single point, smashing them together and dealing [GOLD]130%[] damage.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>EffectSprites/Shout/Shout_2</Name>
 						<Colour>214,156,76,255</Colour>
@@ -73,11 +73,11 @@
 							<Permute>
 								<Time>0.00396103971</Time>
 								<HitPoints>
-									<Line>.###.</Line>
+									<Line>#####</Line>
 									<Line>#####</Line>
 									<Line>##@##</Line>
 									<Line>#####</Line>
-									<Line>.###.</Line>
+									<Line>#####</Line>
 								</HitPoints>
 								<AppendTargets>true</AppendTargets>
 							</Permute>
@@ -102,6 +102,7 @@
 							</DestinationRenderable>
 						</Timeline>
 					</Ability>
+					<Cooldown>6,10</Cooldown>
 					<Range>99</Range>
 				</AbilityData>
 				<AbilityData>
@@ -124,7 +125,7 @@
 										<OverrideTexture>
 											<Name>EffectSprites/Bolt/Bolt_0</Name>
 											<Texture meta:RefKey="Texture">
-												<File>Particle/shard</File>
+												<File>Oryx/Custom/items/shard</File>
 											</Texture>
 											<BlendMode>Multiplicative</BlendMode>
 										</OverrideTexture>
@@ -157,7 +158,8 @@
 								<Time>0.0434210524</Time>
 								<Renderable meta:RefKey="Sprite">
 									<Name>Oryx/Custom/heroes/sandazu</Name>
-									<Colour>150,119,40,255</Colour>
+									<DrawActualSize>true</DrawActualSize>
+									<Colour>235,175,52,255</Colour>
 								</Renderable>
 							</ReplaceSourceRenderable>
 						</Timeline>

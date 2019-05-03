@@ -12,7 +12,7 @@
 				<Keyframe>0|0,3</Keyframe>
 			</Offset>
 			<Direction>Down</Direction>
-			<ParticleSpeed>6,6</ParticleSpeed>
+			<ParticleSpeed>12,12</ParticleSpeed>
 			<ParticleRotation>0,360</ParticleRotation>
 			<RateKeyframes>
 				<Keyframe>0|1</Keyframe>
@@ -20,7 +20,7 @@
 			<SingleBurst>true</SingleBurst>
 			<Particles>
 				<Particle>
-					<Lifetime>0.5,0.5</Lifetime>
+					<Lifetime>0.25,0.25</Lifetime>
 					<VelocityAligned>true</VelocityAligned>
 					<SizeKeyframes>
 						<Stream>

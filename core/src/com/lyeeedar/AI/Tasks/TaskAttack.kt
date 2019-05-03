@@ -1,6 +1,7 @@
 package com.lyeeedar.AI.Tasks
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.ObjectSet
 import com.badlogic.gdx.utils.Pool
 import com.lyeeedar.*
@@ -11,10 +12,7 @@ import com.lyeeedar.Renderables.Animation.MoveAnimation
 import com.lyeeedar.Systems.EventData
 import com.lyeeedar.Systems.EventSystem
 import com.lyeeedar.Systems.event
-import com.lyeeedar.Util.BloodSplatter
-import com.lyeeedar.Util.Future
-import com.lyeeedar.Util.Random
-import com.lyeeedar.Util.getRotation
+import com.lyeeedar.Util.*
 
 class TaskAttack() : AbstractTask()
 {
@@ -31,6 +29,20 @@ class TaskAttack() : AbstractTask()
 
 	override fun execute(e: Entity)
 	{
+		val fumble = e.stats().getStat(Statistic.FUMBLE)
+		if (fumble > 0f && Random.random() < fumble)
+		{
+			if (!Global.resolveInstant)
+			{
+				val stunParticle = AssetManager.loadParticleEffect("Stunned").getParticleEffect()
+				stunParticle.addToEngine(e.pos().tile!!, Vector2(0f, 0.8f))
+
+				e.stats().messagesToShow.add(MessageData.obtain().set("Fumbled!", Colour.YELLOW, 0.4f))
+			}
+
+			return
+		}
+
 		e.pos().facing = Direction.getCardinalDirection(tile, e.tile()!!)
 
 		if (!Global.resolveInstant)
@@ -96,9 +108,11 @@ class TaskAttack() : AbstractTask()
 
 						dam = Pair(0f, dam.second)
 						defenderStats.blockedDamage = true
+
+						defenderStats.messagesToShow.add(MessageData.obtain().set("Blocked!", Colour.CYAN, 0.4f))
 					}
 
-					val finalDam = defenderStats.dealDamage(dam.first)
+					val finalDam = defenderStats.dealDamage(dam.first, dam.second)
 
 					attackerStats.attackDamageDealt += finalDam
 					if (attackerStats.summoner != null)
@@ -117,6 +131,7 @@ class TaskAttack() : AbstractTask()
 					if (stolenLife > 0f)
 					{
 						attackerStats.heal(stolenLife)
+						attackerStats.healing += stolenLife
 
 						if (EventSystem.isEventRegistered(EventType.HEALED, e))
 						{
@@ -126,7 +141,7 @@ class TaskAttack() : AbstractTask()
 					}
 					else if (stolenLife < 0f)
 					{
-						attackerStats.dealDamage(stolenLife)
+						attackerStats.dealDamage(stolenLife, false)
 					}
 
 					// do damage events

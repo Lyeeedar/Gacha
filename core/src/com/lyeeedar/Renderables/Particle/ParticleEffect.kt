@@ -167,7 +167,7 @@ class ParticleEffect(val description: ParticleEffectDescription) : Renderable()
 			doneWarmup = true
 			val deltaStep = 1f / 15f // simulate at 15 fps
 			val steps = (warmupTime / deltaStep).toInt()
-			for (i in 0..steps-1)
+			for (i in 0 until steps)
 			{
 				for (emitter in emitters) emitter.update(deltaStep)
 			}

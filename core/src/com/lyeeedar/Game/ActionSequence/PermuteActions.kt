@@ -29,8 +29,8 @@ class PermuteAction() : AbstractActionSequenceAction()
 		if (!appendTargets)
 		{
 			sequence.targets.clear()
-			sequence.lockedTargets.clear()
 		}
+		sequence.lockedTargets.clear()
 
 		mat.setToRotation(sequence.facing.angle)
 
@@ -123,7 +123,7 @@ class SelectEntitiesAction() : AbstractActionSequenceAction()
 	val entities = ObjectSet<Entity>()
 	override fun enter(): Boolean
 	{
-		val oldTarget = sequence.targets[0]
+		val oldTarget = sequence.targets.firstOrNull() ?: sequence.source.tile()!!
 		sequence.targets.clear()
 		sequence.lockedTargets.clear()
 

@@ -329,7 +329,7 @@ class Emitter(val particleEffect: ParticleEffect)
 	fun spawnCone(): Vector2
 	{
 		val width = width * currentSize
-		val height = height * currentSize
+		val height = height * currentSize * size.y
 
 		if (area == EmissionArea.INTERIOR)
 		{
@@ -354,8 +354,8 @@ class Emitter(val particleEffect: ParticleEffect)
 
 	fun spawnCircle(): Vector2
 	{
-		val width = width * currentSize
-		val height = height * currentSize
+		val width = width * currentSize * size.x
+		val height = height * currentSize * size.y
 
 		if (area == EmissionArea.INTERIOR)
 		{
@@ -382,8 +382,8 @@ class Emitter(val particleEffect: ParticleEffect)
 
 	fun spawnBox(): Vector2
 	{
-		val width = width * currentSize
-		val height = height * currentSize
+		val width = width * currentSize * size.x
+		val height = height * currentSize * size.y
 
 		if (area == EmissionArea.BORDER)
 		{

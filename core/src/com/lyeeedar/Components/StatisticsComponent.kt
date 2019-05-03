@@ -156,7 +156,7 @@ class StatisticsComponent: AbstractComponent()
 		return false
 	}
 
-	fun dealDamage(amount: Float): Float
+	fun dealDamage(amount: Float, wasCrit: Boolean): Float
 	{
 		val baseDam = amount
 		val dr = getStat(Statistic.DR)
@@ -164,13 +164,20 @@ class StatisticsComponent: AbstractComponent()
 		val dam = baseDam - dr * baseDam
 		hp -= dam
 
-		if (!Global.resolveInstant)
+		if (!Global.resolveInstant && dam > 0)
 		{
 			val maxHP = getStat(Statistic.MAXHP)
 			val alpha = dam / maxHP
 			val size = lerp(0.25f, 1f, clamp(alpha, 0f, 1f))
 
-			messagesToShow.add(MessageData.obtain().set(dam.ciel().toString(), Colour.RED, size))
+			var message = dam.ciel().toString()
+
+			if (wasCrit)
+			{
+				message += "!!"
+			}
+
+			messagesToShow.add(MessageData.obtain().set(message, Colour.RED, size))
 		}
 
 		return dam

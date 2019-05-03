@@ -64,9 +64,11 @@ class DamageAction : AbstractActionSequenceAction()
 
 						attackDam = Pair(0f, attackDam.second)
 						targetstats.blockedDamage = true
+
+						targetstats.messagesToShow.add(MessageData.obtain().set("Blocked!", Colour.CYAN, 0.4f))
 					}
 
-					val finalDam = targetstats.dealDamage(attackDam.first)
+					val finalDam = targetstats.dealDamage(attackDam.first, attackDam.second)
 
 					sourceStats.abilityDamageDealt += finalDam
 
@@ -83,6 +85,7 @@ class DamageAction : AbstractActionSequenceAction()
 					if (stolenLife > 0f)
 					{
 						sourceStats.heal(stolenLife)
+						sourceStats.healing += stolenLife
 
 						if (EventSystem.isEventRegistered(EventType.HEALED, sequence.source))
 						{
@@ -92,7 +95,7 @@ class DamageAction : AbstractActionSequenceAction()
 					}
 					else if (stolenLife < 0f)
 					{
-						sourceStats.dealDamage(stolenLife)
+						sourceStats.dealDamage(stolenLife, false)
 					}
 
 					// do damage events

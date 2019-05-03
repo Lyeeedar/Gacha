@@ -1,5 +1,7 @@
 <Definitions xmlns:meta="Editor">
+	<!--Elements-->
 	<Definition Name="Elements" IsGlobal="True" meta:RefKey="EnumDef">None,Corrosion,Vorpal,Distortion,Entropic</Definition>
+	<!--Statistics-->
 	<Definition Name="Statistics" IsGlobal="True" meta:RefKey="StructDef">
 		<!--Base-->
 		<Data Name="MaxHP" meta:RefKey="Number" />
@@ -19,9 +21,17 @@
 		<!--Buff-->
 		<Data Name="BuffPower" Min="0" meta:RefKey="Number" />
 		<Data Name="DebuffPower" Min="0" meta:RefKey="Number" />
+		<!--Negative-->
+		<Data Name="Root" Min="0" Max="1" meta:RefKey="Number" />
+		<Data Name="Fumble" Min="0" Max="1" meta:RefKey="Number" />
+		<Data Name="Distraction" Min="0" Max="1" meta:RefKey="Number" />
 	</Definition>
+	<!--Rarities-->
 	<Definition Name="Rarities" IsGlobal="True" meta:RefKey="EnumDef">Common,Uncommon,Rare,SuperRare,UltraRare</Definition>
+	<!--Ascensions-->
 	<Definition Name="Ascensions" IsGlobal="True" meta:RefKey="EnumDef">Mundane,Exceptional,Extraordinary,Fabled,Legendary,Mythical,Divine</Definition>
+	<!--EquipWeight-->
 	<Definition Name="EquipmentWeight" IsGlobal="True" meta:RefKey="EnumDef">Heavy,Medium,Light</Definition>
+	<!--EquipSlot-->
 	<Definition Name="EquipmentSlot" IsGlobal="True" meta:RefKey="EnumDef">Head,Weapon,Body,Feet</Definition>
 </Definitions>

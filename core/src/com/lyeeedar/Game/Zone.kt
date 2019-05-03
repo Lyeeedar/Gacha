@@ -365,6 +365,11 @@ class Encounter(val zone: Zone, val level: Int, val progression: Int, val isBoss
 				entity.stats().ascension = entity.stats().ascension.nextAscension
 				entity.directionalSprite().directionalSprite.scale = 1.2f
 
+				val bossBuff = Buff()
+				bossBuff.statistics[Statistic.BUFFPOWER] = 0.4f
+				bossBuff.statistics[Statistic.DEBUFFPOWER] = 0.4f
+				entity.stats().buffs.add(bossBuff)
+
 				var additionalRenderableComponent = entity.additionalRenderable()
 				if (additionalRenderableComponent == null)
 				{
@@ -374,6 +379,8 @@ class Encounter(val zone: Zone, val level: Int, val progression: Int, val isBoss
 
 				additionalRenderableComponent.below["BossAura"] = AssetManager.loadParticleEffect("BossAura").getParticleEffect()
 			}
+
+			entity.stats().resetHP()
 
 			i++
 		}
@@ -526,7 +533,7 @@ class Encounter(val zone: Zone, val level: Int, val progression: Int, val isBoss
 		}))
 
 		// chance for equipment
-		if (victory && ran.nextFloat() < 0.2f)
+		if (victory && (isBoss || ran.nextFloat() < 0.2f))
 		{
 			val equip = EquipmentCreator.createRandom(level)
 			val tile = equip.createTile(64f)

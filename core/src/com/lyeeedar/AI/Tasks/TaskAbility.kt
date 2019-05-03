@@ -1,14 +1,16 @@
 package com.lyeeedar.AI.Tasks
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Pool
-import com.lyeeedar.Components.AbilityData
-import com.lyeeedar.Components.ActiveActionSequenceComponent
-import com.lyeeedar.Components.pos
-import com.lyeeedar.Components.tile
+import com.lyeeedar.Components.*
 import com.lyeeedar.Direction
 import com.lyeeedar.Global
+import com.lyeeedar.Statistic
 import com.lyeeedar.Systems.level
+import com.lyeeedar.Util.AssetManager
+import com.lyeeedar.Util.Colour
+import com.lyeeedar.Util.Random
 
 class TaskAbility() : AbstractTask()
 {
@@ -25,6 +27,20 @@ class TaskAbility() : AbstractTask()
 
 	override fun execute(e: Entity)
 	{
+		val distract = e.stats().getStat(Statistic.DISTRACTION)
+		if (distract > 0f && Random.random() < distract)
+		{
+			if (!Global.resolveInstant)
+			{
+				val stunParticle = AssetManager.loadParticleEffect("Stunned").getParticleEffect()
+				stunParticle.addToEngine(e.pos().tile!!, Vector2(0f, 0.8f))
+
+				e.stats().messagesToShow.add(MessageData.obtain().set("Distracted!", Colour.YELLOW, 0.4f))
+			}
+
+			return
+		}
+
 		e.pos().facing = Direction.getCardinalDirection(target.tile()!!, e.tile()!!)
 
 		if (ability.singleUse)

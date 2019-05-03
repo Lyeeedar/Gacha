@@ -54,6 +54,7 @@ class ParticleEditorScreen : AbstractScreen()
 	lateinit var debugButton: CheckBox
 	lateinit var alignUpButton: CheckBox
 	var deltaMultiplier = 1f
+	var size = 1
 
 	override fun show()
 	{
@@ -74,8 +75,6 @@ class ParticleEditorScreen : AbstractScreen()
 		playbackSpeedBox.setItems(0.01f, 0.05f, 0.1f, 0.25f, 0.5f, 0.75f, 1f, 1.5f, 2f, 3f, 4f, 5f)
 		playbackSpeedBox.selected = 1f
 
-		val colourButton = TextButton("Colour", Global.skin)
-
 		playbackSpeedBox.addListener(object : ChangeListener()
 		{
 			override fun changed(event: ChangeEvent?, actor: Actor?)
@@ -85,6 +84,7 @@ class ParticleEditorScreen : AbstractScreen()
 
 		})
 
+		val colourButton = TextButton("Colour", Global.skin)
 		colourButton.addClickListener {
 			colour = JColorChooser.showDialog(null, "Particle Colour", colour)
 			particle.colour.set(colour.red / 255f, colour.green / 255f, colour.blue / 255f, colour.alpha / 255f)
@@ -131,6 +131,19 @@ class ParticleEditorScreen : AbstractScreen()
 		debugButton = CheckBox("Debug", Global.skin)
 		alignUpButton = CheckBox("AlignUp", Global.skin)
 
+		val sizeBox = SelectBox<Int>(Global.skin)
+		sizeBox.setItems(1, 2, 3, 4, 5)
+		sizeBox.selected = 1
+
+		sizeBox.addListener(object : ChangeListener()
+									 {
+										 override fun changed(event: ChangeEvent?, actor: Actor?)
+										 {
+											 size = sizeBox.selected
+										 }
+
+									 })
+
 		val buttonsTable = Table()
 		buttonsTable.add(browseButton).expandY().top()
 		buttonsTable.add(updateButton).expandY().top()
@@ -139,6 +152,7 @@ class ParticleEditorScreen : AbstractScreen()
 		buttonsTable.row()
 		buttonsTable.add(debugButton).expandY().top()
 		buttonsTable.add(alignUpButton).expandY().top()
+		buttonsTable.add(sizeBox).expandY().top()
 
 		mainTable.add(buttonsTable).growX()
 		mainTable.row()
@@ -214,6 +228,9 @@ class ParticleEditorScreen : AbstractScreen()
 	val tempPoint = Point()
 	override fun doRender(delta: Float)
 	{
+		particle.size[0] = size
+		particle.size[1] = size
+
 		if (alignUpButton.isChecked)
 		{
 			particle.rotation = 0f

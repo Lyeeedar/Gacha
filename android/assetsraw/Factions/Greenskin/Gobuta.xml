@@ -3,7 +3,7 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>120</MaxHP>
+				<MaxHP>130</MaxHP>
 				<Power>11</Power>
 				<CritChance>0.075</CritChance>
 				<CritDamage>2</CritDamage>
@@ -12,7 +12,7 @@
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
-			<Attack>
+			<Attack meta:RefKey="AttackDescription">
 				<Damage>1</Damage>
 				<Range>1</Range>
 				<HitEffect meta:RefKey="ParticleEffect">
@@ -68,8 +68,8 @@
 						</Timeline>
 						<Timeline>
 							<SourceRenderable>
-								<Duration LockDuration="False">0.0327027</Duration>
 								<Time>0.0798505545</Time>
+								<Duration LockDuration="False">0.0327027</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>ShadowstepEnter</Name>
 									<Colour>255,255,255,167</Colour>
@@ -77,8 +77,8 @@
 								</Renderable>
 							</SourceRenderable>
 							<DestinationRenderable>
-								<Time>0.143508285</Time>
 								<Duration LockDuration="False">0.0349184871</Duration>
+								<Time>0.143508285</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Shadowstep</Name>
 								</Renderable>
@@ -87,8 +87,8 @@
 						</Timeline>
 						<Timeline>
 							<ReplaceSourceRenderable>
-								<Time>0.011734901</Time>
 								<Duration LockDuration="False">0.170587108</Duration>
+								<Time>0.011734901</Time>
 								<Renderable meta:RefKey="Sprite">
 									<Name>Oryx/Custom/heroes/gobuta</Name>
 									<DrawActualSize>true</DrawActualSize>
@@ -111,8 +111,8 @@
 						<Timeline>
 							<SelectSelf />
 							<Summon>
-								<Duration LockDuration="False">0.07878379</Duration>
 								<Time>0.02452702</Time>
+								<Duration LockDuration="False">0.07878379</Duration>
 								<Entity>Factions/Greenskin/Wolf</Entity>
 								<Effect meta:RefKey="ParticleEffect">
 									<Name>Shadowstep</Name>
@@ -152,8 +152,8 @@
 						</Timeline>
 						<Timeline>
 							<DestinationRenderable>
-								<Time>0.0333145931</Time>
 								<Duration LockDuration="False">0.0353279635</Duration>
+								<Time>0.0333145931</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Shadowstep</Name>
 									<Scale>0.7</Scale>
@@ -162,8 +162,8 @@
 								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 							<DestinationRenderable>
-								<Time>0.06864256</Time>
 								<Duration LockDuration="False">0.05290491</Duration>
+								<Time>0.06864256</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>Bite</Name>
 									<Colour>176,116,176,255</Colour>
@@ -188,8 +188,8 @@
 						<Timeline>
 							<SelectSelf />
 							<ReplaceSourceRenderable>
-								<Time>0.019087404</Time>
 								<Duration LockDuration="False">0.0311860666</Duration>
+								<Time>0.019087404</Time>
 								<Renderable meta:RefKey="Sprite">
 									<Name>Oryx/Custom/heroes/gobuta</Name>
 									<DrawActualSize>true</DrawActualSize>
@@ -199,8 +199,8 @@
 						</Timeline>
 						<Timeline>
 							<Buff>
-								<Time>0.019087404</Time>
 								<Duration LockDuration="False">0.0311860666</Duration>
+								<Time>0.019087404</Time>
 								<Buff meta:RefKey="Buff">
 									<Description>Phased</Description>
 									<Icon meta:RefKey="Sprite">

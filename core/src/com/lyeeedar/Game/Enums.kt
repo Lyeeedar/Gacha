@@ -366,7 +366,11 @@ enum class Statistic private constructor(val min: Float, val max: Float, val mod
 	BUFFPOWER(0f, Float.MAX_VALUE, true, "Buff Power", "The bonus to the power of buffs you create."),
 	DEBUFFPOWER(0f, Float.MAX_VALUE, true, "Debuff Power", "The bonus to the power of debuffs you create."),
 	ABILITYCOOLDOWN(-Float.MAX_VALUE, Float.MAX_VALUE, true, "Ability Cooldown", "The rate at which your abilities come off cooldown."),
-	ABILITYPOWER(-1f, 1f, true, "Ability Power", "The modifier to your power when used with your abilities.");
+	ABILITYPOWER(-1f, 1f, true, "Ability Power", "The modifier to your power when used with your abilities."),
+
+	ROOT(0f, 1f, true, "Root", "The chance to fail to move, anytime you move."),
+	FUMBLE(0f, 1f, true, "Fumble", "The chance to fail to attack, anytime you attack"),
+	DISTRACTION(0f, 1f, true, "Distraction", "The chance to fail to use an ability, anytime you use an ability.");
 
 	companion object
 	{
