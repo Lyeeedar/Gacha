@@ -128,6 +128,7 @@ class ParticleEffectActor(val effect: ParticleEffect, val removeOnCompletion: Bo
 					val alpha = pdata.keyframeAlpha
 
 					val tex1 = keyframe1.texture[pdata.texStream]
+					val tex2 = keyframe2.texture[pdata.texStream]
 
 					val col = tempCol.set(keyframe1.colour[pdata.colStream]).lerp(keyframe2.colour[pdata.colStream], alpha)
 					col.a = keyframe1.alpha[pdata.alphaStream].lerp(keyframe2.alpha[pdata.alphaStream], alpha)
@@ -179,8 +180,25 @@ class ParticleEffectActor(val effect: ParticleEffect, val removeOnCompletion: Bo
 						}
 					}
 
-					batch.setColor(col.toFloatBits())
-					batch.draw(tex1.second, drawx, drawy, sizex*0.5f, sizey*0.5f, sizex, sizey, 1f, 1f, rotation)
+					if (particle.blendKeyframes)
+					{
+						val texture1 = particle.textures[pdata.texStream][tex1.toInt()].second
+						val texture2 = particle.textures[pdata.texStream][tex2.toInt()].second
+						val blendAlpha = (tex2 - tex1) * pdata.keyframeAlpha
+
+						batch.setColor(col.r, col.g, col.b, col.a * (1f - blendAlpha))
+						batch.draw(texture1, drawx, drawy, sizex*0.5f, sizey*0.5f, sizex, sizey, 1f, 1f, rotation)
+
+						batch.setColor(col.r, col.g, col.b, col.a * blendAlpha)
+						batch.draw(texture2, drawx, drawy, sizex*0.5f, sizey*0.5f, sizex, sizey, 1f, 1f, rotation)
+					}
+					else
+					{
+						val texture1 = particle.textures[pdata.texStream][tex1.toInt()].second
+
+						batch.setColor(col.toFloatBits())
+						batch.draw(texture1, drawx, drawy, sizex*0.5f, sizey*0.5f, sizex, sizey, 1f, 1f, rotation)
+					}
 				}
 			}
 		}

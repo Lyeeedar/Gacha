@@ -126,7 +126,7 @@
 						<Data Name="Type" EnumValues="Point" meta:RefKey="Enum" />
 						<Data Name="Strength" MinCount="1" meta:RefKey="Timeline">
 							<Keyframe Name="Keyframe" Collapse="True" Seperator="|" meta:RefKey="Keyframe">
-								<Time Name="Time" Min="0" Max="1" SkipIfDefault="False" meta:RefKey="Number" />
+								<Time Name="Time" Min="0" SkipIfDefault="False" meta:RefKey="Number" />
 								<Data Name="Min" SkipIfDefault="False" meta:RefKey="Number" />
 								<Data Name="Max" SkipIfDefault="False" meta:RefKey="Number" />
 							</Keyframe>

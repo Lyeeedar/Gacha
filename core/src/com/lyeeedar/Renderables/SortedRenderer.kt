@@ -919,12 +919,16 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 
 					val comparisonVal = getComparisonVal((drawx-sizex*0.5f-1f).floor().toFloat(), (drawy-sizey*0.5f-1f).floor().toFloat(), layer, index, particle.blend)
 
-					val rs = RenderSprite.obtain().set( null, null, tex1.second, drawx * tileSize, drawy * tileSize, tempVec.x, tempVec.y, col, sizex, sizey, rotation, 1f, 1f, effect.flipX, effect.flipY, particle.blend, lit, comparisonVal )
+					val texture1 = particle.textures[pdata.texStream][tex1.toInt()].second
+					val texture2 = particle.textures[pdata.texStream][tex2.toInt()].second
+					val blendAlpha = (tex2 - tex1) * pdata.keyframeAlpha
+
+					val rs = RenderSprite.obtain().set( null, null, texture1, drawx * tileSize, drawy * tileSize, tempVec.x, tempVec.y, col, sizex, sizey, rotation, 1f, 1f, effect.flipX, effect.flipY, particle.blend, lit, comparisonVal )
 
 					if (particle.blendKeyframes)
 					{
-						rs.nextTexture = tex2.second
-						rs.blendAlpha = alpha
+						rs.nextTexture = texture2
+						rs.blendAlpha = blendAlpha
 					}
 					rs.alphaRef = keyframe1.alphaRef[pdata.alphaRefStream].lerp(keyframe2.alphaRef[pdata.alphaRefStream], alpha)
 

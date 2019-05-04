@@ -25,14 +25,14 @@ import ktx.math.div
 
 class ParticleKeyframe(
 		val time: Float,
-		val texture: kotlin.Array<Pair<String, TextureRegion>>,
+		val texture: kotlin.Array<Float>,
 		val colour: kotlin.Array<Colour>,
 		val alpha: kotlin.Array<Float>,
 		val alphaRef: kotlin.Array<Float>,
 		val rotationSpeed: kotlin.Array<Range>,
 		val size: kotlin.Array<Range>)
 {
-	constructor() : this(0f, emptyArray<Pair<String, TextureRegion>>(), emptyArray<Colour>(), emptyArray<Float>(), emptyArray<Float>(), emptyArray<Range>(), emptyArray<Range>())
+	constructor() : this(0f, emptyArray<Float>(), emptyArray<Colour>(), emptyArray<Float>(), emptyArray<Float>(), emptyArray<Range>(), emptyArray<Range>())
 }
 
 class Particle(val emitter: Emitter)
@@ -83,6 +83,7 @@ class Particle(val emitter: Emitter)
 	lateinit var collision: CollisionAction
 	var blendKeyframes = false
 	var keyframes: kotlin.Array<ParticleKeyframe> = emptyArray()
+	lateinit var textures: kotlin.Array<kotlin.Array<Pair<String, TextureRegion>>>
 
 	fun particleCount() = particles.size
 	fun complete() = particles.size == 0
@@ -425,6 +426,16 @@ class Particle(val emitter: Emitter)
 		output.writeFloat(brownian)
 		output.writeBoolean(blendKeyframes)
 
+		output.writeInt(textures.size)
+		for (stream in textures)
+		{
+			output.writeInt(stream.size)
+			for (tex in stream)
+			{
+				output.writeString(tex.first)
+			}
+		}
+
 		output.writeInt(keyframes.size)
 		output.writeInt(keyframes[0].texture.size)
 		output.writeInt(keyframes[0].colour.size)
@@ -437,9 +448,9 @@ class Particle(val emitter: Emitter)
 		{
 			output.writeFloat(keyframe.time)
 
-			for (texture in keyframe.texture)
+			for (tex in keyframe.texture)
 			{
-				output.writeString(texture.first)
+				output.writeFloat(tex)
 			}
 
 			for (colour in keyframe.colour)
@@ -485,8 +496,31 @@ class Particle(val emitter: Emitter)
 		brownian = input.readFloat()
 		blendKeyframes = input.readBoolean()
 
-		val numKeyframes = input.readInt()
 		val numTextureStreams = input.readInt()
+		textures = kotlin.Array(numTextureStreams) { ii ->
+			val numTextures = input.readInt()
+			kotlin.Array<Pair<String, TextureRegion>>(numTextures)
+			{ i ->
+				val oldTexName = input.readString()
+				val desc = emitter.particleEffect.description.getTexture(oldTexName)
+				if (desc != null)
+				{
+					if (desc.blendMode != null)
+					{
+						blend = desc.blendMode
+					}
+
+					Pair(desc.newName, AssetManager.loadTextureRegion(desc.newName)!!)
+				}
+				else
+				{
+					Pair(oldTexName, AssetManager.loadTextureRegion(oldTexName)!!)
+				}
+			}
+		}
+
+		val numKeyframes = input.readInt()
+		val numTextureBlendStreams = input.readInt()
 		val numColourStreams = input.readInt()
 		val numAlphaStreams = input.readInt()
 		val numAlphaRefStreams = input.readInt()
@@ -498,25 +532,7 @@ class Particle(val emitter: Emitter)
 		{
 			keyframes[i] = ParticleKeyframe(
 					input.readFloat(),
-					kotlin.Array<Pair<String, TextureRegion>>(numTextureStreams)
-					{ i ->
-						val oldTexName = input.readString()
-						val desc = emitter.particleEffect.description.getTexture(oldTexName)
-						if (desc != null)
-						{
-							if (desc.blendMode != null)
-							{
-								blend = desc.blendMode
-							}
-
-							Pair(desc.newName, AssetManager.loadTextureRegion(desc.newName)!!)
-						}
-						else
-						{
-							Pair(oldTexName, AssetManager.loadTextureRegion(oldTexName)!!)
-						}
-					},
-
+					kotlin.Array<Float>(numTextureBlendStreams) { i -> input.readFloat() },
 					kotlin.Array<Colour>(numColourStreams) { i -> kryo.readObject(input, Colour::class.java) },
 					kotlin.Array<Float>(numAlphaStreams) { i -> input.readFloat() },
 					kotlin.Array<Float>(numAlphaRefStreams) { i -> input.readFloat() },
@@ -558,6 +574,7 @@ class Particle(val emitter: Emitter)
 			particle.blendKeyframes = xml.getBoolean("BlendKeyframes", false)
 
 			// Load timelines
+			val texBlend = LerpTimeline()
 			val texture = StepTimeline<Pair<String, TextureRegion>>()
 			val colour = ColourTimeline()
 			val alpha = LerpTimeline()
@@ -574,6 +591,18 @@ class Particle(val emitter: Emitter)
 			{
 				texture[0, 0f] = Pair("white", AssetManager.loadTextureRegion("white")!!)
 			}
+
+			for (s in 0 until texture.streams.size)
+			{
+				val stream = Array<Pair<Float, Float>>()
+				texBlend.streams.add(stream)
+				for (k in 0 until texture.streams[s].size)
+				{
+					val key = texture.streams[s][k]
+					stream.add(Pair(key.first, k.toFloat()))
+				}
+			}
+			particle.textures = kotlin.Array(texture.streams.size) { i -> kotlin.Array(texture.streams[i].size) { ii -> texture.streams[i][ii].second} }
 
 			val colourEls = xml.getChildByName("ColourKeyframes")
 			if (colourEls != null)
@@ -639,7 +668,7 @@ class Particle(val emitter: Emitter)
 			var keyframeI = 0
 			for (time in times.sortedBy { it })
 			{
-				val textureArr = kotlin.Array<Pair<String, TextureRegion>>(texture.streams.size) { i -> texture.valAt(i, time) }
+				val texBlendArr = kotlin.Array<Float>(texBlend.streams.size) { i -> texBlend.valAt(i, time) }
 				val colourArr = kotlin.Array<Colour>(colour.streams.size) { i -> colour.valAt(i, time).copy() }
 				val alphaArr = kotlin.Array<Float>(alpha.streams.size) { i -> alpha.valAt(i, time) }
 				val alphaRefArr = kotlin.Array<Float>(alphaRef.streams.size) { i -> alphaRef.valAt(i, time) }
@@ -648,7 +677,7 @@ class Particle(val emitter: Emitter)
 
 				val keyframe = ParticleKeyframe(
 						time,
-						textureArr,
+						texBlendArr,
 						colourArr,
 						alphaArr,
 						alphaRefArr,
