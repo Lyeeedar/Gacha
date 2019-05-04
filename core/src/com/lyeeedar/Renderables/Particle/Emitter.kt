@@ -13,9 +13,20 @@ import com.lyeeedar.Util.XmlData
 import com.lyeeedar.Util.ciel
 import com.lyeeedar.Util.lerp
 
+class FixedVector2(val x: Float, val y: Float)
+{
+	constructor(vec: Vector2) : this(vec.x, vec.y)
+
+	fun lerp(other: FixedVector2, alpha: Float, store: Vector2)
+	{
+		store.x = x.lerp(other.x, alpha)
+		store.y = y.lerp(other.y, alpha)
+	}
+}
+
 class EmitterKeyframe(
 	val time: Float = 0f,
-	val offset: Vector2 = Vector2(),
+	val offset: FixedVector2 = FixedVector2(0f, 0f),
 	val emissionRate: Float = 0f,
 	val size: Float = 1f)
 {
@@ -48,7 +59,8 @@ class Emitter(val particleEffect: ParticleEffect)
 	enum class EmissionArea
 	{
 		INTERIOR,
-		BORDER
+		BORDER,
+		CENTER
 	}
 
 	enum class EmissionDirection
@@ -61,10 +73,9 @@ class Emitter(val particleEffect: ParticleEffect)
 		RIGHT
 	}
 
+	class SpawnInformation(val pos: Vector2, val dir: Vector2)
+	private val spawnInfo = SpawnInformation(Vector2(), Vector2())
 	private val temp = Vector2()
-	private val spawnPos = Vector2()
-	private val spawnDir = Vector2()
-	private val spawnOffset = Vector2()
 
 	val particles: Array<Particle> = Array(false, 1)
 	val effectors: Array<Effector> = Array(false, 1)
@@ -85,6 +96,7 @@ class Emitter(val particleEffect: ParticleEffect)
 	lateinit var particleSpeed: Range
 	lateinit var particleRotation: Range
 	lateinit var shape: EmissionShape
+	var angle: Float = 0f
 	var width: Float = 0f
 	var height: Float = 0f
 	var emitterRotation: Float = 0f
@@ -171,7 +183,7 @@ class Emitter(val particleEffect: ParticleEffect)
 
 		keyframeAlpha = alpha
 
-		currentOffset.set(keyframe1.offset).lerp(keyframe2.offset, keyframeAlpha)
+		keyframe1.offset.lerp(keyframe2.offset, keyframeAlpha, currentOffset)
 		currentSize = keyframe1.size.lerp(keyframe2.size, keyframeAlpha)
 
 		if (!stopped || (singleBurst && !emitted))
@@ -254,18 +266,20 @@ class Emitter(val particleEffect: ParticleEffect)
 
 	fun spawn()
 	{
-		spawnPos.set(when (shape)
+		val spawnInfo = when (shape)
 		{
 			EmissionShape.CIRCLE -> spawnCircle()
 			EmissionShape.BOX -> spawnBox()
 			EmissionShape.CONE -> spawnCone()
 			else -> throw RuntimeException("Invalid emitter shape! $shape")
-		})
+		}
+		val spawnPos = spawnInfo.pos
+		val spawnDir = spawnInfo.dir
 
 		val velocity = when (dir)
 		{
-			EmissionDirection.RADIAL -> spawnDir.set(spawnPos).nor()
-			EmissionDirection.RANDOM -> spawnDir.setToRandomDirection()
+			EmissionDirection.RADIAL -> spawnDir.set(spawnInfo.dir)
+			EmissionDirection.RANDOM -> spawnDir.set(spawnInfo.dir)
 			EmissionDirection.UP -> spawnDir.set(Direction.NORTH.x.toFloat(), Direction.NORTH.y.toFloat())
 			EmissionDirection.DOWN -> spawnDir.set(Direction.SOUTH.x.toFloat(), Direction.SOUTH.y.toFloat())
 			EmissionDirection.LEFT -> spawnDir.set(Direction.WEST.x.toFloat(), Direction.WEST.y.toFloat())
@@ -326,33 +340,43 @@ class Emitter(val particleEffect: ParticleEffect)
 		particle.spawn(spawnPos, velocity, localRot)
 	}
 
-	fun spawnCone(): Vector2
+	fun spawnCone(): SpawnInformation
 	{
-		val width = width * currentSize
+		val angle = angle
+		val width = width * currentSize * size.x
 		val height = height * currentSize * size.y
 
-		if (area == EmissionArea.INTERIOR)
+		val ranVal = Random.random() - 0.5f
+		val chosenAngle = ranVal * angle
+		val h = when (area)
 		{
-			val angle = -width*0.5f + Random.random() * width
-			val h = Random.random() * height
+			EmissionArea.INTERIOR -> Random.random() * height
+			EmissionArea.BORDER -> height
+			EmissionArea.CENTER -> 0f
+		}
 
-			temp.set(0f, h)
-			temp.rotate(angle)
-		}
-		else if (area == EmissionArea.BORDER)
-		{
-			val angle = -width*0.5f + Random.random() * width
-			temp.set(0f, height)
-			temp.rotate(angle)
-		}
-		else throw RuntimeException("Invalid emitter area type $area")
+		temp.set(0f, h)
+		temp.rotate(chosenAngle)
+		temp.x += ranVal * width
 
 		temp.rotate(emitterRotation)
 
-		return temp
+		spawnInfo.pos.set(temp)
+		spawnInfo.dir.set(0f, 1f)
+
+		if (dir == EmissionDirection.RADIAL)
+		{
+			spawnInfo.dir.rotate(chosenAngle*-1f).nor()
+		}
+		else if (dir == EmissionDirection.RANDOM)
+		{
+			spawnInfo.dir.rotate((Random.random() - 0.5f) * angle).nor()
+		}
+
+		return spawnInfo
 	}
 
-	fun spawnCircle(): Vector2
+	fun spawnCircle(): SpawnInformation
 	{
 		val width = width * currentSize * size.x
 		val height = height * currentSize * size.y
@@ -375,12 +399,27 @@ class Emitter(val particleEffect: ParticleEffect)
 
 			temp.set(x, y)
 		}
+		else if (area == EmissionArea.CENTER)
+		{
+			temp.set(0f, 0f)
+		}
 		else throw RuntimeException("Invalid emitter area type $area")
 
-		return temp
+		spawnInfo.pos.set(temp)
+
+		if (dir == EmissionDirection.RANDOM)
+		{
+			spawnInfo.dir.setToRandomDirection()
+		}
+		else if (dir == EmissionDirection.RADIAL)
+		{
+			spawnInfo.dir.set(temp).nor()
+		}
+
+		return spawnInfo
 	}
 
-	fun spawnBox(): Vector2
+	fun spawnBox(): SpawnInformation
 	{
 		val width = width * currentSize * size.x
 		val height = height * currentSize * size.y
@@ -426,11 +465,26 @@ class Emitter(val particleEffect: ParticleEffect)
 
 			temp.set(x, y)
 		}
+		else if (area == EmissionArea.CENTER)
+		{
+			temp.set(0f, 0f)
+		}
 		else throw RuntimeException("Invalid emitter area type $area")
 
 		temp.rotate(emitterRotation)
 
-		return temp
+		spawnInfo.pos.set(temp)
+
+		if (dir == EmissionDirection.RANDOM)
+		{
+			spawnInfo.dir.setToRandomDirection()
+		}
+		else if (dir == EmissionDirection.RADIAL)
+		{
+			spawnInfo.dir.set(temp).nor()
+		}
+
+		return spawnInfo
 	}
 
 	fun callCollisionFunc(func: (x: Int, y: Int) -> Unit)
@@ -445,6 +499,7 @@ class Emitter(val particleEffect: ParticleEffect)
 		output.writeInt(type.ordinal)
 		output.writeInt(simulationSpace.ordinal)
 		output.writeInt(shape.ordinal)
+		output.writeFloat(angle)
 		output.writeFloat(width)
 		output.writeFloat(height)
 		output.writeFloat(emitterRotation)
@@ -493,6 +548,7 @@ class Emitter(val particleEffect: ParticleEffect)
 		type = EmissionType.values()[input.readInt()]
 		simulationSpace = SimulationSpace.values()[input.readInt()]
 		shape = EmissionShape.values()[input.readInt()]
+		angle = input.readFloat()
 		width = input.readFloat()
 		height = input.readFloat()
 		emitterRotation = input.readFloat()
@@ -517,7 +573,7 @@ class Emitter(val particleEffect: ParticleEffect)
 			val rate = input.readFloat()
 			val size = input.readFloat()
 
-			keyframes[i] = EmitterKeyframe(time, Vector2(offsetx, offsety), rate, size)
+			keyframes[i] = EmitterKeyframe(time, FixedVector2(offsetx, offsety), rate, size)
 		}
 
 		singleBurst = input.readBoolean()
@@ -550,10 +606,18 @@ class Emitter(val particleEffect: ParticleEffect)
 			emitter.type = EmissionType.valueOf(xml.get("Type", "Absolute")!!.toUpperCase())
 			emitter.simulationSpace = SimulationSpace.valueOf(xml.get("Space", "World")!!.toUpperCase())
 			emitter.shape = EmissionShape.valueOf(xml.get("Shape", "Box")!!.toUpperCase())
+
 			emitter.width = xml.getFloat("Width", 1f)
 			if (emitter.width == 0f) emitter.width = 0.001f
 			emitter.height = xml.getFloat("Height", 1f)
 			if (emitter.height == 0f) emitter.height = 0.001f
+			emitter.angle = xml.getFloat("Angle", 0f)
+			if (emitter.angle == 0f && emitter.shape == EmissionShape.CONE)
+			{
+				emitter.angle = emitter.width
+				emitter.width = 0f
+			}
+
 			emitter.emitterRotation = xml.getFloat("Rotation", 0f)
 			emitter.area = EmissionArea.valueOf(xml.get("Area", "Interior")!!.toUpperCase())
 			emitter.dir = EmissionDirection.valueOf(xml.get("Direction", "Radial")!!.toUpperCase())
@@ -618,7 +682,7 @@ class Emitter(val particleEffect: ParticleEffect)
 			{
 				val keyframe = EmitterKeyframe(
 					time,
-					offset.valAt(0, time),
+					FixedVector2(offset.valAt(0, time)),
 					emissionRate.valAt(0, time),
 					sizeMultiplier.valAt(0, time))
 				keyframes[keyframeI++] = keyframe

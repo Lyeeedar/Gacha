@@ -3,6 +3,8 @@ package com.lyeeedar.Screens
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.NinePatch
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
@@ -20,6 +22,7 @@ import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.Colour
 import com.lyeeedar.Util.neaten
 import com.lyeeedar.Util.prettyPrint
+import ktx.actors.then
 import ktx.collections.gdxArrayOf
 
 class HeroesScreen : AbstractScreen()
@@ -34,30 +37,42 @@ class HeroesScreen : AbstractScreen()
 		recreateHeroesTable()
 		createHeroesTable()
 
-		debugConsole.register("addhero", "", fun (args, console): Boolean {
-
-			if (args.size != 1)
+		if (!Global.release)
+		{
+			debugConsole.register("addhero", "", fun(args, console): Boolean
 			{
-				console.error("must provide a hero name!")
-				return false
-			}
 
-			for (faction in Global.data.unlockedFactions)
-			{
-				for (hero in faction.heroes)
+				if (args.size != 1)
 				{
-					val entity = EntityLoader.load(hero.entityPath)
-					if (entity.name().name.toLowerCase() == args[0].toLowerCase())
-					{
-						Global.data.heroPool.add(EntityData(hero, Ascension.MUNDANE, 1))
+					console.error("must provide a hero name!")
+					return false
+				}
 
-						return true
+				for (faction in Global.data.unlockedFactions)
+				{
+					for (hero in faction.heroes)
+					{
+						val entity = EntityLoader.load(hero.entityPath)
+						if (entity.name().name.toLowerCase() == args[0].toLowerCase())
+						{
+							Global.data.heroPool.add(EntityData(hero, Ascension.MUNDANE, 1))
+
+							return true
+						}
 					}
 				}
-			}
 
-			return false
-		})
+				return false
+			})
+
+			debugConsole.register("addexp", "", { args, console ->
+
+				val amount = args[0].toInt()
+				Global.data.experience += amount
+
+				true
+			})
+		}
 	}
 
 	override fun show()
@@ -242,7 +257,9 @@ class HeroesScreen : AbstractScreen()
 		addAbilityIcon(5, rightSkillsColumn)
 
 		spriteAndSkillsTable.add(leftSkillsColumn).growY()
-		spriteAndSkillsTable.add(SpriteWidget(entity.renderable().renderable.copy() as Sprite, 32f, 32f)).expand().size(128f).center()
+
+		val spriteWidget = SpriteWidget(entity.renderable().renderable.copy() as Sprite, 32f, 32f)
+		spriteAndSkillsTable.add(spriteWidget).expand().size(128f).center()
 		spriteAndSkillsTable.add(rightSkillsColumn).growY()
 
 		mainTable.add(Seperator(Global.skin)).growX()
@@ -416,7 +433,7 @@ class HeroesScreen : AbstractScreen()
 		statsAndPowerTable.add(statsTable).growX().pad(5f)
 		statsAndPowerTable.row()
 
-		fun addSubtextNumber(text: String, value: String)
+		fun addSubtextNumber(text: String, value: String): Table
 		{
 			val table = Table()
 			table.add(Label(value, Global.skin)).expandX().center()
@@ -426,12 +443,14 @@ class HeroesScreen : AbstractScreen()
 			table.add(textLabel).expandX().center()
 
 			statsTable.add(table).expandX()
+
+			return table
 		}
 
-		addSubtextNumber("Level", stats.level.prettyPrint())
-		addSubtextNumber("Ascension", (stats.ascension.ordinal+1).toString())
-		addSubtextNumber("Health", stats.getStat(Statistic.MAXHP).toInt().prettyPrint())
-		addSubtextNumber("Power", stats.getStat(Statistic.POWER).toInt().prettyPrint())
+		val currentLevelTable = addSubtextNumber("Level", stats.level.prettyPrint())
+		val currentAscensionTable = addSubtextNumber("Ascension", (stats.ascension.ordinal+1).toString())
+		val currentHealthTable = addSubtextNumber("Health", stats.getStat(Statistic.MAXHP).toInt().prettyPrint())
+		val currentPowerTable =	addSubtextNumber("Power", stats.getStat(Statistic.POWER).toInt().prettyPrint())
 
 		val fullStats = SpriteWidget(AssetManager.loadSprite("GUI/attack_empty"), 32f, 32f)
 		fullStats.addClickListener {
@@ -484,19 +503,71 @@ class HeroesScreen : AbstractScreen()
 		mainTable.add(levelButtonTable).growX().pad(5f)
 		mainTable.row()
 
+		class StatChangeData(val hp: Int, val power: Int, val rating: Int)
+		var statChangeData: StatChangeData? = null
+		fun preStatChanged()
+		{
+			statChangeData = StatChangeData(stats.getStat(Statistic.MAXHP).toInt(), stats.getStat(Statistic.POWER).toInt(), stats.calculatePowerRating(entity).toInt())
+		}
+		fun postStatChanged()
+		{
+			val newHp = stats.getStat(Statistic.MAXHP).toInt()
+			val newPower = stats.getStat(Statistic.POWER).toInt()
+			val rating = stats.calculatePowerRating(entity).toInt()
+
+			val hpDiff = newHp - statChangeData!!.hp
+			val powerDiff = newPower - statChangeData!!.power
+			val ratingDiff = rating - statChangeData!!.rating
+
+			val hpPopupLabel = Label("+" + hpDiff.prettyPrint(), Global.skin).tint(Color.GREEN)
+			hpPopupLabel.addAction(parallel(moveBy(0f, 20f, 2.5f), delay(2f), fadeOut(0.5f)) then removeActor())
+			val hpPos = currentHealthTable.localToStageCoordinates(Vector2(0.5f, 1f))
+			hpPopupLabel.setPosition(hpPos.x, hpPos.y + currentHealthTable.height*0.7f)
+			stage.addActor(hpPopupLabel)
+
+			val powerPopupLabel = Label("+" + powerDiff.prettyPrint(), Global.skin).tint(Color.GREEN)
+			powerPopupLabel.addAction(parallel(moveBy(0f, 20f, 2.5f), delay(2f), fadeOut(0.5f)) then removeActor())
+			val powerPos = currentPowerTable.localToStageCoordinates(Vector2(0.5f, 1f))
+			powerPopupLabel.setPosition(powerPos.x, powerPos.y + currentPowerTable.height*0.7f)
+			stage.addActor(powerPopupLabel)
+
+			val ratingPopupLabel = Label("+" + ratingDiff.prettyPrint(), Global.skin).tint(Color.GOLD)
+			ratingPopupLabel.addAction(parallel(moveBy(0f, 20f, 2.5f), delay(2f), fadeOut(0.5f)) then removeActor())
+			val ratingPos = powerRatingTable.localToStageCoordinates(Vector2(0.5f, 1f))
+			ratingPopupLabel.setPosition(ratingPos.x, ratingPos.y + powerRatingTable.height*0.7f)
+			stage.addActor(ratingPopupLabel)
+		}
+
 		val levelTable = Table()
 		val expRequired = Global.getExperienceForLevel(stats.level)
-		if (expRequired < Global.data.experience)
+		if (expRequired <= Global.data.experience)
 		{
 			levelTable.add(Label("${Global.data.experience.prettyPrint()} / ${expRequired.prettyPrint()}", Global.skin, "small")).expandX().center().pad(2f)
 			levelTable.row()
 
 			val levelButton = TextButton("Level Up", Global.skin)
 			levelButton.addClickListener {
+				preStatChanged()
+
 				entityData.level++
 				stats.level = entityData.level
 
+				postStatChanged()
+
 				Global.data.experience -= expRequired
+
+				val levelUpParticle = AssetManager.loadParticleEffect("LevelUp").getParticleEffect()
+				levelUpParticle.size[0] = 5
+				levelUpParticle.size[1] = 5
+				val particleActor = ParticleEffectActor(levelUpParticle, true)
+				particleActor.width = 256f / 5
+				particleActor.height = 256f / 5
+
+				val pos = spriteWidget.localToStageCoordinates(Vector2())
+				particleActor.x = pos.x - 64f
+				particleActor.y = pos.y - 96f
+
+				stage.addActor(particleActor)
 
 				recreateHeroesTable()
 				createHeroTable(entity, entityData, cameFromFaction)
@@ -530,8 +601,12 @@ class HeroesScreen : AbstractScreen()
 					{
 						entityData.ascensionShards -= nextAscension.shardsRequired
 
+						preStatChanged()
+
 						entityData.ascension = nextAscension
 						stats.ascension = entityData.ascension
+
+						postStatChanged()
 
 						recreateHeroesTable()
 						createHeroTable(entity, entityData, cameFromFaction)

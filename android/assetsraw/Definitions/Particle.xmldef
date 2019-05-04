@@ -16,8 +16,9 @@
 				<!--Emission-->
 				<Data Name="Type" EnumValues="Absolute,Accumulated" meta:RefKey="Enum" />
 				<Data Name="Shape" EnumValues="Box,Circle,Cone" meta:RefKey="Enum" />
-				<Data Name="Width" Min="0" Default="1" meta:RefKey="Number" />
-				<Data Name="Height" Min="0" Default="1" meta:RefKey="Number" />
+				<Data Name="Angle" Min="0" Default="90" SkipIfDefault="False" VisibleIf="Shape==Cone" meta:RefKey="Number" />
+				<Data Name="Width" Min="0" Default="1" SkipIfDefault="False" meta:RefKey="Number" />
+				<Data Name="Height" Min="0" Default="1" SkipIfDefault="False" meta:RefKey="Number" />
 				<Data Name="SizeMultiplier" MinCount="1" meta:RefKey="Timeline">
 					<Keyframe Name="Keyframe" Collapse="True" Seperator="|" meta:RefKey="Keyframe">
 						<Time Name="Time" Min="0" SkipIfDefault="False" meta:RefKey="Number" />
@@ -25,7 +26,7 @@
 					</Keyframe>
 				</Data>
 				<Data Name="Rotation" Min="-360" Max="360" meta:RefKey="Number" />
-				<Data Name="Area" EnumValues="Interior,Border" meta:RefKey="Enum" />
+				<Data Name="Area" EnumValues="Interior,Border,Center" meta:RefKey="Enum" />
 				<Data Name="Offset" meta:RefKey="Timeline">
 					<Keyframe Name="Keyframe" Collapse="True" Seperator="|" meta:RefKey="Keyframe">
 						<Time Name="Time" Min="0" SkipIfDefault="False" meta:RefKey="Number" />
@@ -62,6 +63,8 @@
 						<Data Name="VelocityAligned" meta:RefKey="Boolean" />
 						<Data Name="AllowResize" Default="True" meta:RefKey="Boolean" />
 						<Data Name="MaintainAspectRatio" meta:RefKey="Boolean" />
+						<Data Name="SizeOrigin" EnumValues="Center,Bottom,Top,Left,Right" meta:RefKey="Enum" />
+						<Data Name="SizeMode" EnumValues="BothAxis,XOnly,YOnly" meta:RefKey="Enum" />
 						<Data Name="SizeKeyframes" MinCount="1" meta:RefKey="Collection">
 							<Data Name="Stream" MinCount="1" meta:RefKey="Timeline">
 								<Keyframe Name="Keyframe" Collapse="True" Seperator="|" meta:RefKey="Keyframe">

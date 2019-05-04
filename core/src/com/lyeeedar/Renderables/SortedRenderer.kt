@@ -37,6 +37,7 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 	private var batchID: Int = random.nextInt()
 
 	private val tempVec = Vector2()
+	private val tempVec2 = Vector2()
 	private val tempVec3 = Vector3()
 	private val tempCol = Colour()
 	private val bitflag = EnumBitflag<Direction>()
@@ -835,8 +836,6 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 
 		for (emitter in effect.emitters)
 		{
-			val emitterOffset = emitter.keyframe1.offset.lerp(emitter.keyframe2.offset, emitter.keyframeAlpha)
-
 			for (particle in emitter.particles)
 			{
 				var px = 0f
@@ -844,7 +843,7 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 
 				if (emitter.simulationSpace == Emitter.SimulationSpace.LOCAL)
 				{
-					tempVec.set(emitterOffset)
+					tempVec.set(emitter.currentOffset)
 					tempVec.scl(emitter.size)
 					tempVec.rotate(emitter.rotation)
 
@@ -874,8 +873,8 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 						h = w
 					}
 
-					var sizex = size * w
-					var sizey = size * h
+					var sizex = if (particle.sizeMode == Particle.SizeMode.YONLY) w else size * w
+					var sizey = if (particle.sizeMode == Particle.SizeMode.XONLY) h else size * h
 
 					if (particle.allowResize)
 					{
@@ -891,8 +890,25 @@ class SortedRenderer(var tileSize: Float, val width: Float, val height: Float, v
 
 					if (emitter.simulationSpace == Emitter.SimulationSpace.LOCAL) tempVec.scl(emitter.size).rotate(emitter.rotation + emitter.emitterRotation)
 
-					val drawx = tempVec.x + px
-					val drawy = tempVec.y + py
+					var drawx = tempVec.x + px
+					var drawy = tempVec.y + py
+
+					when (particle.sizeOrigin)
+					{
+						Particle.SizeOrigin.CENTER -> { }
+						Particle.SizeOrigin.BOTTOM -> {
+							drawy += sizey*0.5f
+						}
+						Particle.SizeOrigin.TOP -> {
+							drawy -= sizey*0.5f
+						}
+						Particle.SizeOrigin.LEFT -> {
+							drawx += sizex*0.5f
+						}
+						Particle.SizeOrigin.RIGHT -> {
+							drawx -= sizex*0.5f
+						}
+					}
 
 					val localx = drawx * tileSize + offsetx
 					val localy = drawy * tileSize + offsety

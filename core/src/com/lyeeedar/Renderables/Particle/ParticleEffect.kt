@@ -234,6 +234,8 @@ class ParticleEffect(val description: ParticleEffectDescription) : Renderable()
 		val temp = Pools.obtain(Vector2::class.java)
 		val temp2 = Pools.obtain(Vector2::class.java)
 		val temp3 = Pools.obtain(Vector2::class.java)
+		val temp4 = Pools.obtain(Vector2::class.java)
+		val temp5 = Pools.obtain(Vector2::class.java)
 
 		// draw emitter volumes
 		for (emitter in emitters)
@@ -243,7 +245,7 @@ class ParticleEffect(val description: ParticleEffectDescription) : Renderable()
 			val emitterx = emitter.position.x * tileSize + offsetx
 			val emittery = emitter.position.y * tileSize + offsety
 
-			temp.set(emitter.keyframe1.offset).lerp(emitter.keyframe2.offset, emitter.keyframeAlpha)
+			temp.set(emitter.currentOffset)
 			temp.scl(emitter.size)
 			temp.rotate(emitter.rotation)
 
@@ -270,30 +272,49 @@ class ParticleEffect(val description: ParticleEffectDescription) : Renderable()
 			}
 			else if (emitter.shape == Emitter.EmissionShape.CONE)
 			{
-				val angleMin = -emitter.width*0.5f
-				val angleMax = emitter.width*.5f
+				val angleMin = -emitter.angle*0.5f
+				val angleMax = emitter.angle*.5f
 
-				val core = temp
+				val coreLeft = temp
+				val coreRight = temp4
 				val min = temp2
 				val max = temp3
+				val mid = temp5
 
-				core.set(ex, ey)
+				coreLeft.set(w2, 0f)
+				coreLeft.rotate(emitter.emitterRotation)
+				coreLeft.rotate(emitter.rotation)
+				coreLeft.add(ex, ey)
+
+				coreRight.set(-w2, 0f)
+				coreRight.rotate(emitter.emitterRotation)
+				coreRight.rotate(emitter.rotation)
+				coreRight.add(ex, ey)
 
 				min.set(0f, h)
 				min.rotate(angleMin)
+				min.x += w2
 				min.rotate(emitter.emitterRotation)
 				min.rotate(emitter.rotation)
-				min.add(core)
+				min.add(ex, ey)
 
 				max.set(0f, h)
 				max.rotate(angleMax)
+				max.x -= w2
 				max.rotate(emitter.emitterRotation)
 				max.rotate(emitter.rotation)
-				max.add(core)
+				max.add(ex, ey)
 
-				shape.line(core, min)
-				shape.line(core, max)
-				shape.line(min, max)
+				mid.set(0f, h)
+				mid.rotate(emitter.emitterRotation)
+				mid.rotate(emitter.rotation)
+				mid.add(ex, ey)
+
+				shape.line(coreLeft, coreRight)
+				shape.line(coreLeft, min)
+				shape.line(coreRight, max)
+				shape.line(min, mid)
+				shape.line(max, mid)
 			}
 			else
 			{
@@ -304,8 +325,6 @@ class ParticleEffect(val description: ParticleEffectDescription) : Renderable()
 			{
 				shape.color = Color.PINK
 
-				val emitterOffset = emitter.keyframe1.offset.lerp(emitter.keyframe2.offset, emitter.keyframeAlpha)
-
 				for (particle in emitter.particles)
 				{
 					var px = 0f
@@ -313,7 +332,7 @@ class ParticleEffect(val description: ParticleEffectDescription) : Renderable()
 
 					if (emitter.simulationSpace == Emitter.SimulationSpace.LOCAL)
 					{
-						temp.set(emitterOffset)
+						temp.set(emitter.currentOffset)
 						temp.scl(emitter.size)
 						temp.rotate(emitter.rotation)
 
@@ -376,6 +395,8 @@ class ParticleEffect(val description: ParticleEffectDescription) : Renderable()
 		Pools.free(temp)
 		Pools.free(temp2)
 		Pools.free(temp3)
+		Pools.free(temp4)
+		Pools.free(temp5)
 	}
 
 	override fun copy(): ParticleEffect

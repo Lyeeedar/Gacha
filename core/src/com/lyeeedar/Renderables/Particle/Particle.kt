@@ -45,6 +45,22 @@ class Particle(val emitter: Emitter)
 		DIE
 	}
 
+	enum class SizeOrigin
+	{
+		CENTER,
+		BOTTOM,
+		TOP,
+		LEFT,
+		RIGHT
+	}
+
+	enum class SizeMode
+	{
+		BOTHAXIS,
+		XONLY,
+		YONLY
+	}
+
 	private val moveVec = Vector2()
 	private val oldPos = Vector2()
 	private val normal = Vector2()
@@ -57,6 +73,8 @@ class Particle(val emitter: Emitter)
 
 	var allowResize: Boolean = true
 	var maintainAspectRatio: Boolean = false
+	lateinit var sizeOrigin: SizeOrigin
+	lateinit var sizeMode: SizeMode
 	lateinit var lifetime: Range
 	lateinit var blend: BlendMode
 	var drag = 0f
@@ -309,8 +327,11 @@ class Particle(val emitter: Emitter)
 		val alpha = particle.keyframeAlpha
 
 		val scale = keyframe1.size[particle.sizeStream].lerp(keyframe2.size[particle.sizeStream], alpha, particle.ranVal)
-		val sx = scale * emitter.size.x
-		val sy = scale * emitter.size.y
+		val scaleX = if (sizeMode == SizeMode.YONLY) 1f else scale
+		val scaleY = if (sizeMode == SizeMode.XONLY) 1f else scale
+
+		val sx = scaleX * emitter.size.x
+		val sy = scaleY * emitter.size.y
 
 		val x = overridePos?.x ?: particle.position.x
 		val y = overridePos?.y ?: particle.position.y
@@ -320,7 +341,7 @@ class Particle(val emitter: Emitter)
 
 		if (emitter.simulationSpace == Emitter.SimulationSpace.LOCAL)
 		{
-			temp.set(emitter.keyframe1.offset.lerp(emitter.keyframe2.offset, emitter.keyframeAlpha))
+			temp.set(emitter.currentOffset)
 			temp.scl(emitter.size)
 
 			if (emitter.particleEffect.flipX)
@@ -344,7 +365,32 @@ class Particle(val emitter: Emitter)
 			actualy = ey + temp.y
 		}
 
-		return Pools.obtain(Rectangle::class.java).set(actualx-sx*0.5f, actualy-sy*0.5f, sx, sy)
+		var drawX = actualx
+		var drawY = actualy
+
+		when(sizeOrigin)
+		{
+			SizeOrigin.CENTER -> {
+				drawX -= sx*0.5f
+				drawY -= sy*0.5f
+			}
+			SizeOrigin.BOTTOM -> {
+				drawX -= sx*0.5f
+			}
+			SizeOrigin.TOP -> {
+				drawX -= sx*0.5f
+				drawY -= sy
+			}
+			SizeOrigin.LEFT -> {
+				drawY -= sy*0.5f
+			}
+			SizeOrigin.RIGHT -> {
+				drawX -= sx
+				drawY -= sy*0.5f
+			}
+		}
+
+		return Pools.obtain(Rectangle::class.java).set(drawX, drawY, sx, sy)
 	}
 
 	fun spawn(position: Vector2, velocity: Vector2, rotation: Float)
@@ -374,6 +420,8 @@ class Particle(val emitter: Emitter)
 		output.writeBoolean(velocityAligned)
 		output.writeBoolean(allowResize)
 		output.writeBoolean(maintainAspectRatio)
+		output.writeInt(sizeOrigin.ordinal)
+		output.writeInt(sizeMode.ordinal)
 		output.writeFloat(brownian)
 		output.writeBoolean(blendKeyframes)
 
@@ -432,6 +480,8 @@ class Particle(val emitter: Emitter)
 		velocityAligned = input.readBoolean()
 		allowResize = input.readBoolean()
 		maintainAspectRatio = input.readBoolean()
+		sizeOrigin = SizeOrigin.values()[input.readInt()]
+		sizeMode = SizeMode.values()[input.readInt()]
 		brownian = input.readFloat()
 		blendKeyframes = input.readBoolean()
 
@@ -501,6 +551,8 @@ class Particle(val emitter: Emitter)
 			particle.velocityAligned = xml.getBoolean("VelocityAligned", false)
 			particle.allowResize = xml.getBoolean("AllowResize", true)
 			particle.maintainAspectRatio = xml.getBoolean("MaintainAspectRatio", false)
+			particle.sizeOrigin = SizeOrigin.valueOf(xml.get("SizeOrigin", "Center")!!.toUpperCase())
+			particle.sizeMode = SizeMode.valueOf(xml.get("SizeMode", "BothAxis")!!.toUpperCase())
 			particle.brownian = xml.getFloat("Brownian", 0f)
 
 			particle.blendKeyframes = xml.getBoolean("BlendKeyframes", false)

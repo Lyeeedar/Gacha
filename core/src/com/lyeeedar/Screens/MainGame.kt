@@ -97,7 +97,7 @@ class MainGame : Game()
 			GameDataBar.complete()
 			Global.data.refresh()
 
-			switchScreen(ScreenEnum.TEST)
+			switchScreen(ScreenEnum.ZONE)
 		}
 
 	}

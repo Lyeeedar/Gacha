@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import com.lyeeedar.Renderables.Particle.Emitter
+import com.lyeeedar.Renderables.Particle.Particle
 import com.lyeeedar.Renderables.Particle.ParticleEffect
 import com.lyeeedar.Util.Colour
 import com.lyeeedar.Util.lerp
@@ -17,6 +18,8 @@ class ParticleEffectActor(val effect: ParticleEffect, val removeOnCompletion: Bo
 	{
 		touchable = Touchable.disabled
 	}
+
+	private val tempVec2 = Vector2()
 
 	var acted = false
 	override fun act(delta: Float)
@@ -103,8 +106,6 @@ class ParticleEffectActor(val effect: ParticleEffect, val removeOnCompletion: Bo
 
 		for (emitter in effect.emitters)
 		{
-			val emitterOffset = emitter.keyframe1.offset.lerp(emitter.keyframe2.offset, emitter.keyframeAlpha)
-
 			for (particle in emitter.particles)
 			{
 				var px = 0f
@@ -112,7 +113,7 @@ class ParticleEffectActor(val effect: ParticleEffect, val removeOnCompletion: Bo
 
 				if (emitter.simulationSpace == Emitter.SimulationSpace.LOCAL)
 				{
-					tempVec.set(emitterOffset)
+					tempVec.set(emitter.currentOffset)
 					tempVec.scl(emitter.size)
 					tempVec.rotate(emitter.rotation)
 
@@ -141,8 +142,8 @@ class ParticleEffectActor(val effect: ParticleEffect, val removeOnCompletion: Bo
 						h = w
 					}
 
-					var sizex = size * w
-					var sizey = size * h
+					var sizex = if (particle.sizeMode == Particle.SizeMode.YONLY) w else size * w
+					var sizey = if (particle.sizeMode == Particle.SizeMode.XONLY) h else size * h
 
 					if (particle.allowResize)
 					{
@@ -158,11 +159,28 @@ class ParticleEffectActor(val effect: ParticleEffect, val removeOnCompletion: Bo
 
 					if (emitter.simulationSpace == Emitter.SimulationSpace.LOCAL) tempVec.scl(emitter.size).rotate(emitter.rotation + emitter.emitterRotation)
 
-					val drawx = tempVec.x + px
-					val drawy = tempVec.y + py
+					var drawx = (tempVec.x + px) * width - sizex * 0.5f
+					var drawy = (tempVec.y + py) * height - sizey * 0.5f
+
+					when (particle.sizeOrigin)
+					{
+						Particle.SizeOrigin.CENTER -> { }
+						Particle.SizeOrigin.BOTTOM -> {
+							drawy += sizey*0.5f
+						}
+						Particle.SizeOrigin.TOP -> {
+							drawy -= sizey*0.5f
+						}
+						Particle.SizeOrigin.LEFT -> {
+							drawx += sizex*0.5f
+						}
+						Particle.SizeOrigin.RIGHT -> {
+							drawx -= sizex*0.5f
+						}
+					}
 
 					batch.setColor(col.toFloatBits())
-					batch.draw(tex1.second, drawx * width - sizex*0.5f, drawy * height - sizey*0.5f, sizex*0.5f, sizey*0.5f, sizex, sizey, 1f, 1f, rotation)
+					batch.draw(tex1.second, drawx, drawy, sizex*0.5f, sizey*0.5f, sizex, sizey, 1f, 1f, rotation)
 				}
 			}
 		}
