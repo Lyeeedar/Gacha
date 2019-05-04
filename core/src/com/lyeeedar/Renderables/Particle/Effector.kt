@@ -11,7 +11,7 @@ import com.lyeeedar.Util.lerp
 
 class EffectorKeyframe(
 	val time: Float = 0f,
-	val offset: Vector2 = Vector2(),
+	val offset: FixedVector2 = FixedVector2(0f, 0f),
 	val strength: Range = Range(0f, 0f))
 
 class Effector(val emitter: Emitter)
@@ -69,7 +69,7 @@ class Effector(val emitter: Emitter)
 
 		keyframeAlpha = alpha
 
-		offset.set(keyframe1.offset).lerp(keyframe2.offset, keyframeAlpha)
+		keyframe1.offset.lerp(keyframe2.offset, keyframeAlpha, offset)
 
 		for (i in 0 until emitter.particles.size)
 		{
@@ -150,7 +150,7 @@ class Effector(val emitter: Emitter)
 			val strengthMin = input.readFloat()
 			val strengthMax = input.readFloat()
 
-			keyframes[i] = EffectorKeyframe(time, Vector2(offsetx, offsety), Range(strengthMin, strengthMax))
+			keyframes[i] = EffectorKeyframe(time, FixedVector2(offsetx, offsety), Range(strengthMin, strengthMax))
 		}
 	}
 
@@ -219,7 +219,7 @@ class Effector(val emitter: Emitter)
 			{
 				val keyframe = EffectorKeyframe(
 					time,
-					offset.valAt(0, time),
+					FixedVector2(offset.valAt(0, time)),
 					strength.valAt(0, time))
 				keyframes[keyframeI++] = keyframe
 			}

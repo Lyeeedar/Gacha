@@ -381,7 +381,7 @@ class ParticleEffect(val description: ParticleEffectDescription) : Renderable()
 				{
 					val effector = emitter.effectors[i]
 
-					temp.set(effector.keyframe1.offset).lerp(effector.keyframe2.offset, effector.keyframeAlpha)
+					temp.set(effector.offset)
 					temp.scl(emitter.size)
 					temp.rotate(emitter.rotation)
 

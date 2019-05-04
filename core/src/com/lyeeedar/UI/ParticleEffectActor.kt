@@ -182,9 +182,12 @@ class ParticleEffectActor(val effect: ParticleEffect, val removeOnCompletion: Bo
 
 					if (particle.blendKeyframes)
 					{
-						val texture1 = particle.textures[pdata.texStream][tex1.toInt()].second
-						val texture2 = particle.textures[pdata.texStream][tex2.toInt()].second
-						val blendAlpha = (tex2 - tex1) * pdata.keyframeAlpha
+						val tex1Index = tex1.toInt()
+						val tex2Index = min(particle.textures[pdata.texStream].size-1, tex1Index+1)
+
+						val texture1 = particle.textures[pdata.texStream][tex1Index].second
+						val texture2 = particle.textures[pdata.texStream][tex2Index].second
+						val blendAlpha = tex1.lerp(tex2, pdata.keyframeAlpha)
 
 						batch.setColor(col.r, col.g, col.b, col.a * (1f - blendAlpha))
 						batch.draw(texture1, drawx, drawy, sizex*0.5f, sizey*0.5f, sizex, sizey, 1f, 1f, rotation)
