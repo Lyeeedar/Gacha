@@ -30,6 +30,8 @@ class Effector(val emitter: Emitter)
 	var keyframeAlpha: Float = 0f
 	var keyframes: kotlin.Array<EffectorKeyframe> = emptyArray()
 
+	var sinkRadius: Float = 0f
+
 	val offset = Vector2()
 
 	val tempOffset = Vector2()
@@ -83,6 +85,26 @@ class Effector(val emitter: Emitter)
 				{
 					EffectorType.POINT -> doPointEffector(delta, particleData)
 				}
+
+				val strength = keyframe1.strength.lerp(particleData.ranVal).lerp(keyframe2.strength.lerp(particleData.ranVal), keyframeAlpha)
+				val withinSink: Boolean = if (emitter.simulationSpace == Emitter.SimulationSpace.LOCAL)
+				{
+					strength != 0f && particleData.position.dst2(offset) <= sinkRadius * sinkRadius
+				}
+				else
+				{
+					val offset = tempOffset.set(offset)
+					temp.set(offset).scl(emitter.size).rotate(emitter.rotation)
+					offset.set(emitter.position).add(temp)
+
+					val sinkRadius = sinkRadius * emitter.size.x
+					strength != 0f && particleData.position.dst2(offset) <= sinkRadius * sinkRadius
+				}
+
+				if (withinSink)
+				{
+					particleData.life = particle.lifetime.v2
+				}
 			}
 		}
 	}
@@ -133,6 +155,8 @@ class Effector(val emitter: Emitter)
 			output.writeFloat(keyframe.strength.v1)
 			output.writeFloat(keyframe.strength.v2)
 		}
+
+		output.writeFloat(sinkRadius)
 	}
 
 	fun restore(kryo: Kryo, input: Input)
@@ -152,6 +176,8 @@ class Effector(val emitter: Emitter)
 
 			keyframes[i] = EffectorKeyframe(time, FixedVector2(offsetx, offsety), Range(strengthMin, strengthMax))
 		}
+
+		sinkRadius = input.readFloat()
 	}
 
 	companion object
@@ -220,12 +246,14 @@ class Effector(val emitter: Emitter)
 				val keyframe = EffectorKeyframe(
 					time,
 					FixedVector2(offset.valAt(0, time)),
-					strength.valAt(0, time))
+					strength.valAt(0, time).copy())
 				keyframes[keyframeI++] = keyframe
 			}
 			effector.keyframes = keyframes
 			effector.keyframe1 = keyframes[0]
 			effector.keyframe2 = keyframes[0]
+
+			effector.sinkRadius = xmlData.getFloat("SinkRadius", 0f)
 
 			return effector
 		}

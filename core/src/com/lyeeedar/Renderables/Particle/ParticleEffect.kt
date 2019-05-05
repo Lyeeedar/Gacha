@@ -387,7 +387,7 @@ class ParticleEffect(val description: ParticleEffectDescription) : Renderable()
 
 					val ex = emitterx + temp.x * tileSize
 					val ey = emittery + temp.y * tileSize
-					shape.ellipse(ex - w2, ey - h2, tileSize, tileSize, emitter.emitterRotation + rotation)
+					shape.ellipse(ex - tileSize/2f, ey - tileSize/2f, tileSize, tileSize, emitter.emitterRotation + rotation)
 				}
 			}
 		}

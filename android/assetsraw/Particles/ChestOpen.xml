@@ -5,7 +5,9 @@
 			<Name>Coins</Name>
 			<Gravity>-10</Gravity>
 			<Shape>Cone</Shape>
-			<Width>45</Width>
+			<Angle>45</Angle>
+			<Width>0</Width>
+			<Height>1</Height>
 			<SizeMultiplier>
 				<Keyframe>0|1</Keyframe>
 			</SizeMultiplier>
@@ -58,6 +60,8 @@
 			<Name>Sparkles</Name>
 			<Type>Accumulated</Type>
 			<Shape>Circle</Shape>
+			<Width>1</Width>
+			<Height>1</Height>
 			<SizeMultiplier>
 				<Keyframe>0|0</Keyframe>
 				<Keyframe>0.4|3</Keyframe>

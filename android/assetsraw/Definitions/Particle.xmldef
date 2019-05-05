@@ -137,6 +137,7 @@
 								<Data Name="Position" SkipIfDefault="False" meta:RefKey="Vector" />
 							</Keyframe>
 						</Data>
+						<Data Name="SinkRadius" Min="0" meta:RefKey="Number" />
 					</Data>
 				</Data>
 			</Data>

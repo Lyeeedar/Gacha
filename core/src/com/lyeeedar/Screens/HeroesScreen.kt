@@ -18,10 +18,7 @@ import com.lyeeedar.Game.Faction
 import com.lyeeedar.Game.Save
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.UI.*
-import com.lyeeedar.Util.AssetManager
-import com.lyeeedar.Util.Colour
-import com.lyeeedar.Util.neaten
-import com.lyeeedar.Util.prettyPrint
+import com.lyeeedar.Util.*
 import ktx.actors.then
 import ktx.collections.gdxArrayOf
 
@@ -184,9 +181,8 @@ class HeroesScreen : AbstractScreen()
 		val factionAscensionTable = Table()
 		factionAscensionTable.add(SpriteWidget(stats.factionData!!.icon.copy(), 32f, 32f).addTapToolTip("Part of the '${stats.factionData!!.name}' faction."))
 
-		factionAscensionTable.add(
-			SpriteWidget(AssetManager.loadSprite("GUI/ascensionBar", colour = stats.ascension.colour), 48f, 48f)
-				.addTapToolTip("Ascension level " + (stats.ascension.ordinal + 1)))
+		val ascensionSprite = SpriteWidget(AssetManager.loadSprite("GUI/ascensionBar", colour = stats.ascension.colour), 48f, 48f)
+		factionAscensionTable.add(ascensionSprite.addTapToolTip("Ascension level " + (stats.ascension.ordinal + 1)))
 
 		factionAscensionTable.add(SpriteWidget(stats.equipmentWeight.icon.copy(), 32f, 32f).addTapToolTip("Wears ${stats.equipmentWeight.niceName} equipment."))
 		factionAscensionTable.row()
@@ -599,14 +595,48 @@ class HeroesScreen : AbstractScreen()
 				ascendButton.addClickListener {
 					if (stats.ascension != Ascension.Values.last())
 					{
+						val oldAscension = stats.ascension
 						entityData.ascensionShards -= nextAscension.shardsRequired
 
-						preStatChanged()
+						Future.call(
+							{
+								preStatChanged()
 
-						entityData.ascension = nextAscension
-						stats.ascension = entityData.ascension
+								entityData.ascension = nextAscension
+								stats.ascension = entityData.ascension
 
-						postStatChanged()
+								postStatChanged()
+
+								recreateHeroesTable()
+								createHeroTable(entity, entityData, cameFromFaction)
+							}, 1.5f)
+
+						val ascensionParticle = AssetManager.loadParticleEffect("Ascend").getParticleEffect()
+						val particleActor = ParticleEffectActor(ascensionParticle, true)
+						particleActor.width = 64f
+						particleActor.height = 64f
+
+						particleActor.addAction(color(oldAscension.colour.color()) then color(nextAscension.colour.color(), 1.6f))
+
+						val pos = ascensionSprite.localToStageCoordinates(Vector2())
+						particleActor.x = pos.x - 8f
+						particleActor.y = pos.y - 4f
+
+						stage.addActor(particleActor)
+
+
+						val ascendUpParticle = AssetManager.loadParticleEffect("AscendUp").getParticleEffect()
+						ascendUpParticle.size[0] = 5
+						ascendUpParticle.size[1] = 5
+						val particleActor2 = ParticleEffectActor(ascendUpParticle, true)
+						particleActor2.width = 256f / 5
+						particleActor2.height = 256f / 5
+
+						val pos2 = spriteWidget.localToStageCoordinates(Vector2())
+						particleActor2.x = pos2.x - 64f
+						particleActor2.y = pos2.y - 96f
+
+						stage.addActor(particleActor2)
 
 						recreateHeroesTable()
 						createHeroTable(entity, entityData, cameFromFaction)
