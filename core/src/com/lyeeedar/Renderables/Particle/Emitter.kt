@@ -607,9 +607,9 @@ class Emitter(val particleEffect: ParticleEffect)
 			emitter.simulationSpace = SimulationSpace.valueOf(xml.get("Space", "World")!!.toUpperCase())
 			emitter.shape = EmissionShape.valueOf(xml.get("Shape", "Box")!!.toUpperCase())
 
-			emitter.width = xml.getFloat("Width", 1f)
-			if (emitter.width == 0f) emitter.width = 0.001f
-			emitter.height = xml.getFloat("Height", 1f)
+			emitter.width = xml.getFloat("Width", 0f)
+			if (emitter.width == 0f && emitter.shape != EmissionShape.CONE) emitter.width = 0.001f
+			emitter.height = xml.getFloat("Height", 0f)
 			if (emitter.height == 0f) emitter.height = 0.001f
 			emitter.angle = xml.getFloat("Angle", 0f)
 			if (emitter.angle == 0f && emitter.shape == EmissionShape.CONE)

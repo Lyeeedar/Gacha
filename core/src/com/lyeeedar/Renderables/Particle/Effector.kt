@@ -7,6 +7,7 @@ import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
 import com.lyeeedar.Util.XmlData
+import com.lyeeedar.Util.doesLineIntersectCircle
 import com.lyeeedar.Util.lerp
 
 class EffectorKeyframe(
@@ -87,23 +88,26 @@ class Effector(val emitter: Emitter)
 				}
 
 				val strength = keyframe1.strength.lerp(particleData.ranVal).lerp(keyframe2.strength.lerp(particleData.ranVal), keyframeAlpha)
-				val withinSink: Boolean = if (emitter.simulationSpace == Emitter.SimulationSpace.LOCAL)
+				if (strength != 0f)
 				{
-					strength != 0f && particleData.position.dst2(offset) <= sinkRadius * sinkRadius
-				}
-				else
-				{
-					val offset = tempOffset.set(offset)
-					temp.set(offset).scl(emitter.size).rotate(emitter.rotation)
-					offset.set(emitter.position).add(temp)
+					val withinSink: Boolean = if (emitter.simulationSpace == Emitter.SimulationSpace.LOCAL)
+					{
+						particleData.position.dst2(offset) <= sinkRadius * sinkRadius
+					}
+					else
+					{
+						val offset = tempOffset.set(offset)
+						temp.set(offset).scl(emitter.size).rotate(emitter.rotation)
+						offset.set(emitter.position).add(temp)
 
-					val sinkRadius = sinkRadius * emitter.size.x
-					strength != 0f && particleData.position.dst2(offset) <= sinkRadius * sinkRadius
-				}
+						val sinkRadius = sinkRadius * emitter.size.x
+						particleData.position.dst2(offset) <= sinkRadius * sinkRadius
+					}
 
-				if (withinSink)
-				{
-					particleData.life = particle.lifetime.v2
+					if (withinSink || doesLineIntersectCircle(particleData.position, temp.set(particleData.velocity).scl(delta).add(particleData.position), offset, sinkRadius))
+					{
+						particleData.life = particle.lifetime.v2
+					}
 				}
 			}
 		}

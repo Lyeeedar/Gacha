@@ -107,9 +107,9 @@
 							<Permute>
 								<Time>0.0197109822</Time>
 								<HitPoints>
-									<Line>.#.</Line>
+									<Line>###</Line>
 									<Line>#@#</Line>
-									<Line>.#.</Line>
+									<Line>###</Line>
 								</HitPoints>
 								<AppendTargets>true</AppendTargets>
 							</Permute>

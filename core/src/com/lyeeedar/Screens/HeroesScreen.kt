@@ -609,14 +609,15 @@ class HeroesScreen : AbstractScreen()
 
 								recreateHeroesTable()
 								createHeroTable(entity, entityData, cameFromFaction)
-							}, 1.5f)
+							}, 0.75f)
 
 						val ascensionParticle = AssetManager.loadParticleEffect("Ascend").getParticleEffect()
+						ascensionParticle.timeMultiplier = 2f
 						val particleActor = ParticleEffectActor(ascensionParticle, true)
 						particleActor.width = 64f
 						particleActor.height = 64f
 
-						particleActor.addAction(color(oldAscension.colour.color()) then color(nextAscension.colour.color(), 1.6f))
+						particleActor.addAction(color(oldAscension.colour.color()) then color(nextAscension.colour.color(), 0.75f))
 
 						val pos = ascensionSprite.localToStageCoordinates(Vector2())
 						particleActor.x = pos.x - 8f

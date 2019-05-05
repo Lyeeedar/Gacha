@@ -3,15 +3,16 @@
 	<Emitters>
 		<Emitter>
 			<Name>Coins</Name>
-			<Gravity>-10</Gravity>
+			<Gravity>-13</Gravity>
 			<Shape>Cone</Shape>
-			<Angle>45</Angle>
+			<Angle>30</Angle>
 			<Width>0</Width>
 			<Height>1</Height>
 			<SizeMultiplier>
 				<Keyframe>0|1</Keyframe>
 			</SizeMultiplier>
-			<ParticleSpeed>3,5</ParticleSpeed>
+			<Area>Center</Area>
+			<ParticleSpeed>5,8</ParticleSpeed>
 			<ParticleRotation>0,360</ParticleRotation>
 			<RateKeyframes>
 				<Keyframe>0|50</Keyframe>
