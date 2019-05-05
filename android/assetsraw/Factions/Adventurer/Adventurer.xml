@@ -44,6 +44,14 @@
 			<Rarity>Common</Rarity>
 		</Hero>
 		<Hero>
+			<Entity>Molf</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>Vreth</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+		<Hero>
 			<Entity>Ruffletop</Entity>
 			<Rarity>Common</Rarity>
 		</Hero>
@@ -66,14 +74,6 @@
 		<Hero>
 			<Entity>Titania</Entity>
 			<Rarity>UltraRare</Rarity>
-		</Hero>
-		<Hero>
-			<Entity>Molf</Entity>
-			<Rarity>Common</Rarity>
-		</Hero>
-		<Hero>
-			<Entity>Vreth</Entity>
-			<Rarity>Common</Rarity>
 		</Hero>
 	</Heroes>
 </Faction>

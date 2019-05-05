@@ -69,10 +69,10 @@ class TestScreen : AbstractScreen()
 
 		for (hero in heroes.values().sortedByDescending { it.wins.toFloat() / it.losses.toFloat() })
 		{
-			mainTable.add(Label(hero.path.filename(false), Global.skin))
-			mainTable.add(Label((hero.wins.toFloat() / hero.losses.toFloat()).toString(2), Global.skin))
-			mainTable.add(Label(hero.damage.toString(2) + " / " + (hero.totalDps / hero.numSamples).toString(2), Global.skin))
-			mainTable.add(Label(hero.rarity, Global.skin))
+			mainTable.add(Label(hero.path.filename(false), Global.skin, "small"))
+			mainTable.add(Label((hero.wins.toFloat() / hero.losses.toFloat()).toString(2), Global.skin, "small"))
+			mainTable.add(Label(hero.damage.toString(2) + " / " + (hero.totalDps / hero.numSamples).toString(2), Global.skin, "small"))
+			mainTable.add(Label(hero.rarity, Global.skin, "small"))
 			mainTable.row()
 		}
 	}

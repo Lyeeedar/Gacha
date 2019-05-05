@@ -44,6 +44,14 @@
 			<Rarity>Common</Rarity>
 		</Hero>
 		<Hero>
+			<Entity>Krottaz</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>Sandazu</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+		<Hero>
 			<Entity>Thox</Entity>
 			<Rarity>Uncommon</Rarity>
 		</Hero>
@@ -62,14 +70,6 @@
 		<Hero>
 			<Entity>Gobuta</Entity>
 			<Rarity>SuperRare</Rarity>
-		</Hero>
-		<Hero>
-			<Entity>Krottaz</Entity>
-			<Rarity>Common</Rarity>
-		</Hero>
-		<Hero>
-			<Entity>Sandazu</Entity>
-			<Rarity>Common</Rarity>
 		</Hero>
 	</Heroes>
 </Faction>

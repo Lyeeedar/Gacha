@@ -1,0 +1,163 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Cragjaw</Name>
+			<Title>Protector of the Earth</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>110</MaxHP>
+				<Power>10</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+				<Haste>-0.5</Haste>
+				<DR>0.5</DR>
+			</Statistics>
+			<EquipmentWeight>Heavy</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/golem_mud</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/golem_mud</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Shed Excess</Name>
+					<Description>Shed the excess mass, gaining [GOLD]50%[] haste and losing [GOLD]50%[] damage reduction.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/hasteup</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<Buff>
+								<Time>0.0170042645</Time>
+								<Duration LockDuration="False">0.09381663</Duration>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Haste>0.5</Haste>
+										<DR>-0.5</DR>
+									</Statistics>
+									<Duration>99</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<ReplaceSourceRenderable>
+								<Time>0.0170042645</Time>
+								<Duration LockDuration="False">0.09381662</Duration>
+								<Renderable meta:RefKey="Sprite">
+									<Name>Oryx/uf_split/uf_heroes/elemental_earth</Name>
+									<DrawActualSize>true</DrawActualSize>
+								</Renderable>
+								<RestoreOriginal>false</RestoreOriginal>
+							</ReplaceSourceRenderable>
+						</Timeline>
+					</Ability>
+					<Cooldown>7,10</Cooldown>
+					<SingleUse>true</SingleUse>
+				</AbilityData>
+				<AbilityData>
+					<Name>Smash</Name>
+					<Description>Smash your foe into the ground, dealing [GOLD]150%[] damage and stunning them for 1 round.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/heavy-fall</Name>
+						<Colour>130,114,73,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.09792111</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Stomp</Name>
+									<Colour>207,184,127,255</Colour>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+						<Timeline>
+							<Damage>
+								<Time>0.04749467</Time>
+								<Amount>1.5</Amount>
+							</Damage>
+							<Stun>
+								<Time>0.0674307048</Time>
+							</Stun>
+						</Timeline>
+					</Ability>
+				</AbilityData>
+				<AbilityData>
+					<Name>Fling Boulder</Name>
+					<Description>Fling a boulder at an enemy, striking them and all within 1 tile for [GOLD]150%[] damage.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/Custom/terrain/boulder</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<MovementRenderable>
+								<Duration LockDuration="False">0.143070355</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>SpinningFlightParticle</Name>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Oryx/Custom/terrain/boulder</File>
+											</Texture>
+											<BlendMode>Multiplicative</BlendMode>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+								<UseLeap>true</UseLeap>
+							</MovementRenderable>
+							<Permute>
+								<Time>0.143070355</Time>
+								<HitPoints>
+									<Line>###</Line>
+									<Line>#@#</Line>
+									<Line>###</Line>
+								</HitPoints>
+								<AppendTargets>true</AppendTargets>
+							</Permute>
+							<Damage>
+								<Time>0.161247328</Time>
+								<Amount>1.5</Amount>
+							</Damage>
+						</Timeline>
+					</Ability>
+					<Range>9</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

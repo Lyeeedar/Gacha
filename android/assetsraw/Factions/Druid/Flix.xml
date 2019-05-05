@@ -1,0 +1,217 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Flix</Name>
+			<Title>Fae Corruptor</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>90</MaxHP>
+				<Power>8</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<EquipmentWeight>Light</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>6</Range>
+				<FlightEffect meta:RefKey="ParticleEffect">
+					<Name>Bolt</Name>
+					<Colour>133,39,57,213</Colour>
+				</FlightEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/pixie_b</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/pixie_b</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Cursed Crown</Name>
+					<Description>Cast an ancient fae curse on your foe, stunning them and all enemies within 1 for 3 rounds after 3 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/sharp-crown</Name>
+						<Colour>130,68,119,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.0646674559</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>Buff</Name>
+										<Colour>140,94,138,255</Colour>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Icons/sharp-crown</File>
+											</Texture>
+											<BlendMode>Multiplicative</BlendMode>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+							<BlockTurn>
+								<Time>0.0646674559</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.0829572454</Time>
+							</BlockTurn>
+							<BlockTurn>
+								<Time>0.101247028</Time>
+							</BlockTurn>
+							<Permute>
+								<Time>0.123456053</Time>
+								<HitPoints>
+									<Line>###</Line>
+									<Line>#@#</Line>
+									<Line>###</Line>
+								</HitPoints>
+								<AppendTargets>true</AppendTargets>
+							</Permute>
+							<Stun>
+								<Time>0.143052265</Time>
+								<Count>3</Count>
+							</Stun>
+						</Timeline>
+					</Ability>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Bedlam</Name>
+					<Description>Summon a dark whisp to attack the closest foe for [GOLD]50%[] damage for 5 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/fairy</Name>
+						<Colour>122,59,98,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<UnlockEntity />
+							<RepeatBegin>
+								<Time>0.0202494059</Time>
+								<Count>5</Count>
+							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.03853919</Time>
+							</BlockTurn>
+							<SelectEnemies>
+								<Time>0.05682898</Time>
+								<Condition>dist</Condition>
+							</SelectEnemies>
+							<MovementRenderable>
+								<Duration LockDuration="False">0.0940617546</Duration>
+								<Time>0.07381235</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>Bolt</Name>
+									<Colour>178,111,137,255</Colour>
+								</Renderable>
+							</MovementRenderable>
+							<Damage>
+								<Time>0.1678741</Time>
+								<Amount>0.5</Amount>
+							</Damage>
+							<RepeatEnd>
+								<Time>0.1874703</Time>
+							</RepeatEnd>
+						</Timeline>
+						<Timeline>
+							<SelectSelf />
+							<Buff>
+								<Time>0.007704436</Time>
+								<Duration LockDuration="False">0.192461625</Duration>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics" />
+								</Buff>
+							</Buff>
+						</Timeline>
+					</Ability>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Terrorize</Name>
+					<Description>Summon a dark whisp to terrorize an enemy, giving them a [GOLD]50%[] fumble and [GOLD]50%[] root chance. The whisp moves to a new enemy every turn.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/moth_red_1</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<RepeatBegin>
+								<Time>0.0150237549</Time>
+								<Count>99</Count>
+							</RepeatBegin>
+							<StoreTargets>
+								<Time>0.032007128</Time>
+								<Key>Origin</Key>
+							</StoreTargets>
+							<MovementRenderable>
+								<Duration LockDuration="False">0.15</Duration>
+								<Time>0.0496437028</Time>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>FlightParticle</Name>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Oryx/uf_split/uf_heroes/moth_red_1</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+								<UseLeap>true</UseLeap>
+								<Origin>Origin</Origin>
+							</MovementRenderable>
+							<RepeatEnd>
+								<Time>0.204397827</Time>
+							</RepeatEnd>
+						</Timeline>
+						<Timeline>
+							<Debuff>
+								<Duration LockDuration="False">0.0194403082</Duration>
+								<Time>0.1802034</Time>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Root>0.5</Root>
+										<Fumble>0.5</Fumble>
+									</Statistics>
+									<Duration>1</Duration>
+								</Buff>
+							</Debuff>
+						</Timeline>
+					</Ability>
+					<SingleUse>true</SingleUse>
+					<AvailableOnStart>true</AvailableOnStart>
+					<Range>99</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

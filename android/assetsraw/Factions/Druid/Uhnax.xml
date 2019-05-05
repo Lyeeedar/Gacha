@@ -1,0 +1,248 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Uhnax</Name>
+			<Title>Sylphs Champion</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>140</MaxHP>
+				<Power>11.5</Power>
+				<CritChance>0.1</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<EquipmentWeight>Heavy</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/uhnax</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/uhnax</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Gift of the Dryads</Name>
+					<Description>Each time an enemy attacks you they lose [GOLD]5%[] haste for 5 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/hastedown</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<Buff>
+								<Time>0.0190334134</Time>
+								<Duration LockDuration="False">0.212649167</Duration>
+								<Buff meta:RefKey="Buff">
+									<Statistics meta:RefKey="Statistics" />
+									<EventHandlers meta:RefKey="EventHandler">
+										<Events>
+											<TakeDamage>
+												<EventHandler>
+													<Condition>1</Condition>
+													<ActionSequence meta:RefKey="ActionSequence">
+														<Timeline>
+															<Debuff>
+																<Duration LockDuration="False">0.160625815</Duration>
+																<Buff meta:RefKey="Buff">
+																	<Name>Gift of the Dryads</Name>
+																	<Icon meta:RefKey="Sprite">
+																		<Name>Icons/hastedown</Name>
+																	</Icon>
+																	<Statistics meta:RefKey="Statistics">
+																		<Haste>-0.05</Haste>
+																	</Statistics>
+																	<Duration>5</Duration>
+																</Buff>
+															</Debuff>
+														</Timeline>
+													</ActionSequence>
+												</EventHandler>
+											</TakeDamage>
+										</Events>
+									</EventHandlers>
+									<Duration>99</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+					</Ability>
+					<SingleUse>true</SingleUse>
+					<AvailableOnStart>true</AvailableOnStart>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Fury of a Satyr</Name>
+					<Description>Smash an enemy, dealing [GOLD]150%[] damage. This attack deals [GOLD]200%[] more critical damage.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/weapon_greataxe</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<DestinationRenderable>
+								<Time>0.000717079558</Time>
+								<Duration LockDuration="False">0.100391135</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>slash</Name>
+								</Renderable>
+							</DestinationRenderable>
+						</Timeline>
+						<Timeline>
+							<Damage>
+								<Time>0.0962001756</Time>
+								<Amount>1.5</Amount>
+								<BonusCritDamage>2</BonusCritDamage>
+							</Damage>
+						</Timeline>
+					</Ability>
+					<Cooldown>4,6</Cooldown>
+				</AbilityData>
+				<AbilityData>
+					<Name>Natures Attendents</Name>
+					<Description>Unleash a swarm of fairies, they grant [GOLD]5%[] regeneration for 6 turns.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/healing</Name>
+						<Colour>138,255,134,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<AttachToEntityRenderable>
+								<Duration LockDuration="False">0.102386639</Duration>
+								<Time>0.0203460623</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>HealingMist</Name>
+								</Renderable>
+								<Above>true</Above>
+								<SelectionMode>Allies</SelectionMode>
+							</AttachToEntityRenderable>
+						</Timeline>
+						<Timeline>
+							<UnlockEntity>
+								<Time>0.0203460623</Time>
+							</UnlockEntity>
+							<RepeatBegin>
+								<Time>0.0387231521</Time>
+								<Count>6</Count>
+							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.0676014349</Time>
+							</BlockTurn>
+							<RepeatEnd>
+								<Time>0.09385441</Time>
+							</RepeatEnd>
+						</Timeline>
+						<Timeline>
+							<Buff>
+								<Time>0.0203460623</Time>
+								<Duration LockDuration="False">0.102386639</Duration>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Regeneration>0.05</Regeneration>
+									</Statistics>
+								</Buff>
+							</Buff>
+						</Timeline>
+					</Ability>
+					<Cooldown>6,10</Cooldown>
+					<Condition>hp&lt;maxhp</Condition>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Whirlwind</Name>
+					<Description>Spin around, hitting allow surrounding enemies for [GOLD]100%[] and knocking them back.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/weapon_greataxe</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<Permute>
+								<Time>0.01575179</Time>
+								<HitPoints>
+									<Line>###</Line>
+									<Line>#@#</Line>
+									<Line>###</Line>
+								</HitPoints>
+							</Permute>
+							<DestinationRenderable>
+								<Time>0.0334725529</Time>
+								<Duration LockDuration="False">0.11288783</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>SpinSlash</Name>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>Particle/SpinSlash</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Oryx/uf_split/uf_items/weapon_greataxe</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+							</DestinationRenderable>
+						</Timeline>
+						<Timeline>
+							<Damage>
+								<Time>0.09385441</Time>
+							</Damage>
+							<Knockback>
+								<Time>0.1122315</Time>
+								<MoveType>Leap</MoveType>
+							</Knockback>
+						</Timeline>
+					</Ability>
+				</AbilityData>
+				<AbilityData>
+					<Name>Sharp Blades</Name>
+					<Description>Sharpen your axe, gaining [GOLD]20%[] crit chance for 4 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/critup</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<Buff>
+								<Time>0.0269093085</Time>
+								<Duration LockDuration="False">0.107637227</Duration>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<CritChance>0.2</CritChance>
+									</Statistics>
+									<Duration>4</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+					</Ability>
+					<Range>3</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

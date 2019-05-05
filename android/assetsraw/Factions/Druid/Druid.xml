@@ -37,7 +37,7 @@
 	</Buffs>
 	<Heroes>
 		<Hero>
-			<Entity>Ayda</Entity>
+			<Entity>Cragjaw</Entity>
 			<Rarity>Common</Rarity>
 		</Hero>
 		<Hero>
@@ -45,8 +45,24 @@
 			<Rarity>Common</Rarity>
 		</Hero>
 		<Hero>
+			<Entity>Savarna</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>Flix</Entity>
+			<Rarity>Uncommon</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>Ayda</Entity>
+			<Rarity>Uncommon</Rarity>
+		</Hero>
+		<Hero>
 			<Entity>Ivis</Entity>
 			<Rarity>Rare</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>Uhnax</Entity>
+			<Rarity>SuperRare</Rarity>
 		</Hero>
 	</Heroes>
 </Faction>

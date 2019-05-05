@@ -1,0 +1,154 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Savarna</Name>
+			<Title>Lilium Vengeance</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>90</MaxHP>
+				<Power>8</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<EquipmentWeight>Medium</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/savarna</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/savarna</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Nourishing Blood</Name>
+					<Description>Each time you deal damage, gain [GOLD]2%[] power.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/heartburn</Name>
+						<Colour>201,94,94,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<Buff>
+								<Time>0.0164634138</Time>
+								<Duration LockDuration="False">0.119512193</Duration>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics" />
+									<EventHandlers meta:RefKey="EventHandler">
+										<Events>
+											<DealDamage>
+												<EventHandler>
+													<Condition>1</Condition>
+													<ActionSequence meta:RefKey="ActionSequence">
+														<Timeline>
+															<SelectSelf />
+															<Buff>
+																<Time>0.016158618</Time>
+																<Duration LockDuration="False">0.06662732</Duration>
+																<Buff meta:RefKey="Buff">
+																	<Name>Nourishing Blood</Name>
+																	<Icon meta:RefKey="Sprite">
+																		<Name>Icons/heartburn</Name>
+																		<Colour>201,94,94,255</Colour>
+																	</Icon>
+																	<Statistics meta:RefKey="Statistics">
+																		<Power>0.02</Power>
+																	</Statistics>
+																	<Duration>99</Duration>
+																</Buff>
+															</Buff>
+														</Timeline>
+													</ActionSequence>
+												</EventHandler>
+											</DealDamage>
+										</Events>
+									</EventHandlers>
+									<Duration>99</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+					</Ability>
+					<SingleUse>true</SingleUse>
+					<AvailableOnStart>true</AvailableOnStart>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Thirsting Blades</Name>
+					<Description>Strike an enemy, taking [GOLD]100%[] of the damage dealt as life.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_items/weapon_magic_sword_hellfire</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<Damage>
+								<Time>0.062278308</Time>
+								<BonusLifesteal>1</BonusLifesteal>
+							</Damage>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.105047747</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>slash</Name>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+				</AbilityData>
+				<AbilityData>
+					<Name>Dance of Death</Name>
+					<Description>Move with the flow of the battle, giving you a [GOLD]30%[] chance to block attacks for 5 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/circle-claws</Name>
+						<Colour>174,194,185,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<Buff>
+								<Time>0.0232605729</Time>
+								<Duration LockDuration="False">0.150068209</Duration>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Aegis>0.3</Aegis>
+									</Statistics>
+									<Duration>5</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+					</Ability>
+					<Range>99</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>
