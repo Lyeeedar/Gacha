@@ -119,6 +119,7 @@ class SelectEntitiesAction() : AbstractActionSequenceAction()
 	lateinit var conditionString: String
 	var compiledCondition: CompiledExpression? = null
 	var minimum = true
+	var allowSelf = true
 
 	val entities = ObjectSet<Entity>()
 	override fun enter(): Boolean
@@ -137,7 +138,10 @@ class SelectEntitiesAction() : AbstractActionSequenceAction()
 
 				if (mode == Mode.Any || (mode == Mode.Allies && entity.isAllies(sequence.source)) || (mode == Mode.Enemies && entity.isEnemies(sequence.source)))
 				{
-					entities.add(entity)
+					if (allowSelf || entity != sequence.source)
+					{
+						entities.add(entity)
+					}
 				}
 			}
 		}
@@ -195,6 +199,7 @@ class SelectEntitiesAction() : AbstractActionSequenceAction()
 		action.conditionString = conditionString
 		action.compiledCondition = compiledCondition
 		action.minimum = minimum
+		action.allowSelf = allowSelf
 
 		return action
 	}
@@ -227,6 +232,7 @@ class SelectEntitiesAction() : AbstractActionSequenceAction()
 			compiledCondition = CompiledExpression(conditionString, StatisticsComponent.getDefaultVariables())
 		}
 		minimum = xmlData.getBoolean("Minimum", true)
+		allowSelf = xmlData.getBoolean("AllowSelf", true)
 	}
 
 	var obtained: Boolean = false

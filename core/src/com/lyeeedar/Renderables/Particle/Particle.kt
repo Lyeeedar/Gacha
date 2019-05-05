@@ -17,6 +17,7 @@ import com.lyeeedar.BlendMode
 import com.lyeeedar.Direction
 import com.lyeeedar.Global.Companion.collisionGrid
 import com.lyeeedar.Util.*
+import ktx.collections.toGdxArray
 import ktx.math.div
 
 /**
@@ -572,6 +573,8 @@ class Particle(val emitter: Emitter)
 			particle.brownian = xml.getFloat("Brownian", 0f)
 
 			particle.blendKeyframes = xml.getBoolean("BlendKeyframes", false)
+			val loopKeyframes = xml.getBoolean("LoopKeyframes", false)
+			val loopDuration = xml.getFloat("LoopDuration", 0f)
 
 			// Load timelines
 			val texBlend = LerpTimeline()
@@ -590,6 +593,33 @@ class Particle(val emitter: Emitter)
 			else
 			{
 				texture[0, 0f] = Pair("white", AssetManager.loadTextureRegion("white")!!)
+			}
+
+			if (loopKeyframes && loopDuration > 0f)
+			{
+				for (stream in texture.streams)
+				{
+					val originalKeyframes = stream.toGdxArray()
+					val loopLength = loopDuration / particle.lifetime.v2
+					val keyframeDuration = loopLength / originalKeyframes.size
+
+					stream.clear()
+					var time = 0f
+					var index = 0
+					while (time < 1f)
+					{
+						val keyframe = Pair(time, originalKeyframes[index].second)
+						stream.add(keyframe)
+
+						time += keyframeDuration
+
+						index += 1
+						if (index == originalKeyframes.size)
+						{
+							index = 0
+						}
+					}
+				}
 			}
 
 			for (s in 0 until texture.streams.size)

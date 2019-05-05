@@ -86,6 +86,8 @@
 						<!--Render-->
 						<Data Name="BlendMode" EnumValues="Additive,Multiplicative" SkipIfDefault="False" meta:RefKey="Enum" />
 						<Data Name="BlendKeyframes" meta:RefKey="Boolean" />
+						<Data Name="LoopKeyframes" meta:RefKey="Boolean" />
+						<Data Name="LoopDuration" Min="0" VisibleIf="LoopKeyframes==true" meta:RefKey="Number" />
 						<Data Name="TextureKeyframes" MinCount="1" meta:RefKey="Collection">
 							<Data Name="Stream" MinCount="1" meta:RefKey="Timeline">
 								<Keyframe Name="Keyframe" Collapse="True" Seperator="|" meta:RefKey="Keyframe">

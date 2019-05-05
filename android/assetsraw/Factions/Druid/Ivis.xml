@@ -1,0 +1,207 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Ivis</Name>
+			<Title>Will-O-Whisp</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>90</MaxHP>
+				<Power>6</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<EquipmentWeight>Light</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>9</Range>
+				<FlightEffect meta:RefKey="ParticleEffect">
+					<Name>Bolt</Name>
+					<Scale>0.7</Scale>
+				</FlightEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/wisp_ancient</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/wisp_ancient</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Attach</Name>
+					<Description>Attach to a random ally, granting them [GOLD]30%[] more power.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/wisp_ancient_1</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectAllies>
+								<AllowSelf>false</AllowSelf>
+							</SelectAllies>
+							<LockTargets>
+								<Time>0.015625</Time>
+							</LockTargets>
+							<UnlockEntity>
+								<Time>0.031875</Time>
+							</UnlockEntity>
+							<RepeatBegin>
+								<Time>0.05063088</Time>
+								<Count>99</Count>
+							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.07188334</Time>
+							</BlockTurn>
+							<MoveSource>
+								<Time>0.09438596</Time>
+							</MoveSource>
+							<RepeatEnd>
+								<Time>0.116995074</Time>
+							</RepeatEnd>
+						</Timeline>
+						<Timeline>
+							<Buff>
+								<Time>0.02437783</Time>
+								<Duration LockDuration="False">0.108620204</Duration>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Power>0.3</Power>
+									</Statistics>
+								</Buff>
+							</Buff>
+						</Timeline>
+					</Ability>
+					<SingleUse>true</SingleUse>
+					<AvailableOnStart>true</AvailableOnStart>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Heal</Name>
+					<Description>Heal the closest ally for [GOLD]100%[] power.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/healing</Name>
+						<Colour>65,171,67,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectAllies>
+								<Condition>dist</Condition>
+								<AllowSelf>false</AllowSelf>
+							</SelectAllies>
+							<Heal>
+								<Time>0.0209342558</Time>
+							</Heal>
+						</Timeline>
+					</Ability>
+					<Cooldown>4,7</Cooldown>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Weaken</Name>
+					<Description>Weaken the closest enemy, causing them to deal [GOLD]30%[] less damage and take [GOLD]15%[] more damage.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/half-heart</Name>
+						<Colour>158,114,114,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<UnlockEntity />
+							<RepeatBegin>
+								<Time>0.0209342558</Time>
+								<Count>99</Count>
+							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.04123414</Time>
+							</BlockTurn>
+							<SelectEnemies>
+								<Time>0.0567079745</Time>
+								<Condition>dist</Condition>
+							</SelectEnemies>
+							<Debuff>
+								<Duration LockDuration="False">0.008373506</Duration>
+								<Time>0.07946514</Time>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Power>-0.3</Power>
+										<DR>-0.15</DR>
+									</Statistics>
+									<Duration>1</Duration>
+								</Buff>
+							</Debuff>
+							<RepeatEnd>
+								<Time>0.09421125</Time>
+							</RepeatEnd>
+						</Timeline>
+					</Ability>
+					<Cooldown>3,4</Cooldown>
+					<SingleUse>true</SingleUse>
+					<AvailableOnStart>true</AvailableOnStart>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Protective Sacrifice</Name>
+					<Description>Sacrifice [GOLD]10%[] of your health to protect the closest ally, giving them [GOLD]60%[] damage reduction for 5 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/armor-upgrade</Name>
+						<Colour>168,137,181,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<SelectAllies>
+								<Time>0.0355247967</Time>
+								<Condition>dist</Condition>
+								<AllowSelf>false</AllowSelf>
+							</SelectAllies>
+						</Timeline>
+						<Timeline>
+							<Buff>
+								<Time>0.01538546</Time>
+								<Duration LockDuration="False">0.0201393366</Duration>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Regeneration>-0.02</Regeneration>
+									</Statistics>
+									<Duration>5</Duration>
+								</Buff>
+							</Buff>
+							<Buff>
+								<Time>0.0499750972</Time>
+								<Duration LockDuration="False">0.03034179</Duration>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<DR>0.6</DR>
+									</Statistics>
+									<Duration>5</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+					</Ability>
+					<Range>99</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

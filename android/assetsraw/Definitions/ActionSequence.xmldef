@@ -10,8 +10,8 @@
 			</Keyframe>
 			<!--Renderable-->
 			<Keyframe Name="DestinationRenderable" Background="75,166,173,101" HasDuration="True" meta:RefKey="Keyframe">
-				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Data Name="Renderable" Keys="ParticleEffect,ParticleEffectTemplate" meta:RefKey="Reference" />
 				<Data Name="RenderablePerTile" meta:RefKey="Boolean" />
 				<Data Name="OnEnd" EnumValues="Nothing,Kill,Stop" Default="Stop" meta:RefKey="Enum" />
@@ -20,8 +20,8 @@
 				<Data Name="SpawnDuration" Min="0" VisibleIf="SpawnBehaviour!=Immediate &amp;&amp; RenderablePerTile == true" meta:RefKey="Number" />
 			</Keyframe>
 			<Keyframe Name="AttachToEntityRenderable" Background="8,202,217,137" HasDuration="True" meta:RefKey="Keyframe">
-				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Data Name="Renderable" Keys="ParticleEffect,ParticleEffectTemplate" meta:RefKey="Reference" />
 				<Data Name="Above" Default="True" SkipIfDefault="False" meta:RefKey="Boolean" />
 				<Data Name="SpawnBehaviour" EnumValues="Immediate,FromSource,FromCenter,Random" meta:RefKey="Enum" />
@@ -29,28 +29,28 @@
 				<Data Name="SelectionMode" EnumValues="Any,Allies,Enemies" meta:RefKey="Enum" />
 			</Keyframe>
 			<Keyframe Name="SourceRenderable" Background="75,166,173,101" HasDuration="True" meta:RefKey="Keyframe">
-				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Data Name="Renderable" Keys="ParticleEffect,ParticleEffectTemplate" meta:RefKey="Reference" />
 				<Data Name="OnEnd" EnumValues="Nothing,Kill,Stop" Default="Stop" meta:RefKey="Enum" />
 			</Keyframe>
 			<Keyframe Name="MovementRenderable" Background="49,181,114,94" HasDuration="True" meta:RefKey="Keyframe">
-				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Data Name="Renderable" Keys="ParticleEffect,ParticleEffectTemplate" meta:RefKey="Reference" />
 				<Data Name="UseLeap" meta:RefKey="Boolean" />
 				<Data Name="Origin" meta:RefKey="String" />
 			</Keyframe>
 			<Keyframe Name="ReplaceSourceRenderable" Background="42,214,177,94" HasDuration="True" meta:RefKey="Keyframe">
-				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Data Name="Renderable" Keys="Sprite,ParticleEffect,ParticleEffectTemplate,TilingSprite" meta:RefKey="Reference" />
 				<Data Name="RestoreOriginal" Default="True" meta:RefKey="Boolean" />
 				<Data Name="BlendDuration" Min="0" meta:RefKey="Number" />
 			</Keyframe>
 			<Keyframe Name="SourceAnimation" Background="27,181,140,146" HasDuration="True" meta:RefKey="Keyframe">
-				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Data Name="Animation" EnumValues="Expand,Spin,Fade" meta:RefKey="Enum" />
 				<Data Name="SizeStart" Min="0" Default="1" VisibleIf="Animation==Expand" meta:RefKey="Number" />
 				<Data Name="SizeEnd" Min="0" Default="1" VisibleIf="Animation==Expand" meta:RefKey="Number" />
@@ -60,8 +60,8 @@
 				<Data Name="Angle" VisibleIf="Animation==Spin" meta:RefKey="Number" />
 			</Keyframe>
 			<Keyframe Name="Screenshake" Background="85,94,232,81" HasDuration="True" meta:RefKey="Keyframe">
-				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Data Name="Strength" meta:RefKey="Number" />
 				<Data Name="Speed" Min="1" Default="10" meta:RefKey="Number" />
 			</Keyframe>
@@ -83,25 +83,25 @@
 				<Data Name="Count" Default="1" meta:RefKey="String" />
 			</Keyframe>
 			<Keyframe Name="Buff" Background="39,237,118,81" HasDuration="True" meta:RefKey="Keyframe">
-				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Data Name="Buff" Keys="Buff" Nullable="False" meta:RefKey="Reference" />
 			</Keyframe>
 			<Keyframe Name="Debuff" Background="121,39,237,81" HasDuration="True" meta:RefKey="Keyframe">
-				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Data Name="Buff" Keys="Buff" Nullable="False" meta:RefKey="Reference" />
 			</Keyframe>
 			<Keyframe Name="Summon" Background="242,234,24,148" HasDuration="True" meta:RefKey="Keyframe">
-				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
+				<Time Name="Time" Min="0" meta:RefKey="Number" />
 				<Data Name="Entity" StripExtension="True" ResourceType="Entity" meta:RefKey="File" />
 				<Data Name="Effect" Keys="ParticleEffect,ParticleEffectTemplate" Nullable="False" meta:RefKey="Reference" />
 				<Data Name="KillOnExit" meta:RefKey="Boolean" />
 			</Keyframe>
 			<Keyframe Name="ReplaceAttack" Background="255,220,0,231" HasDuration="True" meta:RefKey="Keyframe">
-				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Time Name="Time" Min="0" meta:RefKey="Number" />
+				<Duration Name="Duration" Min="0" meta:RefKey="Number" />
 				<Data Name="Attack" Keys="AttackDescription" Nullable="False" meta:RefKey="Reference" />
 			</Keyframe>
 			<!--Movement-->
@@ -131,6 +131,7 @@
 				<Data Name="Count" Default="1" meta:RefKey="String" />
 				<Data Name="Condition" Default="random" meta:RefKey="String" />
 				<Data Name="Minimum" Default="True" VisibleIf="Condition != random" meta:RefKey="Boolean" />
+				<Data Name="AllowSelf" Default="True" meta:RefKey="Boolean" />
 			</Keyframe>
 			<Keyframe Name="SelectEnemies" Background="172,176,109,133" meta:RefKey="Keyframe">
 				<Time Name="Time" Min="0" meta:RefKey="Number" />

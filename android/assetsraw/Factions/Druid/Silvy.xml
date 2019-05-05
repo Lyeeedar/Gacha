@@ -1,0 +1,232 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Silvy</Name>
+			<Title>Forest Pixie</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>80</MaxHP>
+				<Power>7</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<EquipmentWeight>Light</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>6</Range>
+				<FlightEffect meta:RefKey="ParticleEffect">
+					<Name>Bolt</Name>
+					<Colour>117,212,169,213</Colour>
+				</FlightEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/pixie_a</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/pixie_a</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Compel Pascifism</Name>
+					<Description>Enchant the strongest enemy, giving them a [GOLD]70%[] fumble chance on every attack for 4 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/fumble</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectEnemies>
+								<Condition>power</Condition>
+								<Minimum>false</Minimum>
+							</SelectEnemies>
+							<Debuff>
+								<Duration LockDuration="False">0.177681878</Duration>
+								<Time>0.0183107276</Time>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Fumble>0.7</Fumble>
+									</Statistics>
+									<Duration>4</Duration>
+								</Buff>
+							</Debuff>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Time>0.0183107276</Time>
+								<Duration LockDuration="False">0.177681878</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>Buff</Name>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Icons/fumble</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Healing Mist</Name>
+					<Description>Summon a healing mist on a random ally that heals all allies within it for [GOLD]20%[] each round for 6 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>EffectSprites/Heal/Heal_2</Name>
+						<Colour>8,255,0,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectAllies />
+							<Permute>
+								<Time>0.0197109822</Time>
+								<HitPoints>
+									<Line>.#.</Line>
+									<Line>#@#</Line>
+									<Line>.#.</Line>
+								</HitPoints>
+								<AppendTargets>true</AppendTargets>
+							</Permute>
+							<UnlockEntity>
+								<Time>0.0476878621</Time>
+							</UnlockEntity>
+							<RepeatBegin>
+								<Time>0.07566474</Time>
+								<Count>6</Count>
+							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.101098269</Time>
+							</BlockTurn>
+							<Heal>
+								<Time>0.123988442</Time>
+								<Amount>0.2</Amount>
+							</Heal>
+							<RepeatEnd>
+								<Time>0.153237</Time>
+							</RepeatEnd>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Time>0.0438728333</Time>
+								<Duration LockDuration="False">0.1284393</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>HealingMist</Name>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Fairies Curse</Name>
+					<Description>Curse an enemy, removing [GOLD]30%[] of their power and giving it to an ally for 8 turns.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/moth_red_1</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectEnemies />
+							<MovementRenderable>
+								<Duration LockDuration="False">0.146242768</Duration>
+								<Time>0.0209826585</Time>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>FlightParticle</Name>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Oryx/uf_split/uf_heroes/moth_red_1</File>
+											</Texture>
+											<BlendMode>Multiplicative</BlendMode>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+							</MovementRenderable>
+							<StoreTargets>
+								<Time>0.16722542</Time>
+								<Key>Origin</Key>
+							</StoreTargets>
+							<SelectAllies>
+								<Time>0.179942191</Time>
+							</SelectAllies>
+							<MovementRenderable>
+								<Duration LockDuration="False">0.134797692</Duration>
+								<Time>0.192658976</Time>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>FlightParticle</Name>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Oryx/uf_split/uf_heroes/moth_red_1</File>
+											</Texture>
+											<BlendMode>Multiplicative</BlendMode>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+								<Origin>Origin</Origin>
+							</MovementRenderable>
+						</Timeline>
+						<Timeline>
+							<Debuff>
+								<Duration LockDuration="False">0.146242768</Duration>
+								<Time>0.0209826585</Time>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Power>-0.3</Power>
+									</Statistics>
+									<Duration>8</Duration>
+								</Buff>
+							</Debuff>
+							<Buff>
+								<Time>0.196474</Time>
+								<Duration LockDuration="False">0.130982667</Duration>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Power>0.3</Power>
+									</Statistics>
+									<Duration>8</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+					</Ability>
+					<Range>99</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

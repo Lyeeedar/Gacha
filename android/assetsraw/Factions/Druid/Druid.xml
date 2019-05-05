@@ -40,5 +40,13 @@
 			<Entity>Ayda</Entity>
 			<Rarity>Common</Rarity>
 		</Hero>
+		<Hero>
+			<Entity>Silvy</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+		<Hero>
+			<Entity>Ivis</Entity>
+			<Rarity>Rare</Rarity>
+		</Hero>
 	</Heroes>
 </Faction>

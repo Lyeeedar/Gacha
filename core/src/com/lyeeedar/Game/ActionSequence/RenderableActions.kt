@@ -754,6 +754,8 @@ class MovementRenderableAction() : AbstractActionSequenceAction()
 
 		entity = EntityPool.obtain()
 
+		if (sequence.targets.size == 0) return false
+
 		val r = renderable.getParticleEffect()
 		entity.add(RenderableComponent.obtain().set(r))
 		entity.add(PositionComponent.obtain())
