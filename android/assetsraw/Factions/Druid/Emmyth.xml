@@ -1,0 +1,200 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Emmyth</Name>
+			<Title>Grove Keeper</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>100</MaxHP>
+				<Power>9</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+				<Haste>0.1</Haste>
+			</Statistics>
+			<EquipmentWeight>Light</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>9</Range>
+				<FlightEffect meta:RefKey="ParticleEffect">
+					<Name>Bolt</Name>
+					<Colour>126,240,155,255</Colour>
+				</FlightEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/druid</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/druid</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Wildshape</Name>
+					<Description>Shift into the shape of a giant eagle, gaining [GOLD]50%[] haste and [GOLD]20%[] more power for 8 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Oryx/uf_split/uf_heroes/bird_hawk_1</Name>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<ReplaceSourceRenderable>
+								<Duration LockDuration="False">0.12375</Duration>
+								<Time>0.01890625</Time>
+								<Renderable meta:RefKey="Sprite">
+									<Name>Oryx/uf_split/uf_heroes/bird_hawk</Name>
+									<DrawActualSize>true</DrawActualSize>
+								</Renderable>
+								<BlendDuration>0.15</BlendDuration>
+							</ReplaceSourceRenderable>
+						</Timeline>
+						<Timeline>
+							<Buff>
+								<Duration LockDuration="False">0.12375</Duration>
+								<Time>0.01890625</Time>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Power>0.2</Power>
+										<Haste>0.5</Haste>
+									</Statistics>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<ReplaceAttack>
+								<Duration LockDuration="False">0.12375</Duration>
+								<Time>0.01890625</Time>
+								<Attack meta:RefKey="AttackDescription">
+									<Damage>1</Damage>
+									<Range>1</Range>
+									<HitEffect meta:RefKey="ParticleEffect">
+										<Name>Claws</Name>
+									</HitEffect>
+								</Attack>
+							</ReplaceAttack>
+						</Timeline>
+						<Timeline>
+							<UnlockEntity>
+								<Time>0.0360937528</Time>
+							</UnlockEntity>
+							<RepeatBegin>
+								<Time>0.05328125</Time>
+								<Count>8</Count>
+							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.07046875</Time>
+							</BlockTurn>
+							<RepeatEnd>
+								<Time>0.08994792</Time>
+							</RepeatEnd>
+						</Timeline>
+					</Ability>
+					<SingleUse>true</SingleUse>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Alacrity</Name>
+					<Description>Bless all allies, giving them [GOLD]30%[] faster ability cooldowns for 5 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/clockwork</Name>
+						<Colour>178,194,89,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectAllies>
+								<Count>9</Count>
+							</SelectAllies>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.08708333</Duration>
+								<Time>0.0177604165</Time>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>Buff</Name>
+										<Colour>135,163,91,255</Colour>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Icons/clockwork</File>
+											</Texture>
+											<BlendMode>Multiplicative</BlendMode>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<OnEnd>Nothing</OnEnd>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+							<Buff>
+								<Duration LockDuration="False">0.09739583</Duration>
+								<Time>0.104843751</Time>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<AbilityCooldown>0.3</AbilityCooldown>
+									</Statistics>
+									<Duration>5</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+					</Ability>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Root</Name>
+					<Description>Summon vines to entangle an enemy, rooting them to the spot for 3 rounds and giving them a [GOLD]50%[] fumble chance.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/heavy-thorny-triskelion</Name>
+						<Colour>33,89,40,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.08020833</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>RisingThorns</Name>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+							<Debuff>
+								<Time>0.08020833</Time>
+								<Duration LockDuration="False">0.09052083</Duration>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Root>1</Root>
+										<Fumble>0.5</Fumble>
+									</Statistics>
+									<Duration>3</Duration>
+								</Buff>
+							</Debuff>
+						</Timeline>
+					</Ability>
+					<AvailableOnStart>true</AvailableOnStart>
+					<Range>99</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>
