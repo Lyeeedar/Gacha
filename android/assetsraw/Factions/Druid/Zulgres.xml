@@ -1,0 +1,190 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Zulgres</Name>
+			<Title>Vilespine Slayer</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>130</MaxHP>
+				<Power>9</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<EquipmentWeight>Medium</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/zulgres</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/zulgres</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Thorn Spray</Name>
+					<Description>Spray thorns out at all surrounding enemies, dealing [GOLD]70%[] damage to each.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/spikes-full</Name>
+						<Colour>80,140,36,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<Permute>
+								<Time>0.0151068149</Time>
+								<HitPoints>
+									<Line>###</Line>
+									<Line>#@#</Line>
+									<Line>###</Line>
+								</HitPoints>
+							</Permute>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.06937945</Duration>
+								<Time>0.0307731442</Time>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>QuillSpray</Name>
+								</Renderable>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+						<Timeline>
+							<Damage>
+								<Time>0.06658189</Time>
+								<Amount>0.7</Amount>
+							</Damage>
+						</Timeline>
+					</Ability>
+				</AbilityData>
+				<AbilityData>
+					<Name>Bristleback</Name>
+					<Description>Everytime you take damage, theres a [GOLD]15%[] chance to release a quill spray.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/spiked-snail</Name>
+						<Colour>92,135,61,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<Buff>
+								<Duration LockDuration="False">0.122981362</Duration>
+								<Time>0.0199275371</Time>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics" />
+									<EventHandlers meta:RefKey="EventHandler">
+										<Events>
+											<TakeDamage>
+												<EventHandler>
+													<Condition>rnd(1)&lt;0.15</Condition>
+													<ActionSequence meta:RefKey="ActionSequence">
+														<Timeline>
+															<SelectSelf />
+															<Permute>
+																<Time>0.0151068149</Time>
+																<HitPoints>
+																	<Line>###</Line>
+																	<Line>#@#</Line>
+																	<Line>###</Line>
+																</HitPoints>
+															</Permute>
+															<DestinationRenderable>
+																<Duration LockDuration="False">0.06937945</Duration>
+																<Time>0.0307731442</Time>
+																<Renderable meta:RefKey="ParticleEffect">
+																	<Name>QuillSpray</Name>
+																</Renderable>
+																<AlignToVector>false</AlignToVector>
+															</DestinationRenderable>
+														</Timeline>
+														<Timeline>
+															<Damage>
+																<Time>0.06658189</Time>
+																<Amount>0.7</Amount>
+															</Damage>
+														</Timeline>
+													</ActionSequence>
+												</EventHandler>
+											</TakeDamage>
+										</Events>
+									</EventHandlers>
+									<Duration>999</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+					</Ability>
+					<SingleUse>true</SingleUse>
+					<AvailableOnStart>true</AvailableOnStart>
+					<Cancellable>false</Cancellable>
+					<RemoveOnDeath>true</RemoveOnDeath>
+				</AbilityData>
+				<AbilityData>
+					<Name>Viscous Goop</Name>
+					<Description>Fling out some viscous goop that slows the target by [GOLD]10%[] and reduces their damage by [GOLD]5%[] for 5 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/goo-spurt</Name>
+						<Colour>83,178,47,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<MovementRenderable>
+								<Duration LockDuration="False">0.144913524</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>FlightParticle</Name>
+										<Colour>85,181,50,255</Colour>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>EffectSprites/Bolt/Bolt_0</File>
+											</Texture>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+							</MovementRenderable>
+							<Debuff>
+								<Time>0.144913524</Time>
+								<Duration LockDuration="False">0.07721262</Duration>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Power>-0.05</Power>
+										<Haste>-0.1</Haste>
+									</Statistics>
+									<Duration>5</Duration>
+								</Buff>
+							</Debuff>
+						</Timeline>
+					</Ability>
+					<Cooldown>3,7</Cooldown>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

@@ -1,6 +1,9 @@
 package com.lyeeedar.Screens
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.ObjectMap
 import com.lyeeedar.Game.Faction
 import com.lyeeedar.Game.FactionEntity
@@ -9,6 +12,7 @@ import com.lyeeedar.Tests.DPSTest
 import com.lyeeedar.Tests.HeroEntry
 import com.lyeeedar.Tests.RatingTest
 import com.lyeeedar.UI.Seperator
+import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.XmlData
 import com.lyeeedar.Util.filename
 import com.lyeeedar.Util.toString
@@ -59,20 +63,39 @@ class TestScreen : AbstractScreen()
 	fun updateTables()
 	{
 		mainTable.clear()
-		mainTable.add(Label("Name", Global.skin, "title"))
-		mainTable.add(Label("W/L", Global.skin, "title"))
-		mainTable.add(Label("Dam/DPS", Global.skin, "title"))
-		mainTable.add(Label("Rarity", Global.skin, "title"))
+
+		val titleTable = Table()
+
+		val nameLabel = Label("Name", Global.skin)
+		titleTable.add(nameLabel).growX()
+		val wlLabel = Label("W/L", Global.skin)
+		titleTable.add(wlLabel).width(nameLabel.prefWidth)
+		val damdpsLabel = Label("Dam/DPS", Global.skin)
+		titleTable.add(damdpsLabel).width(damdpsLabel.prefWidth)
+		val rarityLabel = Label("Rarity", Global.skin)
+		titleTable.add(rarityLabel).width(rarityLabel.prefWidth)
+
+		mainTable.add(titleTable).growX()
 		mainTable.row()
 		mainTable.add(Seperator(Global.skin)).colspan(4).growX()
 		mainTable.row()
 
+		var bright = true
 		for (hero in heroes.values().sortedByDescending { it.wins.toFloat() / it.losses.toFloat() })
 		{
-			mainTable.add(Label(hero.path.filename(false), Global.skin, "small"))
-			mainTable.add(Label((hero.wins.toFloat() / hero.losses.toFloat()).toString(2), Global.skin, "small"))
-			mainTable.add(Label(hero.damage.toString(2) + " / " + (hero.totalDps / hero.numSamples).toString(2), Global.skin, "small"))
-			mainTable.add(Label(hero.rarity, Global.skin, "small"))
+			val rowTable = Table()
+			if (bright)
+			{
+				rowTable.background = TextureRegionDrawable(AssetManager.loadTextureRegion("white")).tint(Color(1f, 1f, 1f, 0.1f))
+			}
+			bright = !bright
+
+			rowTable.add(Label(hero.path.filename(false), Global.skin, "small")).growX()
+			rowTable.add(Label((hero.wins.toFloat() / hero.losses.toFloat()).toString(2), Global.skin, "small")).width(nameLabel.prefWidth)
+			rowTable.add(Label(hero.damage.toString(2) + " / " + (hero.totalDps / hero.numSamples).toString(2), Global.skin, "small")).width(damdpsLabel.prefWidth)
+			rowTable.add(Label(hero.rarity, Global.skin, "small")).width(rarityLabel.prefWidth)
+
+			mainTable.add(rowTable).growX()
 			mainTable.row()
 		}
 	}

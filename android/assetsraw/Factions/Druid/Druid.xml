@@ -49,6 +49,10 @@
 			<Rarity>Common</Rarity>
 		</Hero>
 		<Hero>
+			<Entity>Zulgres</Entity>
+			<Rarity>Common</Rarity>
+		</Hero>
+		<Hero>
 			<Entity>Flix</Entity>
 			<Rarity>Uncommon</Rarity>
 		</Hero>
