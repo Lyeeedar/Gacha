@@ -32,6 +32,7 @@ class AbilityComponent : AbstractComponent()
 			val condition = CompiledExpression(conditionStr, StatisticsComponent.getDefaultVariables())
 			val range = el.getInt("Range", 1)
 			val cancellable = el.getBoolean("Cancellable", true)
+			val removeOnDeath = el.getBoolean("RemoveOnDeath", false)
 
 			val data = AbilityData()
 			data.name = name
@@ -46,6 +47,7 @@ class AbilityComponent : AbstractComponent()
 			data.remainingCooldown = if (availableOnStart) 0f else data.cooldown.getValue().toFloat()
 			data.selectedCooldown = data.remainingCooldown
 			data.cancellable = cancellable
+			data.removeOnDeath = removeOnDeath
 
 			abilities.add(data)
 		}
@@ -93,6 +95,7 @@ class AbilityData
 	lateinit var condition: CompiledExpression
 	var range: Int = 1
 	var cancellable = true
+	var removeOnDeath = false
 
 	var selectedCooldown = 0f
 	var remainingCooldown = 0f

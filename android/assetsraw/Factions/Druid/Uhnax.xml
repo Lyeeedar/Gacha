@@ -11,7 +11,7 @@
 		<Position />
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
-				<MaxHP>140</MaxHP>
+				<MaxHP>150</MaxHP>
 				<Power>11.5</Power>
 				<CritChance>0.1</CritChance>
 				<CritDamage>2</CritDamage>
@@ -55,8 +55,8 @@
 						<Timeline>
 							<SelectSelf />
 							<Buff>
-								<Time>0.0190334134</Time>
 								<Duration LockDuration="False">0.212649167</Duration>
+								<Time>0.0190334134</Time>
 								<Buff meta:RefKey="Buff">
 									<Statistics meta:RefKey="Statistics" />
 									<EventHandlers meta:RefKey="EventHandler">
@@ -103,8 +103,8 @@
 					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
 							<DestinationRenderable>
-								<Time>0.000717079558</Time>
 								<Duration LockDuration="False">0.100391135</Duration>
+								<Time>0.000717079558</Time>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>slash</Name>
 								</Renderable>
@@ -131,8 +131,8 @@
 						<Timeline>
 							<SelectSelf />
 							<AttachToEntityRenderable>
-								<Duration LockDuration="False">0.102386639</Duration>
 								<Time>0.0203460623</Time>
+								<Duration LockDuration="False">0.102386639</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>HealingMist</Name>
 								</Renderable>
@@ -157,8 +157,8 @@
 						</Timeline>
 						<Timeline>
 							<Buff>
-								<Time>0.0203460623</Time>
 								<Duration LockDuration="False">0.102386639</Duration>
+								<Time>0.0203460623</Time>
 								<Buff meta:RefKey="Buff">
 									<UseParentNameAndIcon>true</UseParentNameAndIcon>
 									<Statistics meta:RefKey="Statistics">
@@ -190,8 +190,8 @@
 								</HitPoints>
 							</Permute>
 							<DestinationRenderable>
-								<Time>0.0334725529</Time>
 								<Duration LockDuration="False">0.11288783</Duration>
+								<Time>0.0334725529</Time>
 								<Renderable meta:RefKey="ParticleEffectTemplate">
 									<Base meta:RefKey="ParticleEffect">
 										<Name>SpinSlash</Name>
@@ -228,8 +228,8 @@
 						<Timeline>
 							<SelectSelf />
 							<Buff>
-								<Time>0.0269093085</Time>
 								<Duration LockDuration="False">0.107637227</Duration>
+								<Time>0.0269093085</Time>
 								<Buff meta:RefKey="Buff">
 									<UseParentNameAndIcon>true</UseParentNameAndIcon>
 									<Statistics meta:RefKey="Statistics">

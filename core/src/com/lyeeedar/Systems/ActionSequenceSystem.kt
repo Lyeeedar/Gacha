@@ -2,10 +2,7 @@ package com.lyeeedar.Systems
 
 import com.badlogic.ashley.core.Family
 import com.lyeeedar.AI.Tasks.TaskUseAbility
-import com.lyeeedar.Components.ActiveActionSequenceComponent
-import com.lyeeedar.Components.Mappers
-import com.lyeeedar.Components.isTransient
-import com.lyeeedar.Components.task
+import com.lyeeedar.Components.*
 
 class ActionSequenceSystem : AbstractSystem(Family.one(ActiveActionSequenceComponent::class.java).get())
 {
@@ -14,7 +11,13 @@ class ActionSequenceSystem : AbstractSystem(Family.one(ActiveActionSequenceCompo
 		for (entity in entities)
 		{
 			val activeSequence = Mappers.activeActionSequence.get(entity) ?: continue
-			val complete = activeSequence.sequence.update(deltaTime)
+			var complete = activeSequence.sequence.update(deltaTime)
+
+			if (activeSequence.sequence.removeOnDeath && (activeSequence.sequence.source.isMarkedForDeletion() || activeSequence.sequence.source.stats().hp <= 0))
+			{
+				activeSequence.sequence.cancel()
+				complete = true
+			}
 
 			if (complete)
 			{

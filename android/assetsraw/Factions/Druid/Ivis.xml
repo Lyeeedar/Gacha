@@ -12,7 +12,7 @@
 		<Statistics>
 			<Statistics meta:RefKey="Statistics">
 				<MaxHP>90</MaxHP>
-				<Power>6</Power>
+				<Power>7</Power>
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
 			</Statistics>
@@ -79,8 +79,8 @@
 						</Timeline>
 						<Timeline>
 							<Buff>
-								<Time>0.02437783</Time>
 								<Duration LockDuration="False">0.108620204</Duration>
+								<Time>0.02437783</Time>
 								<Buff meta:RefKey="Buff">
 									<UseParentNameAndIcon>true</UseParentNameAndIcon>
 									<Statistics meta:RefKey="Statistics">
@@ -92,6 +92,8 @@
 					</Ability>
 					<SingleUse>true</SingleUse>
 					<AvailableOnStart>true</AvailableOnStart>
+					<Cancellable>false</Cancellable>
+					<RemoveOnDeath>true</RemoveOnDeath>
 					<Range>99</Range>
 				</AbilityData>
 				<AbilityData>
@@ -137,8 +139,8 @@
 								<Condition>dist</Condition>
 							</SelectEnemies>
 							<Debuff>
-								<Duration LockDuration="False">0.008373506</Duration>
 								<Time>0.07946514</Time>
+								<Duration LockDuration="False">0.008373506</Duration>
 								<Buff meta:RefKey="Buff">
 									<UseParentNameAndIcon>true</UseParentNameAndIcon>
 									<Statistics meta:RefKey="Statistics">
@@ -156,6 +158,8 @@
 					<Cooldown>3,4</Cooldown>
 					<SingleUse>true</SingleUse>
 					<AvailableOnStart>true</AvailableOnStart>
+					<Cancellable>false</Cancellable>
+					<RemoveOnDeath>true</RemoveOnDeath>
 					<Range>99</Range>
 				</AbilityData>
 				<AbilityData>
@@ -176,8 +180,8 @@
 						</Timeline>
 						<Timeline>
 							<Buff>
-								<Time>0.01538546</Time>
 								<Duration LockDuration="False">0.0201393366</Duration>
+								<Time>0.01538546</Time>
 								<Buff meta:RefKey="Buff">
 									<UseParentNameAndIcon>true</UseParentNameAndIcon>
 									<Statistics meta:RefKey="Statistics">
@@ -187,8 +191,8 @@
 								</Buff>
 							</Buff>
 							<Buff>
-								<Time>0.0499750972</Time>
 								<Duration LockDuration="False">0.03034179</Duration>
+								<Time>0.0499750972</Time>
 								<Buff meta:RefKey="Buff">
 									<UseParentNameAndIcon>true</UseParentNameAndIcon>
 									<Statistics meta:RefKey="Statistics">

@@ -30,6 +30,13 @@ class TaskAbility() : AbstractTask()
 		val distract = e.stats().getStat(Statistic.DISTRACTION)
 		if (distract > 0f && Random.random() < distract)
 		{
+			if (!ability.singleUse) // dont consume use of single use ability
+			{
+				// reset cooldown, but only to half of normal
+				ability.remainingCooldown = ability.cooldown.getValue().toFloat() / 2f
+				ability.selectedCooldown = ability.remainingCooldown
+			}
+
 			if (!Global.resolveInstant)
 			{
 				val stunParticle = AssetManager.loadParticleEffect("Stunned").getParticleEffect()
@@ -58,6 +65,7 @@ class TaskAbility() : AbstractTask()
 		newAb.creatingName = ability.name
 		newAb.creatingIcon = ability.icon
 		newAb.cancellable = ability.cancellable
+		newAb.removeOnDeath = ability.removeOnDeath
 		newAb.source = e
 
 		newAb.begin(e, Global.engine.level!!)

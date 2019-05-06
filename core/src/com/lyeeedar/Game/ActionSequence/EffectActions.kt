@@ -419,7 +419,7 @@ class BuffAction() : AbstractActionSequenceAction()
 				hitEntities.add(entity)
 
 				val stats = entity.stats() ?: continue
-				if ((isDebuff && entity.isEnemies(sequence.source)) || entity.isAllies(sequence.source))
+				if ((isDebuff && entity.isEnemies(sequence.source)) || (!isDebuff && entity.isAllies(sequence.source)))
 				{
 					val buff = buff.copy()
 					if (buff.useParentNameAndIcon)

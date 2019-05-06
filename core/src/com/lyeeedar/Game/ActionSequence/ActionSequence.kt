@@ -19,6 +19,7 @@ class ActionSequence
 	var creatingIcon: Sprite? = null
 
 	var cancellable = true
+	var removeOnDeath = false
 	val actions: Array<AbstractActionSequenceAction> = Array(4)
 
 	val enteredActions: Array<AbstractActionSequenceAction> = Array(false, 4)

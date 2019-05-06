@@ -1,0 +1,306 @@
+<Entity xmlns:meta="Editor">
+	<Components>
+		<Name>
+			<Name>Bitterthorn</Name>
+			<Title>Treant Protector</Title>
+		</Name>
+		<AI>
+			<Speed>1</Speed>
+			<AI>BasicMonster</AI>
+		</AI>
+		<Position />
+		<Statistics>
+			<Statistics meta:RefKey="Statistics">
+				<MaxHP>110</MaxHP>
+				<Power>5</Power>
+				<CritChance>0.05</CritChance>
+				<CritDamage>2</CritDamage>
+			</Statistics>
+			<EquipmentWeight>Heavy</EquipmentWeight>
+			<Death meta:RefKey="ParticleEffect">
+				<Name>Death</Name>
+			</Death>
+			<Attack meta:RefKey="AttackDescription">
+				<Damage>1</Damage>
+				<Range>1</Range>
+				<HitEffect meta:RefKey="ParticleEffect">
+					<Name>slash</Name>
+				</HitEffect>
+			</Attack>
+		</Statistics>
+		<DirectionalSprite>
+			<Animations>
+				<Animation>
+					<Name>idle</Name>
+					<Up meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/treant</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Up>
+					<Down meta:RefKey="Sprite">
+						<Name>Oryx/Custom/heroes/treant</Name>
+						<DrawActualSize>true</DrawActualSize>
+					</Down>
+				</Animation>
+			</Animations>
+		</DirectionalSprite>
+		<Ability>
+			<Abilities>
+				<AbilityData>
+					<Name>Living Armour</Name>
+					<Description>Enshroud the weakest ally in an armour of bark and vines, giving them [GOLD]5%[] regeneration and [GOLD]30%[] damage reduction for 5 rounds.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/armor-upgrade</Name>
+						<Colour>0,255,16,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectAllies>
+								<Condition>hp</Condition>
+							</SelectAllies>
+							<Buff>
+								<Duration LockDuration="False">0.103937007</Duration>
+								<Time>0.0228908882</Time>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<DR>0.3</DR>
+										<Regeneration>0.05</Regeneration>
+									</Statistics>
+									<Duration>5</Duration>
+								</Buff>
+							</Buff>
+						</Timeline>
+						<Timeline>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.103937007</Duration>
+								<Time>0.0228908882</Time>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>Buff</Name>
+										<Colour>0,255,53,255</Colour>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Icons/armor-upgrade</File>
+											</Texture>
+											<BlendMode>Multiplicative</BlendMode>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+					</Ability>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Leech Seed</Name>
+					<Description>Implant a parasite seed in to enemy for 5 rounds. It deals [GOLD]50%[] damage and heals all allies around it for [GOLD]50%[] each round.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/sprout</Name>
+						<Colour>10,148,52,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<MovementRenderable>
+								<Duration LockDuration="False">0.1540495</Duration>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>SpinningFlightParticle</Name>
+										<Colour>13,128,37,255</Colour>
+										<Scale>0.6</Scale>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Icons/dandelion-flower</File>
+											</Texture>
+											<BlendMode>Multiplicative</BlendMode>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+								<UseLeap>true</UseLeap>
+							</MovementRenderable>
+							<DestinationRenderable>
+								<Duration LockDuration="False">0.04454443</Duration>
+								<Time>0.1540495</Time>
+								<Renderable meta:RefKey="ParticleEffectTemplate">
+									<Base meta:RefKey="ParticleEffect">
+										<Name>Debuff</Name>
+										<Colour>13,128,37,255</Colour>
+										<Scale>0.6</Scale>
+									</Base>
+									<Overrides>
+										<OverrideTexture>
+											<Name>white</Name>
+											<Texture meta:RefKey="Texture">
+												<File>Icons/dandelion-flower</File>
+											</Texture>
+											<BlendMode>Multiplicative</BlendMode>
+										</OverrideTexture>
+									</Overrides>
+								</Renderable>
+								<RenderablePerTile>true</RenderablePerTile>
+								<AlignToVector>false</AlignToVector>
+							</DestinationRenderable>
+						</Timeline>
+						<Timeline>
+							<Debuff>
+								<Time>0.1540495</Time>
+								<Duration LockDuration="False">0.21034871</Duration>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics" />
+								</Buff>
+							</Debuff>
+						</Timeline>
+						<Timeline>
+							<StoreTargets>
+								<Time>0.212204725</Time>
+								<Key>Enemy</Key>
+							</StoreTargets>
+							<RepeatBegin>
+								<Time>0.230764911</Time>
+								<Count>5</Count>
+							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.248087734</Time>
+							</BlockTurn>
+							<RestoreTargets>
+								<Time>0.265410572</Time>
+								<Key>Enemy</Key>
+							</RestoreTargets>
+							<Damage>
+								<Time>0.2827334</Time>
+								<Amount>0.5</Amount>
+							</Damage>
+							<Permute>
+								<Time>0.300056249</Time>
+								<HitPoints>
+									<Line>###</Line>
+									<Line>#@#</Line>
+									<Line>###</Line>
+								</HitPoints>
+							</Permute>
+							<Heal>
+								<Time>0.3173791</Time>
+								<Amount>0.5</Amount>
+							</Heal>
+							<RepeatEnd>
+								<Time>0.334701926</Time>
+							</RepeatEnd>
+							<UnlockEntity>
+								<Time>0.220810488</Time>
+							</UnlockEntity>
+						</Timeline>
+					</Ability>
+					<Range>4</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Natures Wrath</Name>
+					<Description>Fling out a great orb of power that deals [GOLD]150%[] damage to a foe. The orb bounces to a new target every turn for 6 turns.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/concentration-orb</Name>
+						<Colour>9,117,11,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<SelectSelf />
+							<RepeatBegin>
+								<Time>0.00567407</Time>
+								<Count>6</Count>
+							</RepeatBegin>
+							<StoreTargets>
+								<Time>0.0111902347</Time>
+								<Key>Origin</Key>
+							</StoreTargets>
+							<SelectEnemies>
+								<Time>0.0164035428</Time>
+								<AllowCurrent>false</AllowCurrent>
+							</SelectEnemies>
+							<MovementRenderable>
+								<Time>0.02133756</Time>
+								<Duration LockDuration="False">0.15</Duration>
+								<Renderable meta:RefKey="ParticleEffect">
+									<Name>NaturesWrath</Name>
+								</Renderable>
+								<Origin>Origin</Origin>
+							</MovementRenderable>
+							<Damage>
+								<Time>0.17153734</Time>
+								<Amount>1.5</Amount>
+							</Damage>
+							<BlockTurn>
+								<Time>0.174249873</Time>
+							</BlockTurn>
+							<RepeatEnd>
+								<Time>0.17663756</Time>
+							</RepeatEnd>
+							<UnlockEntity>
+								<Time>0.00295054447</Time>
+							</UnlockEntity>
+						</Timeline>
+					</Ability>
+					<Cooldown>8,12</Cooldown>
+					<Range>99</Range>
+				</AbilityData>
+				<AbilityData>
+					<Name>Overgrowth</Name>
+					<Description>Enemies standing within 1 gain a [GOLD]15%[] chance to fail to use their abilities.</Description>
+					<Icon meta:RefKey="Sprite">
+						<Name>Icons/root-tip</Name>
+						<Colour>92,115,23,255</Colour>
+					</Icon>
+					<Ability meta:RefKey="ActionSequence">
+						<Timeline>
+							<RepeatBegin>
+								<Time>0.00119368429</Time>
+								<Count>99</Count>
+							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.00268243067</Time>
+							</BlockTurn>
+							<SelectSelf>
+								<Time>0.00719006453</Time>
+							</SelectSelf>
+							<Permute>
+								<Time>0.0139272315</Time>
+								<HitPoints>
+									<Line>###</Line>
+									<Line>#@#</Line>
+									<Line>###</Line>
+								</HitPoints>
+							</Permute>
+							<Debuff>
+								<Time>0.01933917</Time>
+								<Duration LockDuration="False">0.0150474757</Duration>
+								<Buff meta:RefKey="Buff">
+									<UseParentNameAndIcon>true</UseParentNameAndIcon>
+									<Statistics meta:RefKey="Statistics">
+										<Distraction>0.15</Distraction>
+									</Statistics>
+									<Duration>1</Duration>
+								</Buff>
+							</Debuff>
+							<RepeatEnd>
+								<Time>0.0367470346</Time>
+							</RepeatEnd>
+							<UnlockEntity>
+								<Time>0.000208330035</Time>
+							</UnlockEntity>
+						</Timeline>
+					</Ability>
+					<SingleUse>true</SingleUse>
+					<AvailableOnStart>true</AvailableOnStart>
+					<Cancellable>false</Cancellable>
+					<RemoveOnDeath>true</RemoveOnDeath>
+					<Range>99</Range>
+				</AbilityData>
+			</Abilities>
+		</Ability>
+	</Components>
+</Entity>

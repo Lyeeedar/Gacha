@@ -61,6 +61,10 @@
 			<Rarity>Rare</Rarity>
 		</Hero>
 		<Hero>
+			<Entity>Bitterthorn</Entity>
+			<Rarity>Rare</Rarity>
+		</Hero>
+		<Hero>
 			<Entity>Uhnax</Entity>
 			<Rarity>SuperRare</Rarity>
 		</Hero>

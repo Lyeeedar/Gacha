@@ -120,11 +120,17 @@ class SelectEntitiesAction() : AbstractActionSequenceAction()
 	var compiledCondition: CompiledExpression? = null
 	var minimum = true
 	var allowSelf = true
+	var allowCurrent = true
 
+	val oldTargetsStore = ObjectSet<Point>()
 	val entities = ObjectSet<Entity>()
 	override fun enter(): Boolean
 	{
 		val oldTarget = sequence.targets.firstOrNull() ?: sequence.source.tile()!!
+
+		oldTargetsStore.clear()
+		oldTargetsStore.addAll(sequence.targets)
+
 		sequence.targets.clear()
 		sequence.lockedTargets.clear()
 
@@ -136,9 +142,19 @@ class SelectEntitiesAction() : AbstractActionSequenceAction()
 			{
 				val entity = tile.contents[slot] ?: continue
 
-				if (mode == Mode.Any || (mode == Mode.Allies && entity.isAllies(sequence.source)) || (mode == Mode.Enemies && entity.isEnemies(sequence.source)))
+				if (mode == Mode.Any ||
+					(mode == Mode.Allies && entity.isAllies(sequence.source)) ||
+					(mode == Mode.Enemies && entity.isEnemies(sequence.source)))
 				{
-					if (allowSelf || entity != sequence.source)
+					if (!allowSelf && entity == sequence.source)
+					{
+
+					}
+					else if (!allowCurrent && oldTargetsStore.contains(tile))
+					{
+
+					}
+					else
 					{
 						entities.add(entity)
 					}
@@ -200,6 +216,7 @@ class SelectEntitiesAction() : AbstractActionSequenceAction()
 		action.compiledCondition = compiledCondition
 		action.minimum = minimum
 		action.allowSelf = allowSelf
+		action.allowCurrent = allowCurrent
 
 		return action
 	}
@@ -233,6 +250,7 @@ class SelectEntitiesAction() : AbstractActionSequenceAction()
 		}
 		minimum = xmlData.getBoolean("Minimum", true)
 		allowSelf = xmlData.getBoolean("AllowSelf", true)
+		allowCurrent = xmlData.getBoolean("AllowCurrent", true)
 	}
 
 	var obtained: Boolean = false

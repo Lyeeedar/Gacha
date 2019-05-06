@@ -262,6 +262,11 @@ private fun doMove(src: Tile, dst: Tile, type: MovementType, interrupt: Boolean)
 		return dst
 	}
 
+	if (stats.hp <= 0 || entity.isMarkedForDeletion())
+	{
+		return dst
+	}
+
 	if (interrupt)
 	{
 		val task = entity.task()
