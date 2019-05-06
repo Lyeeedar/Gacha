@@ -1,0 +1,46 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Suffix</Type>
+	<AllowedSlots>Head,Body,Feet</AllowedSlots>
+	<AllowedWeights>Heavy,Medium</AllowedWeights>
+	<Rarity>Common</Rarity>
+	<Parts>
+		<Part>
+			<Name>Bolstering</Name>
+			<Description>Each hit grants you [GOLD]10%[] more damage resistance for 1 round.</Description>
+			<MinLevel>1</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/mithril</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics" />
+			<EventHandlers meta:RefKey="EventHandler">
+				<Events>
+					<Attack>
+						<EventHandler>
+							<Condition>1</Condition>
+							<ActionSequence meta:RefKey="ActionSequence">
+								<Timeline>
+									<SelectSelf />
+									<Buff>
+										<Time>0.0196428578</Time>
+										<Duration LockDuration="False">0.07380952</Duration>
+										<Buff meta:RefKey="Buff">
+											<Name>Bolstering</Name>
+											<Icon meta:RefKey="Sprite">
+												<Name>Icons/armor-upgrade</Name>
+												<Colour>175,185,186,255</Colour>
+											</Icon>
+											<Statistics meta:RefKey="Statistics">
+												<DR>0.1</DR>
+											</Statistics>
+											<Duration>1</Duration>
+										</Buff>
+									</Buff>
+								</Timeline>
+							</ActionSequence>
+						</EventHandler>
+					</Attack>
+				</Events>
+			</EventHandlers>
+		</Part>
+	</Parts>
+</EquipmentPart>

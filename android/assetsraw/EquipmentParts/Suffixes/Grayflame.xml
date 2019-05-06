@@ -1,0 +1,46 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Suffix</Type>
+	<AllowedSlots>Weapon</AllowedSlots>
+	<AllowedWeights>Heavy,Medium,Light</AllowedWeights>
+	<Rarity>Uncommon</Rarity>
+	<Parts>
+		<Part>
+			<Name>Grayflame</Name>
+			<Description>Each time you are healed gain [GOLD]20%[] more damage for 3 rounds.</Description>
+			<MinLevel>5</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/grayflame</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics" />
+			<EventHandlers meta:RefKey="EventHandler">
+				<Events>
+					<Healed>
+						<EventHandler>
+							<Condition>1</Condition>
+							<ActionSequence meta:RefKey="ActionSequence">
+								<Timeline>
+									<SelectSelf />
+									<Buff>
+										<Time>0.0173021927</Time>
+										<Duration LockDuration="False">0.07969495</Duration>
+										<Buff meta:RefKey="Buff">
+											<Name>Grayflame</Name>
+											<Icon meta:RefKey="Sprite">
+												<Name>Icons/shard-sword</Name>
+												<Colour>143,143,143,255</Colour>
+											</Icon>
+											<Statistics meta:RefKey="Statistics">
+												<Power>0.2</Power>
+											</Statistics>
+											<Duration>3</Duration>
+										</Buff>
+									</Buff>
+								</Timeline>
+							</ActionSequence>
+						</EventHandler>
+					</Healed>
+				</Events>
+			</EventHandlers>
+		</Part>
+	</Parts>
+</EquipmentPart>

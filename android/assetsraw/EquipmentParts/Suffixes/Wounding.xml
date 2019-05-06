@@ -1,0 +1,49 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Suffix</Type>
+	<AllowedSlots>Weapon</AllowedSlots>
+	<AllowedWeights>Heavy,Medium</AllowedWeights>
+	<Rarity>Rare</Rarity>
+	<Parts>
+		<Part>
+			<Name>Wounding</Name>
+			<Description>Those you strike bleed for [GOLD]2%[] of their hp each round. Each hit makes the bleeding worse.</Description>
+			<MinLevel>1</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/hellstone</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics" />
+			<EventHandlers meta:RefKey="EventHandler">
+				<Events>
+					<Attack>
+						<EventHandler>
+							<Condition>1</Condition>
+							<ActionSequence meta:RefKey="ActionSequence">
+								<Timeline>
+									<ModifyDebuff>
+										<Name>Bleed</Name>
+										<Amount>1</Amount>
+									</ModifyDebuff>
+									<Debuff>
+										<Duration LockDuration="False">0.0771929845</Duration>
+										<Time>0.0150097469</Time>
+										<Buff meta:RefKey="Buff">
+											<Name>Bleed</Name>
+											<Icon meta:RefKey="Sprite">
+												<Name>Icons/bleeding-wound</Name>
+												<Colour>255,0,0,255</Colour>
+											</Icon>
+											<Statistics meta:RefKey="Statistics">
+												<Regeneration>-0.01</Regeneration>
+											</Statistics>
+											<Duration>2</Duration>
+										</Buff>
+									</Debuff>
+								</Timeline>
+							</ActionSequence>
+						</EventHandler>
+					</Attack>
+				</Events>
+			</EventHandlers>
+		</Part>
+	</Parts>
+</EquipmentPart>

@@ -6,8 +6,8 @@
 	<Parts>
 		<Part>
 			<Name>Sharp</Name>
+			<Description></Description>
 			<MinLevel>1</MinLevel>
-			<MinAscension>Mundane</MinAscension>
 			<Layer meta:RefKey="Texture">
 				<File>Oryx/Custom/textures/steel</File>
 			</Layer>
@@ -18,8 +18,8 @@
 		</Part>
 		<Part>
 			<Name>Honed</Name>
-			<MinLevel>30</MinLevel>
-			<MinAscension>Exceptional</MinAscension>
+			<Description></Description>
+			<MinLevel>20</MinLevel>
 			<Layer meta:RefKey="Texture">
 				<File>Oryx/Custom/textures/steel</File>
 			</Layer>
@@ -30,8 +30,8 @@
 		</Part>
 		<Part>
 			<Name>Keen</Name>
-			<MinLevel>80</MinLevel>
-			<MinAscension>Extraordinary</MinAscension>
+			<Description></Description>
+			<MinLevel>40</MinLevel>
 			<Layer meta:RefKey="Texture">
 				<File>Oryx/Custom/textures/steel</File>
 			</Layer>

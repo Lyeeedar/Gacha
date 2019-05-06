@@ -1,0 +1,52 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Suffix</Type>
+	<AllowedSlots>Body</AllowedSlots>
+	<AllowedWeights>Heavy</AllowedWeights>
+	<Rarity>Uncommon</Rarity>
+	<Parts>
+		<Part>
+			<Name>the Guardian</Name>
+			<Description>Give the closest ally [GOLD]20%[] more damage resistance each turn.</Description>
+			<MinLevel>5</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/silver</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<DR>-0.2</DR>
+			</Statistics>
+			<EventHandlers meta:RefKey="EventHandler">
+				<Events>
+					<OnTurn>
+						<EventHandler>
+							<Condition>1</Condition>
+							<ActionSequence meta:RefKey="ActionSequence">
+								<Timeline>
+									<SelectAllies>
+										<Time>0.0004919499</Time>
+										<Condition>dist</Condition>
+										<AllowSelf>false</AllowSelf>
+									</SelectAllies>
+									<Buff>
+										<Time>0.0152504472</Time>
+										<Duration LockDuration="False">0.054114487</Duration>
+										<Buff meta:RefKey="Buff">
+											<Name>Guardian</Name>
+											<Icon meta:RefKey="Sprite">
+												<Name>Icons/armor-upgrade</Name>
+												<Colour>158,218,230,255</Colour>
+											</Icon>
+											<Statistics meta:RefKey="Statistics">
+												<DR>0.2</DR>
+											</Statistics>
+											<Duration>1</Duration>
+										</Buff>
+									</Buff>
+								</Timeline>
+							</ActionSequence>
+						</EventHandler>
+					</OnTurn>
+				</Events>
+			</EventHandlers>
+		</Part>
+	</Parts>
+</EquipmentPart>

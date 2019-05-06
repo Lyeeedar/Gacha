@@ -55,6 +55,7 @@ abstract class AbstractActionSequenceAction
 				"BUFF", "DEBUFF" -> BuffAction.obtain()
 				"SUMMON" -> SummonAction.obtain()
 				"REPLACEATTACK" -> ReplaceAttackAction.obtain()
+				"MODIFYBUFF", "MODIFYDEBUFF" -> ModifyBuff.obtain()
 
 				"MOVESOURCE" -> MoveSourceAction.obtain()
 				"PULL" -> PullAction.obtain()

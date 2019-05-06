@@ -1,0 +1,69 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Suffix</Type>
+	<AllowedSlots>Weapon,Body</AllowedSlots>
+	<AllowedWeights>Heavy</AllowedWeights>
+	<Rarity>Uncommon</Rarity>
+	<Parts>
+		<Part>
+			<Name>Fury</Name>
+			<Description>Each time you attack there is a [GOLD]20%[] chance to fly into a rage, gaining [GOLD]30%[] more power but taking [GOLD]10%[] more damage for 3 rounds.</Description>
+			<MinLevel>1</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/demoniciron</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics" />
+			<EventHandlers meta:RefKey="EventHandler">
+				<Events>
+					<Attack>
+						<EventHandler>
+							<Condition>rnd(1)&lt;0.2</Condition>
+							<ActionSequence meta:RefKey="ActionSequence">
+								<Timeline>
+									<SelectSelf />
+									<Buff>
+										<Time>0.0121517768</Time>
+										<Duration LockDuration="False">0.0623439029</Duration>
+										<Buff meta:RefKey="Buff">
+											<Name>Rage</Name>
+											<Icon meta:RefKey="Sprite">
+												<Name>Icons/enrage</Name>
+												<Colour>196,53,53,255</Colour>
+											</Icon>
+											<Statistics meta:RefKey="Statistics">
+												<Power>0.3</Power>
+												<DR>-0.1</DR>
+											</Statistics>
+											<Duration>3</Duration>
+										</Buff>
+									</Buff>
+								</Timeline>
+								<Timeline>
+									<DestinationRenderable>
+										<Time>0.0195485111</Time>
+										<Duration LockDuration="False">0.0549471676</Duration>
+										<Renderable meta:RefKey="ParticleEffectTemplate">
+											<Base meta:RefKey="ParticleEffect">
+												<Name>Buff</Name>
+												<Colour>171,62,62,255</Colour>
+											</Base>
+											<Overrides>
+												<OverrideTexture>
+													<Name>white</Name>
+													<Texture meta:RefKey="Texture">
+														<File>Icons/enrage</File>
+													</Texture>
+												</OverrideTexture>
+											</Overrides>
+										</Renderable>
+										<RenderablePerTile>true</RenderablePerTile>
+										<AlignToVector>false</AlignToVector>
+									</DestinationRenderable>
+								</Timeline>
+							</ActionSequence>
+						</EventHandler>
+					</Attack>
+				</Events>
+			</EventHandlers>
+		</Part>
+	</Parts>
+</EquipmentPart>

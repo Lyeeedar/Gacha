@@ -23,6 +23,8 @@ class Buff
 
 	var source: Any? = null
 
+	var isBuff = true
+
 	fun copy(): Buff
 	{
 		val buff = Buff()
@@ -33,6 +35,7 @@ class Buff
 		buff.icon = icon
 		buff.statistics.addAll(statistics)
 		buff.eventHandlers.addAll(eventHandlers)
+		buff.isBuff = isBuff
 
 		return buff
 	}

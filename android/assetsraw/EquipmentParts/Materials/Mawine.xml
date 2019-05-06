@@ -7,8 +7,7 @@
 		<Part>
 			<Name>Mawine</Name>
 			<Description></Description>
-			<MinLevel>50</MinLevel>
-			<MinAscension>Extraordinary</MinAscension>
+			<MinLevel>1</MinLevel>
 			<Layer meta:RefKey="Texture">
 				<File>Oryx/Custom/textures/silver</File>
 			</Layer>

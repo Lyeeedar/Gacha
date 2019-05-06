@@ -1,0 +1,50 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Suffix</Type>
+	<AllowedSlots>Weapon</AllowedSlots>
+	<AllowedWeights>Heavy,Medium</AllowedWeights>
+	<Rarity>SuperRare</Rarity>
+	<Parts>
+		<Part>
+			<Name>Freezing Burst</Name>
+			<Description>Everytime you attack gain a [GOLD]30%[] chance to do [GOLD]50%[] more damage in a 1 tile aoe.</Description>
+			<MinLevel>10</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/ice</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics" />
+			<EventHandlers meta:RefKey="EventHandler">
+				<Events>
+					<Attack>
+						<EventHandler>
+							<Condition>rnd(1)&lt;0.3</Condition>
+							<ActionSequence meta:RefKey="ActionSequence">
+								<Timeline>
+									<DestinationRenderable>
+										<Time>0.0006365318</Time>
+										<Duration LockDuration="False">0.0517326742</Duration>
+										<Renderable meta:RefKey="ParticleEffect">
+											<Name>IceBurst</Name>
+											<Scale>0.5</Scale>
+										</Renderable>
+									</DestinationRenderable>
+									<Damage>
+										<Time>0.0523692071</Time>
+										<Amount>0.5</Amount>
+									</Damage>
+									<Permute>
+										<HitPoints>
+											<Line>###</Line>
+											<Line>#@#</Line>
+											<Line>###</Line>
+										</HitPoints>
+										<AppendTargets>true</AppendTargets>
+									</Permute>
+								</Timeline>
+							</ActionSequence>
+						</EventHandler>
+					</Attack>
+				</Events>
+			</EventHandlers>
+		</Part>
+	</Parts>
+</EquipmentPart>

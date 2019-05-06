@@ -1,0 +1,19 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Prefix</Type>
+	<AllowedSlots>Weapon</AllowedSlots>
+	<AllowedWeights>Heavy,Medium,Light</AllowedWeights>
+	<Rarity>Common</Rarity>
+	<Parts>
+		<Part>
+			<Name>Deadly</Name>
+			<Description></Description>
+			<MinLevel>1</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/bronze</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<Power>0.2</Power>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

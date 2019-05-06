@@ -5,10 +5,14 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Pool
 import com.lyeeedar.Components.*
 import com.lyeeedar.Direction
+import com.lyeeedar.EventType
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Animation.MoveAnimation
 import com.lyeeedar.Statistic
+import com.lyeeedar.Systems.EventData
+import com.lyeeedar.Systems.EventSystem
+import com.lyeeedar.Systems.event
 import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.Colour
 import com.lyeeedar.Util.Random
@@ -44,6 +48,12 @@ class TaskMove(): AbstractTask()
 
 		val pos = e.pos() ?: return
 		if (pos.moveLocked) return
+
+		if (EventSystem.isEventRegistered(EventType.MOVE, e))
+		{
+			val eventData = EventData.obtain().set(EventType.MOVE, e, e)
+			Global.engine.event().addEvent(eventData)
+		}
 
 		if (pos.position is Tile)
 		{

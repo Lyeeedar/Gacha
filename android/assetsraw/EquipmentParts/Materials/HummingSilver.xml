@@ -1,0 +1,21 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Head,Body,Feet</AllowedSlots>
+	<AllowedWeights>Heavy,Medium,Light</AllowedWeights>
+	<Rarity>Rare</Rarity>
+	<Parts>
+		<Part>
+			<Name>Humming Silver</Name>
+			<Description></Description>
+			<MinLevel>1</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/silver</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<AbilityCooldown>0.2</AbilityCooldown>
+				<AbilityPower>0.2</AbilityPower>
+				<BuffPower>0.1</BuffPower>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

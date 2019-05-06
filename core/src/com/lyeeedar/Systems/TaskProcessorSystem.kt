@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Family
 import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.ObjectMap
+import com.lyeeedar.AI.Tasks.TaskAttack
 import com.lyeeedar.AI.Tasks.TaskMove
 import com.lyeeedar.Components.*
 import com.lyeeedar.Global
@@ -160,9 +161,6 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 
 			processEntity(entity)
 
-			val haste = entity.stats()?.getStat(Statistic.HASTE) ?: 0f
-
-			task.actionAccumulator -= (1f / (task.speed + haste))
 			if (task.actionAccumulator <= 0f)
 			{
 				itr.remove()
@@ -213,6 +211,23 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 
 			t.free()
 
+			val haste = e.stats()?.getStat(Statistic.HASTE) ?: 0f
+
+			if (t is TaskMove)
+			{
+				val fleet = e.stats()?.getStat(Statistic.FLEETFOOT) ?: 0f
+				task.actionAccumulator -= (1f / (task.speed + haste + fleet))
+			}
+			else if (t is TaskAttack)
+			{
+				val dervish = e.stats()?.getStat(Statistic.DERVISH) ?: 0f
+				task.actionAccumulator -= (1f / (task.speed + haste + dervish))
+			}
+			else
+			{
+				task.actionAccumulator -= (1f / (task.speed + haste))
+			}
+
 			return true
 		}
 		else
@@ -223,6 +238,8 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 				trailing.updatePos(e.tile()!!)
 			}
 		}
+
+		task.actionAccumulator = 0f
 
 		return false
 	}

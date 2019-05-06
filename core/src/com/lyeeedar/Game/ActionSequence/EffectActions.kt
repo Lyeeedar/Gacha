@@ -427,6 +427,7 @@ class BuffAction() : AbstractActionSequenceAction()
 						buff.name = sequence.creatingName
 						buff.icon = sequence.creatingIcon?.copy()
 					}
+					buff.isBuff = !isDebuff
 
 					if (isDebuff)
 					{
@@ -723,4 +724,93 @@ class ReplaceAttackAction() : AbstractActionSequenceAction()
 		}
 	}
 	override fun free() { if (obtained) { ReplaceAttackAction.pool.free(this); obtained = false } }
+}
+
+class ModifyBuff() : AbstractActionSequenceAction()
+{
+	var modifyBuff = false
+	var name: String? = null
+	var amount = 0
+
+	val hitEntities = ObjectSet<Entity>()
+	override fun enter(): Boolean
+	{
+		hitEntities.clear()
+		for (point in sequence.targets)
+		{
+			val tile = sequence.level.getTile(point) ?: continue
+			for (entity in tile.contents)
+			{
+				if (hitEntities.contains(entity)) continue
+				hitEntities.add(entity)
+
+				val targetstats = entity.stats() ?: continue
+
+				val targetsEnemies = (!modifyBuff && amount > 0) || (modifyBuff && amount < 0)
+				if (
+					(targetsEnemies && entity.isEnemies(sequence.source)) ||
+					(!targetsEnemies && entity.isAllies(sequence.source)))
+				{
+					for (buff in targetstats.buffs)
+					{
+						if (buff.isBuff == modifyBuff && buff.duration != 0)
+						{
+							if (name == null || buff.name.startsWith(name!!))
+							{
+								buff.duration += amount
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return false
+	}
+
+	override fun exit()
+	{
+
+	}
+
+	override fun doCopy(): AbstractActionSequenceAction
+	{
+		val action = ModifyBuff.obtain()
+		action.modifyBuff = modifyBuff
+		action.name = name
+		action.amount = amount
+
+		return action
+	}
+
+	override fun parse(xmlData: XmlData)
+	{
+		modifyBuff = xmlData.name == "ModifyBuff"
+		name = xmlData.get("Name", null)
+		if (name == "") name = null
+		amount = xmlData.getInt("Amount", 0)
+	}
+
+	var obtained: Boolean = false
+	companion object
+	{
+		private val pool: Pool<ModifyBuff> = object : Pool<ModifyBuff>() {
+			override fun newObject(): ModifyBuff
+			{
+				return ModifyBuff()
+			}
+
+		}
+
+		@JvmStatic fun obtain(): ModifyBuff
+		{
+			val obj = ModifyBuff.pool.obtain()
+
+			if (obj.obtained) throw RuntimeException()
+
+			obj.obtained = true
+			return obj
+		}
+	}
+	override fun free() { if (obtained) { ModifyBuff.pool.free(this); obtained = false } }
 }

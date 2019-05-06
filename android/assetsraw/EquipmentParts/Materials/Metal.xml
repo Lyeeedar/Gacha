@@ -8,7 +8,6 @@
 			<Name>Iron</Name>
 			<Description></Description>
 			<MinLevel>1</MinLevel>
-			<MinAscension>Mundane</MinAscension>
 			<Layer meta:RefKey="Texture">
 				<File>Oryx/Custom/textures/iron</File>
 			</Layer>
@@ -19,8 +18,7 @@
 		<Part>
 			<Name>Steel</Name>
 			<Description></Description>
-			<MinLevel>30</MinLevel>
-			<MinAscension>Exceptional</MinAscension>
+			<MinLevel>10</MinLevel>
 			<Layer meta:RefKey="Texture">
 				<File>Oryx/Custom/textures/steel</File>
 			</Layer>
@@ -31,8 +29,7 @@
 		<Part>
 			<Name>Adamantium</Name>
 			<Description></Description>
-			<MinLevel>60</MinLevel>
-			<MinAscension>Extraordinary</MinAscension>
+			<MinLevel>20</MinLevel>
 			<Layer meta:RefKey="Texture">
 				<File>Oryx/Custom/textures/adamantium</File>
 			</Layer>
@@ -43,8 +40,7 @@
 		<Part>
 			<Name>Mithril</Name>
 			<Description></Description>
-			<MinLevel>90</MinLevel>
-			<MinAscension>Fabled</MinAscension>
+			<MinLevel>30</MinLevel>
 			<Layer meta:RefKey="Texture">
 				<File>Oryx/Custom/textures/mithril</File>
 			</Layer>

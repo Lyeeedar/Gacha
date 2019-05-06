@@ -7,14 +7,13 @@
 		<Part>
 			<Name>Cryptstone</Name>
 			<Description></Description>
-			<MinLevel>30</MinLevel>
-			<MinAscension>Exceptional</MinAscension>
+			<MinLevel>1</MinLevel>
+			<MinAscension>Mundane</MinAscension>
 			<Layer meta:RefKey="Texture">
 				<File>Oryx/Custom/textures/cryptstone</File>
 			</Layer>
 			<Statistics meta:RefKey="Statistics">
 				<AbilityPower>0.1</AbilityPower>
-				<DebuffDuration>0.2</DebuffDuration>
 				<DebuffPower>0.2</DebuffPower>
 			</Statistics>
 		</Part>

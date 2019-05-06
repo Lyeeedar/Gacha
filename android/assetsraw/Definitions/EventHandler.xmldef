@@ -1,6 +1,24 @@
 <Definitions xmlns:meta="Editor">
 	<Definition Name="EventHandler" IsGlobal="True" meta:RefKey="StructDef">
 		<Data Name="Events" ChildrenAreUnique="True" meta:RefKey="Collection">
+			<Data Name="Attack" meta:RefKey="Collection">
+				<Data Name="EventHandler" Nullable="False" meta:RefKey="Struct">
+					<Data Name="Condition" Default="1" SkipIfDefault="False" meta:RefKey="String" />
+					<Data Name="ActionSequence" Keys="ActionSequence" Nullable="False" meta:RefKey="Reference" />
+				</Data>
+			</Data>
+			<Data Name="Move" meta:RefKey="Collection">
+				<Data Name="EventHandler" Nullable="False" meta:RefKey="Struct">
+					<Data Name="Condition" Default="1" SkipIfDefault="False" meta:RefKey="String" />
+					<Data Name="ActionSequence" Keys="ActionSequence" Nullable="False" meta:RefKey="Reference" />
+				</Data>
+			</Data>
+			<Data Name="UseAbility" meta:RefKey="Collection">
+				<Data Name="EventHandler" Nullable="False" meta:RefKey="Struct">
+					<Data Name="Condition" Default="1" SkipIfDefault="False" meta:RefKey="String" />
+					<Data Name="ActionSequence" Keys="ActionSequence" Nullable="False" meta:RefKey="Reference" />
+				</Data>
+			</Data>
 			<Data Name="DealDamage" meta:RefKey="Collection">
 				<Data Name="EventHandler" Nullable="False" meta:RefKey="Struct">
 					<Data Name="Condition" Default="1" SkipIfDefault="False" meta:RefKey="String" />

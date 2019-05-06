@@ -7,8 +7,8 @@
 		<Part>
 			<Name>Greenwood</Name>
 			<Description></Description>
-			<MinLevel>35</MinLevel>
-			<MinAscension>Extraordinary</MinAscension>
+			<MinLevel>1</MinLevel>
+			<MinAscension>Mundane</MinAscension>
 			<Layer meta:RefKey="Texture">
 				<File>Oryx/Custom/textures/greenwood</File>
 			</Layer>

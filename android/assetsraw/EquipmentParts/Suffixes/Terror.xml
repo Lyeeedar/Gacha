@@ -1,0 +1,44 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Suffix</Type>
+	<AllowedSlots>Weapon</AllowedSlots>
+	<AllowedWeights>Heavy,Medium</AllowedWeights>
+	<Rarity>Uncommon</Rarity>
+	<Parts>
+		<Part>
+			<Name>Terror</Name>
+			<Description>A critical hit will cause the enemy to deal [GOLD]20%[] less damage for 5 rounds.</Description>
+			<MinLevel>1</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/terror</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics" />
+			<EventHandlers meta:RefKey="EventHandler">
+				<Events>
+					<Crit>
+						<EventHandler>
+							<Condition>1</Condition>
+							<ActionSequence meta:RefKey="ActionSequence">
+								<Timeline>
+									<Debuff>
+										<Duration LockDuration="False">0.09664537</Duration>
+										<Buff meta:RefKey="Buff">
+											<Name>Terror</Name>
+											<Icon meta:RefKey="Sprite">
+												<Name>Icons/terror</Name>
+												<Colour>69,29,74,255</Colour>
+											</Icon>
+											<Statistics meta:RefKey="Statistics">
+												<Power>-0.2</Power>
+											</Statistics>
+											<Duration>5</Duration>
+										</Buff>
+									</Debuff>
+								</Timeline>
+							</ActionSequence>
+						</EventHandler>
+					</Crit>
+				</Events>
+			</EventHandlers>
+		</Part>
+	</Parts>
+</EquipmentPart>

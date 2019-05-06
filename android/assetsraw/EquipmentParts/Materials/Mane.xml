@@ -8,7 +8,6 @@
 			<Name>Griffon Mane</Name>
 			<Description></Description>
 			<MinLevel>1</MinLevel>
-			<MinAscension>Mundane</MinAscension>
 			<Layer meta:RefKey="Texture">
 				<File>Oryx/Custom/textures/fur_brown</File>
 			</Layer>
@@ -20,8 +19,7 @@
 		<Part>
 			<Name>Chimera Mane</Name>
 			<Description></Description>
-			<MinLevel>50</MinLevel>
-			<MinAscension>Extraordinary</MinAscension>
+			<MinLevel>30</MinLevel>
 			<Layer meta:RefKey="Texture">
 				<File>Oryx/Custom/textures/fur_grey</File>
 			</Layer>

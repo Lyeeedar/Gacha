@@ -7,8 +7,8 @@
 		<Part>
 			<Name>Geranite</Name>
 			<Description></Description>
-			<MinLevel>40</MinLevel>
-			<MinAscension>Fabled</MinAscension>
+			<MinLevel>1</MinLevel>
+			<MinAscension>Mundane</MinAscension>
 			<Layer meta:RefKey="Texture">
 				<File>Oryx/Custom/textures/stone</File>
 			</Layer>

@@ -5,8 +5,12 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Pool
 import com.lyeeedar.Components.*
 import com.lyeeedar.Direction
+import com.lyeeedar.EventType
 import com.lyeeedar.Global
 import com.lyeeedar.Statistic
+import com.lyeeedar.Systems.EventData
+import com.lyeeedar.Systems.EventSystem
+import com.lyeeedar.Systems.event
 import com.lyeeedar.Systems.level
 import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.Colour
@@ -46,6 +50,12 @@ class TaskAbility() : AbstractTask()
 			}
 
 			return
+		}
+
+		if (EventSystem.isEventRegistered(EventType.USEABILITY, e))
+		{
+			val eventData = EventData.obtain().set(EventType.USEABILITY, e, e)
+			Global.engine.event().addEvent(eventData)
 		}
 
 		e.pos().facing = Direction.getCardinalDirection(target.tile()!!, e.tile()!!)

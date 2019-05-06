@@ -47,22 +47,22 @@ class EquipmentCreator
 			baseEquipment.parse(getXml(baseEquipmentName))
 			baseEquipment.ascension = ascension
 
-			baseEquipment.material = getPart(EquipmentPart.PartType.MATERIAL, slot, weight, level, ascension, ran)
+			baseEquipment.material = getPart(EquipmentPart.PartType.MATERIAL, slot, weight, level, ran)
 
 			if (ran.nextFloat() < 0.3f * ascension.multiplier) // 30% chance of prefix
 			{
-				baseEquipment.prefix = getPart(EquipmentPart.PartType.PREFIX, slot, weight, level, ascension, ran)
+				baseEquipment.prefix = getPart(EquipmentPart.PartType.PREFIX, slot, weight, level, ran)
 			}
 
 			if (ran.nextFloat() < 0.1f * ascension.multiplier) // 10% chance of suffix
 			{
-				baseEquipment.suffix = getPart(EquipmentPart.PartType.SUFFIX, slot, weight, level, ascension, ran)
+				baseEquipment.suffix = getPart(EquipmentPart.PartType.SUFFIX, slot, weight, level, ran)
 			}
 
 			return baseEquipment
 		}
 
-		private fun getPart(partType: EquipmentPart.PartType, slot: EquipmentSlot, weight: EquipmentWeight, level: Int, ascension: Ascension, ran: LightRNG): Part?
+		private fun getPart(partType: EquipmentPart.PartType, slot: EquipmentSlot, weight: EquipmentWeight, level: Int, ran: LightRNG): Part?
 		{
 			// get all relevant parts
 			val validParts = Array<Part>()
@@ -74,7 +74,7 @@ class EquipmentCreator
 					var part: Part? = null
 					for (p in ep.parts)
 					{
-						if (p.minLevel <= level && p.minAscension.ordinal <= ascension.ordinal)
+						if (p.minLevel <= level)
 						{
 							part = p
 						}
@@ -166,7 +166,6 @@ class Part(override var loadPath: String) : IEquipmentStatsProvider
 	override lateinit var description: String
 
 	var minLevel: Int = 1
-	lateinit var minAscension: Ascension
 
 	var layerTexture: TextureRegion? = null
 
@@ -179,7 +178,6 @@ class Part(override var loadPath: String) : IEquipmentStatsProvider
 		description = xmlData.get("Description", "")!!
 
 		minLevel = xmlData.getInt("MinLevel", 1)
-		minAscension = Ascension.valueOf(xmlData.get("MinAscension", "mundane")!!.toUpperCase())
 
 		val layerTextureEl = xmlData.getChildByName("Layer")
 		if (layerTextureEl != null)

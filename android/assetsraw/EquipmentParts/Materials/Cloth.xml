@@ -6,6 +6,7 @@
 	<Parts>
 		<Part>
 			<Name>Cloth</Name>
+			<Description></Description>
 			<MinLevel>1</MinLevel>
 			<MinAscension>Mundane</MinAscension>
 			<Layer meta:RefKey="Texture">
@@ -17,8 +18,9 @@
 		</Part>
 		<Part>
 			<Name>Silk</Name>
-			<MinLevel>30</MinLevel>
-			<MinAscension>Exceptional</MinAscension>
+			<Description></Description>
+			<MinLevel>20</MinLevel>
+			<MinAscension>Mundane</MinAscension>
 			<Layer meta:RefKey="Texture">
 				<File>Oryx/Custom/textures/silk</File>
 			</Layer>
@@ -29,8 +31,9 @@
 		</Part>
 		<Part>
 			<Name>Sliverweave</Name>
-			<MinLevel>60</MinLevel>
-			<MinAscension>Extraordinary</MinAscension>
+			<Description></Description>
+			<MinLevel>30</MinLevel>
+			<MinAscension>Mundane</MinAscension>
 			<Layer meta:RefKey="Texture">
 				<File>Oryx/Custom/textures/sliverweave</File>
 			</Layer>

@@ -1,0 +1,22 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Head,Body,Feet</AllowedSlots>
+	<AllowedWeights>Light</AllowedWeights>
+	<Rarity>Rare</Rarity>
+	<Parts>
+		<Part>
+			<Name>Flameweave</Name>
+			<Description></Description>
+			<MinLevel>5</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/flameweave</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<Haste>0.1</Haste>
+				<AbilityCooldown>0.1</AbilityCooldown>
+				<AbilityPower>1</AbilityPower>
+				<Distraction>0.4</Distraction>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

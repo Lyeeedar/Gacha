@@ -1,0 +1,23 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Head,Body,Feet</AllowedSlots>
+	<AllowedWeights>Medium,Light</AllowedWeights>
+	<Rarity>Rare</Rarity>
+	<Parts>
+		<Part>
+			<Name>Oraclebark</Name>
+			<Description></Description>
+			<MinLevel>1</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/bark</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<AbilityPower>0.2</AbilityPower>
+				<Aegis>0.3</Aegis>
+				<Root>0.1</Root>
+				<Fumble>0.1</Fumble>
+				<Distraction>0.1</Distraction>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

@@ -1,0 +1,44 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Suffix</Type>
+	<AllowedSlots>Weapon</AllowedSlots>
+	<AllowedWeights>Heavy,Medium,Light</AllowedWeights>
+	<Rarity>Uncommon</Rarity>
+	<Parts>
+		<Part>
+			<Name>Daylight</Name>
+			<Description>Each time you crit, your target gains a [GOLD]50%[] chance to miss attacks for 3 rounds.</Description>
+			<MinLevel>1</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/gold</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics" />
+			<EventHandlers meta:RefKey="EventHandler">
+				<Events>
+					<Crit>
+						<EventHandler>
+							<Condition>1</Condition>
+							<ActionSequence meta:RefKey="ActionSequence">
+								<Timeline>
+									<Debuff>
+										<Duration LockDuration="False">0.068217054</Duration>
+										<Buff meta:RefKey="Buff">
+											<Name>Dazzled</Name>
+											<Icon meta:RefKey="Sprite">
+												<Name>Icons/sight-disabled</Name>
+												<Colour>254,255,94,255</Colour>
+											</Icon>
+											<Statistics meta:RefKey="Statistics">
+												<Fumble>0.5</Fumble>
+											</Statistics>
+											<Duration>3</Duration>
+										</Buff>
+									</Debuff>
+								</Timeline>
+							</ActionSequence>
+						</EventHandler>
+					</Crit>
+				</Events>
+			</EventHandlers>
+		</Part>
+	</Parts>
+</EquipmentPart>

@@ -1,0 +1,37 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Suffix</Type>
+	<AllowedSlots>Weapon</AllowedSlots>
+	<AllowedWeights>Heavy,Medium,Light</AllowedWeights>
+	<Rarity>Common</Rarity>
+	<Parts>
+		<Part>
+			<Name>Invigoration</Name>
+			<Description>Killing an enemy heals you for [GOLD]300%[] your power.</Description>
+			<MinLevel>1</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/heal</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics" />
+			<EventHandlers meta:RefKey="EventHandler">
+				<Events>
+					<Kill>
+						<EventHandler>
+							<Condition>1</Condition>
+							<ActionSequence meta:RefKey="ActionSequence">
+								<Timeline>
+									<SelectSelf>
+										<Time>0.00188356207</Time>
+									</SelectSelf>
+									<Heal>
+										<Time>0.0219748858</Time>
+										<Amount>3</Amount>
+									</Heal>
+								</Timeline>
+							</ActionSequence>
+						</EventHandler>
+					</Kill>
+				</Events>
+			</EventHandlers>
+		</Part>
+	</Parts>
+</EquipmentPart>

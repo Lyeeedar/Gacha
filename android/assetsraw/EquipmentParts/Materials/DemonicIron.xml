@@ -1,0 +1,20 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Weapon</AllowedSlots>
+	<AllowedWeights>Heavy,Medium</AllowedWeights>
+	<Rarity>Rare</Rarity>
+	<Parts>
+		<Part>
+			<Name>Demonic Iron</Name>
+			<Description></Description>
+			<MinLevel>15</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/demoniciron</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<Power>1</Power>
+				<Fumble>0.3</Fumble>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

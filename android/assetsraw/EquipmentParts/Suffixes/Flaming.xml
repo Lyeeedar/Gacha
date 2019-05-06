@@ -1,0 +1,41 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Suffix</Type>
+	<AllowedSlots>Weapon</AllowedSlots>
+	<AllowedWeights>Heavy,Medium</AllowedWeights>
+	<Rarity>Rare</Rarity>
+	<Parts>
+		<Part>
+			<Name>Flames</Name>
+			<Description>Everytime you attack gain a [GOLD]30%[] chance to do [GOLD]50%[] more damage.</Description>
+			<MinLevel>5</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/flameweave</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics" />
+			<EventHandlers meta:RefKey="EventHandler">
+				<Events>
+					<Attack>
+						<EventHandler>
+							<Condition>rnd(1)&lt;0.3</Condition>
+							<ActionSequence meta:RefKey="ActionSequence">
+								<Timeline>
+									<DestinationRenderable>
+										<Duration LockDuration="False">0.0517326742</Duration>
+										<Renderable meta:RefKey="ParticleEffect">
+											<Name>Fireburst</Name>
+											<Scale>0.5</Scale>
+										</Renderable>
+									</DestinationRenderable>
+									<Damage>
+										<Time>0.0517326742</Time>
+										<Amount>0.5</Amount>
+									</Damage>
+								</Timeline>
+							</ActionSequence>
+						</EventHandler>
+					</Attack>
+				</Events>
+			</EventHandlers>
+		</Part>
+	</Parts>
+</EquipmentPart>

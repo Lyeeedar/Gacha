@@ -1,0 +1,54 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Suffix</Type>
+	<AllowedSlots>Weapon</AllowedSlots>
+	<AllowedWeights>Heavy,Medium,Light</AllowedWeights>
+	<Rarity>Uncommon</Rarity>
+	<Parts>
+		<Part>
+			<Name>Incinerating</Name>
+			<Description>Each hit ignites your enemies, dealing [GOLD]30%[] damage to them for 2 rounds.</Description>
+			<MinLevel>4</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/flameweave</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics" />
+			<EventHandlers meta:RefKey="EventHandler">
+				<Events>
+					<Attack>
+						<EventHandler>
+							<Condition>1</Condition>
+							<ActionSequence meta:RefKey="ActionSequence">
+								<Timeline>
+									<AttachToEntityRenderable>
+										<Duration LockDuration="False">0.08264865</Duration>
+										<Renderable meta:RefKey="ParticleEffect">
+											<Name>Fire</Name>
+										</Renderable>
+										<Above>true</Above>
+										<SelectionMode>Enemies</SelectionMode>
+									</AttachToEntityRenderable>
+								</Timeline>
+								<Timeline>
+									<RepeatBegin>
+										<Time>0.0124864867</Time>
+										<Count>2</Count>
+									</RepeatBegin>
+									<BlockTurn>
+										<Time>0.026756756</Time>
+									</BlockTurn>
+									<Damage>
+										<Time>0.0422162153</Time>
+										<Amount>0.3</Amount>
+									</Damage>
+									<RepeatEnd>
+										<Time>0.0576756746</Time>
+									</RepeatEnd>
+								</Timeline>
+							</ActionSequence>
+						</EventHandler>
+					</Attack>
+				</Events>
+			</EventHandlers>
+		</Part>
+	</Parts>
+</EquipmentPart>

@@ -1,0 +1,47 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Suffix</Type>
+	<AllowedSlots>Head,Body,Feet</AllowedSlots>
+	<AllowedWeights>Heavy,Medium,Light</AllowedWeights>
+	<Rarity>Common</Rarity>
+	<Parts>
+		<Part>
+			<Name>Defense</Name>
+			<Description>When your hp is less than [GOLD]50%[] gain [GOLD]25%[] damage reduction but lose [GOLD]20%[] power.</Description>
+			<MinLevel>3</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/iron</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics" />
+			<EventHandlers meta:RefKey="EventHandler">
+				<Events>
+					<OnTurn>
+						<EventHandler>
+							<Condition>self.hp&lt;self.maxhp*0.5</Condition>
+							<ActionSequence meta:RefKey="ActionSequence">
+								<Timeline>
+									<SelectSelf />
+									<Buff>
+										<Time>0.0152777778</Time>
+										<Duration LockDuration="False">0.08066666</Duration>
+										<Buff meta:RefKey="Buff">
+											<Name>Defense</Name>
+											<Icon meta:RefKey="Sprite">
+												<Name>Icons/surrounded-shield</Name>
+												<Colour>156,156,156,255</Colour>
+											</Icon>
+											<Statistics meta:RefKey="Statistics">
+												<Power>-0.2</Power>
+												<DR>0.25</DR>
+											</Statistics>
+											<Duration>2</Duration>
+										</Buff>
+									</Buff>
+								</Timeline>
+							</ActionSequence>
+						</EventHandler>
+					</OnTurn>
+				</Events>
+			</EventHandlers>
+		</Part>
+	</Parts>
+</EquipmentPart>

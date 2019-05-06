@@ -1,0 +1,19 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Prefix</Type>
+	<AllowedSlots>Weapon</AllowedSlots>
+	<AllowedWeights>Heavy,Medium,Light</AllowedWeights>
+	<Rarity>Common</Rarity>
+	<Parts>
+		<Part>
+			<Name>Thundering</Name>
+			<Description></Description>
+			<MinLevel>1</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/static</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<CritDamage>0.5</CritDamage>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

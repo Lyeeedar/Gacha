@@ -6,8 +6,8 @@
 	<Parts>
 		<Part>
 			<Name>Iron</Name>
+			<Description></Description>
 			<MinLevel>1</MinLevel>
-			<MinAscension>Mundane</MinAscension>
 			<Layer meta:RefKey="Texture">
 				<File>Oryx/Custom/textures/iron</File>
 			</Layer>
@@ -17,8 +17,8 @@
 		</Part>
 		<Part>
 			<Name>Steel</Name>
-			<MinLevel>30</MinLevel>
-			<MinAscension>Exceptional</MinAscension>
+			<Description></Description>
+			<MinLevel>20</MinLevel>
 			<Layer meta:RefKey="Texture">
 				<File>Oryx/Custom/textures/steel</File>
 			</Layer>
@@ -28,8 +28,8 @@
 		</Part>
 		<Part>
 			<Name>Adamantium</Name>
-			<MinLevel>60</MinLevel>
-			<MinAscension>Extraordinary</MinAscension>
+			<Description></Description>
+			<MinLevel>40</MinLevel>
 			<Layer meta:RefKey="Texture">
 				<File>Oryx/Custom/textures/adamantium</File>
 			</Layer>

@@ -1,0 +1,51 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Suffix</Type>
+	<AllowedSlots>Head,Weapon,Body,Feet</AllowedSlots>
+	<AllowedWeights>Heavy,Medium</AllowedWeights>
+	<Rarity>SuperRare</Rarity>
+	<Parts>
+		<Part>
+			<Name>the Furyborn</Name>
+			<Description>Each time you attack, gain [GOLD]5%[] more power for 1 round. Each time you attack this bonus increases.</Description>
+			<MinLevel>10</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/bronze</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics" />
+			<EventHandlers meta:RefKey="EventHandler">
+				<Events>
+					<Attack>
+						<EventHandler>
+							<Condition>1</Condition>
+							<ActionSequence meta:RefKey="ActionSequence">
+								<Timeline>
+									<SelectSelf />
+									<ModifyBuff>
+										<Time>0.0176829267</Time>
+										<Name>Furyborn</Name>
+										<Amount>1</Amount>
+									</ModifyBuff>
+									<Buff>
+										<Time>0.03597561</Time>
+										<Duration LockDuration="False">0.07804878</Duration>
+										<Buff meta:RefKey="Buff">
+											<Name>Furyborn</Name>
+											<Icon meta:RefKey="Sprite">
+												<Name>Icons/sonic-shout</Name>
+												<Colour>214,77,21,255</Colour>
+											</Icon>
+											<Statistics meta:RefKey="Statistics">
+												<Power>0.05</Power>
+											</Statistics>
+											<Duration>2</Duration>
+										</Buff>
+									</Buff>
+								</Timeline>
+							</ActionSequence>
+						</EventHandler>
+					</Attack>
+				</Events>
+			</EventHandlers>
+		</Part>
+	</Parts>
+</EquipmentPart>

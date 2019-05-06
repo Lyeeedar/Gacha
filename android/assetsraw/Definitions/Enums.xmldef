@@ -10,21 +10,23 @@
 		<Data Name="CritChance" meta:RefKey="Number" />
 		<Data Name="CritDamage" meta:RefKey="Number" />
 		<Data Name="Haste" meta:RefKey="Number" />
+		<Data Name="FleetFoot" meta:RefKey="Number" />
+		<Data Name="Dervish" meta:RefKey="Number" />
 		<Data Name="AbilityCooldown" meta:RefKey="Number" />
 		<Data Name="AbilityPower" meta:RefKey="Number" />
 		<Data Name="AllyBoost" meta:RefKey="Number" />
 		<!--Defense-->
 		<Data Name="DR" Min="-1" Max="1" meta:RefKey="Number" />
 		<Data Name="Regeneration" Min="-1" Max="1" meta:RefKey="Number" />
-		<Data Name="LifeSteal" Min="0" meta:RefKey="Number" />
-		<Data Name="Aegis" Min="0" meta:RefKey="Number" />
+		<Data Name="LifeSteal" Min="-1" Max="1" meta:RefKey="Number" />
+		<Data Name="Aegis" Min="-1" Max="1" meta:RefKey="Number" />
 		<!--Buff-->
-		<Data Name="BuffPower" Min="0" meta:RefKey="Number" />
-		<Data Name="DebuffPower" Min="0" meta:RefKey="Number" />
+		<Data Name="BuffPower" Min="-1" Max="1" meta:RefKey="Number" />
+		<Data Name="DebuffPower" Min="-1" Max="1" meta:RefKey="Number" />
 		<!--Negative-->
-		<Data Name="Root" Min="0" Max="1" meta:RefKey="Number" />
-		<Data Name="Fumble" Min="0" Max="1" meta:RefKey="Number" />
-		<Data Name="Distraction" Min="0" Max="1" meta:RefKey="Number" />
+		<Data Name="Root" Min="-1" Max="1" meta:RefKey="Number" />
+		<Data Name="Fumble" Min="-1" Max="1" meta:RefKey="Number" />
+		<Data Name="Distraction" Min="-1" Max="1" meta:RefKey="Number" />
 	</Definition>
 	<!--Rarities-->
 	<Definition Name="Rarities" IsGlobal="True" meta:RefKey="EnumDef">Common,Uncommon,Rare,SuperRare,UltraRare</Definition>

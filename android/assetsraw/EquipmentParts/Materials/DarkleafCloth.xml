@@ -7,8 +7,8 @@
 		<Part>
 			<Name>Darkleaf Cloth</Name>
 			<Description></Description>
-			<MinLevel>20</MinLevel>
-			<MinAscension>Extraordinary</MinAscension>
+			<MinLevel>1</MinLevel>
+			<MinAscension>Mundane</MinAscension>
 			<Layer meta:RefKey="Texture">
 				<File>Oryx/Custom/textures/darkleafcloth</File>
 			</Layer>

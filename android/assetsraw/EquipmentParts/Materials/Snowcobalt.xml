@@ -1,0 +1,20 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Material</Type>
+	<AllowedSlots>Head,Weapon,Body,Feet</AllowedSlots>
+	<AllowedWeights>Heavy,Medium</AllowedWeights>
+	<Rarity>Rare</Rarity>
+	<Parts>
+		<Part>
+			<Name>Snowcobalt</Name>
+			<Description></Description>
+			<MinLevel>1</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/snowcobalt</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<AbilityPower>0.2</AbilityPower>
+				<AllyBoost>0.05</AllyBoost>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

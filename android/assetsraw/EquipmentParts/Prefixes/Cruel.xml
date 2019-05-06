@@ -1,0 +1,34 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Prefix</Type>
+	<AllowedSlots>Head,Weapon,Body,Feet</AllowedSlots>
+	<AllowedWeights>Heavy,Medium,Light</AllowedWeights>
+	<Rarity>SuperRare</Rarity>
+	<Parts>
+		<Part>
+			<Name>Cruel</Name>
+			<Description>Each time a creature dies, heal for [GOLD]100%[].</Description>
+			<MinLevel>1</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/terror</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics" />
+			<EventHandlers meta:RefKey="EventHandler">
+				<Events>
+					<AnyDeath>
+						<EventHandler>
+							<Condition>1</Condition>
+							<ActionSequence meta:RefKey="ActionSequence">
+								<Timeline>
+									<SelectSelf />
+									<Heal>
+										<Time>0.01957929</Time>
+									</Heal>
+								</Timeline>
+							</ActionSequence>
+						</EventHandler>
+					</AnyDeath>
+				</Events>
+			</EventHandlers>
+		</Part>
+	</Parts>
+</EquipmentPart>

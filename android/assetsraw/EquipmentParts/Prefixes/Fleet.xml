@@ -1,0 +1,19 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Prefix</Type>
+	<AllowedSlots>Feet</AllowedSlots>
+	<AllowedWeights>Heavy,Medium,Light</AllowedWeights>
+	<Rarity>Common</Rarity>
+	<Parts>
+		<Part>
+			<Name>Fleet</Name>
+			<Description></Description>
+			<MinLevel>1</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/heal</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<FleetFoot>0.2</FleetFoot>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

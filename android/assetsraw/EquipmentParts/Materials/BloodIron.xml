@@ -6,8 +6,9 @@
 	<Parts>
 		<Part>
 			<Name>Blood Iron</Name>
-			<MinLevel>70</MinLevel>
-			<MinAscension>Fabled</MinAscension>
+			<Description></Description>
+			<MinLevel>1</MinLevel>
+			<MinAscension>Mundane</MinAscension>
 			<Layer meta:RefKey="Texture">
 				<File>Oryx/Custom/textures/bloodiron</File>
 			</Layer>

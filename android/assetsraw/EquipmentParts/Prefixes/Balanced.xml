@@ -1,0 +1,20 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Prefix</Type>
+	<AllowedSlots>Body,Feet</AllowedSlots>
+	<AllowedWeights>Heavy,Medium,Light</AllowedWeights>
+	<Rarity>Common</Rarity>
+	<Parts>
+		<Part>
+			<Name>Balanced</Name>
+			<Description></Description>
+			<MinLevel>1</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/steel</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics">
+				<FleetFoot>0.1</FleetFoot>
+				<Root>-0.3</Root>
+			</Statistics>
+		</Part>
+	</Parts>
+</EquipmentPart>

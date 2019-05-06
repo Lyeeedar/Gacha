@@ -1,0 +1,50 @@
+<EquipmentPart xmlns:meta="Editor">
+	<Type>Suffix</Type>
+	<AllowedSlots>Weapon</AllowedSlots>
+	<AllowedWeights>Heavy,Medium</AllowedWeights>
+	<Rarity>SuperRare</Rarity>
+	<Parts>
+		<Part>
+			<Name>Shocking Burst</Name>
+			<Description>Everytime you attack gain a [GOLD]30%[] chance to do [GOLD]50%[] more damage in a 1 tile aoe.</Description>
+			<MinLevel>10</MinLevel>
+			<Layer meta:RefKey="Texture">
+				<File>Oryx/Custom/textures/static</File>
+			</Layer>
+			<Statistics meta:RefKey="Statistics" />
+			<EventHandlers meta:RefKey="EventHandler">
+				<Events>
+					<Attack>
+						<EventHandler>
+							<Condition>rnd(1)&lt;0.3</Condition>
+							<ActionSequence meta:RefKey="ActionSequence">
+								<Timeline>
+									<Permute>
+										<HitPoints>
+											<Line>###</Line>
+											<Line>#@#</Line>
+											<Line>###</Line>
+										</HitPoints>
+										<AppendTargets>true</AppendTargets>
+									</Permute>
+									<DestinationRenderable>
+										<Time>0.0007520609</Time>
+										<Duration LockDuration="False">0.0517326742</Duration>
+										<Renderable meta:RefKey="ParticleEffect">
+											<Name>LightningBurst</Name>
+											<Scale>0.5</Scale>
+										</Renderable>
+									</DestinationRenderable>
+									<Damage>
+										<Time>0.0524847358</Time>
+										<Amount>0.5</Amount>
+									</Damage>
+								</Timeline>
+							</ActionSequence>
+						</EventHandler>
+					</Attack>
+				</Events>
+			</EventHandlers>
+		</Part>
+	</Parts>
+</EquipmentPart>

@@ -43,6 +43,12 @@ class TaskAttack() : AbstractTask()
 			return
 		}
 
+		if (EventSystem.isEventRegistered(EventType.ATTACK, e))
+		{
+			val eventData = EventData.obtain().set(EventType.ATTACK, e, e)
+			Global.engine.event().addEvent(eventData)
+		}
+
 		e.pos().facing = Direction.getCardinalDirection(tile, e.tile()!!)
 
 		if (!Global.resolveInstant)
