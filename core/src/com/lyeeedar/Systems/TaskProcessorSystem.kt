@@ -10,6 +10,7 @@ import com.lyeeedar.AI.Tasks.TaskAttack
 import com.lyeeedar.AI.Tasks.TaskMove
 import com.lyeeedar.Components.*
 import com.lyeeedar.Global
+import com.lyeeedar.Renderables.Particle.ParticleEffect
 import com.lyeeedar.Statistic
 import com.lyeeedar.UI.DebugConsole
 import com.lyeeedar.Util.Event0Arg
@@ -82,7 +83,7 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 
 		turnTime += deltaTime
 
-		val hasEffects = renderables.any {(Mappers.transient.get(it) != null && it.renderable().renderable.isBlocking)}
+		val hasEffects = renderables.any {(!it.isTransient() && it.renderable().renderable.isBlocking)}
 		val hasAnimations = renderables.any {(it.renderable()!!.renderable.animationBlocksUpdate && it.renderable()!!.renderable.animation != null) }
 		val hasActionSequences = abilities.any { !Mappers.activeActionSequence.get(it).sequence.blocked }
 
@@ -108,6 +109,24 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 		else if (hasEffects)
 		{
 			lastState = "Waiting on effects"
+
+			if (turnTime > 2f)
+			{
+				// kill long running effects
+				for (animEntity in renderables)
+				{
+					val renderableComp = animEntity.renderable() ?: continue
+					val renderable = renderableComp.renderable
+
+					if (renderable.isBlocking)
+					{
+						if (renderable is ParticleEffect)
+						{
+							renderable.stop()
+						}
+					}
+				}
+			}
 		}
 
 		survivingFactionMap.clear()
@@ -157,6 +176,12 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 		while (itr.hasNext())
 		{
 			val entity = itr.next()
+			if (entity.isMarkedForDeletion())
+			{
+				itr.remove()
+				continue
+			}
+
 			val task = entity.task() ?: continue
 
 			processEntity(entity)

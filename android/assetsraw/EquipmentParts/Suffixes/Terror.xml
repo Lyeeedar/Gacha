@@ -5,7 +5,7 @@
 	<Rarity>Uncommon</Rarity>
 	<Parts>
 		<Part>
-			<Name>Terror</Name>
+			<Name>of Terror</Name>
 			<Description>A critical hit will cause the enemy to deal [GOLD]20%[] less damage for 5 rounds.</Description>
 			<MinLevel>1</MinLevel>
 			<Layer meta:RefKey="Texture">

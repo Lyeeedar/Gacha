@@ -5,7 +5,7 @@
 	<Rarity>Common</Rarity>
 	<Parts>
 		<Part>
-			<Name>Bolstering</Name>
+			<Name>of Bolstering</Name>
 			<Description>Each hit grants you [GOLD]10%[] more damage resistance for 1 round.</Description>
 			<MinLevel>1</MinLevel>
 			<Layer meta:RefKey="Texture">

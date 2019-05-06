@@ -3,6 +3,7 @@
 	<Emitters>
 		<Emitter>
 			<Name>Mist</Name>
+			<IsBlockingEmitter>false</IsBlockingEmitter>
 			<Space>Local</Space>
 			<Type>Accumulated</Type>
 			<Width>0.6</Width>
@@ -64,6 +65,7 @@
 		</Emitter>
 		<Emitter>
 			<Name>Butterflies</Name>
+			<IsBlockingEmitter>false</IsBlockingEmitter>
 			<Space>Local</Space>
 			<Type>Accumulated</Type>
 			<Shape>Circle</Shape>

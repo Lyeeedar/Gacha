@@ -778,7 +778,7 @@ class MovementRenderableAction() : AbstractActionSequenceAction()
 			val targets = sequence.storedTargets[origin!!]
 						  ?: throw Exception("No stored target with name $origin! Stored targets: " + sequence.storedTargets.keys().joinToString(", "))
 
-			originPoint = targets[0]
+			originPoint = targets.firstOrNull() ?: sequence.source.tile()!!
 		}
 
 		r.rotation = getRotation(originPoint, pos.position)

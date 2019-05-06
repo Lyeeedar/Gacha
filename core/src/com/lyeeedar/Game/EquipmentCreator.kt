@@ -64,6 +64,8 @@ class EquipmentCreator
 
 		private fun getPart(partType: EquipmentPart.PartType, slot: EquipmentSlot, weight: EquipmentWeight, level: Int, ran: LightRNG): Part?
 		{
+			loadParts()
+
 			// get all relevant parts
 			val validParts = Array<Part>()
 			for (ep in parts)
@@ -102,6 +104,8 @@ class EquipmentCreator
 
 		fun getPart(path: String): Part?
 		{
+			loadParts()
+
 			val split = path.split(':')
 			val partPath = split[0]
 			val index = split[1].toInt()

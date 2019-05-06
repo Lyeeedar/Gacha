@@ -5,7 +5,7 @@
 	<Rarity>Uncommon</Rarity>
 	<Parts>
 		<Part>
-			<Name>the Guardian</Name>
+			<Name>of the Guardian</Name>
 			<Description>Give the closest ally [GOLD]20%[] more damage resistance each turn.</Description>
 			<MinLevel>5</MinLevel>
 			<Layer meta:RefKey="Texture">

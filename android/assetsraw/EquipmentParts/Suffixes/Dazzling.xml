@@ -5,7 +5,7 @@
 	<Rarity>Uncommon</Rarity>
 	<Parts>
 		<Part>
-			<Name>Daylight</Name>
+			<Name>of Daylight</Name>
 			<Description>Each time you crit, your target gains a [GOLD]50%[] chance to miss attacks for 3 rounds.</Description>
 			<MinLevel>1</MinLevel>
 			<Layer meta:RefKey="Texture">

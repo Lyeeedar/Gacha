@@ -5,7 +5,7 @@
 	<Rarity>Uncommon</Rarity>
 	<Parts>
 		<Part>
-			<Name>Fury</Name>
+			<Name>of Fury</Name>
 			<Description>Each time you attack there is a [GOLD]20%[] chance to fly into a rage, gaining [GOLD]30%[] more power but taking [GOLD]10%[] more damage for 3 rounds.</Description>
 			<MinLevel>1</MinLevel>
 			<Layer meta:RefKey="Texture">

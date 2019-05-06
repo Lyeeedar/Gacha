@@ -5,7 +5,7 @@
 	<Rarity>Uncommon</Rarity>
 	<Parts>
 		<Part>
-			<Name>Incinerating</Name>
+			<Name>of Incinerating</Name>
 			<Description>Each hit ignites your enemies, dealing [GOLD]30%[] damage to them for 2 rounds.</Description>
 			<MinLevel>4</MinLevel>
 			<Layer meta:RefKey="Texture">

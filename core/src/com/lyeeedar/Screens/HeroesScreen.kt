@@ -704,8 +704,8 @@ class HeroesScreen : AbstractScreen()
 			val equipTable = Table()
 
 			equipTable.add(equipped.createTile(24f)).size(24f).pad(2f)
-			equipTable.add(Label(equipped.fullName, Global.skin, "small")).pad(2f)
-			equipTable.add(SpriteWidget(Sprite(AssetManager.loadTextureRegion("Icons/upgrade")!!), 16f, 16f).tint(Color.GOLD)).expandX().right()
+			equipTable.add(Label(equipped.fullName, Global.skin, "small").wrap()).growX().pad(2f)
+			equipTable.add(SpriteWidget(Sprite(AssetManager.loadTextureRegion("Icons/upgrade")!!), 16f, 16f).tint(Color.GOLD)).right()
 			equipTable.add(Label(equipped.calculatePowerRating(entity).toInt().prettyPrint(), Global.skin).tint(Color.GOLD)).pad(2f)
 
 			equipTable.addClickListener {
@@ -742,8 +742,8 @@ class HeroesScreen : AbstractScreen()
 			val equipTable = Table()
 
 			equipTable.add(equip.createTile(24f)).size(24f).pad(5f)
-			equipTable.add(Label(equip.fullName, Global.skin, "small")).pad(5f)
-			equipTable.add(Label(equip.calculatePowerRating(entity).toInt().prettyPrint(), Global.skin).tint(Color.GOLD)).expandX().right().pad(5f)
+			equipTable.add(Label(equip.fullName, Global.skin, "small").wrap()).growX().pad(5f)
+			equipTable.add(Label(equip.calculatePowerRating(entity).toInt().prettyPrint(), Global.skin).tint(Color.GOLD)).pad(5f)
 
 			if (bright)
 			{

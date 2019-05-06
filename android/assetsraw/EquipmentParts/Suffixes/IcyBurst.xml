@@ -5,7 +5,7 @@
 	<Rarity>SuperRare</Rarity>
 	<Parts>
 		<Part>
-			<Name>Freezing Burst</Name>
+			<Name>of Freezing Burst</Name>
 			<Description>Everytime you attack gain a [GOLD]30%[] chance to do [GOLD]50%[] more damage in a 1 tile aoe.</Description>
 			<MinLevel>10</MinLevel>
 			<Layer meta:RefKey="Texture">

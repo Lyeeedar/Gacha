@@ -39,7 +39,22 @@ class Equipment(override var loadPath: String) : IEquipmentStatsProvider
 		get() = statsProviders.map { it.name }.joinToString(" ")
 
 	val fullDescription: String
-		get() = statsProviders.map { it.description }.filter { it.isNotEmpty() }.joinToString { "\n" }
+		get() {
+			var output = ""
+			for (provider in statsProviders)
+			{
+				if (provider.description.isNotEmpty())
+				{
+					if (output.isNotEmpty())
+					{
+						output += "\n"
+					}
+					output += provider.description
+				}
+			}
+
+			return output
+		}
 
 	lateinit var icon: MaskedTextureData
 
@@ -242,7 +257,7 @@ class Equipment(override var loadPath: String) : IEquipmentStatsProvider
 		table.add(levelPowerTable).growX().pad(3f)
 		table.row()
 
-		table.add(Label(fullDescription, Global.skin, "card").wrap()).growX().center()
+		table.add(Label(fullDescription, Global.skin, "cardsmall").wrap().align(Align.center)).growX().center().pad(5f)
 		table.row()
 
 		var bright = true

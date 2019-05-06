@@ -5,7 +5,7 @@
 	<Rarity>Common</Rarity>
 	<Parts>
 		<Part>
-			<Name>Defense</Name>
+			<Name>of Defending</Name>
 			<Description>When your hp is less than [GOLD]50%[] gain [GOLD]25%[] damage reduction but lose [GOLD]20%[] power.</Description>
 			<MinLevel>3</MinLevel>
 			<Layer meta:RefKey="Texture">

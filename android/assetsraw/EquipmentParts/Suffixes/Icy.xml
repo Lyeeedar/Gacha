@@ -5,7 +5,7 @@
 	<Rarity>Rare</Rarity>
 	<Parts>
 		<Part>
-			<Name>Freezing</Name>
+			<Name>of Freezing</Name>
 			<Description>Everytime you attack gain a [GOLD]30%[] chance to do [GOLD]50%[] more damage.</Description>
 			<MinLevel>5</MinLevel>
 			<Layer meta:RefKey="Texture">

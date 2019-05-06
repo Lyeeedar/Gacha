@@ -5,7 +5,7 @@
 	<Rarity>Rare</Rarity>
 	<Parts>
 		<Part>
-			<Name>Wounding</Name>
+			<Name>of Wounding</Name>
 			<Description>Those you strike bleed for [GOLD]2%[] of their hp each round. Each hit makes the bleeding worse.</Description>
 			<MinLevel>1</MinLevel>
 			<Layer meta:RefKey="Texture">
