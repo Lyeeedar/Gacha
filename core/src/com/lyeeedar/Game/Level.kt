@@ -96,6 +96,8 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 	var tileCurrent: EntityTile? = null
 	var dragged = false
 
+	var turnCount = 0
+
 	// ----------------------------------------------------------------------
 	init
 	{
@@ -263,6 +265,11 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 					}
 				}
 			}
+		}
+
+		if (turnCount >= 100)
+		{
+			return "2" // make the enemy win if its a stalemate
 		}
 
 		if (!foundEntity)

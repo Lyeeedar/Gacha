@@ -161,6 +161,8 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 
 		onTurnEvent()
 
+		level!!.turnCount++
+
 		for (system in engine.systems)
 		{
 			if (system is AbstractSystem)

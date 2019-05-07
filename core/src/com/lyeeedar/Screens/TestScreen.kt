@@ -25,6 +25,8 @@ class TestScreen : AbstractScreen()
 
 	override fun create()
 	{
+		drawFPS = false
+
 		val pathToFactionEntityMap = ObjectMap<String, FactionEntity>()
 		for (factionPath in XmlData.enumeratePaths("Factions", "Faction"))
 		{
