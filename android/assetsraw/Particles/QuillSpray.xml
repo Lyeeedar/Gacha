@@ -10,7 +10,7 @@
 				<Keyframe>0|1</Keyframe>
 			</SizeMultiplier>
 			<Area>Border</Area>
-			<ParticleSpeed>1,1</ParticleSpeed>
+			<ParticleSpeed>1.4,1.8</ParticleSpeed>
 			<ParticleRotation>0,360</ParticleRotation>
 			<RateKeyframes>
 				<Keyframe>0|20</Keyframe>
@@ -18,11 +18,11 @@
 			<SingleBurst>true</SingleBurst>
 			<Particles>
 				<Particle>
-					<Lifetime>0.4,0.5</Lifetime>
+					<Lifetime>0.25,0.35</Lifetime>
 					<VelocityAligned>true</VelocityAligned>
 					<SizeKeyframes>
 						<Stream>
-							<Keyframe>0|0.2|0.4</Keyframe>
+							<Keyframe>0|0.1|0.2</Keyframe>
 						</Stream>
 					</SizeKeyframes>
 					<BlendMode>Multiplicative</BlendMode>

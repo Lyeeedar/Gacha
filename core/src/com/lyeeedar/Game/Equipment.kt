@@ -129,6 +129,8 @@ class Equipment(override var loadPath: String) : IEquipmentStatsProvider
 		hp *= 1f + getStat(Statistic.AEGIS, stats.level)
 		hp *= 1f + getStat(Statistic.DR, stats.level)
 		hp *= 1f + getStat(Statistic.REGENERATION, stats.level) * 2f
+		hp *= (1f - getStat(Statistic.ROOT, stats.level))
+		hp *= 1f + getStat(Statistic.FLEETFOOT, stats.level)
 
 		var power = stats.baseStats[Statistic.POWER].applyAscensionAndLevel(stats.level, stats.ascension) * 10f + getStat(Statistic.POWER, stats.level) * 10f
 		power = max(power, 1f)
@@ -136,8 +138,9 @@ class Equipment(override var loadPath: String) : IEquipmentStatsProvider
 		val critDam = 1f + getStat(Statistic.CRITDAMAGE, stats.level) + stats.baseStats[Statistic.CRITDAMAGE]
 		val critChance = getStat(Statistic.CRITCHANCE, stats.level) + stats.baseStats[Statistic.CRITCHANCE]
 		power += (power * critDam) * critChance
-		power *= 1f + getStat(Statistic.HASTE, stats.level)
+		power *= 1f + getStat(Statistic.HASTE, stats.level) + getStat(Statistic.DERVISH, stats.level)
 		power *= 1f + getStat(Statistic.LIFESTEAL, stats.level)
+		power *= (1f - getStat(Statistic.FUMBLE, stats.level))
 
 		var rating = hp + power
 
@@ -173,6 +176,8 @@ class Equipment(override var loadPath: String) : IEquipmentStatsProvider
 
 				abilityModifier += getStat(Statistic.ABILITYCOOLDOWN, stats.level)
 			}
+
+			abilityModifier *= (1f - getStat(Statistic.DISTRACTION, stats.level))
 
 			rating *= 1f + abilityModifier * 0.5f
 		}

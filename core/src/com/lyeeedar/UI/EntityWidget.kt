@@ -112,7 +112,7 @@ class EntityWidget(var entity: Entity?) : Widget()
 				var i = 0
 				for (buffCounter in buffCounterMap.values())
 				{
-					batch.setColor(buffCounter.buff.icon!!.colour.color().toFloatBits())
+					batch.setColor(buffCounter.buff.icon!!.colour)
 					batch.draw(buffCounter.buff.icon!!.currentTexture, x + 5f + i * solid * 3, y + 10f, solid * 3, solid * 3)
 					batch.setColor(Colour.WHITE)
 					font.draw(batch, buffCounter.count.toString(), x + 5f + i * solid * 3 + solid * 2, y + 20f)
@@ -126,11 +126,14 @@ class EntityWidget(var entity: Entity?) : Widget()
 				val abx = x+width-17f
 				val aby = y+height-17f
 
-				batch.setColor(whiteColour)
 				for (i in 0 until ability.abilities.size)
 				{
 					val ab = ability.abilities[i]
+
+					batch.setColor(whiteColour)
 					batch.draw(background, abx, aby-i*12f, 10f, 10f)
+
+					batch.setColor(ab.icon.colour)
 					batch.draw(ab.icon.currentTexture, abx, aby-i*12f, 10f, 10f)
 
 					if (ab.remainingCooldown > 0)

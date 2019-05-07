@@ -313,11 +313,14 @@ class StatisticsComponent: AbstractComponent()
 		hp *= 1f + getStat(Statistic.AEGIS)
 		hp *= 1f + getStat(Statistic.DR)
 		hp *= 1f + getStat(Statistic.REGENERATION) * 2f
+		hp *= (1f - getStat(Statistic.ROOT))
+		hp *= 1f + getStat(Statistic.FLEETFOOT)
 
 		var power = getStat(Statistic.POWER) * 10f
 		power += (power * (1f + getStat(Statistic.CRITDAMAGE))) * getStat(Statistic.CRITCHANCE)
-		power *= 1f + getStat(Statistic.HASTE)
+		power *= 1f + (getStat(Statistic.HASTE) + getStat(Statistic.DERVISH))
 		power *= 1f + getStat(Statistic.LIFESTEAL)
+		power *= (1f - getStat(Statistic.FUMBLE))
 
 		var rating = hp + power
 		val ability = entity.ability()
@@ -344,6 +347,8 @@ class StatisticsComponent: AbstractComponent()
 
 				abilityModifier += getStat(Statistic.ABILITYCOOLDOWN)
 			}
+
+			abilityModifier *= (1f - getStat(Statistic.DISTRACTION))
 
 			rating *= 1f + abilityModifier * 0.5f
 		}

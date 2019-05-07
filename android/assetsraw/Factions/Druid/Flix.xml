@@ -154,27 +154,39 @@
 				</AbilityData>
 				<AbilityData>
 					<Name>Terrorize</Name>
-					<Description>Summon a dark whisp to terrorize an enemy, giving them a [GOLD]50%[] fumble and [GOLD]50%[] root chance. The whisp moves to a new enemy every turn.</Description>
+					<Description>Summon a dark whisp to terrorize an enemy, giving them a [GOLD]30%[] fumble and [GOLD]30%[] root chance. The whisp moves to a new enemy every turn.</Description>
 					<Icon meta:RefKey="Sprite">
 						<Name>Oryx/uf_split/uf_heroes/moth_red_1</Name>
 					</Icon>
 					<Ability meta:RefKey="ActionSequence">
 						<Timeline>
 							<SelectSelf />
+							<UnlockEntity>
+								<Time>0.00755987177</Time>
+							</UnlockEntity>
 							<RepeatBegin>
 								<Time>0.0150237549</Time>
 								<Count>99</Count>
 							</RepeatBegin>
+							<BlockTurn>
+								<Time>0.01970524</Time>
+							</BlockTurn>
 							<StoreTargets>
-								<Time>0.032007128</Time>
+								<Time>0.0270498376</Time>
 								<Key>Origin</Key>
 							</StoreTargets>
+							<SelectEnemies>
+								<Time>0.0338335223</Time>
+								<AllowCurrent>false</AllowCurrent>
+							</SelectEnemies>
 							<MovementRenderable>
 								<Duration LockDuration="False">0.15</Duration>
-								<Time>0.0496437028</Time>
+								<Time>0.0392333865</Time>
 								<Renderable meta:RefKey="ParticleEffectTemplate">
 									<Base meta:RefKey="ParticleEffect">
 										<Name>FlightParticle</Name>
+										<Colour>255,255,255,139</Colour>
+										<Scale>0.6</Scale>
 									</Base>
 									<Overrides>
 										<OverrideTexture>
@@ -185,22 +197,21 @@
 										</OverrideTexture>
 									</Overrides>
 								</Renderable>
-								<UseLeap>true</UseLeap>
 								<Origin>Origin</Origin>
 							</MovementRenderable>
 							<RepeatEnd>
-								<Time>0.204397827</Time>
+								<Time>0.192004591</Time>
 							</RepeatEnd>
 						</Timeline>
 						<Timeline>
 							<Debuff>
 								<Duration LockDuration="False">0.0194403082</Duration>
-								<Time>0.1802034</Time>
+								<Time>0.169793084</Time>
 								<Buff meta:RefKey="Buff">
 									<UseParentNameAndIcon>true</UseParentNameAndIcon>
 									<Statistics meta:RefKey="Statistics">
-										<Root>0.5</Root>
-										<Fumble>0.5</Fumble>
+										<Root>0.3</Root>
+										<Fumble>0.3</Fumble>
 									</Statistics>
 									<Duration>1</Duration>
 								</Buff>

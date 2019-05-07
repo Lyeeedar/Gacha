@@ -75,6 +75,8 @@ class ReplaceSourceRenderableAction() : AbstractActionSequenceAction()
 	{
 		if (Global.resolveInstant) return
 
+		if (!restoreOriginal) return
+
 		val source = sequence.source
 
 		if (originalRenderable != null)
