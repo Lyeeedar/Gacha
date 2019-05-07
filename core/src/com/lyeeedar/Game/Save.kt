@@ -100,6 +100,8 @@ class Save
 			}
 
 			val shopWares = data.addChild("ShopWares")
+			shopWares.set("LastViewedShopWares", Global.data.lastViewedShopWares)
+
 			val equipmentWares = shopWares.addChild("Equipment")
 			for (i in 0 until 4)
 			{
@@ -225,6 +227,8 @@ class Save
 				}
 
 				val shopWaresEl = data.getChildByName("ShopWares")!!
+				val lastViewed = shopWaresEl.getLong("LastViewedShopWares", 0L)
+
 				val equipmentWaresEl = shopWaresEl.getChildByName("Equipment")!!
 				val equipmentWares = kotlin.Array<Equipment?>(4) { null }
 				i = 0
@@ -304,6 +308,7 @@ class Save
 					Global.data.currentShopHeroes[i] = heroWares[i]
 				}
 
+				Global.data.lastViewedShopWares = lastViewed
 				Global.data.currentShopFaction = shopFaction
 				Global.data.currentShopWeight = shopWeight
 

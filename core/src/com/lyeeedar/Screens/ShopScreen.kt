@@ -737,6 +737,10 @@ class ShopScreen : AbstractScreen()
 		createWares()
 		fillPurchasesTable()
 		gameDataBar.rebind()
+
+		Global.data.lastViewedShopWares = Global.data.lastRefreshTime
+
+		Save.save()
 	}
 
 	override fun doRender(delta: Float)

@@ -58,4 +58,13 @@ class NavigationBar(val current: MainGame.ScreenEnum) : Table()
 		add(heroesButton)
 		add(settingsButton)
 	}
+
+	override fun act(delta: Float)
+	{
+		super.act(delta)
+
+		screenMap[MainGame.ScreenEnum.QUESTS].hasNotification = Global.data.bounties.any{ it.isComplete() } || Global.data.bounties.size < Global.data.getAllowedNumBounties()
+		screenMap[MainGame.ScreenEnum.HEROES].hasNotification = Global.data.heroPool.any{ it.ascensionShards >= it.ascension.nextAscension.shardsRequired }
+		screenMap[MainGame.ScreenEnum.SHOP].hasNotification = Global.data.lastRefreshTime != Global.data.lastViewedShopWares
+	}
 }

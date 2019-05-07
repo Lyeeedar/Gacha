@@ -126,6 +126,11 @@ class XmlData
 		return getChildByName(name)?.long() ?: throw GdxRuntimeException("Element ${this.name} has no child called $name!")
 	}
 
+	fun getLong(name: String, fallback: Long): Long
+	{
+		return getChildByName(name)?.long() ?: fallback
+	}
+
 	fun getPoint(name: String): Point
 	{
 		val str = get(name)

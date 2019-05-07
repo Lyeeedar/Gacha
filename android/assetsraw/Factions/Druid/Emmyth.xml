@@ -57,8 +57,8 @@
 						<Timeline>
 							<SelectSelf />
 							<ReplaceSourceRenderable>
-								<Duration LockDuration="False">0.12375</Duration>
 								<Time>0.01890625</Time>
+								<Duration LockDuration="False">0.12375</Duration>
 								<Renderable meta:RefKey="Sprite">
 									<Name>Oryx/uf_split/uf_heroes/bird_hawk</Name>
 									<DrawActualSize>true</DrawActualSize>
@@ -68,21 +68,22 @@
 						</Timeline>
 						<Timeline>
 							<Buff>
-								<Duration LockDuration="False">0.12375</Duration>
 								<Time>0.01890625</Time>
+								<Duration LockDuration="False">0.12375</Duration>
 								<Buff meta:RefKey="Buff">
 									<UseParentNameAndIcon>true</UseParentNameAndIcon>
 									<Statistics meta:RefKey="Statistics">
 										<Power>0.2</Power>
 										<Haste>0.5</Haste>
+										<FleetFoot>0.5</FleetFoot>
 									</Statistics>
 								</Buff>
 							</Buff>
 						</Timeline>
 						<Timeline>
 							<ReplaceAttack>
-								<Duration LockDuration="False">0.12375</Duration>
 								<Time>0.01890625</Time>
+								<Duration LockDuration="False">0.12375</Duration>
 								<Attack meta:RefKey="AttackDescription">
 									<Damage>1</Damage>
 									<Range>1</Range>
@@ -124,8 +125,8 @@
 								<Count>9</Count>
 							</SelectAllies>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.08708333</Duration>
 								<Time>0.0177604165</Time>
+								<Duration LockDuration="False">0.08708333</Duration>
 								<Renderable meta:RefKey="ParticleEffectTemplate">
 									<Base meta:RefKey="ParticleEffect">
 										<Name>Buff</Name>
@@ -146,8 +147,8 @@
 								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 							<Buff>
-								<Duration LockDuration="False">0.09739583</Duration>
 								<Time>0.104843751</Time>
+								<Duration LockDuration="False">0.09739583</Duration>
 								<Buff meta:RefKey="Buff">
 									<UseParentNameAndIcon>true</UseParentNameAndIcon>
 									<Statistics meta:RefKey="Statistics">
@@ -178,8 +179,8 @@
 								<AlignToVector>false</AlignToVector>
 							</DestinationRenderable>
 							<Debuff>
-								<Time>0.08020833</Time>
 								<Duration LockDuration="False">0.09052083</Duration>
+								<Time>0.08020833</Time>
 								<Buff meta:RefKey="Buff">
 									<UseParentNameAndIcon>true</UseParentNameAndIcon>
 									<Statistics meta:RefKey="Statistics">

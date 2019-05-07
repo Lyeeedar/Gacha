@@ -30,6 +30,7 @@ class GameData
 	var currentZoneProgression: Int = 0
 
 	var lastRefreshTime: Long = 0
+	var lastViewedShopWares: Long = 0
 	val currentShopEquipment = kotlin.Array<Equipment?>(4) { null }
 	val currentShopHeroes = kotlin.Array<String?>(4) { null }
 	lateinit var currentShopFaction: Faction

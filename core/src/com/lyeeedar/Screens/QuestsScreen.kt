@@ -59,6 +59,12 @@ class QuestsScreen : AbstractScreen()
 		}
 	}
 
+	override fun show()
+	{
+		super.show()
+		createHubTable()
+	}
+
 	fun createHubTable()
 	{
 		val gameDataBar = GameDataBar()
