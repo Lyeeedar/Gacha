@@ -43,12 +43,6 @@ class TaskAttack() : AbstractTask()
 			return
 		}
 
-		if (EventSystem.isEventRegistered(EventType.ATTACK, e))
-		{
-			val eventData = EventData.obtain().set(EventType.ATTACK, e, e)
-			Global.engine.event().addEvent(eventData)
-		}
-
 		e.pos().facing = Direction.getCardinalDirection(tile, e.tile()!!)
 
 		if (!Global.resolveInstant)
@@ -63,6 +57,15 @@ class TaskAttack() : AbstractTask()
 			if (e.isAllies(entity)) continue
 
 			entitiesToHit.add(entity)
+		}
+
+		if (EventSystem.isEventRegistered(EventType.ATTACK, e))
+		{
+			for (entity in entitiesToHit)
+			{
+				val eventData = EventData.obtain().set(EventType.ATTACK, e, entity)
+				Global.engine.event().addEvent(eventData)
+			}
 		}
 
 		val diff = tile.getPosDiff(e.tile()!!)

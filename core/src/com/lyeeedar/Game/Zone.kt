@@ -149,6 +149,7 @@ class Zone(val zoneIndex: Int)
 
 	fun createEncounter(level: Float, progression: Int, isBoss: Boolean): Encounter
 	{
+		// create hero pool
 		val entities = Array<FactionEntity>()
 		for (faction in factions)
 		{
@@ -174,6 +175,7 @@ class Zone(val zoneIndex: Int)
 		val encounter = Encounter(this, level.toInt(), progression, isBoss, ran.nextLong())
 		encounter.gridEl = possibleLevels.random(ran)
 
+		// generate hero levels
 		val levels = kotlin.Array<Int>(5) { level.toInt() }
 		val levelRaisedPool = (0..4).toGdxArray()
 		var remainder = level - levels[0]
@@ -183,6 +185,7 @@ class Zone(val zoneIndex: Int)
 			levels[levelRaisedPool.removeRandom(ran)]++
 		}
 
+		// generate hero ascensions
 		val ascension = level / levelsPerAscension.toFloat()
 		val ascensions = kotlin.Array<Int>(5) { ascension.toInt() }
 		val ascensionRaisedPool = (0..4).toGdxArray()
@@ -193,6 +196,7 @@ class Zone(val zoneIndex: Int)
 			ascensions[ascensionRaisedPool.removeRandom(ran)]++
 		}
 
+		// generate the heroes
 		for (i in 0 until 5)
 		{
 			val level = levels[i]
@@ -201,6 +205,41 @@ class Zone(val zoneIndex: Int)
 			val entityData = EntityData(heroData, ascension, level)
 
 			encounter.enemies.add(entityData)
+		}
+
+		// generate hero equipment
+		class HeroEquipmentSlot(val hero: EntityData, val slot: EquipmentSlot, val weight: EquipmentWeight)
+		val heroEquipmentSlots = Array<HeroEquipmentSlot>()
+		for (hero in encounter.enemies)
+		{
+			val weight = hero.getEntity("1").stats().equipmentWeight
+			for (slot in EquipmentSlot.Values)
+			{
+				heroEquipmentSlots.add(HeroEquipmentSlot(hero, slot, weight))
+			}
+		}
+		val equipmentAlpha = level / levelsPerEquipmentAscension.toFloat()
+		val baseEquipmentAlpha = equipmentAlpha.toInt()
+		val remainderEquipmentAlpha = equipmentAlpha - baseEquipmentAlpha
+		// fill improved
+		val numImproved = (remainderEquipmentAlpha / (1f / heroEquipmentSlots.size)).toInt()
+		for (i in 0 until numImproved)
+		{
+			val heroSlot = heroEquipmentSlots.removeRandom(ran)
+			val ascension = Ascension.Values[baseEquipmentAlpha]
+			val equip = EquipmentCreator.createRandom(level.toInt(), ran, heroSlot.slot, heroSlot.weight, ascension)
+			heroSlot.hero.equipment[heroSlot.slot] = equip
+		}
+
+		// fill base
+		if (baseEquipmentAlpha > 0)
+		{
+			for (heroSlot in heroEquipmentSlots)
+			{
+				val ascension = Ascension.Values[baseEquipmentAlpha-1]
+				val equip = EquipmentCreator.createRandom(level.toInt(), ran, heroSlot.slot, heroSlot.weight, ascension)
+				heroSlot.hero.equipment[heroSlot.slot] = equip
+			}
 		}
 
 		return encounter
@@ -219,6 +258,7 @@ class Zone(val zoneIndex: Int)
 		val numEncounters = 80
 		val zoneLevelRange = 15
 		val levelsPerAscension = 30
+		val levelsPerEquipmentAscension = 40
 
 		fun load(index: Int): Zone
 		{

@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.ObjectMap
 import com.lyeeedar.Components.*
+import com.lyeeedar.EquipmentSlot
 import com.lyeeedar.Game.Buff
 import com.lyeeedar.Global
 import com.lyeeedar.Renderables.Particle.ParticleEffect
@@ -361,6 +362,19 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 				{
 					renderer.queueTexture(buffCounter.buff.icon!!.currentTexture, ax+i*spacePerPip*3, ay+overhead+0.1f+spacePerPip, pos.slot.ordinal, 4, width = spacePerPip*3, height = spacePerPip*3, sortX = ax, sortY = ay, colour = buffCounter.buff.icon!!.colour)
 					i++
+				}
+
+				if (level.selectingEntities)
+				{
+					var i = 0
+					for (slot in EquipmentSlot.Values)
+					{
+						val equip = stats.equipment[slot] ?: continue
+
+						renderer.queueTexture(equip.icon.base, ax+0.2f+i*spacePerPip*2, ay+0.11f+spacePerPip, pos.slot.ordinal, 4, width = spacePerPip*2, height = spacePerPip*2, sortX = ax, sortY = ay-0.1f, colour = equip.ascension.colour)
+
+						i++
+					}
 				}
 			}
 		}
