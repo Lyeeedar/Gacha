@@ -14,6 +14,7 @@ import com.lyeeedar.Renderables.Particle.ParticleEffect
 import com.lyeeedar.Statistic
 import com.lyeeedar.UI.DebugConsole
 import com.lyeeedar.Util.Event0Arg
+import com.lyeeedar.Util.max
 import ktx.collections.set
 
 /**
@@ -238,22 +239,20 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 
 			t.free()
 
-			val haste = e.stats()?.getStat(Statistic.HASTE) ?: 0f
+			var haste = e.stats()?.getStat(Statistic.HASTE) ?: 0f
 
 			if (t is TaskMove)
 			{
 				val fleet = e.stats()?.getStat(Statistic.FLEETFOOT) ?: 0f
-				task.actionAccumulator -= (1f / (task.speed + haste + fleet))
+				haste += fleet
 			}
 			else if (t is TaskAttack)
 			{
 				val dervish = e.stats()?.getStat(Statistic.DERVISH) ?: 0f
-				task.actionAccumulator -= (1f / (task.speed + haste + dervish))
+				haste += dervish
 			}
-			else
-			{
-				task.actionAccumulator -= (1f / (task.speed + haste))
-			}
+
+			task.actionAccumulator -= (1f / max(task.speed + haste, 0.2f))
 
 			return true
 		}

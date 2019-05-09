@@ -16,7 +16,7 @@
 				<CritChance>0.05</CritChance>
 				<CritDamage>2</CritDamage>
 			</Statistics>
-			<EquipmentWeight>Medium</EquipmentWeight>
+			<EquipmentWeight>Heavy</EquipmentWeight>
 			<Death meta:RefKey="ParticleEffect">
 				<Name>Death</Name>
 			</Death>
@@ -64,8 +64,8 @@
 								</HitPoints>
 							</Permute>
 							<DestinationRenderable>
-								<Duration LockDuration="False">0.06937945</Duration>
 								<Time>0.0307731442</Time>
+								<Duration LockDuration="False">0.06937945</Duration>
 								<Renderable meta:RefKey="ParticleEffect">
 									<Name>QuillSpray</Name>
 								</Renderable>
@@ -91,8 +91,8 @@
 						<Timeline>
 							<SelectSelf />
 							<Buff>
-								<Duration LockDuration="False">0.122981362</Duration>
 								<Time>0.0199275371</Time>
+								<Duration LockDuration="False">0.122981362</Duration>
 								<Buff meta:RefKey="Buff">
 									<UseParentNameAndIcon>true</UseParentNameAndIcon>
 									<Statistics meta:RefKey="Statistics" />
@@ -113,8 +113,8 @@
 																</HitPoints>
 															</Permute>
 															<DestinationRenderable>
-																<Duration LockDuration="False">0.06937945</Duration>
 																<Time>0.0307731442</Time>
+																<Duration LockDuration="False">0.06937945</Duration>
 																<Renderable meta:RefKey="ParticleEffect">
 																	<Name>QuillSpray</Name>
 																</Renderable>
@@ -169,8 +169,8 @@
 								</Renderable>
 							</MovementRenderable>
 							<Debuff>
-								<Time>0.144913524</Time>
 								<Duration LockDuration="False">0.07721262</Duration>
+								<Time>0.144913524</Time>
 								<Buff meta:RefKey="Buff">
 									<UseParentNameAndIcon>true</UseParentNameAndIcon>
 									<Statistics meta:RefKey="Statistics">
