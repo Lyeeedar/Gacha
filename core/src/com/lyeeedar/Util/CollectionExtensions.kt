@@ -3,6 +3,7 @@ package com.lyeeedar.Util
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.ObjectFloatMap
+import com.badlogic.gdx.utils.ObjectMap
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.launch
@@ -174,5 +175,19 @@ fun <K> ObjectFloatMap(variables: Map<K, Float>): ObjectFloatMap<K>
 		map[pair.key] = pair.value
 	}
 
+	return map
+}
+
+fun <T, K> ObjectMap<T, K>.copy(): ObjectMap<T, K>
+{
+	val map = ObjectMap<T, K>()
+	map.putAll(this)
+	return map
+}
+
+fun <K> ObjectFloatMap<K>.copy(): ObjectFloatMap<K>
+{
+	val map = ObjectFloatMap<K>()
+	map.putAll(this)
 	return map
 }
