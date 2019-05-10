@@ -144,15 +144,17 @@ class Area
 		isPoints = true
 	}
 
+	val tempPointsArray = Array<Pos>()
 	fun getAllPoints(): Array<Pos>
 	{
 		if (isPoints) return points
 
-		val allPoints = Array<Pos>()
+		val allPoints = tempPointsArray
+		allPoints.clear()
 
-		for (ix in 0..width-1)
+		for (ix in 0 until width)
 		{
-			for (iy in 0..height-1)
+			for (iy in 0 until height)
 			{
 				allPoints.add(Pos(x + ix, y + iy))
 			}
@@ -205,23 +207,44 @@ class Area
 
 	fun localToWorld(x: Int, y: Int): Pos
 	{
-		val cx = this.x + width/2
-		val cy = this.y + height/2
+		if (orientation == 0f)
+		{
+			return Pos(this.x + x, this.y + y)
+		}
+		else
+		{
+			val cx = this.x + width / 2
+			val cy = this.y + height / 2
 
-		val lx = x - width/2
-		val ly = y - height/2
+			val lx = x - width / 2
+			val ly = y - height / 2
 
-		vec.set(lx.toFloat(), ly.toFloat(), 0f)
+			vec.set(lx.toFloat(), ly.toFloat(), 0f)
 
-		if (orientation != 0f) vec.mul(mat)
+			vec.mul(mat)
 
-		var dx = Math.round(vec.x)
-		var dy = Math.round(vec.y)
+			var dx = Math.round(vec.x)
+			var dy = Math.round(vec.y)
 
-		if (flipX) dx = (width-1)-dx
-		if (flipY) dy = (height-1)-dy
+			if (flipX) dx = (width - 1) - dx
+			if (flipY) dy = (height - 1) - dy
 
-		return Pos(dx + cx, dy + cy)
+			return Pos(dx + cx, dy + cy)
+		}
+	}
+
+	companion object
+	{
+		val defaultVariables = ObjectFloatMap<String>()
+		init
+		{
+			defaultVariables.put("x", 0f)
+			defaultVariables.put("y", 0f)
+			defaultVariables.put("width", 0f)
+			defaultVariables.put("height", 0f)
+			defaultVariables.put("size", 0f)
+			defaultVariables.put("pos", 0f)
+		}
 	}
 }
 

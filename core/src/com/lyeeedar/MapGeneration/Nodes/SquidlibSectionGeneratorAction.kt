@@ -2,16 +2,17 @@ package com.lyeeedar.MapGeneration.Nodes
 
 import com.lyeeedar.MapGeneration.MapGenerator
 import com.lyeeedar.Util.XmlData
-import squidpony.squidgrid.mapping.DungeonGenerator
 import squidpony.squidgrid.mapping.DungeonUtility
+import squidpony.squidgrid.mapping.SectionDungeonGenerator
 import squidpony.squidgrid.mapping.styled.TilesetType
 import squidpony.squidmath.RNG
 
-class SquidlibDungeonGeneratorNode(generator: MapGenerator) : AbstractMapGenerationNode(generator)
+class SquidlibSectionGeneratorAction(generator: MapGenerator) : AbstractMapGenerationAction(generator)
 {
 	lateinit var tilesetType: TilesetType
 	var water: Int = 0
-	var grass: Int = 0
+	var lake: Int = 0
+	var maze: Int = 0
 	var traps: Int = 0
 	var doors: Int = 0
 	var startChar: Char = ' '
@@ -20,10 +21,12 @@ class SquidlibDungeonGeneratorNode(generator: MapGenerator) : AbstractMapGenerat
 
 	override fun execute(args: NodeArguments)
 	{
-		val gen = DungeonGenerator(args.area.width, args.area.height, RNG(generator.ran))
-		gen.addWater(water)
-		gen.addGrass(grass)
-		gen.addTraps(traps)
+		val gen = SectionDungeonGenerator(args.area.width, args.area.height, RNG(generator.ran))
+		gen.addWater(SectionDungeonGenerator.ALL, water)
+		gen.addLake(lake)
+		gen.addMaze(maze)
+		gen.addGrass(SectionDungeonGenerator.CAVE, 150) // make all cave cgrass
+		gen.addTraps(SectionDungeonGenerator.ALL, traps)
 		gen.addDoors(doors, true)
 		gen.generate(tilesetType)
 
@@ -32,17 +35,17 @@ class SquidlibDungeonGeneratorNode(generator: MapGenerator) : AbstractMapGenerat
 
 		if (map.size != args.area.height || map[0].size != args.area.width)
 
-		for (x in 0 until args.area.width)
-		{
-			for (y in 0 until args.area.height)
+			for (x in 0 until args.area.width)
 			{
-				val char = map[y][x]
-				val symbolToWrite = args.symbolTable[char]
+				for (y in 0 until args.area.height)
+				{
+					val char = map[y][x]
+					val symbolToWrite = args.symbolTable[char]
 
-				val symbol = args.area[x, y] ?: continue
-				symbol.write(symbolToWrite, overwrite)
+					val symbol = args.area[x, y] ?: continue
+					symbol.write(symbolToWrite, overwrite)
+				}
 			}
-		}
 
 		if (startChar != ' ')
 		{
@@ -72,8 +75,9 @@ class SquidlibDungeonGeneratorNode(generator: MapGenerator) : AbstractMapGenerat
 	override fun parse(xmlData: XmlData)
 	{
 		tilesetType = TilesetType.valueOf(xmlData.get("TilesetType").toUpperCase())
+		lake = xmlData.getInt("PercentLake", 0)
+		maze = xmlData.getInt("PercentMaze", 0)
 		water = xmlData.getInt("PercentWater", 0)
-		grass = xmlData.getInt("PercentGrass", 0)
 		traps = xmlData.getInt("PercentTraps", 0)
 		doors = xmlData.getInt("PercentDoors", 0)
 		startChar = xmlData.get("StartChar", " ")!![0]

@@ -3,7 +3,7 @@ package com.lyeeedar.MapGeneration.Nodes
 import com.lyeeedar.MapGeneration.MapGenerator
 import com.lyeeedar.Util.XmlData
 
-class FillNode(generator: MapGenerator) : AbstractMapGenerationNode(generator)
+class FillAction(generator: MapGenerator) : AbstractMapGenerationAction(generator)
 {
 	var char: Char = ' '
 	var overwrite = false

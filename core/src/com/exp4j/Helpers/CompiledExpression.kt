@@ -28,7 +28,7 @@ class CompiledExpression(private val eqnStr: String, variableMap: ObjectFloatMap
 
 		if (cachedValue == null)
 		{
-			val expB = ExpressionBuilder(eqnStr)
+			val expB = ExpressionBuilder(eqnStr.unescapeCharacters())
 			expB.exceptionOnMissingVariables = false
 
 			BooleanOperators.applyOperators(expB)
