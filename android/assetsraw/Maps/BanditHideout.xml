@@ -1,4 +1,4 @@
-<MapGenerator meta:X="0" meta:Y="-15" GUID="03952da6-d972-4c07-bd8a-1ed8cdc9a8be" xmlns:meta="Editor">
+<MapGenerator meta:X="0" meta:Y="-15" GUID="03952da6-d972-4c07-bd8a-1ed8cdc9a8be" xmlns:meta="Editor" meta:GraphCommentData="52cdf92d-7303-498e-9484-e89f8226a3df$Forest$$7,71,8,255%13c51f21-223d-4654-a7c5-c7e9b2e63371$Hideout$$79,79,79,255">
 	<Size>30,30</Size>
 	<Root meta:RefKey="Node">2ed198d4-069d-4a82-9a92-403ca227dfdc</Root>
 	<Nodes>
@@ -10,7 +10,7 @@
 				<Node meta:RefKey="Node">e0235954-b8b2-428e-aece-b4c15b7e9b69</Node>
 			</Child>
 		</Node>
-		<Node meta:X="660" meta:Y="-15" GUID="a648f0c2-2868-4be3-852e-1a56b74c7282">
+		<Node meta:X="735" meta:Y="-15" meta:Comment="52cdf92d-7303-498e-9484-e89f8226a3df" GUID="a648f0c2-2868-4be3-852e-1a56b74c7282">
 			<!--Create base foresty bit-->
 			<Symbol>
 				<Symbol meta:RefKey="MapGeneratorSymbol">
@@ -41,6 +41,7 @@
 			<Symbol>
 				<Symbol meta:RefKey="MapGeneratorSymbol">
 					<Character>#</Character>
+					<Type>Wall</Type>
 					<Tile meta:RefKey="SpriteWrapper">
 						<Sprite meta:RefKey="RenderedLayeredSprite">
 							<Layers>
@@ -56,14 +57,43 @@
 					</Tile>
 				</Symbol>
 			</Symbol>
-			<SquidlibOrganicMapGenerator />
+			<Fill>
+				<Character>.</Character>
+				<Overwrite>true</Overwrite>
+			</Fill>
+			<Take>
+				<Count>60%</Count>
+				<Node meta:RefKey="Node">7dc08e40-5b11-4dec-90e2-99fedbb1e019</Node>
+			</Take>
+			<!--Room Grid-->
+			<Divide>
+				<Division>
+					<Size>25%</Size>
+					<Node meta:RefKey="Node">05e6edc8-04ce-4bab-923d-27a1400fc52e</Node>
+				</Division>
+				<Division>
+					<Size>25%</Size>
+					<Node meta:RefKey="Node">05e6edc8-04ce-4bab-923d-27a1400fc52e</Node>
+				</Division>
+				<Division>
+					<Size>25%</Size>
+					<Node meta:RefKey="Node">05e6edc8-04ce-4bab-923d-27a1400fc52e</Node>
+				</Division>
+				<Division>
+					<Size>25%</Size>
+					<Node meta:RefKey="Node">05e6edc8-04ce-4bab-923d-27a1400fc52e</Node>
+				</Division>
+			</Divide>
+			<Child>
+				<Node meta:RefKey="Node">70e972f0-072a-4949-81f8-f3b6a0d09561</Node>
+			</Child>
 		</Node>
-		<Node meta:X="660" meta:Y="210" GUID="0a4d220b-db48-4fc6-8c41-653fb81a562a">
+		<Node meta:X="570" meta:Y="735" meta:Comment="13c51f21-223d-4654-a7c5-c7e9b2e63371" GUID="0a4d220b-db48-4fc6-8c41-653fb81a562a">
 			<!--Create hideout-->
 			<Scale>
 				<Mode>Absolute</Mode>
 				<X>20</X>
-				<Y>15</Y>
+				<Y>12</Y>
 			</Scale>
 			<Translate>
 				<X>5</X>
@@ -101,6 +131,7 @@
 			<Symbol>
 				<Symbol meta:RefKey="MapGeneratorSymbol">
 					<Character>#</Character>
+					<Type>Wall</Type>
 					<Tile meta:RefKey="SpriteWrapper">
 						<TilingSprite meta:RefKey="TilingSprite">
 							<Name>Wall</Name>
@@ -119,16 +150,109 @@
 				</Symbol>
 			</Symbol>
 			<ChambersGenerator />
+			<SetNamedArea>
+				<Name>Hideout</Name>
+			</SetNamedArea>
+			<Child>
+				<Node meta:RefKey="Node">aa075a04-cd8f-4a89-b11a-270ed3d83fc5</Node>
+			</Child>
 		</Node>
 		<Node meta:X="345" meta:Y="-15" GUID="26f38426-c87f-4157-b082-ead6bf3ac937">
 			<Datascope>
 				<Node meta:RefKey="Node">a648f0c2-2868-4be3-852e-1a56b74c7282</Node>
 			</Datascope>
 		</Node>
-		<Node meta:X="345" meta:Y="210" GUID="e0235954-b8b2-428e-aece-b4c15b7e9b69">
+		<Node meta:X="315" meta:Y="735" GUID="e0235954-b8b2-428e-aece-b4c15b7e9b69">
 			<Datascope>
 				<Node meta:RefKey="Node">0a4d220b-db48-4fc6-8c41-653fb81a562a</Node>
 			</Datascope>
+		</Node>
+		<Node meta:X="990" meta:Y="135" meta:Comment="52cdf92d-7303-498e-9484-e89f8226a3df" GUID="7dc08e40-5b11-4dec-90e2-99fedbb1e019">
+			<Fill>
+				<Character>#</Character>
+				<Overwrite>true</Overwrite>
+			</Fill>
+		</Node>
+		<Node meta:X="990" meta:Y="225" meta:Comment="52cdf92d-7303-498e-9484-e89f8226a3df" GUID="05e6edc8-04ce-4bab-923d-27a1400fc52e">
+			<Divide Axis="Y">
+				<Division>
+					<Size>25%</Size>
+					<Node meta:RefKey="Node">65dedfc3-e21e-458d-8996-b95d3c21f4b3</Node>
+				</Division>
+				<Division>
+					<Size>25%</Size>
+					<Node meta:RefKey="Node">65dedfc3-e21e-458d-8996-b95d3c21f4b3</Node>
+				</Division>
+				<Division>
+					<Size>25%</Size>
+					<Node meta:RefKey="Node">65dedfc3-e21e-458d-8996-b95d3c21f4b3</Node>
+				</Division>
+				<Division>
+					<Size>25%</Size>
+					<Node meta:RefKey="Node">65dedfc3-e21e-458d-8996-b95d3c21f4b3</Node>
+				</Division>
+			</Divide>
+		</Node>
+		<Node meta:X="1170" meta:Y="225" meta:Comment="52cdf92d-7303-498e-9484-e89f8226a3df" GUID="65dedfc3-e21e-458d-8996-b95d3c21f4b3">
+			<DefineVariable>
+				<Key>SplitWidth</Key>
+				<Value>width</Value>
+			</DefineVariable>
+			<DefineVariable>
+				<Key>SplitHeight</Key>
+				<Value>height</Value>
+			</DefineVariable>
+			<Scale>
+				<Mode>Absolute</Mode>
+				<X>3+rnd(2)</X>
+				<Y>3+rnd(2)</Y>
+			</Scale>
+			<Translate>
+				<X>(splitwidth-width)/4 * sign()</X>
+				<Y>(splitheight-height)/4 * sign()</Y>
+			</Translate>
+			<Fill>
+				<Character>.</Character>
+				<Overwrite>true</Overwrite>
+			</Fill>
+		</Node>
+		<Node meta:X="1035" meta:Y="465" meta:Comment="52cdf92d-7303-498e-9484-e89f8226a3df" GUID="70e972f0-072a-4949-81f8-f3b6a0d09561">
+			<FindRooms>
+				<RoomName>ForestRoom</RoomName>
+			</FindRooms>
+			<ConnectRooms>
+				<RoomName>ForestRoom</RoomName>
+			</ConnectRooms>
+		</Node>
+		<Node meta:X="1140" meta:Y="855" GUID="5b9df737-0b9a-4450-8b89-820cc9ccddc8">
+			<FindRooms>
+				<RoomName>PotentialStarts</RoomName>
+			</FindRooms>
+			<SelectNamedArea>
+				<Count>1</Count>
+				<Name>PotentialStarts</Name>
+				<Node meta:RefKey="Node">8f4fbc7d-1508-41bf-9145-76dbc3ca2b26</Node>
+			</SelectNamedArea>
+		</Node>
+		<Node meta:X="855" meta:Y="855" GUID="aa075a04-cd8f-4a89-b11a-270ed3d83fc5">
+			<!--Connect start to end-->
+			<SetNamedArea>
+				<Name>CorePath</Name>
+			</SetNamedArea>
+			<Split>
+				<Split>
+					<Size>10</Size>
+					<Node meta:RefKey="Node">5b9df737-0b9a-4450-8b89-820cc9ccddc8</Node>
+				</Split>
+			</Split>
+			<ConnectRooms>
+				<RoomName>CorePath</RoomName>
+			</ConnectRooms>
+		</Node>
+		<Node meta:X="1410" meta:Y="855" GUID="8f4fbc7d-1508-41bf-9145-76dbc3ca2b26">
+			<SetNamedArea>
+				<Name>CorePath</Name>
+			</SetNamedArea>
 		</Node>
 	</Nodes>
 </MapGenerator>

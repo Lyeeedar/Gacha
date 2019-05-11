@@ -37,9 +37,11 @@ class CompiledExpression(private val eqnStr: String, variableMap: ObjectFloatMap
 			val randomFun = RandomFunction.obtain()
 			val chanceFun = ChanceFunction.obtain()
 			val probFun = ProbabilityFunction.obtain()
+			val signFun = SignFunction.obtain()
 			seededFunctions.add(randomFun)
 			seededFunctions.add(chanceFun)
 			seededFunctions.add(probFun)
+			seededFunctions.add(signFun)
 
 			for (func in seededFunctions) expB.function(func)
 			MathUtilFunctions.applyFunctions(expB)

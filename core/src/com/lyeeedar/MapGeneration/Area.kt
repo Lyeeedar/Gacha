@@ -66,7 +66,7 @@ class Area()
 	lateinit var grid: Array2D<Symbol>
 
 	var isPoints = false
-	val points = Array<Pos>()
+	val points = Array<Pos>(false, 16)
 
 	var flipX: Boolean = false
 	var flipY: Boolean = false
@@ -215,6 +215,12 @@ class Area()
 		return grid.tryGet(pos.x, pos.y, null)
 	}
 
+	operator fun get(pos: Pos): Symbol?
+	{
+		val pos = localToWorld(pos)
+		return grid.tryGet(pos.x, pos.y, null)
+	}
+
 	fun localToWorld(x: Int, y: Int): Pos
 	{
 		if (orientation == 0f)
@@ -243,6 +249,33 @@ class Area()
 		}
 	}
 
+	fun localToWorld(pos: Pos): Pos
+	{
+		return localToWorld(pos.x - x, pos.y - y)
+	}
+
+	fun newAreaFromCharGrid(grid: kotlin.Array<CharArray>): Area
+	{
+		val newArea = this.copy()
+		newArea.convertToPoints()
+		newArea.points.clear()
+
+		for (x in 0 until width)
+		{
+			for (y in 0 until height)
+			{
+				val char = grid[x][y]
+				if (char != '#')
+				{
+					val pos = Pos(this.x + x, this.y + y)
+					newArea.points.add(pos)
+				}
+			}
+		}
+
+		return newArea
+	}
+
 	companion object
 	{
 		val defaultVariables = ObjectFloatMap<String>()
@@ -254,6 +287,7 @@ class Area()
 			defaultVariables.put("height", 0f)
 			defaultVariables.put("size", 0f)
 			defaultVariables.put("pos", 0f)
+			defaultVariables.put("count", 0f)
 		}
 	}
 }

@@ -47,14 +47,32 @@
 			<Data Name="Y" meta:RefKey="String" />
 			<Data Name="Mode" EnumValues="Relative,Absolute" meta:RefKey="Enum" />
 		</Data>
+		<!--Point-->
+		<Data Name="Filter" TextColour="193,49,199" meta:RefKey="Struct">
+			<Data Name="Mode" EnumValues="Type,NoContent,Character,Corner,Edge,Center" meta:RefKey="Enum" />
+			<Data Name="Character" MaxLength="1" VisibleIf="Mode==Character" meta:RefKey="String" />
+			<Data Name="Type" EnumValues="Floor,Wall,Pit" VisibleIf="Mode==Type" meta:RefKey="Enum" />
+			<Data Name="CenterDist" Type="Int" Min="0" Default="2" VisibleIf="Mode==Center" meta:RefKey="Number" />
+			<Data Name="Node" Keys="Node" meta:RefKey="GraphReference" />
+			<Data Name="Remainder" Keys="Node" meta:RefKey="GraphReference" />
+		</Data>
+		<Data Name="Take" TextColour="214,86,219" meta:RefKey="Struct">
+			<Data Name="Mode" EnumValues="Random" meta:RefKey="Enum" />
+			<Data Name="Count" meta:RefKey="String" />
+			<Data Name="Node" Keys="Node" meta:RefKey="GraphReference" />
+			<Data Name="Remainder" Keys="Node" meta:RefKey="GraphReference" />
+		</Data>
+		<Data Name="PerPoint" TextColour="157,31,189" meta:RefKey="Struct">
+			<Data Name="Node" Keys="Node" meta:RefKey="GraphReference" />
+		</Data>
 		<!--Other-->
-		<Data Name="Condition" TextColour="245,140,22" meta:RefKey="Collection">
+		<Data Name="Condition" TextColour="252,248,131" meta:RefKey="Collection">
 			<Data Name="Condition" meta:RefKey="Struct">
 				<Data Name="Condition" meta:RefKey="String" />
 				<Data Name="Node" Keys="Node" meta:RefKey="GraphReference" />
 			</Data>
 		</Data>
-		<Data Name="Datascope" TextColour="201,20,125" meta:RefKey="Struct">
+		<Data Name="Datascope" TextColour="201,80,91" meta:RefKey="Struct">
 			<Data Name="Area" Default="True" meta:RefKey="Boolean" />
 			<Data Name="Variables" Default="True" meta:RefKey="Boolean" />
 			<Data Name="Symbols" Default="True" meta:RefKey="Boolean" />
@@ -138,12 +156,42 @@
 		<Data Name="ChambersGenerator" TextColour="47,222,209" meta:RefKey="Struct">
 			<Data Name="Overwrite" Default="True" meta:RefKey="Boolean" />
 		</Data>
+		<!--Rooms-->
+		<Data Name="ConnectRooms" TextColour="212,140,22" meta:RefKey="Struct">
+			<Data Name="PathStyle" EnumValues="Straight,Wandering" meta:RefKey="Enum" />
+			<Data Name="Width" Type="Int" Min="1" Default="1" meta:RefKey="Number" />
+			<Data Name="RoomName" meta:RefKey="String" />
+			<Data Name="Central" Keys="CorridorFeature" meta:RefKey="Reference" />
+			<Data Name="Side" Keys="CorridorFeature" meta:RefKey="Reference" />
+		</Data>
+		<Data Name="FindRooms" TextColour="240,207,1" meta:RefKey="Struct">
+			<Data Name="RoomName" meta:RefKey="String" />
+			<Data Name="CorridorName" meta:RefKey="String" />
+		</Data>
+		<Data Name="SetNamedArea" TextColour="250,132,0" meta:RefKey="Struct">
+			<Data Name="Name" meta:RefKey="String" />
+			<Data Name="Overwrite" meta:RefKey="Boolean" />
+		</Data>
+		<Data Name="SelectNamedArea" TextColour="255,196,0" meta:RefKey="Struct">
+			<Data Name="Mode" EnumValues="Random,Smallest,Largest" meta:RefKey="Enum" />
+			<Data Name="Count" meta:RefKey="String" />
+			<Data Name="Name" meta:RefKey="String" />
+			<Data Name="Node" Keys="Node" meta:RefKey="GraphReference" />
+			<Data Name="Remainder" Keys="Node" meta:RefKey="GraphReference" />
+		</Data>
 	</Definition>
 	<!--Symbol-->
 	<Definition Name="MapGeneratorSymbol" meta:RefKey="StructDef">
 		<Data Name="Character" MaxLength="1" meta:RefKey="String" />
+		<Data Name="Type" EnumValues="Floor,Wall,Pit" meta:RefKey="Enum" />
 		<Data Name="Tile" Keys="SpriteWrapper" meta:RefKey="Reference" />
+		<Data Name="Locked" meta:RefKey="Boolean" />
 	</Definition>
 	<!--Defs-->
 	<Definition Name="SquidlibTilesetType" meta:RefKey="EnumDef">Default_Dungeon,Caves_Limit_Connectivity,Caves_Tiny_Corridors,Corner_Caves,Horizontal_Corridors_A,Horizontal_Corridors_B,Horizontal_Corridors_C,Limit_Connectivity_Fat,Limited_Connectivity,Maze_A,Maze_B,Open_Areas,Reference_Caves,Rooms_And_Corridors_A,Rooms_And_Corridors_B,Rooms_Limit_Connectivity,Rounds_Rooms_Diagonal_Corridors,Simple_Caves,Square_Rooms_With_Random_Rects</Definition>
+	<Definition Name="CorridorFeature" meta:RefKey="StructDef">
+		<Data Name="PlacementMode" EnumValues="Both,Top,Bottom,Alternate" meta:RefKey="Enum" />
+		<Data Name="Interval" Type="Int" Min="0" meta:RefKey="Number" />
+		<Data Name="Character" MaxLength="1" meta:RefKey="String" />
+	</Definition>
 </Definitions>

@@ -21,6 +21,7 @@ class MapGenerator
 	lateinit var root: MapGeneratorNode
 
 	val deferredNodes = Array<DeferredNode>()
+	val namedAreas = ObjectMap<String, Array<Area>>()
 
 	private val executingArray = Array<DeferredNode>()
 	fun execute(seed: Long)
