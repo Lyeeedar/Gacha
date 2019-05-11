@@ -18,7 +18,7 @@ abstract class AbstractMapGenerationAction(val generator: MapGenerator)
 	{
 		fun load(xmlData: XmlData, generator: MapGenerator): AbstractMapGenerationAction
 		{
-			val refKey = xmlData.getAttribute("meta:RefKey").toUpperCase()
+			val refKey = xmlData.name.toUpperCase()
 			val action = when(refKey)
 			{
 				"CONDITION" -> ConditionAction(generator)
@@ -41,6 +41,7 @@ abstract class AbstractMapGenerationAction(val generator: MapGenerator)
 				"SQUIDLIBORGANICMAPGENERATOR" -> SquidlibOrganicMapGeneratorAction(generator)
 				"SQUIDLIBSERPENTMAPGENERATOR" -> SquidlibSerpentMapGeneratorAction(generator)
 				"SQUIDLIBSYMMETRYGENERATOR" -> SquidlibSymmetryGeneratorAction(generator)
+				"CHAMBERSGENERATOR" -> ChambersGeneratorAction(generator)
 				"SYMBOL" -> SymbolAction(generator)
 				"TRANSLATE" -> TranslateAction(generator)
 				else -> throw Exception("Unknown MapGeneratorAction '$refKey'!")

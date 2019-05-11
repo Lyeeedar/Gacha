@@ -22,6 +22,7 @@ import com.lyeeedar.Game.EntityData
 import com.lyeeedar.Game.Faction
 import com.lyeeedar.Game.GameData
 import com.lyeeedar.Game.Level
+import com.lyeeedar.MapGeneration.MapGenerator
 import com.lyeeedar.Screens.AbstractScreen
 import com.lyeeedar.Systems.createEngine
 import com.lyeeedar.Systems.level
@@ -95,6 +96,9 @@ class Global
 		fun newGame()
 		{
 			settings = Settings()
+
+			val generator = MapGenerator.load("BanditHideout")
+			generator.execute(29867)
 		}
 
 		fun changeLevel(level: Level)

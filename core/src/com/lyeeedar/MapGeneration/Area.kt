@@ -6,8 +6,18 @@ import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.ObjectFloatMap
 import com.lyeeedar.Util.Array2D
 
-class Area
+class Area()
 {
+	constructor(width: Int, height: Int, grid: Array2D<Symbol>) : this()
+	{
+		this.allowedBoundsWidth = width
+		this.allowedBoundsHeight = height
+		this.width = width
+		this.height = height
+
+		this.grid = grid
+	}
+
 	var allowedBoundsX: Int = 0
 	var allowedBoundsY: Int = 0
 	var allowedBoundsWidth: Int = 0

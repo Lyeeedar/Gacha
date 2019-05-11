@@ -399,6 +399,13 @@ open class Point : Pool.Poolable, Comparable<Point>
     {
 
     }
+
+	fun parse(str: String)
+	{
+		val split = str.split(',')
+		x = split[0].toInt()
+		y = split[1].toInt()
+	}
 }
 
 class PointRange(override val endInclusive: Point, override val start: Point) : ClosedRange<Point>, PointProgression(start, endInclusive)

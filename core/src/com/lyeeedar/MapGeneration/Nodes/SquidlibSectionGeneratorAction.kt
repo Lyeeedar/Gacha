@@ -33,13 +33,13 @@ class SquidlibSectionGeneratorAction(generator: MapGenerator) : AbstractMapGener
 		val map = gen.dungeon
 		DungeonUtility.closeDoors(map)
 
-		if (map.size != args.area.height || map[0].size != args.area.width) throw Exception("Generator map is the wrong size!")
+		if (map.size != args.area.width || map[0].size != args.area.height) throw Exception("Generator map is the wrong size!")
 
 		for (x in 0 until args.area.width)
 		{
 			for (y in 0 until args.area.height)
 			{
-				val char = map[y][x]
+				val char = map[x][y]
 				val symbolToWrite = args.symbolTable[char]!!
 
 				val symbol = args.area[x, y] ?: continue

@@ -5,7 +5,7 @@
 		<Data Name="Root" Keys="Node" meta:RefKey="GraphReference" />
 	</Definition>
 	<!--Node-->
-	<Definition Name="Node" meta:RefKey="GraphCollectionDef">
+	<Definition Name="Node" TextColour="209,209,143" meta:RefKey="GraphCollectionDef">
 		<!--Area-->
 		<Data Name="Divide" TextColour="80,170,230" HasAttributes="True" meta:RefKey="Collection">
 			<Attributes meta:RefKey="Attributes">
@@ -55,9 +55,9 @@
 			</Data>
 		</Data>
 		<Data Name="Datascope" TextColour="201,20,125" meta:RefKey="Struct">
-			<Data Name="Area" meta:RefKey="Boolean" />
-			<Data Name="Variables" meta:RefKey="Boolean" />
-			<Data Name="Symbols" meta:RefKey="Boolean" />
+			<Data Name="Area" Default="True" meta:RefKey="Boolean" />
+			<Data Name="Variables" Default="True" meta:RefKey="Boolean" />
+			<Data Name="Symbols" Default="True" meta:RefKey="Boolean" />
 			<Data Name="Node" Keys="Node" meta:RefKey="GraphReference" />
 		</Data>
 		<Data Name="Defer" TextColour="255,0,0" meta:RefKey="Struct">
@@ -134,9 +134,16 @@
 		<Data Name="SquidlibSymmetryGenerator" TextColour="131,217,178" meta:RefKey="Struct">
 			<Data Name="Overwrite" Default="True" meta:RefKey="Boolean" />
 		</Data>
+		<!--Generators-->
+		<Data Name="ChambersGenerator" TextColour="47,222,209" meta:RefKey="Struct">
+			<Data Name="Overwrite" Default="True" meta:RefKey="Boolean" />
+		</Data>
 	</Definition>
 	<!--Symbol-->
-	<Definition Name="MapGeneratorSymbol" meta:RefKey="StructDef" />
+	<Definition Name="MapGeneratorSymbol" meta:RefKey="StructDef">
+		<Data Name="Character" MaxLength="1" meta:RefKey="String" />
+		<Data Name="Tile" Keys="SpriteWrapper" meta:RefKey="Reference" />
+	</Definition>
 	<!--Defs-->
 	<Definition Name="SquidlibTilesetType" meta:RefKey="EnumDef">Default_Dungeon,Caves_Limit_Connectivity,Caves_Tiny_Corridors,Corner_Caves,Horizontal_Corridors_A,Horizontal_Corridors_B,Horizontal_Corridors_C,Limit_Connectivity_Fat,Limited_Connectivity,Maze_A,Maze_B,Open_Areas,Reference_Caves,Rooms_And_Corridors_A,Rooms_And_Corridors_B,Rooms_Limit_Connectivity,Rounds_Rooms_Diagonal_Corridors,Simple_Caves,Square_Rooms_With_Random_Rects</Definition>
 </Definitions>

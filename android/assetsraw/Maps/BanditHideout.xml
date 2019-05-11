@@ -1,17 +1,134 @@
-<MapGenerator meta:X="0" meta:Y="0" GUID="03952da6-d972-4c07-bd8a-1ed8cdc9a8be" xmlns:meta="Editor">
+<MapGenerator meta:X="0" meta:Y="-15" GUID="03952da6-d972-4c07-bd8a-1ed8cdc9a8be" xmlns:meta="Editor">
 	<Size>30,30</Size>
 	<Root meta:RefKey="Node">2ed198d4-069d-4a82-9a92-403ca227dfdc</Root>
 	<Nodes>
-		<Node meta:X="165" meta:Y="-23" GUID="2ed198d4-069d-4a82-9a92-403ca227dfdc">
+		<Node meta:X="165" meta:Y="-15" GUID="2ed198d4-069d-4a82-9a92-403ca227dfdc">
 			<Child>
-				<Node meta:RefKey="Node">df9078a1-b604-4fe7-a4bd-9a2ca88e455e</Node>
+				<Node meta:RefKey="Node">26f38426-c87f-4157-b082-ead6bf3ac937</Node>
+			</Child>
+			<Child>
+				<Node meta:RefKey="Node">e0235954-b8b2-428e-aece-b4c15b7e9b69</Node>
 			</Child>
 		</Node>
-		<Node meta:X="419" meta:Y="-189" GUID="df9078a1-b604-4fe7-a4bd-9a2ca88e455e">
-			<!--Setup Symbols-->
+		<Node meta:X="660" meta:Y="-15" GUID="a648f0c2-2868-4be3-852e-1a56b74c7282">
+			<!--Create base foresty bit-->
 			<Symbol>
-				<Symbol meta:RefKey="MapGeneratorSymbol" />
+				<Symbol meta:RefKey="MapGeneratorSymbol">
+					<Character>.</Character>
+					<Tile meta:RefKey="SpriteWrapper">
+						<Sprite meta:RefKey="RenderedLayeredSprite">
+							<Layers>
+								<Layer>
+									<Name>Oryx/uf_split/uf_terrain/ground_grass_1</Name>
+								</Layer>
+							</Layers>
+						</Sprite>
+						<SpriteVariants>
+							<Sprite>
+								<Sprite meta:RefKey="RenderedLayeredSprite">
+									<Layers>
+										<Layer>
+											<Name>Oryx/uf_split/uf_terrain/ground_grass_4</Name>
+										</Layer>
+									</Layers>
+								</Sprite>
+								<Chance>0.2</Chance>
+							</Sprite>
+						</SpriteVariants>
+					</Tile>
+				</Symbol>
 			</Symbol>
+			<Symbol>
+				<Symbol meta:RefKey="MapGeneratorSymbol">
+					<Character>#</Character>
+					<Tile meta:RefKey="SpriteWrapper">
+						<Sprite meta:RefKey="RenderedLayeredSprite">
+							<Layers>
+								<Layer>
+									<Name>Oryx/uf_split/uf_terrain/ground_grass_1</Name>
+								</Layer>
+								<Layer>
+									<Name>Oryx/Custom/terrain/tree1</Name>
+									<DrawActualSize>true</DrawActualSize>
+								</Layer>
+							</Layers>
+						</Sprite>
+					</Tile>
+				</Symbol>
+			</Symbol>
+			<SquidlibOrganicMapGenerator />
+		</Node>
+		<Node meta:X="660" meta:Y="210" GUID="0a4d220b-db48-4fc6-8c41-653fb81a562a">
+			<!--Create hideout-->
+			<Scale>
+				<Mode>Absolute</Mode>
+				<X>20</X>
+				<Y>15</Y>
+			</Scale>
+			<Translate>
+				<X>5</X>
+				<Y>1</Y>
+				<Mode>Absolute</Mode>
+			</Translate>
+			<Symbol>
+				<Symbol meta:RefKey="MapGeneratorSymbol">
+					<Character>.</Character>
+					<Tile meta:RefKey="SpriteWrapper">
+						<Sprite meta:RefKey="RenderedLayeredSprite">
+							<Layers>
+								<Layer>
+									<Name>Oryx/uf_split/uf_terrain/floor_extra_2</Name>
+								</Layer>
+							</Layers>
+						</Sprite>
+					</Tile>
+				</Symbol>
+			</Symbol>
+			<Symbol>
+				<Symbol meta:RefKey="MapGeneratorSymbol">
+					<Character>+</Character>
+					<Tile meta:RefKey="SpriteWrapper">
+						<Sprite meta:RefKey="RenderedLayeredSprite">
+							<Layers>
+								<Layer>
+									<Name>Oryx/uf_split/uf_terrain/floor_extra_2</Name>
+								</Layer>
+							</Layers>
+						</Sprite>
+					</Tile>
+				</Symbol>
+			</Symbol>
+			<Symbol>
+				<Symbol meta:RefKey="MapGeneratorSymbol">
+					<Character>#</Character>
+					<Tile meta:RefKey="SpriteWrapper">
+						<TilingSprite meta:RefKey="TilingSprite">
+							<Name>Wall</Name>
+							<Mode>Premade</Mode>
+							<Front meta:RefKey="Sprite">
+								<Name>Oryx/uf_split/uf_terrain/wall_dungeon_14</Name>
+							</Front>
+							<Top meta:RefKey="Sprite">
+								<Name>Oryx/uf_split/uf_terrain/wall_dungeon_7</Name>
+							</Top>
+							<Overhang meta:RefKey="Sprite">
+								<Name>Oryx/uf_split/uf_terrain/wall_dungeon_1</Name>
+							</Overhang>
+						</TilingSprite>
+					</Tile>
+				</Symbol>
+			</Symbol>
+			<ChambersGenerator />
+		</Node>
+		<Node meta:X="345" meta:Y="-15" GUID="26f38426-c87f-4157-b082-ead6bf3ac937">
+			<Datascope>
+				<Node meta:RefKey="Node">a648f0c2-2868-4be3-852e-1a56b74c7282</Node>
+			</Datascope>
+		</Node>
+		<Node meta:X="345" meta:Y="210" GUID="e0235954-b8b2-428e-aece-b4c15b7e9b69">
+			<Datascope>
+				<Node meta:RefKey="Node">0a4d220b-db48-4fc6-8c41-653fb81a562a</Node>
+			</Datascope>
 		</Node>
 	</Nodes>
 </MapGenerator>

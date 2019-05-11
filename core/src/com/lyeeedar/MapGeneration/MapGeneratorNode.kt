@@ -21,7 +21,7 @@ class MapGeneratorNode
 	{
 		for (el in xmlData.children)
 		{
-			 val action = AbstractMapGenerationAction.load(xmlData, generator)
+			 val action = AbstractMapGenerationAction.load(el, generator)
 			actions.add(action)
 		}
 	}
