@@ -46,11 +46,11 @@ class ConditionAction(generator: MapGenerator) : AbstractMapGenerationAction(gen
 		for (el in xmlData.children())
 		{
 			val condition = el.get("Condition").toLowerCase().replace("%", "#size").unescapeCharacters()
-			val rule = el.get("Node", "")!!
+			val node = el.get("Node", "")!!
 
 			val compiled = if (condition == "else") null else CompiledExpression(condition, Area.defaultVariables)
 
-			conditions.add(Condition(compiled, rule))
+			conditions.add(Condition(compiled, node))
 		}
 	}
 

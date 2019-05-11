@@ -194,7 +194,7 @@ class SplitAction(generator: MapGenerator) : AbstractMapGenerationAction(generat
 		{
 			val side = SplitSide.valueOf(el.get("Side", "North")!!.toUpperCase())
 			val size = CompiledExpression(el.get("Size", "1")!!.toLowerCase().replace("%", "#size"), Area.defaultVariables)
-			val child = el.get("Child")
+			val child = el.get("Node")
 
 			splits.add(Split(side, size, child))
 		}

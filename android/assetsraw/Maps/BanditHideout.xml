@@ -1,0 +1,17 @@
+<MapGenerator meta:X="0" meta:Y="0" GUID="03952da6-d972-4c07-bd8a-1ed8cdc9a8be" xmlns:meta="Editor">
+	<Size>30,30</Size>
+	<Root meta:RefKey="Node">2ed198d4-069d-4a82-9a92-403ca227dfdc</Root>
+	<Nodes>
+		<Node meta:X="165" meta:Y="-23" GUID="2ed198d4-069d-4a82-9a92-403ca227dfdc">
+			<Child>
+				<Node meta:RefKey="Node">df9078a1-b604-4fe7-a4bd-9a2ca88e455e</Node>
+			</Child>
+		</Node>
+		<Node meta:X="419" meta:Y="-189" GUID="df9078a1-b604-4fe7-a4bd-9a2ca88e455e">
+			<!--Setup Symbols-->
+			<Symbol>
+				<Symbol meta:RefKey="MapGeneratorSymbol" />
+			</Symbol>
+		</Node>
+	</Nodes>
+</MapGenerator>

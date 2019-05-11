@@ -1,0 +1,142 @@
+<Definitions Colour="201,200,153" Icon="Sprites/Icons/map.png" xmlns:meta="Editor">
+	<!--Base Definition-->
+	<Definition Name="MapGenerator" AllowCircularLinks="True" FlattenData="True" meta:RefKey="GraphStruct">
+		<Data Name="Size" Name1="Width" Name2="Height" Min="0" Type="Int" meta:RefKey="Vector" />
+		<Data Name="Root" Keys="Node" meta:RefKey="GraphReference" />
+	</Definition>
+	<!--Node-->
+	<Definition Name="Node" meta:RefKey="GraphCollectionDef">
+		<!--Area-->
+		<Data Name="Divide" TextColour="80,170,230" HasAttributes="True" meta:RefKey="Collection">
+			<Attributes meta:RefKey="Attributes">
+				<Attribute Name="Axis" EnumValues="X,Y" Default="X" meta:RefKey="Enum" />
+			</Attributes>
+			<Data Name="Division" meta:RefKey="Struct">
+				<Data Name="Size" meta:RefKey="String" />
+				<Data Name="Node" Keys="Node" meta:RefKey="GraphReference" />
+			</Data>
+		</Data>
+		<Data Name="Flip" TextColour="102,110,232" meta:RefKey="Struct">
+			<Data Name="Axis" EnumValues="X,Y" Default="X" meta:RefKey="Enum" />
+		</Data>
+		<Data Name="Repeat" TextColour="81,154,245" meta:RefKey="Struct">
+			<Data Name="Axis" EnumValues="X,Y" Default="X" meta:RefKey="Enum" />
+			<Data Name="Size" meta:RefKey="String" />
+			<Data Name="Node" Keys="Node" meta:RefKey="GraphReference" />
+			<Data Name="RemainderMode" EnumValues="Node,Pad,Expand" meta:RefKey="Enum" />
+			<Data Name="Remainder" Keys="Node" VisibleIf="RemainderMode==Node" meta:RefKey="GraphReference" />
+		</Data>
+		<Data Name="Rotate" TextColour="135,131,245" meta:RefKey="Struct">
+			<Data Name="Degrees" meta:RefKey="String" />
+		</Data>
+		<Data Name="Scale" TextColour="112,109,201" meta:RefKey="Struct">
+			<Data Name="Mode" EnumValues="Additive, Multiplicative,Absolute" meta:RefKey="Enum" />
+			<Data Name="X" meta:RefKey="String" />
+			<Data Name="Y" meta:RefKey="String" />
+			<Data Name="Snap" EnumValues="Center,North,South,East,West" meta:RefKey="Enum" />
+		</Data>
+		<Data Name="Split" TextColour="28,168,232" meta:RefKey="Collection">
+			<Data Name="Split" meta:RefKey="Struct">
+				<Data Name="Side" EnumValues="North,South,East,West,Edge,Remainder" meta:RefKey="Enum" />
+				<Data Name="Size" meta:RefKey="String" />
+				<Data Name="Node" Keys="Node" meta:RefKey="GraphReference" />
+			</Data>
+		</Data>
+		<Data Name="Translate" TextColour="128,100,227" meta:RefKey="Struct">
+			<Data Name="X" meta:RefKey="String" />
+			<Data Name="Y" meta:RefKey="String" />
+			<Data Name="Mode" EnumValues="Relative,Absolute" meta:RefKey="Enum" />
+		</Data>
+		<!--Other-->
+		<Data Name="Condition" TextColour="245,140,22" meta:RefKey="Collection">
+			<Data Name="Condition" meta:RefKey="Struct">
+				<Data Name="Condition" meta:RefKey="String" />
+				<Data Name="Node" Keys="Node" meta:RefKey="GraphReference" />
+			</Data>
+		</Data>
+		<Data Name="Datascope" TextColour="201,20,125" meta:RefKey="Struct">
+			<Data Name="Area" meta:RefKey="Boolean" />
+			<Data Name="Variables" meta:RefKey="Boolean" />
+			<Data Name="Symbols" meta:RefKey="Boolean" />
+			<Data Name="Node" Keys="Node" meta:RefKey="GraphReference" />
+		</Data>
+		<Data Name="Defer" TextColour="255,0,0" meta:RefKey="Struct">
+			<Data Name="Node" Keys="Node" meta:RefKey="GraphReference" />
+		</Data>
+		<Data Name="Child" TextColour="196,159,173" meta:RefKey="Struct">
+			<Data Name="Node" Keys="Node" meta:RefKey="GraphReference" />
+		</Data>
+		<!--Setup-->
+		<Data Name="DefineVariable" TextColour="255,246,20" meta:RefKey="Struct">
+			<Data Name="Key" meta:RefKey="String" />
+			<Data Name="Value" meta:RefKey="String" />
+		</Data>
+		<Data Name="Symbol" TextColour="227,198,16" meta:RefKey="Struct">
+			<Data Name="Symbol" Keys="MapGeneratorSymbol" Nullable="False" meta:RefKey="Reference" />
+		</Data>
+		<!--Write-->
+		<Data Name="Fill" TextColour="163,42,168" meta:RefKey="Struct">
+			<Data Name="Character" MaxLength="1" meta:RefKey="String" />
+			<Data Name="Overwrite" meta:RefKey="Boolean" />
+		</Data>
+		<!--Squidlib-->
+		<Data Name="SquidlibDenseRoomGenerator" TextColour="89,255,11" meta:RefKey="Struct">
+			<Data Name="Overwrite" Default="True" meta:RefKey="Boolean" />
+		</Data>
+		<Data Name="SquidlibDungeonGenerator" TextColour="11,255,73" meta:RefKey="Struct">
+			<Data Name="TilesetType" Key="SquidlibTilesetType" meta:RefKey="Enum" />
+			<Data Name="PercentWater" Type="Int" Min="0" Max="100" meta:RefKey="Number" />
+			<Data Name="PercentGrass" Type="Int" Min="0" Max="100" meta:RefKey="Number" />
+			<Data Name="PercentTraps" Type="Int" Min="0" Max="100" meta:RefKey="Number" />
+			<Data Name="PercentDoors" Type="Int" Min="0" Max="100" meta:RefKey="Number" />
+			<Data Name="StartChar" MaxLength="1" meta:RefKey="String" />
+			<Data Name="EndChar" MaxLength="1" meta:RefKey="String" />
+			<Data Name="Overwrite" Default="True" meta:RefKey="Boolean" />
+		</Data>
+		<Data Name="SquidlibFlowingCaveGenerator" TextColour="68,224,45" meta:RefKey="Struct">
+			<Data Name="TilesetType" Key="SquidlibTilesetType" meta:RefKey="Enum" />
+			<Data Name="RoomChance" Min="0" Max="1" meta:RefKey="Number" />
+			<Data Name="Overwrite" Default="True" meta:RefKey="Boolean" />
+		</Data>
+		<Data Name="SquidlibLanesMapGenerator" TextColour="14,168,32" meta:RefKey="Struct">
+			<Data Name="NumLanes" Type="Int" Min="1" Max="3" Default="1" meta:RefKey="Number" />
+			<Data Name="NumCaveCarvers" Type="Int" Min="0" Max="10" meta:RefKey="Number" />
+			<Data Name="NumBoxRoomCarvers" Type="Int" Min="0" Max="10" meta:RefKey="Number" />
+			<Data Name="NumWalledBoxRoomCarvers" Type="Int" Min="0" Max="10" meta:RefKey="Number" />
+			<Data Name="NumRoundRoomCarvers" Type="Int" Min="0" Max="10" meta:RefKey="Number" />
+			<Data Name="NumWalledRoundRoomCarvers" Type="Int" Min="0" Max="10" meta:RefKey="Number" />
+			<Data Name="Overwrite" Default="True" meta:RefKey="Boolean" />
+		</Data>
+		<Data Name="SquidlibOrganicMapGenerator" TextColour="93,168,14" meta:RefKey="Struct">
+			<Data Name="Overwrite" Default="True" meta:RefKey="Boolean" />
+		</Data>
+		<Data Name="SquidlibSerpentMapGenerator" TextColour="141,189,80" meta:RefKey="Struct">
+			<Data Name="BranchingChance" Min="0" Max="1" meta:RefKey="Number" />
+			<Data Name="Symmetrical" meta:RefKey="Boolean" />
+			<Data Name="NumCaveCarvers" Type="Int" Min="0" Max="10" meta:RefKey="Number" />
+			<Data Name="NumBoxRoomCarvers" Type="Int" Min="0" Max="10" meta:RefKey="Number" />
+			<Data Name="NumWalledBoxRoomCarvers" Type="Int" Min="0" Max="10" meta:RefKey="Number" />
+			<Data Name="NumRoundRoomCarvers" Type="Int" Min="0" Max="10" meta:RefKey="Number" />
+			<Data Name="NumWalledRoundRoomCarvers" Type="Int" Min="0" Max="10" meta:RefKey="Number" />
+			<Data Name="Overwrite" Default="True" meta:RefKey="Boolean" />
+		</Data>
+		<Data Name="SquidlibSectionGenerator" TextColour="84,230,142" meta:RefKey="Struct">
+			<Data Name="TilesetType" Key="SquidlibTilesetType" meta:RefKey="Enum" />
+			<Data Name="PercentLake" Type="Int" Min="0" Max="100" meta:RefKey="Number" />
+			<Data Name="PercentMaze" Type="Int" Min="0" Max="100" meta:RefKey="Number" />
+			<Data Name="PercentWater" Type="Int" Min="0" Max="100" meta:RefKey="Number" />
+			<Data Name="PercentTraps" Type="Int" Min="0" Max="100" meta:RefKey="Number" />
+			<Data Name="PercentDoors" Type="Int" Min="0" Max="100" meta:RefKey="Number" />
+			<Data Name="StartChar" MaxLength="1" meta:RefKey="String" />
+			<Data Name="EndChar" MaxLength="1" meta:RefKey="String" />
+			<Data Name="Overwrite" Default="True" meta:RefKey="Boolean" />
+		</Data>
+		<Data Name="SquidlibSymmetryGenerator" TextColour="131,217,178" meta:RefKey="Struct">
+			<Data Name="Overwrite" Default="True" meta:RefKey="Boolean" />
+		</Data>
+	</Definition>
+	<!--Symbol-->
+	<Definition Name="MapGeneratorSymbol" meta:RefKey="StructDef" />
+	<!--Defs-->
+	<Definition Name="SquidlibTilesetType" meta:RefKey="EnumDef">Default_Dungeon,Caves_Limit_Connectivity,Caves_Tiny_Corridors,Corner_Caves,Horizontal_Corridors_A,Horizontal_Corridors_B,Horizontal_Corridors_C,Limit_Connectivity_Fat,Limited_Connectivity,Maze_A,Maze_B,Open_Areas,Reference_Caves,Rooms_And_Corridors_A,Rooms_And_Corridors_B,Rooms_Limit_Connectivity,Rounds_Rooms_Diagonal_Corridors,Simple_Caves,Square_Rooms_With_Random_Rects</Definition>
+</Definitions>

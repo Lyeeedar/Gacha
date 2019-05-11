@@ -142,7 +142,7 @@ class RepeatAction(generator: MapGenerator) : AbstractMapGenerationAction(genera
 	{
 		onX = xmlData.get("Axis", "X") == "X"
 		size = CompiledExpression(xmlData.get("Size").replace("%", "#size").toLowerCase(), Area.defaultVariables)
-		childGUID = xmlData.get("Rule")
+		childGUID = xmlData.get("Node")
 		remainderGUID = xmlData.get("Remainder", "")!!
 		remainderMode = RemainderMode.valueOf(xmlData.get("RemainderMode", "Node")!!.toUpperCase())
 	}

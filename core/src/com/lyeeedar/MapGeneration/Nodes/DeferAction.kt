@@ -16,7 +16,7 @@ class DeferAction(generator: MapGenerator) : AbstractMapGenerationAction(generat
 
 	override fun parse(xmlData: XmlData)
 	{
-		childGUID = xmlData.get("Child")
+		childGUID = xmlData.get("Node")
 	}
 
 	override fun resolve()

@@ -58,7 +58,7 @@ class DivideAction(generator: MapGenerator) : AbstractMapGenerationAction(genera
 		for (el in xmlData.children())
 		{
 			val size = el.get("Size").toLowerCase().replace("%", "#size")
-			val child = el.get("Child", "")!!
+			val child = el.get("Node", "")!!
 			val exp = if (size == "remainder") null else CompiledExpression(size, Area.defaultVariables)
 
 			divisions.add(Division(exp, child))
