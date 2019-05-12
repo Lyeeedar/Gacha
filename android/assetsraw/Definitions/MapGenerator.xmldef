@@ -93,7 +93,7 @@
 			<Data Name="Symbol" Keys="MapGeneratorSymbol" Nullable="False" meta:RefKey="Reference" />
 		</Data>
 		<!--Write-->
-		<Data Name="Fill" TextColour="163,42,168" meta:RefKey="Struct">
+		<Data Name="Fill" TextColour="214,252,1" meta:RefKey="Struct">
 			<Data Name="Character" MaxLength="1" meta:RefKey="String" />
 			<Data Name="Overwrite" meta:RefKey="Boolean" />
 		</Data>
@@ -173,7 +173,7 @@
 			<Data Name="Overwrite" meta:RefKey="Boolean" />
 		</Data>
 		<Data Name="SelectNamedArea" TextColour="255,196,0" meta:RefKey="Struct">
-			<Data Name="Mode" EnumValues="Random,Smallest,Largest" meta:RefKey="Enum" />
+			<Data Name="Mode" EnumValues="Random,Smallest,Largest,Closest,Furthest" meta:RefKey="Enum" />
 			<Data Name="Count" meta:RefKey="String" />
 			<Data Name="Name" meta:RefKey="String" />
 			<Data Name="Node" Keys="Node" meta:RefKey="GraphReference" />
@@ -185,6 +185,7 @@
 		<Data Name="Character" MaxLength="1" meta:RefKey="String" />
 		<Data Name="Type" EnumValues="Floor,Wall,Pit" meta:RefKey="Enum" />
 		<Data Name="Tile" Keys="SpriteWrapper" meta:RefKey="Reference" />
+		<Data Name="Content" Keys="EncounterContent,TreasureContent" meta:RefKey="Reference" />
 		<Data Name="Locked" meta:RefKey="Boolean" />
 	</Definition>
 	<!--Defs-->
@@ -193,5 +194,16 @@
 		<Data Name="PlacementMode" EnumValues="Both,Top,Bottom,Alternate" meta:RefKey="Enum" />
 		<Data Name="Interval" Type="Int" Min="0" meta:RefKey="Number" />
 		<Data Name="Character" MaxLength="1" meta:RefKey="String" />
+	</Definition>
+	<Definition Name="EncounterContent" meta:RefKey="StructDef">
+		<Data Name="Factions" meta:RefKey="Collection">
+			<Data Name="Faction" BasePath="Factions" StripExtension="True" ResourceType="Faction" meta:RefKey="File" />
+		</Data>
+		<Data Name="Type" EnumValues="Mob,Miniboss,Boss" meta:RefKey="Enum" />
+		<Data Name="Difficulty" Type="Int" Min="1" Default="1" meta:RefKey="Number" />
+	</Definition>
+	<Definition Name="TreasureContent" meta:RefKey="StructDef">
+		<Data Name="ContentAmount" EnumValues="Minor,Major,Final" meta:RefKey="Enum" />
+		<Data Name="AllowedContents" FlagValues="Gold,Equipment,NewHero,HeroShards" meta:RefKey="Flags" />
 	</Definition>
 </Definitions>

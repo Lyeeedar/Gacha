@@ -14,10 +14,8 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.BinaryHeap
 import com.badlogic.gdx.utils.Pool
-import com.badlogic.gdx.utils.Pools
 import com.lyeeedar.SpaceSlot
 import com.lyeeedar.Util.Array2D
-import com.lyeeedar.Util.EnumBitflag
 import com.lyeeedar.Util.Point
 
 class AStarPathfind<T: IPathfindingTile>(private val grid: Array2D<T>, startx: Int, starty: Int, endx: Int, endy: Int, val findOptimal: Boolean, private val actorSize: Int, private val travelType: SpaceSlot, private val self: Any)
@@ -86,9 +84,9 @@ class AStarPathfind<T: IPathfindingTile>(private val grid: Array2D<T>, startx: I
 	{
 		if (!isStart(x, y) && !isEnd(x, y))
 		{
-			for (ix in 0..actorSize - 1)
+			for (ix in 0 until actorSize)
 			{
-				for (iy in 0..actorSize - 1)
+				for (iy in 0 until actorSize)
 				{
 					if (isColliding(x + ix, y + iy))
 					{
@@ -187,9 +185,9 @@ class AStarPathfind<T: IPathfindingTile>(private val grid: Array2D<T>, startx: I
 
 	private fun free()
 	{
-		for (x in 0..width - 1)
+		for (x in 0 until width)
 		{
-			for (y in 0..height - 1)
+			for (y in 0 until height)
 			{
 				val node = nodes[x, y]
 				if (node != null)

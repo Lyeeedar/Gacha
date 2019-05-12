@@ -1,6 +1,7 @@
 package com.lyeeedar.MapGeneration
 
 import com.badlogic.gdx.math.Matrix3
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.ObjectFloatMap
@@ -293,3 +294,9 @@ class Area()
 }
 
 class Pos(val x: Int, val y: Int)
+{
+	fun dst2(other: Pos): Float
+	{
+		return Vector2.dst2(x.toFloat(), y.toFloat(), other.x.toFloat(), other.y.toFloat())
+	}
+}

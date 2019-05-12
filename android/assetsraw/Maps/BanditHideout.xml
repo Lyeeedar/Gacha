@@ -88,7 +88,7 @@
 				<Node meta:RefKey="Node">70e972f0-072a-4949-81f8-f3b6a0d09561</Node>
 			</Child>
 		</Node>
-		<Node meta:X="570" meta:Y="735" meta:Comment="13c51f21-223d-4654-a7c5-c7e9b2e63371" GUID="0a4d220b-db48-4fc6-8c41-653fb81a562a">
+		<Node meta:X="1125" meta:Y="660" meta:Comment="13c51f21-223d-4654-a7c5-c7e9b2e63371" GUID="0a4d220b-db48-4fc6-8c41-653fb81a562a">
 			<!--Create hideout-->
 			<Scale>
 				<Mode>Absolute</Mode>
@@ -100,71 +100,25 @@
 				<Y>1</Y>
 				<Mode>Absolute</Mode>
 			</Translate>
-			<Symbol>
-				<Symbol meta:RefKey="MapGeneratorSymbol">
-					<Character>.</Character>
-					<Tile meta:RefKey="SpriteWrapper">
-						<Sprite meta:RefKey="RenderedLayeredSprite">
-							<Layers>
-								<Layer>
-									<Name>Oryx/uf_split/uf_terrain/floor_extra_2</Name>
-								</Layer>
-							</Layers>
-						</Sprite>
-					</Tile>
-				</Symbol>
-			</Symbol>
-			<Symbol>
-				<Symbol meta:RefKey="MapGeneratorSymbol">
-					<Character>+</Character>
-					<Tile meta:RefKey="SpriteWrapper">
-						<Sprite meta:RefKey="RenderedLayeredSprite">
-							<Layers>
-								<Layer>
-									<Name>Oryx/uf_split/uf_terrain/floor_extra_2</Name>
-								</Layer>
-							</Layers>
-						</Sprite>
-					</Tile>
-				</Symbol>
-			</Symbol>
-			<Symbol>
-				<Symbol meta:RefKey="MapGeneratorSymbol">
-					<Character>#</Character>
-					<Type>Wall</Type>
-					<Tile meta:RefKey="SpriteWrapper">
-						<TilingSprite meta:RefKey="TilingSprite">
-							<Name>Wall</Name>
-							<Mode>Premade</Mode>
-							<Front meta:RefKey="Sprite">
-								<Name>Oryx/uf_split/uf_terrain/wall_dungeon_14</Name>
-							</Front>
-							<Top meta:RefKey="Sprite">
-								<Name>Oryx/uf_split/uf_terrain/wall_dungeon_7</Name>
-							</Top>
-							<Overhang meta:RefKey="Sprite">
-								<Name>Oryx/uf_split/uf_terrain/wall_dungeon_1</Name>
-							</Overhang>
-						</TilingSprite>
-					</Tile>
-				</Symbol>
-			</Symbol>
 			<ChambersGenerator />
 			<SetNamedArea>
 				<Name>Hideout</Name>
 			</SetNamedArea>
-			<Child>
-				<Node meta:RefKey="Node">aa075a04-cd8f-4a89-b11a-270ed3d83fc5</Node>
-			</Child>
+			<SetNamedArea>
+				<Name>CorePath</Name>
+			</SetNamedArea>
+			<FindRooms>
+				<RoomName>HideoutRooms</RoomName>
+			</FindRooms>
 		</Node>
 		<Node meta:X="345" meta:Y="-15" GUID="26f38426-c87f-4157-b082-ead6bf3ac937">
 			<Datascope>
 				<Node meta:RefKey="Node">a648f0c2-2868-4be3-852e-1a56b74c7282</Node>
 			</Datascope>
 		</Node>
-		<Node meta:X="315" meta:Y="735" GUID="e0235954-b8b2-428e-aece-b4c15b7e9b69">
+		<Node meta:X="315" meta:Y="720" GUID="e0235954-b8b2-428e-aece-b4c15b7e9b69">
 			<Datascope>
-				<Node meta:RefKey="Node">0a4d220b-db48-4fc6-8c41-653fb81a562a</Node>
+				<Node meta:RefKey="Node">a6999dc8-165e-43cb-9220-f2fdbac5a41e</Node>
 			</Datascope>
 		</Node>
 		<Node meta:X="990" meta:Y="135" meta:Comment="52cdf92d-7303-498e-9484-e89f8226a3df" GUID="7dc08e40-5b11-4dec-90e2-99fedbb1e019">
@@ -224,7 +178,7 @@
 				<RoomName>ForestRoom</RoomName>
 			</ConnectRooms>
 		</Node>
-		<Node meta:X="1140" meta:Y="855" GUID="5b9df737-0b9a-4450-8b89-820cc9ccddc8">
+		<Node meta:X="1200" meta:Y="1035" GUID="5b9df737-0b9a-4450-8b89-820cc9ccddc8">
 			<FindRooms>
 				<RoomName>PotentialStarts</RoomName>
 			</FindRooms>
@@ -234,11 +188,8 @@
 				<Node meta:RefKey="Node">8f4fbc7d-1508-41bf-9145-76dbc3ca2b26</Node>
 			</SelectNamedArea>
 		</Node>
-		<Node meta:X="855" meta:Y="855" GUID="aa075a04-cd8f-4a89-b11a-270ed3d83fc5">
+		<Node meta:X="915" meta:Y="1035" GUID="aa075a04-cd8f-4a89-b11a-270ed3d83fc5">
 			<!--Connect start to end-->
-			<SetNamedArea>
-				<Name>CorePath</Name>
-			</SetNamedArea>
 			<Split>
 				<Split>
 					<Size>10</Size>
@@ -249,10 +200,140 @@
 				<RoomName>CorePath</RoomName>
 			</ConnectRooms>
 		</Node>
-		<Node meta:X="1410" meta:Y="855" GUID="8f4fbc7d-1508-41bf-9145-76dbc3ca2b26">
+		<Node meta:X="1470" meta:Y="1035" GUID="8f4fbc7d-1508-41bf-9145-76dbc3ca2b26">
 			<SetNamedArea>
 				<Name>CorePath</Name>
 			</SetNamedArea>
+			<SetNamedArea>
+				<Name>Start</Name>
+			</SetNamedArea>
+			<Symbol>
+				<Symbol meta:RefKey="MapGeneratorSymbol">
+					<Character>s</Character>
+				</Symbol>
+			</Symbol>
+			<Fill>
+				<Character>s</Character>
+			</Fill>
+		</Node>
+		<Node meta:X="615" meta:Y="720" GUID="a6999dc8-165e-43cb-9220-f2fdbac5a41e">
+			<Symbol>
+				<Symbol meta:RefKey="MapGeneratorSymbol">
+					<Character>+</Character>
+					<Tile meta:RefKey="SpriteWrapper">
+						<Sprite meta:RefKey="RenderedLayeredSprite">
+							<Layers>
+								<Layer>
+									<Name>Oryx/uf_split/uf_terrain/floor_extra_2</Name>
+								</Layer>
+							</Layers>
+						</Sprite>
+					</Tile>
+				</Symbol>
+			</Symbol>
+			<Symbol>
+				<Symbol meta:RefKey="MapGeneratorSymbol">
+					<Character>#</Character>
+					<Type>Wall</Type>
+					<Tile meta:RefKey="SpriteWrapper">
+						<TilingSprite meta:RefKey="TilingSprite">
+							<Name>Wall</Name>
+							<Mode>Premade</Mode>
+							<Front meta:RefKey="Sprite">
+								<Name>Oryx/uf_split/uf_terrain/wall_dungeon_14</Name>
+							</Front>
+							<Top meta:RefKey="Sprite">
+								<Name>Oryx/uf_split/uf_terrain/wall_dungeon_7</Name>
+							</Top>
+							<Overhang meta:RefKey="Sprite">
+								<Name>Oryx/uf_split/uf_terrain/wall_dungeon_1</Name>
+							</Overhang>
+						</TilingSprite>
+					</Tile>
+				</Symbol>
+			</Symbol>
+			<Symbol>
+				<Symbol meta:RefKey="MapGeneratorSymbol">
+					<Character>.</Character>
+					<Tile meta:RefKey="SpriteWrapper">
+						<Sprite meta:RefKey="RenderedLayeredSprite">
+							<Layers>
+								<Layer>
+									<Name>Oryx/uf_split/uf_terrain/floor_extra_2</Name>
+								</Layer>
+							</Layers>
+						</Sprite>
+					</Tile>
+				</Symbol>
+			</Symbol>
+			<Child>
+				<Node meta:RefKey="Node">949ec598-d623-43d6-8549-5027bffcef1a</Node>
+			</Child>
+			<Child>
+				<Node meta:RefKey="Node">aa075a04-cd8f-4a89-b11a-270ed3d83fc5</Node>
+			</Child>
+			<Child>
+				<Node meta:RefKey="Node">2703b6e7-d0c3-4570-adfe-7c33d92a452e</Node>
+			</Child>
+		</Node>
+		<Node meta:X="855" meta:Y="720" GUID="949ec598-d623-43d6-8549-5027bffcef1a">
+			<Datascope>
+				<Node meta:RefKey="Node">0a4d220b-db48-4fc6-8c41-653fb81a562a</Node>
+			</Datascope>
+		</Node>
+		<Node meta:X="900" meta:Y="1305" GUID="2703b6e7-d0c3-4570-adfe-7c33d92a452e">
+			<!--Place final treasure-->
+			<SelectNamedArea>
+				<Count>1</Count>
+				<Name>Start</Name>
+				<Node meta:RefKey="Node">3516838f-9174-4c0e-aa1b-3af52554e63c</Node>
+			</SelectNamedArea>
+		</Node>
+		<Node meta:X="1245" meta:Y="1305" GUID="3516838f-9174-4c0e-aa1b-3af52554e63c">
+			<Take>
+				<Count>1</Count>
+				<Node meta:RefKey="Node">48c23c18-bdfa-488a-9fb8-bd1f29b92b95</Node>
+			</Take>
+		</Node>
+		<Node meta:X="1515" meta:Y="1305" GUID="48c23c18-bdfa-488a-9fb8-bd1f29b92b95">
+			<SelectNamedArea>
+				<Mode>Furthest</Mode>
+				<Count>1</Count>
+				<Name>HideoutRooms</Name>
+				<Node meta:RefKey="Node">82d5f836-4a5b-4bad-81c0-706df55cfe35</Node>
+			</SelectNamedArea>
+		</Node>
+		<Node meta:X="1860" meta:Y="1305" GUID="82d5f836-4a5b-4bad-81c0-706df55cfe35">
+			<SetNamedArea>
+				<Name>FinalRoom</Name>
+			</SetNamedArea>
+			<Filter>
+				<Mode>Center</Mode>
+				<CenterDist>1</CenterDist>
+				<Node meta:RefKey="Node">3cdd6dc7-6950-4415-a8f4-fe18cdb48b8c</Node>
+			</Filter>
+		</Node>
+		<Node meta:X="2175" meta:Y="1305" GUID="3cdd6dc7-6950-4415-a8f4-fe18cdb48b8c">
+			<Symbol>
+				<Symbol meta:RefKey="MapGeneratorSymbol">
+					<Character>T</Character>
+					<Content meta:RefKey="TreasureContent">
+						<ContentAmount>Final</ContentAmount>
+						<AllowedContents>NewHero,HeroShards</AllowedContents>
+					</Content>
+					<Locked>true</Locked>
+				</Symbol>
+			</Symbol>
+			<Take>
+				<Count>1</Count>
+				<Node meta:RefKey="Node">52381914-4afd-4422-a93b-dee3be622410</Node>
+			</Take>
+		</Node>
+		<Node meta:X="2460" meta:Y="1305" GUID="52381914-4afd-4422-a93b-dee3be622410">
+			<Fill>
+				<Character>T</Character>
+				<Overwrite>true</Overwrite>
+			</Fill>
 		</Node>
 	</Nodes>
 </MapGenerator>

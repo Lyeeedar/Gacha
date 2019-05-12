@@ -110,6 +110,7 @@ class ConnectRoomsAction(generator: MapGenerator) : AbstractMapGenerationAction(
 				var minDst = Float.MAX_VALUE
 				val minPos = Vector2()
 				val tempPos = Vector2()
+				var foundPath = false
 
 				for (i in 0 until rooms.size)
 				{
@@ -122,12 +123,17 @@ class ConnectRoomsAction(generator: MapGenerator) : AbstractMapGenerationAction(
 							minDst = dst
 							minPos.set(tempPos)
 						}
+
+						foundPath = true
 					}
 				}
 
 				connected[i] = true
 
-				carveCorridor(thisPos, minPos, args)
+				if (foundPath)
+				{
+					carveCorridor(thisPos, minPos, args)
+				}
 			}
 		}
 	}

@@ -5,6 +5,7 @@ import com.exp4j.Helpers.CompiledExpression
 import com.lyeeedar.MapGeneration.Area
 import com.lyeeedar.MapGeneration.MapGenerator
 import com.lyeeedar.MapGeneration.MapGeneratorNode
+import com.lyeeedar.MapGeneration.Pos
 import com.lyeeedar.Util.*
 
 class SelectNamedAreaAction(generator: MapGenerator) : AbstractMapGenerationAction(generator)
@@ -13,7 +14,9 @@ class SelectNamedAreaAction(generator: MapGenerator) : AbstractMapGenerationActi
 	{
 		RANDOM,
 		SMALLEST,
-		LARGEST
+		LARGEST,
+		CLOSEST,
+		FURTHEST
 	}
 
 	lateinit var mode: Mode
@@ -41,51 +44,75 @@ class SelectNamedAreaAction(generator: MapGenerator) : AbstractMapGenerationActi
 
 		tempArray.addAll(areas)
 
-		if (mode == Mode.RANDOM)
+		when (mode)
 		{
-			for (i in 0 until count)
-			{
-				val area = tempArray.removeRandom(generator.ran)
-				val newArgs = NodeArguments(area.copy(), args.variables, args.symbolTable)
+			Mode.RANDOM -> {
+				for (i in 0 until count)
+				{
+					val area = tempArray.removeRandom(generator.ran)
+					val newArgs = NodeArguments(area.copy(), args.variables, args.symbolTable)
 
-				node?.execute(newArgs)
+					node?.execute(newArgs)
 
-				if (tempArray.size == 0) break
+					if (tempArray.size == 0) break
+				}
 			}
-		}
-		else if (mode == Mode.SMALLEST)
-		{
-			val sorted = tempArray.sortedBy { it.getAllPoints().size }
-			for (i in 0 until count)
-			{
-				val area = sorted[i]
-				tempArray.removeValue(area, true)
+			Mode.SMALLEST -> {
+				val sorted = tempArray.sortedBy { it.getAllPoints().size }
+				for (i in 0 until count)
+				{
+					val area = sorted[i]
+					tempArray.removeValue(area, true)
 
-				val newArgs = NodeArguments(area.copy(), args.variables, args.symbolTable)
+					val newArgs = NodeArguments(area.copy(), args.variables, args.symbolTable)
 
-				node?.execute(newArgs)
+					node?.execute(newArgs)
 
-				if (tempArray.size == 0) break
+					if (tempArray.size == 0) break
+				}
 			}
-		}
-		else if (mode == Mode.LARGEST)
-		{
-			val sorted = tempArray.sortedByDescending { it.getAllPoints().size }
-			for (i in 0 until count)
-			{
-				val area = sorted[i]
-				tempArray.removeValue(area, true)
+			Mode.LARGEST -> {
+				val sorted = tempArray.sortedByDescending { it.getAllPoints().size }
+				for (i in 0 until count)
+				{
+					val area = sorted[i]
+					tempArray.removeValue(area, true)
 
-				val newArgs = NodeArguments(area.copy(), args.variables, args.symbolTable)
+					val newArgs = NodeArguments(area.copy(), args.variables, args.symbolTable)
 
-				node?.execute(newArgs)
+					node?.execute(newArgs)
 
-				if (tempArray.size == 0) break
+					if (tempArray.size == 0) break
+				}
 			}
-		}
-		else
-		{
-			throw Exception("Unhandled selectnamedarea mode '$mode'!")
+			Mode.CLOSEST -> {
+				val sorted = tempArray.sortedBy { it.getAllPoints().map<Pos, Float>{ ap -> args.area.getAllPoints().map<Pos, Float>{ tp -> tp.dst2(ap) }.min()!! }.min()!! }
+				for (i in 0 until count)
+				{
+					val area = sorted[i]
+					tempArray.removeValue(area, true)
+
+					val newArgs = NodeArguments(area.copy(), args.variables, args.symbolTable)
+
+					node?.execute(newArgs)
+
+					if (tempArray.size == 0) break
+				}
+			}
+			Mode.FURTHEST -> {
+				val sorted = tempArray.sortedByDescending { it.getAllPoints().map<Pos, Float>{ ap -> args.area.getAllPoints().map<Pos, Float>{ tp -> tp.dst2(ap) }.min()!! }.min()!! }
+				for (i in 0 until count)
+				{
+					val area = sorted[i]
+					tempArray.removeValue(area, true)
+
+					val newArgs = NodeArguments(area.copy(), args.variables, args.symbolTable)
+
+					node?.execute(newArgs)
+
+					if (tempArray.size == 0) break
+				}
+			}
 		}
 
 		if (remainder != null)
