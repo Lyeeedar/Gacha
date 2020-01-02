@@ -16,4 +16,8 @@ jobs:
     - name: Make gradlew executable
       run: chmod +x ./gradlew
       
-    - run: ./gradlew build
+    - name: Build Desktop
+      run: ./gradlew :desktop:build
+      
+    - name: Build Android
+      run: ./gradlew :android:build
