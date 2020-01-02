@@ -1,4 +1,4 @@
-package com.lyeeedar.Game
+package com.lyeeedar
 
 import com.lyeeedar.Ascension
 import com.lyeeedar.Util.Colour

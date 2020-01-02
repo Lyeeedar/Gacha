@@ -1,4 +1,4 @@
-package com.lyeeedar.Game
+package com.lyeeedar
 
 import com.badlogic.gdx.utils.Array
 import com.lyeeedar.Util.Colour

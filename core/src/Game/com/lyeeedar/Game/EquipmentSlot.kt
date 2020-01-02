@@ -1,4 +1,4 @@
-package com.lyeeedar.Game
+package com.lyeeedar
 
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Util.AssetManager

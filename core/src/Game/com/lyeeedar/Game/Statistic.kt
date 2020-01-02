@@ -1,4 +1,4 @@
-package com.lyeeedar.Game
+package com.lyeeedar
 
 import com.lyeeedar.Util.FastEnumMap
 import com.lyeeedar.Util.XmlData
