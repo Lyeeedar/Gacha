@@ -14,8 +14,9 @@ android {
     }
     defaultConfig {
         applicationId "com.lyeeedar"
-        minSdkVersion 9
+        minSdkVersion 14
         targetSdkVersion 28
+        multiDexEnabled true
     }
 
     packagingOptions {
@@ -23,6 +24,10 @@ android {
     }
 
     compileOptions.incremental = false
+
+    lintOptions {
+        abortOnError false
+    }
 }
 // called every time gradle gets executed, takes the native dependencies of
 // the natives configuration, and extracts them to the proper libs/ folders
