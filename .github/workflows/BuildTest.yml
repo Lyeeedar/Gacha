@@ -7,4 +7,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
       
+    - name: Make gradlew executable
+      run: chmod +x ./gradlew
+      
     - run: ./gradlew assembleRelease
