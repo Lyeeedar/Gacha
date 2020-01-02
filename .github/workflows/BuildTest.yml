@@ -7,7 +7,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
       
-    - name: "Build Android project"
-      uses: vgaidarji/android-github-actions-build@v1.0.1
+    - uses: msfjarvis/setup-android@1.0
       with:
-        args: "./gradlew assembleDebug"
+        entrypoint: ./gradlew
+        args: desktop build
