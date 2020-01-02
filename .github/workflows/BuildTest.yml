@@ -6,6 +6,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+      
+    - name: set-env
+      uses: allenevans/set-env@v1.0.0
+      with:
+        overwrite: true
+        ANDROID_HOME: /home/runner/work/_actions/MrRamych/gradle-actions/3.1/openjdk-12
+        
     - uses: MrRamych/gradle-actions/openjdk-12@3.1
       with:
         args: desktop build
