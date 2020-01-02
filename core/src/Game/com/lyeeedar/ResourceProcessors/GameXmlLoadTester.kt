@@ -6,7 +6,7 @@ class GameXmlLoadTester
 {
 	companion object
 	{
-		fun testLoad(xml: XmlData)
+		fun testLoad(xml: XmlData, path: String)
 		{
 			when (xml.name.toUpperCase())
 			{
