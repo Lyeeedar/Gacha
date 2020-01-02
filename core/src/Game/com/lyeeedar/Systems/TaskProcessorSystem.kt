@@ -85,8 +85,8 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 		turnTime += deltaTime
 
 		val hasEffects = renderables.any {(!it.isTransient() && it.renderable().renderable.isBlocking)}
-		val hasAnimations = renderables.any {(it.renderable()!!.renderable.animationBlocksUpdate && it.renderable()!!.renderable.animation != null) }
-		val hasActionSequences = abilities.any { !Mappers.activeActionSequence.get(it).sequence.blocked }
+		val hasAnimations = renderables.any {(it.renderable().renderable.animationBlocksUpdate && it.renderable().renderable.animation != null) }
+		val hasActionSequences = abilities.any { !(it.activeActionSequence()?.sequence?.blocked ?: true) }
 
 		if ((!hasEffects || turnTime >= minTurnTime) && !hasAnimations && !hasActionSequences)
 		{
@@ -198,13 +198,13 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 
 	private fun processEntity(e: Entity): Boolean
 	{
-		val task = e.task() ?: return false
+		val task = e.taskOrNull() ?: return false
 
-		if (e.stats()?.hp ?: 1f <= 0) return false
+		if (e.statsOrNull()?.hp ?: 1f <= 0) return false
 
-		if (e.renderable()?.renderable?.animation != null && !e.renderable().renderable.animation!!.isBlocking) return false
+		if (e.renderableOrNull()?.renderable?.animation != null && !e.renderable().renderable.animation!!.isBlocking) return false
 
-		val trailing = e.trailing()
+		val trailing = e.trailingEntity()
 		if (trailing != null && !trailing.initialised)
 		{
 			trailing.updatePos(e.tile()!!)
@@ -218,13 +218,13 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 
 		if (task.tasks.size > 0)
 		{
-			e.event().onTurn()
+			e.event()?.onTurn?.invoke()
 
 			val t = task.tasks.removeIndex(0)
 
 			if (printTasks)
 			{
-				println("Entity '" + e.name().name + "' doing task '" + t.javaClass.simpleName + "'")
+				println("Entity '" + e.name()?.name + "' doing task '" + t.javaClass.simpleName + "'")
 			}
 
 			t.execute(e)
@@ -234,21 +234,21 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 
 			if (t is TaskMove)
 			{
-				e.trailing()?.updatePos(e.tile()!!)
+				e.trailingEntity()?.updatePos(e.tile()!!)
 			}
 
 			t.free()
 
-			var haste = e.stats()?.getStat(Statistic.HASTE) ?: 0f
+			var haste = e.statsOrNull()?.getStat(Statistic.HASTE) ?: 0f
 
 			if (t is TaskMove)
 			{
-				val fleet = e.stats()?.getStat(Statistic.FLEETFOOT) ?: 0f
+				val fleet = e.statsOrNull()?.getStat(Statistic.FLEETFOOT) ?: 0f
 				haste += fleet
 			}
 			else if (t is TaskAttack)
 			{
-				val dervish = e.stats()?.getStat(Statistic.DERVISH) ?: 0f
+				val dervish = e.statsOrNull()?.getStat(Statistic.DERVISH) ?: 0f
 				haste += dervish
 			}
 
@@ -258,7 +258,7 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 		}
 		else
 		{
-			val trailing = e.trailing()
+			val trailing = e.trailingEntity()
 			if (trailing != null && trailing.collapses)
 			{
 				trailing.updatePos(e.tile()!!)

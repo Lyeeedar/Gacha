@@ -1,5 +1,6 @@
 package com.lyeeedar.Components
 
+import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Pool
@@ -12,6 +13,7 @@ import com.lyeeedar.Util.XmlData
 
 class EventAndCondition(val condition: CompiledExpression, val sequence: ActionSequence)
 
+fun Entity.eventHandler(): EventHandlerComponent? = EventHandlerComponent.mapper.get(this)
 class EventHandlerComponent : AbstractComponent()
 {
 	val handlers = FastEnumMap<EventType, Array<EventAndCondition>>(EventType::class.java)
@@ -24,6 +26,9 @@ class EventHandlerComponent : AbstractComponent()
 	var obtained: Boolean = false
 	companion object
 	{
+		val mapper: ComponentMapper<EventHandlerComponent> = ComponentMapper.getFor(EventHandlerComponent::class.java)
+		fun get(entity: Entity): EventHandlerComponent? = mapper.get(entity)
+
 		private val pool: Pool<EventHandlerComponent> = object : Pool<EventHandlerComponent>() {
 			override fun newObject(): EventHandlerComponent
 			{

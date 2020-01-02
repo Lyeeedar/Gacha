@@ -1,10 +1,12 @@
 package com.lyeeedar.Components
 
+import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Pool
 import com.lyeeedar.Game.ActionSequence.ActionSequence
 import com.lyeeedar.Util.XmlData
 
+fun Entity.activeActionSequence(): ActiveActionSequenceComponent? = ActiveActionSequenceComponent.mapper.get(this)
 class ActiveActionSequenceComponent() : AbstractComponent()
 {
 	fun set(sequence: ActionSequence): ActiveActionSequenceComponent
@@ -23,6 +25,9 @@ class ActiveActionSequenceComponent() : AbstractComponent()
 	var obtained: Boolean = false
 	companion object
 	{
+		val mapper: ComponentMapper<ActiveActionSequenceComponent> = ComponentMapper.getFor(ActiveActionSequenceComponent::class.java)
+		fun get(entity: Entity): ActiveActionSequenceComponent? = mapper.get(entity)
+
 		private val pool: Pool<ActiveActionSequenceComponent> = object : Pool<ActiveActionSequenceComponent>() {
 			override fun newObject(): ActiveActionSequenceComponent
 			{

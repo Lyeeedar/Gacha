@@ -10,7 +10,7 @@ class ActionSequenceSystem : AbstractSystem(Family.one(ActiveActionSequenceCompo
 	{
 		for (entity in entities)
 		{
-			val activeSequence = Mappers.activeActionSequence.get(entity) ?: continue
+			val activeSequence = entity.activeActionSequence() ?: continue
 			var complete = activeSequence.sequence.update(deltaTime)
 
 			if (activeSequence.sequence.removeOnDeath && (activeSequence.sequence.source.isMarkedForDeletion() || activeSequence.sequence.source.stats().hp <= 0))
@@ -36,10 +36,10 @@ class ActionSequenceSystem : AbstractSystem(Family.one(ActiveActionSequenceCompo
 	{
 		for (entity in entities)
 		{
-			val activeSequence = Mappers.activeActionSequence.get(entity) ?: continue
+			val activeSequence = entity.activeActionSequence() ?: continue
 			activeSequence.sequence.onTurn()
 
-			val task = entity.task() ?: continue
+			val task = entity.taskOrNull() ?: continue
 			task.tasks.clear()
 			task.tasks.add(TaskUseAbility())
 		}

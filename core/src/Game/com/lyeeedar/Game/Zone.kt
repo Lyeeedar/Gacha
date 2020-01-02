@@ -403,7 +403,7 @@ class Encounter(val zone: Zone, val level: Int, val progression: Int, val isBoss
 			{
 				entity.stats().statModifier += 0.4f
 				entity.stats().ascension = entity.stats().ascension.nextAscension
-				entity.directionalSprite().directionalSprite.scale = 1.2f
+				entity.directionalSprite()!!.directionalSprite.scale = 1.2f
 
 				val bossBuff = Buff()
 				bossBuff.statistics[Statistic.BUFFPOWER] = 0.4f

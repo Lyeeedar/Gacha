@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Entity
 import com.exp4j.Helpers.EquationHelper
 import com.lyeeedar.AI.BehaviourTree.ExecutionState
 import com.lyeeedar.AI.Tasks.TaskWait
-import com.lyeeedar.Components.Mappers
+import com.lyeeedar.Components.task
 import com.lyeeedar.Util.XmlData
 
 /**
@@ -19,7 +19,7 @@ class ActionWait(): AbstractAction()
 	{
 		val num = Math.round(EquationHelper.evaluate(count)).toInt()
 
-		val task = Mappers.task.get(entity)
+		val task = entity.task()
 
 		for (i in 0 until num)
 		{

@@ -336,7 +336,7 @@ class MapScreen : AbstractScreen()
 			for (existing in level!!.playerTiles)
 			{
 				val ent = existing.entity ?: continue
-				if (ent.loaddata()!!.path == hero.entity.loaddata()!!.path)
+				if (ent.loadData()!!.path == hero.entity.loadData()!!.path)
 				{
 					heroWidget.alreadyUsed = true
 					break
@@ -425,7 +425,7 @@ class MapScreen : AbstractScreen()
 			for (existing in level!!.playerTiles)
 			{
 				val ent = existing.entity ?: continue
-				if (ent.loaddata()!!.path == widget.entity.loaddata()!!.path)
+				if (ent.loadData()!!.path == widget.entity.loadData()!!.path)
 				{
 					widget.alreadyUsed = true
 					break

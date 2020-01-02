@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Entity
 import com.lyeeedar.Components.isAllies
 import com.lyeeedar.Components.occludes
 import com.lyeeedar.Components.pos
-import com.lyeeedar.Components.trailing
+import com.lyeeedar.Components.trailingEntity
 import com.lyeeedar.Direction
 import com.lyeeedar.Pathfinding.IPathfindingTile
 import com.lyeeedar.Renderables.Sprite.SpriteWrapper
@@ -83,7 +83,7 @@ class Tile(x: Int = 0, y: Int = 0) : Point(x, y), IPathfindingTile
 					{
 						return true
 					}
-					else if (self.trailing()?.entities?.contains(obj) ?: false)
+					else if (self.trailingEntity()?.entities?.contains(obj) == true)
 					{
 						return true
 					}

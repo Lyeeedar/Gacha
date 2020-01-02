@@ -292,7 +292,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 				}
 			}
 
-			val stats = entity.stats()
+			val stats = entity.statsOrNull()
 			if (stats != null)
 			{
 				val borderCol: Colour

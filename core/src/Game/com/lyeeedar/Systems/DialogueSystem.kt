@@ -29,7 +29,7 @@ class DialogueSystem : AbstractSystem(Family.all(DialogueComponent::class.java).
 	{
 		for (entity in entities)
 		{
-			val dialogue = entity.dialogue()
+			val dialogue = entity.dialogue()!!
 			if (dialogue.turnsToShow > 0)
 			{
 				dialogue.turnsToShow--
@@ -49,7 +49,7 @@ class DialogueSystem : AbstractSystem(Family.all(DialogueComponent::class.java).
 
 		for (entity in entities)
 		{
-			val dialogue = entity.dialogue()
+			val dialogue = entity.dialogue()!!
 
 			if (dialogue.remove)
 			{

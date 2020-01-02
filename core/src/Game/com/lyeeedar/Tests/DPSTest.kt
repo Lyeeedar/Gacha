@@ -1,9 +1,7 @@
 package com.lyeeedar.Tests
 
 import com.badlogic.gdx.utils.Array
-import com.lyeeedar.Components.EntityLoader
-import com.lyeeedar.Components.pos
-import com.lyeeedar.Components.stats
+import com.lyeeedar.Components.*
 import com.lyeeedar.Game.Level
 import com.lyeeedar.Game.Theme
 import com.lyeeedar.Game.Tile
@@ -17,7 +15,7 @@ class DPSTest
 	fun testEntity(path: String): Float
 	{
 		val theme = Theme.load("GrassyKnoll")
-		val grid = Array2D<Tile>(10, 10) { x,y -> Tile(x,y) }
+		val grid = Array2D<Tile>(10, 10) { x, y -> Tile(x, y) }
 
 		val level = Level(grid, theme)
 		for (tile in grid)

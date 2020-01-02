@@ -5,7 +5,7 @@ import com.exp4j.Helpers.CompiledExpression
 import com.exp4j.Helpers.unescapeCharacters
 import com.lyeeedar.AI.BehaviourTree.ExecutionState
 import com.lyeeedar.Components.tile
-import com.lyeeedar.Components.trailing
+import com.lyeeedar.Components.trailingEntity
 import com.lyeeedar.Direction
 import com.lyeeedar.Util.Point
 import com.lyeeedar.Util.XmlData
@@ -43,7 +43,7 @@ class ActionSetValue(): AbstractAction()
 
 			if (action == "length")
 			{
-				val trail = entity.trailing() ?: return ExecutionState.FAILED
+				val trail = entity.trailingEntity() ?: return ExecutionState.FAILED
 				val length = trail.entities.size-1
 				setData(key, length)
 			}

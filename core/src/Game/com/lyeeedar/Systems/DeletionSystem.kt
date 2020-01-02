@@ -28,10 +28,10 @@ class DeletionSystem : AbstractSystem(Family.all(MarkedForDeletionComponent::cla
 		if (deletedEntities.contains(entity)) return
 		deletedEntities.add(entity)
 
-		val pos = entity.pos()
+		val pos = entity.posOrNull()
 		pos?.removeFromTile(entity)
 
-		val trail = entity.trailing()
+		val trail = entity.trailingEntity()
 		if (trail != null)
 		{
 			for (e in trail.entities.toList())
@@ -40,19 +40,22 @@ class DeletionSystem : AbstractSystem(Family.all(MarkedForDeletionComponent::cla
 			}
 		}
 
-		val entityStats = entity.stats()
+		val entityStats = entity.statsOrNull()
 		if (entityStats != null && entityStats.hp <= 0f && entityStats.deathEffect != null)
 		{
-			val effect = entityStats.deathEffect!!.getParticleEffect()
-			effect.size[0] = pos.size
-			effect.size[1] = pos.size
-			effect.addToEngine(pos.position)
-
-			// all the blood
-			val numBlood = Random.random(10, 20)
-			for (i in 0 until numBlood)
+			if (pos != null)
 			{
-				BloodSplatter.splatter(entityStats.lastHitSource, pos.position, 3f, 90f)
+				val effect = entityStats.deathEffect!!.getParticleEffect()
+				effect.size[0] = pos.size
+				effect.size[1] = pos.size
+				effect.addToEngine(pos.position)
+
+				// all the blood
+				val numBlood = Random.random(10, 20)
+				for (i in 0 until numBlood)
+				{
+					BloodSplatter.splatter(entityStats.lastHitSource, pos.position, 3f, 90f)
+				}
 			}
 
 			val killerTile = level!!.getTile(entityStats.lastHitSource)
@@ -100,7 +103,7 @@ class DeletionSystem : AbstractSystem(Family.all(MarkedForDeletionComponent::cla
 			}
 		}
 
-		val activeAbility = Mappers.activeActionSequence.get(entity)
+		val activeAbility = entity.activeActionSequence()
 		if (activeAbility != null)
 		{
 			activeAbility.sequence.cancel()

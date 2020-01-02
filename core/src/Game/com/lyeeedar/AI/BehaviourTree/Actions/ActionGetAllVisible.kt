@@ -2,9 +2,7 @@ package com.lyeeedar.AI.BehaviourTree.Actions
 
 import com.badlogic.ashley.core.Entity
 import com.lyeeedar.AI.BehaviourTree.ExecutionState
-import com.lyeeedar.Components.Mappers
-import com.lyeeedar.Components.isAllies
-import com.lyeeedar.Components.isEnemies
+import com.lyeeedar.Components.*
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.Util.XmlData
 
@@ -26,9 +24,9 @@ class ActionGetAllVisible(): AbstractAction()
 
 	override fun evaluate(entity: Entity): ExecutionState
 	{
-		val pos = Mappers.position.get(entity)
+		val pos = entity.pos()
 		val tile = pos.position as? Tile ?: return ExecutionState.FAILED
-		val stats = Mappers.stats.get(entity)
+		val stats = entity.stats()
 
 		val points = tile.level.grid
 
@@ -40,7 +38,7 @@ class ActionGetAllVisible(): AbstractAction()
 				val etile = tile.level.getTile(point) ?: continue
 				for (e in etile.contents)
 				{
-					val estats = Mappers.stats.get(e) ?: continue
+					val estats = e.statsOrNull() ?: continue
 
 					if (e != entity && estats.hp > 0 && entity.isAllies(e))
 					{
@@ -60,7 +58,7 @@ class ActionGetAllVisible(): AbstractAction()
 				val etile = tile.level.getTile(point) ?: continue
 				for (e in etile.contents)
 				{
-					val estats = Mappers.stats.get(e) ?: continue
+					val estats = e.statsOrNull() ?: continue
 
 					if (e != entity && estats.hp > 0 && entity.isEnemies(e))
 					{

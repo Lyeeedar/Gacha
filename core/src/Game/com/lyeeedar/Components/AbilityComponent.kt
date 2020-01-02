@@ -1,5 +1,6 @@
 package com.lyeeedar.Components
 
+import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Pool
@@ -10,6 +11,7 @@ import com.lyeeedar.Util.AssetManager
 import com.lyeeedar.Util.Point
 import com.lyeeedar.Util.XmlData
 
+fun Entity.ability(): AbilityComponent? = AbilityComponent.mapper.get(this)
 class AbilityComponent : AbstractComponent()
 {
 	val abilities = Array<AbilityData>(1)
@@ -56,6 +58,9 @@ class AbilityComponent : AbstractComponent()
 	var obtained: Boolean = false
 	companion object
 	{
+		val mapper: ComponentMapper<AbilityComponent> = ComponentMapper.getFor(AbilityComponent::class.java)
+		fun get(entity: Entity): AbilityComponent? = mapper.get(entity)
+
 		private val pool: Pool<AbilityComponent> = object : Pool<AbilityComponent>() {
 			override fun newObject(): AbilityComponent
 			{

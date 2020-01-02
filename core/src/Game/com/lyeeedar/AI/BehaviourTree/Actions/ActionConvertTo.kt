@@ -2,7 +2,7 @@ package com.lyeeedar.AI.BehaviourTree.Actions
 
 import com.badlogic.ashley.core.Entity
 import com.lyeeedar.AI.BehaviourTree.ExecutionState
-import com.lyeeedar.Components.Mappers
+import com.lyeeedar.Components.pos
 import com.lyeeedar.Components.tile
 import com.lyeeedar.Util.XmlData
 
@@ -23,7 +23,7 @@ class ActionConvertTo(): AbstractAction()
 
 		if (obj is Entity)
 		{
-			out = obj.tile() ?: Mappers.position.get(obj).position
+			out = obj.tile() ?: obj.pos().position
 		}
 
 		if (out != null)

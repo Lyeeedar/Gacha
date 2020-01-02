@@ -2,9 +2,7 @@ package com.lyeeedar.Tests
 
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.ObjectMap
-import com.lyeeedar.Components.EntityLoader
-import com.lyeeedar.Components.pos
-import com.lyeeedar.Components.stats
+import com.lyeeedar.Components.*
 import com.lyeeedar.Game.Level
 import com.lyeeedar.Global
 import com.lyeeedar.Systems.render

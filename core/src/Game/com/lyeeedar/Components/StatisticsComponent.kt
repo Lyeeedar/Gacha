@@ -1,5 +1,6 @@
 package com.lyeeedar.Components
 
+import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.MathUtils.clamp
 import com.badlogic.gdx.math.MathUtils.lerp
@@ -20,6 +21,26 @@ import com.lyeeedar.Renderables.Particle.ParticleEffectDescription
 import com.lyeeedar.Util.*
 import ktx.collections.toGdxArray
 
+fun Entity.isAllies(other: Entity): Boolean
+{
+	val thisStats = this.statsOrNull()
+	val otherStats = other.statsOrNull()
+	if (thisStats == null || otherStats == null) return false
+
+	return thisStats.faction == otherStats.faction
+}
+
+fun Entity.isEnemies(other: Entity): Boolean
+{
+	val thisStats = this.statsOrNull()
+	val otherStats = other.statsOrNull()
+	if (thisStats == null || otherStats == null) return false
+
+	return thisStats.faction != otherStats.faction
+}
+
+fun Entity.stats(): StatisticsComponent = statsOrNull()!!
+fun Entity.statsOrNull(): StatisticsComponent? = StatisticsComponent.mapper.get(this)
 class StatisticsComponent: AbstractComponent()
 {
 	var faction: String = ""
@@ -439,6 +460,9 @@ class StatisticsComponent: AbstractComponent()
 
 	companion object
 	{
+		val mapper: ComponentMapper<StatisticsComponent> = ComponentMapper.getFor(StatisticsComponent::class.java)
+		fun get(entity: Entity): StatisticsComponent? = mapper.get(entity)
+
 		val map = ObjectFloatMap<String>()
 		init
 		{

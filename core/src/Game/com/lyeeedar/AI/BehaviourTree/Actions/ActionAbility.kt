@@ -3,10 +3,7 @@ package com.lyeeedar.AI.BehaviourTree.Actions
 import com.badlogic.ashley.core.Entity
 import com.lyeeedar.AI.BehaviourTree.ExecutionState
 import com.lyeeedar.AI.Tasks.TaskAbility
-import com.lyeeedar.Components.Mappers
-import com.lyeeedar.Components.ability
-import com.lyeeedar.Components.stats
-import com.lyeeedar.Components.tile
+import com.lyeeedar.Components.*
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.Util.Point
 import com.lyeeedar.Util.XmlData
@@ -19,8 +16,8 @@ class ActionAbility : AbstractAction()
 	override fun evaluate(entity: Entity): ExecutionState
 	{
 		val targetPoint = getData<Point>(key, null)
-		val posData = Mappers.position.get(entity)
-		val taskData = Mappers.task.get(entity)
+		val posData = entity.pos()
+		val taskData = entity.task()
 		val tile = posData.position as? Tile
 		val ability = entity.ability()
 		val stats = entity.stats()

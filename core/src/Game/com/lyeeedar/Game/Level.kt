@@ -104,14 +104,14 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 		Global.engine.addEntityListener(Family.all(MetaRegionComponent::class.java).get(), object : EntityListener {
 			override fun entityRemoved(entity: Entity?)
 			{
-				if (destroyingLevel || entity?.metaregion() == null) return
+				if (destroyingLevel || entity?.metaRegion() == null) return
 
 				Future.call( {updateMetaRegions()}, 0.5f, metaregions)
 			}
 
 			override fun entityAdded(entity: Entity?)
 			{
-				if (destroyingLevel || entity?.metaregion() == null) return
+				if (destroyingLevel || entity?.metaRegion() == null) return
 
 				Future.call( {updateMetaRegions()}, 0.5f, metaregions)
 			}
@@ -216,9 +216,9 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 		{
 			for (entity in tile.contents)
 			{
-				if (entity.metaregion() != null)
+				if (entity.metaRegion() != null)
 				{
-					for (key in entity.metaregion().keys)
+					for (key in entity.metaRegion()!!.keys)
 					{
 						if (!metaregions.containsKey(key))
 						{

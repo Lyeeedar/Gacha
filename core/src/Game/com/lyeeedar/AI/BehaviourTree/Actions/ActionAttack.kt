@@ -3,8 +3,9 @@ package com.lyeeedar.AI.BehaviourTree.Actions
 import com.badlogic.ashley.core.Entity
 import com.lyeeedar.AI.BehaviourTree.ExecutionState
 import com.lyeeedar.AI.Tasks.TaskAttack
-import com.lyeeedar.Components.Mappers
-import com.lyeeedar.Components.stats
+import com.lyeeedar.Components.posOrNull
+import com.lyeeedar.Components.statsOrNull
+import com.lyeeedar.Components.taskOrNull
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.Util.Point
 import com.lyeeedar.Util.XmlData
@@ -16,13 +17,19 @@ class ActionAttack : AbstractAction()
 	override fun evaluate(entity: Entity): ExecutionState
 	{
 		val target = getData<Point>(key, null)
-		val posData = Mappers.position.get(entity)
-		val taskData = Mappers.task.get(entity)
-		val tile = posData.position as? Tile
-		val stats = entity.stats()
+		val posData = entity.posOrNull()
+		val taskData = entity.taskOrNull()
+		val stats = entity.statsOrNull()
 
 		// doesnt have all the needed data, fail
-		if ( target == null || posData == null || tile == null || taskData == null || stats == null )
+		if ( target == null || posData == null || taskData == null || stats == null )
+		{
+			state = ExecutionState.FAILED
+			return state
+		}
+
+		val tile = posData.position as? Tile
+		if ( tile == null )
 		{
 			state = ExecutionState.FAILED
 			return state

@@ -15,7 +15,7 @@ class TaskInterrupt : AbstractTask()
 		e.task().ai.cancel(e)
 
 		var interrupted = false
-		val activeAbility = Mappers.activeActionSequence.get(e)
+		val activeAbility = e.activeActionSequence()
 		if (activeAbility != null && activeAbility.sequence.cancellable)
 		{
 			activeAbility.sequence.cancel()

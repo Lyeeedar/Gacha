@@ -113,7 +113,7 @@ class EventSystem : AbstractSystem()
 	{
 		fun isEventRegistered(type: EventType, entity: Entity): Boolean
 		{
-			val stats = entity.stats()
+			val stats = entity.statsOrNull()
 			if (stats != null)
 			{
 				for (buff in stats.buffs)

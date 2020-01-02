@@ -2,10 +2,7 @@ package com.lyeeedar.Systems
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family
-import com.lyeeedar.Components.DirectionalSpriteComponent
-import com.lyeeedar.Components.Mappers
-import com.lyeeedar.Components.PositionComponent
-import com.lyeeedar.Components.RenderableComponent
+import com.lyeeedar.Components.*
 import com.lyeeedar.Direction
 import com.lyeeedar.Renderables.Sprite.DirectionalSprite
 
@@ -23,15 +20,15 @@ class DirectionalSpriteSystem(): AbstractSystem(Family.all(DirectionalSpriteComp
 	{
 		if (entity == null) return
 
-		val pos = Mappers.position.get(entity)
-		val dirSprite = Mappers.directionalSprite.get(entity)
+		val pos = entity.pos()
+		val dirSprite = entity.directionalSprite()!!
 
 		if (!dirSprite.directionalSprite.hasAnim(dirSprite.currentAnim))
 		{
 			dirSprite.currentAnim = "idle"
 		}
 
-		var renderable = Mappers.renderable.get(entity)
+		var renderable = entity.renderableOrNull()
 		if (renderable == null)
 		{
 			val chosen = dirSprite.directionalSprite.getSprite(dirSprite.currentAnim, dirSprite.lastV, dirSprite.lastH)
