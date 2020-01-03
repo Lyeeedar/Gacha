@@ -71,7 +71,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 	val font = Statics.skin.getFont("small")
 
 	var renderer: SortedRenderer? = null
-	val screenSpaceRenderer = SortedRenderer(Statics.resolution[0].toFloat(), 1f, 1f, 1, true)
+	val screenSpaceRenderer: SortedRenderer by lazy { SortedRenderer(Statics.resolution[0].toFloat(), 1f, 1f, 1, true) }
 
 	lateinit var statsEntities: ImmutableArray<Entity>
 

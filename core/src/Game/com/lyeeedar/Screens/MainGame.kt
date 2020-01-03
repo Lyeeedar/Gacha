@@ -12,7 +12,7 @@ import java.io.StringWriter
 import java.util.*
 import javax.swing.JOptionPane
 
-class MainGame : Game()
+class MainGame(val create: Boolean = true) : Game()
 {
 	enum class ScreenEnum
 	{
@@ -45,8 +45,10 @@ class MainGame : Game()
 
 	override fun create()
 	{
-		Statics.applicationChanger.processResources()
 		Global.setup()
+
+		if (!create) return
+
 		Global.newGame()
 
 		if (Statics.android)

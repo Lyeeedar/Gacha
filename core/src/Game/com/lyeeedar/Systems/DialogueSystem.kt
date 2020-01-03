@@ -21,7 +21,7 @@ class DialogueSystem : AbstractSystem(Family.all(DialogueComponent::class.java).
 	val tileSize: Float
 		get() = engine.render().tileSize
 
-	val batch: SpriteBatch = SpriteBatch()
+	val batch: SpriteBatch by lazy { SpriteBatch() }
 
 	val tempCol = Color()
 
@@ -43,7 +43,7 @@ class DialogueSystem : AbstractSystem(Family.all(DialogueComponent::class.java).
 
 	override fun doUpdate(deltaTime: Float)
 	{
-		if (level == null) return
+		if (level == null || entities.size() == 0) return
 
 		batch.begin()
 
