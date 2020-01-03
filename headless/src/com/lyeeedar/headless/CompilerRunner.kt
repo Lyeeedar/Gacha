@@ -26,12 +26,6 @@ object CompilerRunner
 			XmlCompressor()
 			XmlLoadTester.test()
 		}
-		catch (ex: Exception)
-		{
-			println("Compiling failed!")
-			System.err.println(ex.toString())
-			throw RuntimeException("Compiling failed")
-		}
 		finally {
 			Gdx.app.exit()
 			println("##########################################################")
