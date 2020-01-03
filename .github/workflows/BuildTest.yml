@@ -12,7 +12,7 @@ jobs:
         auth_header="$(git config --local --get http.https://github.com/.extraheader)"
         git submodule sync --recursive
         git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
-  
+   
     - name: Make gradlew executable
       run: chmod +x ./gradlew
       
@@ -21,6 +21,9 @@ jobs:
       
     - name: Build Android
       run: ./gradlew :android:assembleDebug
+    
+    - name: Extract Oryx assets
+      run: unzip -P oryx android/assetsraw/Sprites/Oryx/uf_split.zip
     
     - name: Build Resources
       run: ./gradlew :headless:compileResources
