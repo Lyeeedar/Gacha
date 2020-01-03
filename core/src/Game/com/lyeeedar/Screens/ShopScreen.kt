@@ -422,7 +422,7 @@ class ShopScreen : AbstractScreen()
 					val dstTable = navigationBar.screenMap[MainGame.ScreenEnum.HEROES]
 					val dst = dstTable.localToStageCoordinates(Vector2())
 
-					val entity = EntityLoader.load(hero.entityPath)
+					val entity = EntityLoader.load(hero.entityPath, Global.resolveInstant)
 					//entity.stats().ascension = ascension
 					entity.stats().level = 1
 					Global.engine.directionSprite().processEntity(entity, 0f)

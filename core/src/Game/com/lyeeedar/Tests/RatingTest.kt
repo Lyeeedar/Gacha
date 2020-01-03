@@ -32,7 +32,7 @@ class RatingTest
 			val hero = heroes.values().toArray().random()
 			playerHeroes.add(hero)
 
-			val entity = EntityLoader.load(hero.path)
+			val entity = EntityLoader.load(hero.path, Global.resolveInstant)
 			pos.entity = entity
 
 			entity.pos().tile = pos.tile
@@ -46,7 +46,7 @@ class RatingTest
 			val hero = heroes.values().toArray().random()
 			enemyHeroes.add(hero)
 
-			val entity = EntityLoader.load(hero.path)
+			val entity = EntityLoader.load(hero.path, Global.resolveInstant)
 			pos.entity = entity
 
 			entity.pos().tile = pos.tile

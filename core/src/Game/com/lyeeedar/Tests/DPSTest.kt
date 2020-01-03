@@ -23,8 +23,8 @@ class DPSTest
 			tile.level = level
 		}
 
-		val attackerEntity = EntityLoader.load(path)
-		val defenderEntity = EntityLoader.load("Factions/DPSTest")
+		val attackerEntity = EntityLoader.load(path, Global.resolveInstant)
+		val defenderEntity = EntityLoader.load("Factions/DPSTest", Global.resolveInstant)
 
 		attackerEntity.pos().tile = grid[2, 5]
 		attackerEntity.pos().addToTile(attackerEntity)

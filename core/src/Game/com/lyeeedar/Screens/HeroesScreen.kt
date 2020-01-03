@@ -49,7 +49,7 @@ class HeroesScreen : AbstractScreen()
 				{
 					for (hero in faction.heroes)
 					{
-						val entity = EntityLoader.load(hero.entityPath)
+						val entity = EntityLoader.load(hero.entityPath, Global.resolveInstant)
 						if (entity.name().name.toLowerCase() == args[0].toLowerCase())
 						{
 							Global.data.heroPool.add(EntityData(hero, Ascension.MUNDANE, 1))

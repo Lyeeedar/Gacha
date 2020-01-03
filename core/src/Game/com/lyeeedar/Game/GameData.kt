@@ -148,7 +148,7 @@ class EntityData()
 
 	fun getEntity(faction: String): Entity
 	{
-		val entity = EntityLoader.load(factionEntity.entityPath)
+		val entity = EntityLoader.load(factionEntity.entityPath, Global.resolveInstant)
 		val stats = entity.stats()
 		stats.ascension = ascension
 		stats.level = level

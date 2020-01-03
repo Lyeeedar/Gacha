@@ -84,7 +84,7 @@ class FactionEntity(val faction: Faction)
 
 	fun createTile(size: Float, ascension: Ascension): Table
 	{
-		val entity = EntityLoader.load(entityPath)
+		val entity = EntityLoader.load(entityPath, Global.resolveInstant)
 		Global.engine.directionSprite().processEntity(entity, 0f)
 		val sprite = Sprite((entity.renderable().renderable as Sprite).textures[0])
 
@@ -106,7 +106,7 @@ class FactionEntity(val faction: Faction)
 
 	fun createCardTable(ascension: Ascension, unlock: Boolean): Table
 	{
-		val entity = EntityLoader.load(entityPath)
+		val entity = EntityLoader.load(entityPath, Global.resolveInstant)
 		//entity.stats().ascension = ascension
 		entity.stats().level = 1
 		Global.engine.directionSprite().processEntity(entity, 0f)

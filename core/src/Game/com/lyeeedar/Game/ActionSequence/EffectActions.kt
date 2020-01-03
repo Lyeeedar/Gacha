@@ -529,7 +529,7 @@ class SummonAction() : AbstractActionSequenceAction()
 			var tile = sequence.level.getTile(point) ?: continue
 
 			// find empty file
-			val summonEntity = EntityLoader.load(entityPath)
+			val summonEntity = EntityLoader.load(entityPath, Global.resolveInstant)
 			summonEntity.stats().level = sequence.source.stats().level
 			summonEntity.stats().ascension = sequence.source.stats().ascension
 			summonEntity.stats().factionBuffs.addAll(sequence.source.stats().factionBuffs)
