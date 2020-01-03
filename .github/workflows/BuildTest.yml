@@ -21,3 +21,6 @@ jobs:
       
     - name: Build Android
       run: ./gradlew :android:assembleDebug
+    
+    - name: Build Resources
+      run: ./gradlew :headless:compileResources
