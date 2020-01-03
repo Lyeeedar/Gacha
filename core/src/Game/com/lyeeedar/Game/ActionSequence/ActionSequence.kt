@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.ObjectMap
 import com.badlogic.gdx.utils.Pool
 import com.lyeeedar.Components.pos
+import com.lyeeedar.Components.posOrNull
 import com.lyeeedar.Direction
 import com.lyeeedar.Game.Level
 import com.lyeeedar.Global
@@ -51,7 +52,7 @@ class ActionSequence
 		blocked = false
 		facing = Direction.NORTH
 
-		targets.add(source.pos()!!.position)
+		targets.add(source.pos().position)
 	}
 
 	fun onTurn()
@@ -80,7 +81,7 @@ class ActionSequence
 			targets.clear()
 			for (target in lockedTargets)
 			{
-				val pos = target.pos() ?: continue
+				val pos = target.posOrNull() ?: continue
 				targets.add(pos.position)
 			}
 		}

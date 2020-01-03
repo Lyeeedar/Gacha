@@ -19,7 +19,7 @@ class AbilitySystem : AbstractSystem(Family.all(StatisticsComponent::class.java,
 		for (entity in entities)
 		{
 			val ability = entity.ability()!!
-			val stats = entity.stats()!!
+			val stats = entity.stats()
 
 			for (ab in ability.abilities)
 			{

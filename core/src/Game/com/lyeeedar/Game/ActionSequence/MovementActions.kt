@@ -253,9 +253,9 @@ class KnockbackAction() : AbstractActionSequenceAction()
 private fun doMove(src: Tile, dst: Tile, type: MovementType, interrupt: Boolean): Tile
 {
 	val entity = src.contents[SpaceSlot.ENTITY] ?: return dst
-	val pos = entity.pos() ?: return dst
+	val pos = entity.posOrNull() ?: return dst
 	if (!pos.moveable) return dst
-	val stats = entity.stats() ?: return dst
+	val stats = entity.statsOrNull() ?: return dst
 	if (stats.invulnerable || stats.blocking || Random.random.nextFloat() < stats.getStat(Statistic.AEGIS))
 	{
 		stats.blockedDamage = true
@@ -269,7 +269,7 @@ private fun doMove(src: Tile, dst: Tile, type: MovementType, interrupt: Boolean)
 
 	if (interrupt)
 	{
-		val task = entity.task()
+		val task = entity.taskOrNull()
 		if (task != null)
 		{
 			if (task.tasks.size == 0 || task.tasks[0] !is TaskInterrupt)
@@ -282,7 +282,7 @@ private fun doMove(src: Tile, dst: Tile, type: MovementType, interrupt: Boolean)
 
 	val path = BresenhamLine.lineNoDiag(src.x, src.y, dst.x, dst.y, src.level.grid)
 
-	var dst = dst
+	var actualDst = dst
 
 	if (type == MovementType.ROLL || type == MovementType.MOVE)
 	{
@@ -292,17 +292,17 @@ private fun doMove(src: Tile, dst: Tile, type: MovementType, interrupt: Boolean)
 
 			if (!pos.isValidTile(tile, entity)) break
 
-			dst = tile
+			actualDst = tile
 		}
 	}
 	else
 	{
-		if (!pos.isValidTile(dst, entity))
+		if (!pos.isValidTile(actualDst, entity))
 		{
 			val validTiles = com.badlogic.gdx.utils.Array<Tile>(4)
 			for (dir in Direction.Values)
 			{
-				val tile = src.level.getTile(dst + dir) ?: continue
+				val tile = src.level.getTile(actualDst + dir) ?: continue
 				if (pos.isValidTile(tile, entity))
 				{
 					validTiles.add(tile)
@@ -311,7 +311,7 @@ private fun doMove(src: Tile, dst: Tile, type: MovementType, interrupt: Boolean)
 
 			if (validTiles.size > 0)
 			{
-				dst = validTiles.random()
+				actualDst = validTiles.random()
 			}
 			else
 			{
@@ -321,29 +321,29 @@ private fun doMove(src: Tile, dst: Tile, type: MovementType, interrupt: Boolean)
 
 					if (!pos.isValidTile(tile, entity)) break
 
-					dst = tile
+					actualDst = tile
 				}
 			}
 		}
 	}
 
-	if (dst == src) return dst
+	if (actualDst == src) return actualDst
 
-	pos.doMove(dst, entity)
+	pos.doMove(actualDst, entity)
 
 	if (!Global.resolveInstant)
 	{
-		val animSpeed = 0.1f + src.euclideanDist(dst) * 0.015f
+		val animSpeed = 0.1f + src.euclideanDist(actualDst) * 0.015f
 
 		if (type == MovementType.MOVE)
 		{
-			entity.renderable().renderable.animation = MoveAnimation.obtain().set(dst, src, animSpeed)
+			entity.renderable().renderable.animation = MoveAnimation.obtain().set(actualDst, src, animSpeed)
 		}
 		else if (type == MovementType.ROLL)
 		{
-			entity.renderable().renderable.animation = MoveAnimation.obtain().set(dst, src, animSpeed)
+			entity.renderable().renderable.animation = MoveAnimation.obtain().set(actualDst, src, animSpeed)
 
-			val direction = Direction.getDirection(src, dst)
+			val direction = Direction.getDirection(src, actualDst)
 			if (direction == Direction.EAST)
 			{
 				entity.renderable().renderable.animation = SpinAnimation.obtain().set(animSpeed, -360f)
@@ -357,7 +357,7 @@ private fun doMove(src: Tile, dst: Tile, type: MovementType, interrupt: Boolean)
 		}
 		else if (type == MovementType.LEAP)
 		{
-			entity.renderable().renderable.animation = LeapAnimation.obtain().setRelative(animSpeed, src, dst, 3f)
+			entity.renderable().renderable.animation = LeapAnimation.obtain().setRelative(animSpeed, src, actualDst, 3f)
 
 			if (entity.renderable().renderable is Sprite)
 			{
@@ -366,5 +366,5 @@ private fun doMove(src: Tile, dst: Tile, type: MovementType, interrupt: Boolean)
 		}
 	}
 
-	return dst
+	return actualDst
 }

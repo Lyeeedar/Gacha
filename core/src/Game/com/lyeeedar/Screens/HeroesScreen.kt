@@ -175,7 +175,7 @@ class HeroesScreen : AbstractScreen()
 		mainTable.add(GameDataBar()).growX()
 		mainTable.row()
 
-		val stats = entity.stats()!!
+		val stats = entity.stats()
 
 		// faction, ascension, armour type
 		val factionAscensionTable = Table()

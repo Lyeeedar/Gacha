@@ -648,7 +648,7 @@ class HeroBounty : AbstractBounty()
 
 		val entityData = Global.data.heroPool.first { it.factionEntity == heroData }
 		val entity = entityData.getEntity("1")
-		val name = entity.name()!!.name
+		val name = entity.name().name
 
 		// generate title
 

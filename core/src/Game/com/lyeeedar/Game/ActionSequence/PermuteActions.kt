@@ -179,11 +179,11 @@ class SelectEntitiesAction() : AbstractActionSequenceAction()
 		{
 			if (minimum)
 			{
-				sorted = entities.sortedBy { compiledCondition!!.evaluate(it.stats()!!.variables()) }
+				sorted = entities.sortedBy { compiledCondition!!.evaluate(it.stats().variables()) }
 			}
 			else
 			{
-				sorted = entities.sortedByDescending { compiledCondition!!.evaluate(it.stats()!!.variables()) }
+				sorted = entities.sortedByDescending { compiledCondition!!.evaluate(it.stats().variables()) }
 			}
 		}
 

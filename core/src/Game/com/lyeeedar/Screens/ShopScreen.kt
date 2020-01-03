@@ -350,7 +350,7 @@ class ShopScreen : AbstractScreen()
 		itemsToBuy[2, 2] = ranHero
 
 		// 9 heroes from faction
-		val faction = Global.data.currentShopFaction!!
+		val faction = Global.data.currentShopFaction
 		val ranHeroFactionTile = Table()
 		val ranHeroFactionStack = Stack()
 		ranHeroFactionTile.add(ranHeroFactionStack).grow()
@@ -411,7 +411,7 @@ class ShopScreen : AbstractScreen()
 
 			val card = CardWidget(hero.createCardTable(ascension, isNewHero), hero.createCardTable(ascension, isNewHero), AssetManager.loadTextureRegion("GUI/CharacterCardback")!!, border = hero.rarity.colour)
 			card.canZoom = false
-			card.addPick("", {
+			card.addPick("") {
 
 				if (isNewHero)
 				{
@@ -453,7 +453,7 @@ class ShopScreen : AbstractScreen()
 				}
 				else
 				{
-					heroData!!.ascensionShards += 1
+					heroData.ascensionShards += 1
 
 					val src = it.localToStageCoordinates(Vector2(24f, 24f))
 
@@ -489,7 +489,7 @@ class ShopScreen : AbstractScreen()
 				}
 
 				Save.save()
-			})
+			}
 			cards.add(card)
 
 			if (isNewHero)

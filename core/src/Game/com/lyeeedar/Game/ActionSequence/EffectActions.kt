@@ -40,10 +40,10 @@ class DamageAction : AbstractActionSequenceAction()
 				if (hitEntities.contains(entity)) continue
 				hitEntities.add(entity)
 
-				val targetstats = entity.stats() ?: continue
+				val targetstats = entity.statsOrNull() ?: continue
 				if (entity.isEnemies(sequence.source))
 				{
-					val sourceStats = sequence.source.stats()!!
+					val sourceStats = sequence.source.stats()
 
 					map.clear()
 					sourceStats.write(map, "self")
@@ -207,10 +207,10 @@ class HealAction() : AbstractActionSequenceAction()
 				if (hitEntities.contains(entity)) continue
 				hitEntities.add(entity)
 
-				val targetstats = entity.stats() ?: continue
+				val targetstats = entity.statsOrNull() ?: continue
 				if (entity.isAllies(sequence.source))
 				{
-					val sourceStats = sequence.source.stats()!!
+					val sourceStats = sequence.source.stats()
 
 					map.clear()
 					sourceStats.write(map, "self")
@@ -225,9 +225,9 @@ class HealAction() : AbstractActionSequenceAction()
 
 					sequence.source.stats().healing += healing
 
-					if (sequence.source.stats()!!.summoner != null)
+					if (sequence.source.stats().summoner != null)
 					{
-						sequence.source.stats()!!.summoner!!.stats().healing += healing
+						sequence.source.stats().summoner!!.stats().healing += healing
 					}
 
 					if (EventSystem.isEventRegistered(EventType.HEALED, entity))
@@ -308,12 +308,12 @@ class StunAction() : AbstractActionSequenceAction()
 				if (hitEntities.contains(entity)) continue
 				hitEntities.add(entity)
 
-				val targetstats = entity.stats() ?: continue
-				val task = entity.task() ?: continue
+				val targetstats = entity.statsOrNull() ?: continue
+				val task = entity.taskOrNull() ?: continue
 
 				if (entity.isEnemies(sequence.source) && Random.random.nextFloat() > targetstats.getStat(Statistic.AEGIS))
 				{
-					val sourceStats = sequence.source.stats()!!
+					val sourceStats = sequence.source.stats()
 
 					map.clear()
 					sourceStats.write(map, "self")
@@ -407,7 +407,7 @@ class BuffAction() : AbstractActionSequenceAction()
 	val hitEntities = ObjectSet<Entity>()
 	override fun enter(): Boolean
 	{
-		val sourcestats = sequence.source.stats()!!
+		val sourcestats = sequence.source.stats()
 
 		hitEntities.clear()
 		for (point in sequence.targets)
@@ -418,7 +418,7 @@ class BuffAction() : AbstractActionSequenceAction()
 				if (hitEntities.contains(entity)) continue
 				hitEntities.add(entity)
 
-				val stats = entity.stats() ?: continue
+				val stats = entity.statsOrNull() ?: continue
 				if ((isDebuff && entity.isEnemies(sequence.source)) || (!isDebuff && entity.isAllies(sequence.source)))
 				{
 					val buff = buff.copy()
@@ -545,9 +545,9 @@ class SummonAction() : AbstractActionSequenceAction()
 
 			summonEntity.stats().resetHP()
 
-			summonEntity.stats()!!.summoner = sequence.source
+			summonEntity.stats().summoner = sequence.source
 
-			if (summonEntity.pos()!!.isValidTile(tile, summonEntity))
+			if (summonEntity.pos().isValidTile(tile, summonEntity))
 			{
 
 			}
@@ -557,7 +557,7 @@ class SummonAction() : AbstractActionSequenceAction()
 				for (dir in Direction.Values)
 				{
 					val dirtile = sequence.level.getTile(tile, dir) ?: continue
-					if (summonEntity.pos()!!.isValidTile(dirtile, summonEntity))
+					if (summonEntity.pos().isValidTile(dirtile, summonEntity))
 					{
 						validTiles.add(dirtile)
 					}
@@ -668,7 +668,7 @@ class ReplaceAttackAction() : AbstractActionSequenceAction()
 				if (hitEntities.contains(entity)) continue
 				hitEntities.add(entity)
 
-				val targetstats = entity.stats() ?: continue
+				val targetstats = entity.statsOrNull() ?: continue
 
 				replacedAttacks.add(Pair(entity, targetstats.attackDefinition))
 				targetstats.attackDefinition = attackDefinition
@@ -744,7 +744,7 @@ class ModifyBuff() : AbstractActionSequenceAction()
 				if (hitEntities.contains(entity)) continue
 				hitEntities.add(entity)
 
-				val targetstats = entity.stats() ?: continue
+				val targetstats = entity.statsOrNull() ?: continue
 
 				val targetsEnemies = (!modifyBuff && amount > 0) || (modifyBuff && amount < 0)
 				if (

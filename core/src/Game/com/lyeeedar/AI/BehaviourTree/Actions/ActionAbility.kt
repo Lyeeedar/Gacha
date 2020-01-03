@@ -16,14 +16,20 @@ class ActionAbility : AbstractAction()
 	override fun evaluate(entity: Entity): ExecutionState
 	{
 		val targetPoint = getData<Point>(key, null)
-		val posData = entity.pos()
-		val taskData = entity.task()
-		val tile = posData.position as? Tile
+		val posData = entity.posOrNull()
+		val taskData = entity.taskOrNull()
 		val ability = entity.ability()
-		val stats = entity.stats()
+		val stats = entity.statsOrNull()
 
 		// doesnt have all the needed data, fail
-		if ( targetPoint == null || posData == null || tile == null || taskData == null || ability == null || stats == null )
+		if ( targetPoint == null || posData == null || taskData == null || ability == null || stats == null )
+		{
+			state = ExecutionState.FAILED
+			return state
+		}
+
+		val tile = posData.position as? Tile
+		if (tile == null)
 		{
 			state = ExecutionState.FAILED
 			return state

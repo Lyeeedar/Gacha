@@ -39,7 +39,7 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 
 	fun processEntity(entity: Entity, deltaTime: Float)
 	{
-		val stats = entity.stats()!!
+		val stats = entity.stats()
 
 		if (stats.hp <= 0)
 		{
@@ -60,7 +60,7 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 		{
 			if (!Global.resolveInstant)
 			{
-				val sprite = entity.renderable()?.renderable as? Sprite
+				val sprite = entity.renderableOrNull()?.renderable as? Sprite
 
 				if (sprite != null)
 				{
@@ -115,7 +115,7 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 			for (message in stats.messagesToShow)
 			{
 				val render = Global.engine.render()!!
-				val pos = RenderSystemWidget.instance.pointToScreenspace(entity.pos()!!.position)
+				val pos = RenderSystemWidget.instance.pointToScreenspace(entity.pos().position)
 				pos.add(render.tileSize / 2f + Random.random(-2, 2).toFloat(), render.tileSize + Random.random(-2, 2).toFloat())
 
 				val label = Label(message.text, Statics.skin, "popup")
@@ -157,7 +157,7 @@ class StatisticsSystem : AbstractSystem(Family.one(StatisticsComponent::class.ja
 	{
 		for (entity in entities)
 		{
-			val stats = entity.stats()!!
+			val stats = entity.stats()
 			val regenAmount = stats.getStat(Statistic.MAXHP) * stats.getStat(Statistic.REGENERATION)
 			if (regenAmount > 0f)
 			{

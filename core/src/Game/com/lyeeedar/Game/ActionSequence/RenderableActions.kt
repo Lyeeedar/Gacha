@@ -37,7 +37,7 @@ class ReplaceSourceRenderableAction() : AbstractActionSequenceAction()
 
 		val source = sequence.source
 
-		if (source.renderable() == null)
+		if (source.renderableOrNull() == null)
 		{
 			source.add(RenderableComponent.obtain())
 		}
@@ -180,7 +180,7 @@ class SourceAnimationAction() : AbstractActionSequenceAction()
 		if (Global.resolveInstant) return false
 
 		val source = sequence.source
-		val sourceRenderable = source.renderable()?.renderable ?: return false
+		val sourceRenderable = source.renderableOrNull()?.renderable ?: return false
 
 		val duration = end - start
 		if (anim == Animation.EXPAND)
@@ -336,7 +336,7 @@ class DestinationRenderableAction() : AbstractActionSequenceAction()
 
 				entity.add(RenderableComponent.obtain().set(r))
 				entity.add(PositionComponent.obtain())
-				val pos = entity.pos()!!
+				val pos = entity.pos()
 
 				pos.position = tile
 				pos.slot = slot
@@ -360,7 +360,7 @@ class DestinationRenderableAction() : AbstractActionSequenceAction()
 			val r = renderable.getParticleEffect()
 			entity.add(RenderableComponent.obtain().set(r))
 			entity.add(PositionComponent.obtain())
-			val pos = entity.pos()!!
+			val pos = entity.pos()
 
 			pos.min = min
 			pos.max = max
@@ -401,7 +401,7 @@ class DestinationRenderableAction() : AbstractActionSequenceAction()
 
 		for (entity in entities)
 		{
-			val renderable = entity.renderable()!!.renderable
+			val renderable = entity.renderable().renderable
 			if (renderable is ParticleEffect)
 			{
 				if (onEnd == OnEndBehaviour.KILL)
@@ -662,7 +662,7 @@ class SourceRenderableAction() : AbstractActionSequenceAction()
 		val r = renderable.getParticleEffect()
 		entity.add(RenderableComponent.obtain().set(r))
 		entity.add(PositionComponent.obtain())
-		val pos = entity.pos()!!
+		val pos = entity.pos()
 
 		pos.position = tile
 		pos.slot = slot
@@ -680,7 +680,7 @@ class SourceRenderableAction() : AbstractActionSequenceAction()
 
 		for (entity in entities)
 		{
-			val renderable = entity.renderable()!!.renderable
+			val renderable = entity.renderable().renderable
 			if (renderable is ParticleEffect)
 			{
 				if (onEnd == OnEndBehaviour.KILL)
@@ -761,7 +761,7 @@ class MovementRenderableAction() : AbstractActionSequenceAction()
 		val r = renderable.getParticleEffect()
 		entity.add(RenderableComponent.obtain().set(r))
 		entity.add(PositionComponent.obtain())
-		val pos = entity.pos()!!
+		val pos = entity.pos()
 
 		val min = sequence.targets.minBy(Point::hashCode)!!
 		val max = sequence.targets.maxBy(Point::hashCode)!!

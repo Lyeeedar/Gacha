@@ -103,8 +103,8 @@ class TaskAttack() : AbstractTask()
 			{
 				for (entity in entitiesToHit)
 				{
-					val attackerStats = e.stats()!!
-					val defenderStats = entity.stats()!!
+					val attackerStats = e.stats()
+					val defenderStats = entity.stats()
 					var dam = attackerStats.getAttackDam(attackerStats.attackDefinition.damage)
 
 					if (defenderStats.checkAegis())

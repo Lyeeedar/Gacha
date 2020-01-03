@@ -30,7 +30,7 @@ class EventSystem : AbstractSystem()
 				continue
 			}
 
-			val stats = event.source.stats()
+			val stats = event.source.statsOrNull()
 			if (stats != null)
 			{
 				for (buff in stats.buffs)

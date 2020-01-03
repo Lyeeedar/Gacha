@@ -116,7 +116,7 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 				// kill long running effects
 				for (animEntity in renderables)
 				{
-					val renderableComp = animEntity.renderable() ?: continue
+					val renderableComp = animEntity.renderableOrNull() ?: continue
 					val renderable = renderableComp.renderable
 
 					if (renderable.isBlocking)
@@ -133,13 +133,13 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 		survivingFactionMap.clear()
 		for (entity in entities)
 		{
-			val stats = entity.stats() ?: continue
+			val stats = entity.statsOrNull() ?: continue
 			survivingFactionMap[stats.faction] = (survivingFactionMap[stats.faction] ?: 0) + 1
 		}
 
 		for (entity in entities)
 		{
-			val stats = entity.stats() ?: continue
+			val stats = entity.statsOrNull() ?: continue
 			stats.survivingAllies = survivingFactionMap[stats.faction] - 1
 		}
 	}
@@ -185,7 +185,7 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 				continue
 			}
 
-			val task = entity.task() ?: continue
+			val task = entity.taskOrNull() ?: continue
 
 			processEntity(entity)
 
@@ -224,7 +224,7 @@ class TaskProcessorSystem(): AbstractSystem(Family.all(TaskComponent::class.java
 
 			if (printTasks)
 			{
-				println("Entity '" + e.name()?.name + "' doing task '" + t.javaClass.simpleName + "'")
+				println("Entity '" + e.name().name + "' doing task '" + t.javaClass.simpleName + "'")
 			}
 
 			t.execute(e)

@@ -64,7 +64,7 @@ class DeletionSystem : AbstractSystem(Family.all(MarkedForDeletionComponent::cla
 				for (slot in SpaceSlot.EntityValues)
 				{
 					val e = killerTile.contents[slot] ?: continue
-					val stats = e.stats() ?: continue
+					val stats = e.statsOrNull() ?: continue
 
 					if (stats.faction != entityStats.faction && EventSystem.isEventRegistered(EventType.KILL, e))
 					{
@@ -81,7 +81,7 @@ class DeletionSystem : AbstractSystem(Family.all(MarkedForDeletionComponent::cla
 				for (slot in SpaceSlot.EntityValues)
 				{
 					val e = tile.contents[slot] ?: continue
-					val stats = e.stats() ?: continue
+					val stats = e.statsOrNull() ?: continue
 
 					if (EventSystem.isEventRegistered(EventType.ANYDEATH, e))
 					{

@@ -111,7 +111,7 @@ class DialogueSystem : AbstractSystem(Family.all(DialogueComponent::class.java).
 
 			x += tileSize * 0.5f
 
-			if (entity.renderable()?.renderable is Sprite && (entity.renderable().renderable as Sprite).drawActualSize)
+			if (entity.renderableOrNull()?.renderable is Sprite && (entity.renderable().renderable as Sprite).drawActualSize)
 			{
 				y += tileSize * 1.5f
 			}

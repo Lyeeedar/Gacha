@@ -7,8 +7,9 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import com.badlogic.gdx.utils.Align
-import com.lyeeedar.Components.renderable
+import com.lyeeedar.Components.renderableOrNull
 import com.lyeeedar.Components.stats
+import com.lyeeedar.Components.statsOrNull
 import com.lyeeedar.Game.EntityData
 import com.lyeeedar.Renderables.Sprite.Sprite
 import com.lyeeedar.Util.AssetManager
@@ -47,14 +48,14 @@ class HeroSelectionWidget(var entity: Entity, val heroData: EntityData, val show
 		batch.setColor(whiteColour)
 		batch.draw(background, x, y, width, height)
 
-		val renderable = entity.renderable()?.renderable as? Sprite
+		val renderable = entity.renderableOrNull()?.renderable as? Sprite
 
 		if (renderable != null)
 		{
 			batch.draw(renderable.textures[0], x, y + 5f, width, height)
 		}
 
-		val stats = entity.stats()
+		val stats = entity.statsOrNull()
 		if (stats != null)
 		{
 			layout.setText(font, "Lv." + stats.level, Color.WHITE, Statics.stage.width * 0.5f, Align.left, false)
@@ -71,7 +72,7 @@ class HeroSelectionWidget(var entity: Entity, val heroData: EntityData, val show
 		layout.setText(font, heroData.factionEntity.rarity.shortName, heroData.factionEntity.rarity.colour.color(), Statics.stage.width * 0.5f, Align.left, false)
 		font.draw(batch, layout, x + width - layout.width - 5f, y + height - layout.height)
 
-		batch.setColor(entity.stats()!!.ascension.colour)
+		batch.setColor(entity.stats().ascension.colour)
 		batch.draw(border, x, y, width, height)
 
 		if (showIcons)
@@ -87,7 +88,7 @@ class HeroSelectionWidget(var entity: Entity, val heroData: EntityData, val show
 				y -= 11f
 			}
 
-			if (!stats.hasBestEquipment(entity))
+			if (stats != null && !stats.hasBestEquipment(entity))
 			{
 				batch.setColor(redColour)
 				batch.draw(borderedCircle, x + 7f, y, 8f, 8f)

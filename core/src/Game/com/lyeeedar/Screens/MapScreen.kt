@@ -122,7 +122,7 @@ class MapScreen : AbstractScreen()
 					selectedComponent = null
 
 					console.write("")
-					console.write("Selected entity: " + (selectedEntity!!.name()?.name ?: selectedEntity.toString()))
+					console.write("Selected entity: " + selectedEntity!!.name().name)
 					for (component in selectedEntity!!.components)
 					{
 						val isProvider = component is IDebugCommandProvider
@@ -260,7 +260,7 @@ class MapScreen : AbstractScreen()
 		{
 			val entity = tile.entity ?: continue
 
-			val stats = entity.stats() ?: continue
+			val stats = entity.statsOrNull() ?: continue
 			val factionData = stats.factionData ?: continue
 
 			if (stats.faction == "2")
@@ -440,7 +440,7 @@ class MapScreen : AbstractScreen()
 		for (tile in level!!.playerTiles)
 		{
 			val entity = tile.entity ?: continue
-			val stats = entity.stats() ?: continue
+			val stats = entity.statsOrNull() ?: continue
 			val factionData = stats.factionData ?: continue
 
 			var faction = playerFactions[factionData.name]

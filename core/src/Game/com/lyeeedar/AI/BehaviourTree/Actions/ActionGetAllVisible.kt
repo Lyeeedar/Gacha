@@ -2,7 +2,10 @@ package com.lyeeedar.AI.BehaviourTree.Actions
 
 import com.badlogic.ashley.core.Entity
 import com.lyeeedar.AI.BehaviourTree.ExecutionState
-import com.lyeeedar.Components.*
+import com.lyeeedar.Components.isAllies
+import com.lyeeedar.Components.isEnemies
+import com.lyeeedar.Components.pos
+import com.lyeeedar.Components.statsOrNull
 import com.lyeeedar.Game.Tile
 import com.lyeeedar.Util.XmlData
 
@@ -26,7 +29,6 @@ class ActionGetAllVisible(): AbstractAction()
 	{
 		val pos = entity.pos()
 		val tile = pos.position as? Tile ?: return ExecutionState.FAILED
-		val stats = entity.stats()
 
 		val points = tile.level.grid
 

@@ -46,7 +46,7 @@ class TaskMove(): AbstractTask()
 
 		e.directionalSprite()?.currentAnim = "move"
 
-		val pos = e.pos() ?: return
+		val pos = e.posOrNull() ?: return
 		if (pos.moveLocked) return
 
 		if (EventSystem.isEventRegistered(EventType.MOVE, e))

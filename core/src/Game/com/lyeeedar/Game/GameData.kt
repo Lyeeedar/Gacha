@@ -149,7 +149,7 @@ class EntityData()
 	fun getEntity(faction: String): Entity
 	{
 		val entity = EntityLoader.load(factionEntity.entityPath)
-		val stats = entity.stats()!!
+		val stats = entity.stats()
 		stats.ascension = ascension
 		stats.level = level
 		stats.faction = faction

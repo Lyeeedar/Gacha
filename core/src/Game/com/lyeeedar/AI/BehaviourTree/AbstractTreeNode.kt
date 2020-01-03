@@ -8,6 +8,7 @@ import com.lyeeedar.AI.BehaviourTree.Conditionals.ConditionalCheckValue
 import com.lyeeedar.AI.BehaviourTree.Decorators.*
 import com.lyeeedar.AI.BehaviourTree.Selectors.*
 import com.lyeeedar.Components.stats
+import com.lyeeedar.Components.statsOrNull
 import com.lyeeedar.Util.Point
 import com.lyeeedar.Util.XmlData
 import com.lyeeedar.Util.getXml
@@ -76,7 +77,7 @@ abstract class AbstractTreeNode()
 			}
 		}
 
-		entity.stats()?.write(variables)
+		entity.statsOrNull()?.write(variables)
 
 		return variables
 	}

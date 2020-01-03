@@ -339,7 +339,7 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 		val factions = ObjectMap<String, FactionCount>()
 		for (entity in entities)
 		{
-			val stats = entity.stats() ?: continue
+			val stats = entity.statsOrNull() ?: continue
 			val factionData = stats.factionData ?: continue
 
 			if (stats.faction == "2")
@@ -365,7 +365,7 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 				{
 					for (entity in entities)
 					{
-						val stats = entity.stats()!!
+						val stats = entity.stats()
 						stats.factionBuffs.add(faction.value.faction.buffs[i].copy())
 					}
 				}
@@ -374,7 +374,7 @@ class Level(grid: Array2D<Tile>, val theme: Theme)
 
 		for (entity in entities)
 		{
-			entity.stats()!!.resetHP()
+			entity.stats().resetHP()
 		}
 	}
 

@@ -66,7 +66,7 @@ class EntityLoader()
 				entity.add(component)
 			}
 
-			if (entity.name() == null)
+			if (NameComponent.mapper.get(entity) == null)
 			{
 				val name = NameComponent.obtain()
 				name.set(path)

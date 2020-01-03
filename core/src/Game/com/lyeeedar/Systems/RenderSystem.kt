@@ -218,8 +218,8 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 
 		for (entity in entities)
 		{
-			val renderable = entity.renderable()?.renderable ?: continue
-			val pos = entity.pos() ?: continue
+			val renderable = entity.renderableOrNull()?.renderable ?: continue
+			val pos = entity.posOrNull() ?: continue
 			val tile = entity.tile()
 
 			val px = pos.position.x.toFloat() + pos.offset.x
@@ -411,7 +411,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 
 			for (entity in entities)
 			{
-				val ai = entity.task() ?: continue
+				val ai = entity.taskOrNull() ?: continue
 				val target = ai.ai.root.findData<Entity>("enemy") ?: continue
 
 				var source = entity.pos().tile!!.toVec() + Vector2(0.5f, 0.5f)
@@ -456,7 +456,7 @@ class RenderSystem(): AbstractSystem(Family.all(PositionComponent::class.java).o
 			for (entity in statsEntities)
 			{
 				val pos = entity.tile() ?: continue
-				val stats = entity.stats() ?: continue
+				val stats = entity.statsOrNull() ?: continue
 
 				layout.setText(font, "Lv." + stats.level, Color.WHITE, Statics.stage.width * 0.5f, Align.left, false)
 
