@@ -8,5 +8,4 @@ task compileResources(dependsOn: classes, type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir =  new File("../android/assets")
-    ignoreExitValue = true
 }

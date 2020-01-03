@@ -15,20 +15,22 @@ object CompilerRunner
 {
 	@JvmStatic fun main(arg: Array<String>)
 	{
-		Gdx.gl = Mockito.mock(GL20::class.java)
-		Gdx.gl20 = Mockito.mock(GL20::class.java)
-		Statics.game = MainGame(false)
-		Gdx.app = HeadlessApplication(Statics.game)
-
 		println("##########################################################")
+		try
+		{
+			Gdx.gl = Mockito.mock(GL20::class.java)
+			Gdx.gl20 = Mockito.mock(GL20::class.java)
+			Statics.game = MainGame(false)
+			Gdx.app = HeadlessApplication(Statics.game)
 
-		AtlasCreator()
-		TextureCompressor()
-		XmlCompressor()
-		XmlLoadTester.test()
-
-		println("##########################################################")
-
-		Gdx.app.exit()
+			AtlasCreator()
+			TextureCompressor()
+			XmlCompressor()
+			XmlLoadTester.test()
+		}
+		finally {
+			Gdx.app.exit()
+			println("##########################################################")
+		}
 	}
 }
