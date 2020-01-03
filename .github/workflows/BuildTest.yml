@@ -23,7 +23,7 @@ jobs:
       run: ./gradlew :android:assembleDebug
     
     - name: Extract Oryx assets
-      run: unzip -P oryx android/assetsraw/Sprites/Oryx/uf_split.zip
+      run: unzip -P oryx -d android/assetsraw/Sprites/Oryx android/assetsraw/Sprites/Oryx/uf_split.zip
     
     - name: Build Resources
       run: ./gradlew :headless:compileResources
