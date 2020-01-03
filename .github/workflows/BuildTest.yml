@@ -15,6 +15,9 @@ jobs:
   
     - name: Make gradlew executable
       run: chmod +x ./gradlew
+
+    - name: Build Resources
+      run: ./gradlew :headless:compileResources
       
     - name: Build Desktop
       run: ./gradlew :desktop:build
@@ -22,5 +25,4 @@ jobs:
     - name: Build Android
       run: ./gradlew :android:assembleDebug
     
-    - name: Build Resources
-      run: ./gradlew :headless:compileResources
+
